@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+		<script type="text/javascript">
+		//<![CDATA[
+			var s=location.host.split(".");
+			if(s.length>1){
+				document.domain=s.slice(s.length-2).join(".");
+			}else{
+				document.close();
+			}
+		//]]>
+		</script>
+	</head>
+	<body>
+		<form id="postor" enctype="application/x-www-form-urlencoded" method="post">
+		</form>
+		<script type="text/javascript">
+		//<![CDATA[
+			frameElement.submited=void(0);
+
+			function _onloadHook(){
+				f.action = setting.uri;
+				f.method = setting.method;
+				var df=document.createDocumentFragment(),tmp,l,tmpi;
+				if(typeof(setting.data)=='string'){
+					l=setting.data.split("&");
+					for(var i=0,len=l.length;i<len;++i){
+						tmpi=l[i].split("=");
+						tmp=cne("input",tmpi[0],document);
+						tmp.type="hidden";
+						tmp.value=decodeURIComponent(tmpi[1]);
+						df.appendChild(tmp);
+					}
+				}else{
+					for(var i in setting.data){
+						tmp=cne("input",i,document);
+						tmp.type="hidden";
+						tmp.value=setting.data[i];
+						df.appendChild(tmp);
+					}
+				}
+				f.appendChild(df);
+				frameElement.submited=true;
+				f.submit();
+			}
+
+			var f = document.getElementById("postor");
+			var ua = parent.ua;
+			var setting = parent.QZFL.FormSender.instance[frameElement.id.replace("_fp_frm_","")];
+
+			if (document.addEventListener) {
+				if (ua.safari) {
+					var interval = setInterval(function(){
+						if ((/loaded|complete/).test(document.readyState)) {
+							_onloadHook();
+							clearInterval(timeout);
+						}
+					}, 50);
+				} else if (ua.opera) {
+					window.onload = _onloadHook;
+
+				} else {
+					document.addEventListener("DOMContentLoaded", _onloadHook, true);
+				}
+			} else {
+				var src = 'javascript:void(0)';
+				if (window.location.protocol == 'https:') {
+					src = '//:';
+				}
+				document.write('<script onreadystatechange="if(this.readyState==\'complete\'){this.parentNode.removeChild(this);_onloadHook();}" defer="defer" src="' + src + '"><\/script\>');
+			}
+			
+			var cne=parent.QZFL.dom.createNamedElement;
+		//]]>
+		</script>
+	</body>
+</html>
+<!--[if !IE]>|xGv00|05b2a1a840942ed39ac846720d633706<![endif]-->

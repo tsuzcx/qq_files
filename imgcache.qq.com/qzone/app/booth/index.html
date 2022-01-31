@@ -1,0 +1,409 @@
+<?xml version="1.0" encoding="gb2312"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-cn" lang="zh-cn">
+<head>
+<meta http-equiv="pragma" content="no-cache" />
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+<meta http-equiv="Content-Language" content="gb2312" />
+<meta name="robots" content="all" />
+<meta name="author" content="Tencent-ISRD" />
+<meta name="Copyright" content="Tencent" />
+<meta name="Description" content="描述" />
+<meta content="IE=EmulateIE7" http-equiv="X-UA-Compatible"/>
+<title>抢摊大战</title>
+<!--link href="http://imgcache.qq.com/campus_app_v1/css/buy_war.css" rel="stylesheet" type="text/css" media="screen" /-->
+<link href="http://imgcache.qq.com/qzonestyle/xiaoyou_app/app_booth_v1/buy_war.css" rel="stylesheet" type="text/css" media="screen" />
+<link href="http://imgcache.qq.com/qzonestyle/xiaoyou_portal_v2/css/0/gb_color.css" rel="stylesheet" type="text/css" media="screen" />
+<script type="text/javascript" src="http://imgcache.qq.com/qzone/qzfl/qzfl.js?0402" charset="utf-8"></script>
+<script type="text/javascript" src="./js/commerce_embed.js?0111"></script>
+<script type="text/javascript" src="./js/booth_flash.js?0730"></script>
+<script type="text/javascript" src="./js/goods.js?0402"></script>
+<script type="text/javascript" src="./js/fill.js?0402"></script>
+<script type="text/javascript">document.write('<link href="http://imgcache.qq.com/qzonestyle/xiaoyou_portal_v2/css/' + top.getStyleId() + '/gb_color.css" rel="stylesheet" type="text/css" media="screen" />');</script>
+<script>
+try{document.execCommand('BackgroundImageCache', false, true);}catch(e){}
+function Init()
+{
+	prepareQzoneRpt(1,5);
+	GetFriends();
+	var u = getUrlParam(WHREF,'u');	
+	if(u==''){
+		setinitUin(top.cur_key);
+		prepareQzoneRpt(1,8);
+		GetGoods();
+		prepareQzoneRpt(1,11);
+		//GetGoodsLog();
+	}else{
+		setinitUin(u);
+		g_LatestJoin = u;
+		CheckFriendShip();
+		prepareQzoneRpt(1,8);
+		prepareQzoneRpt(1,11);
+		FreshPage(u);
+	}
+	setTimeout("prepareQzoneRpt(1,12);" , 0);
+	setTimeout("prepareQzoneRpt(1,13);" , 0);;
+	prepareQzoneRpt(1,14);
+	initFlash();
+	
+	var i = getUrlParam(WHREF,'i');
+	if(i!=''){
+		$('reg_butn_id').onclick = function(){Register(i)};
+	}
+	var o = getUrlParam(WHREF,'invite_flag');
+	if(o!=''){
+		$('reg_butn_id').onclick = function(){Register('out')};
+	}
+		
+	GetLatestUser();
+	QZONE.dragdrop.registerResizeHandler($('drag_handler'),$('friends_list'),{limit:2, minRange:[0,265], maxRange:[0,590], cursor:"s-resize"}).onResizeEnd = AdjustHeight;
+	var options = {range: [0, 0, 700, 770]};
+	QZONE.dragdrop.registerDragdropHandler($('register_box_title'), $('register_box'), options);
+	QZONE.dragdrop.registerDragdropHandler($('register_success_box_title'), $('register_success_box'), options);
+	QZONE.dragdrop.registerDragdropHandler($('need_verify_box_title'), $('need_verify_box'), options);
+	QZONE.dragdrop.registerDragdropHandler($('forfeit_box_title'), $('forfeit_box'), options);
+	QZONE.dragdrop.registerDragdropHandler($('setup_box_title'), $('setup_box'), options);
+	InitTipsContent();
+	QZONE.shareObject.create("http://"+imgcacheDomain+"/qzone/dataset/getset.swf");
+	FreshInviteCache();
+	clicksq(); 
+}
+// 记录第一次交互
+function clicksq() 
+{
+	if(!window.qzspd_f3) return;
+	setTimeout( function() {
+		var _tmp = function() {
+			prepareQzoneRpt(qzspd_f3,1);
+			QZONE.event.removeEvent(document.body, "click", _tmp);
+			QZONE.event.removeEvent(window, "scroll", _tmp);
+		}
+		QZONE.event.addEvent(document.body, "click" , _tmp );
+		QZONE.event.addEvent(window, "scroll" , _tmp );
+	} , 1000);
+}
+
+AttatchEvent('load', Init);
+</script>
+
+</head>
+<body style="background:#FFFFFF;">
+
+<div id="grey_layer" class="grey_wrap" style="display:"></div>
+<div id="main" class="app_layout app_new">
+   <div class="mode_sec" style="overflow:visible">
+   <div class="mode_owner_app">
+    <div class="mode_menu_fst">
+      <h2><span class="title_war">&nbsp;&nbsp;&nbsp;&nbsp;</span>抢摊大战</h2><div class="yellow_tip2" id="booth_tips_div_id" style="display:none;" onmouseover="clearInterval(tipsInterval[0])" onmouseout="tipsInterval[0]=setInterval('ChangeTips()',TIPS_CHANGE_DELAY)"></div>
+    </div>
+    <div class="mode_menu_sec">
+      <ul class="list_sec">
+        <li class="current"><a href="./index.html" title="首页" style="white-space:nowrap;">首页</a></li>
+        <li><a href="./market.html">集市<SUP>新</SUP></a></li>
+        <li><a href="./tools_my.html">道具</a></li>
+        <li><a href="./rank.html" >排行榜</a></li>
+        <li><a href="./help.html">帮助</a></li>
+      </ul>
+	  <div class="link_discus"><a href="http://paycenter.qq.com/home/?aid=app.booth" target="_blank" class="discus">开通黄钻</a>&nbsp;&nbsp;<a href="http://qbar.qq.com/application/l-1237472040.htm" target="_blank" class="discus">抢摊玩家交流区</a></div>
+    </div>
+	</div>
+
+    <p id="friends_tips" class="yellow_tip top_tip" style="display:none">你经营的生意，只能摆在好友和同学的家门口。<a href="javascript:;" onclick="AddFriend()" class="friend_add">加为好友</a></p>
+	
+    <!--flash-->
+    <div id='div_flash' class="buy_war_flash"></div>
+    
+
+    <div class="content">
+		            
+      <div class="trade_wrap">
+	  	<div id='ass_div_id' style="display:none">
+			<h3 class="title_con">我的抢摊档案</a></h3>
+			<div class="myprofile">
+				<a href="#" class="user_pic" id='asset_div_pic'><img src="http://imgcache.qq.com/campus/images/0.gif"/></a>
+				<div class="profile"><span id='asset_div_name'></span>
+					<div>
+						<span class="file_data">资产：<span id='asset_span_money_total' class="grade_my"></span></span> 
+						<span class="file_data">积蓄：<span id='asset_span_money_left' class="grade_my"></span></span> <br />
+						<span class="file_data">爱心值：<span id='asset_span_love_left' class="grade_my"></span></span> 
+						<span class="file_data">生意数：<span id='asset_span_booth_total' class="grade_my"></span></span>
+					</div>
+				</div>
+			</div>
+        </div>       
+	    <a name=mgr></a><h3 class="title_con"><span id="booth_title_id">我经营的生意</span>(<strong class="grade_my"><span id="nc_goods"></span></strong>)<a href="./market.html" class="new_trade">做笔新买卖</a></h3>
+        <div class="status_mytrade clearfix">
+          <div class="booth_tips" id="booth_mgr_div" style="display:none" ></div>
+          <button class="btn_scroll_back" title="向左翻" id="goods_left_but" disabled="false"><span>向左翻</span></button>
+          <ul id="goods_list">
+               <div style="margin:auto; text-align:center">
+        			<img src="http://imgcache.qq.com/campus_app_v1/booth/pic_booth/loading.gif"/>
+        		</div>
+          </ul>
+          <button class="btn_scroll_turn" title="向右翻" id="goods_right_but" disabled="false"><span>向右翻</span></button>
+        </div>
+        	
+        <div class="block_trade">
+          <h4><a href="javascript:;" onclick="GetGoodsLog(this);sendPV('booth_GoodsLogPage');return false;" class="current" id="goods_log_div">我的摆摊记录</a><a href="javascript:;" onclick="GetBoothLog(this);sendPV('booth_BoothLogPage');return false;" id="booth_log_div">我的摊位近况</a><a href="javascript:;" onclick="GetManagerLog(this);return false;" id="manager_log_div">我的管家记录</a><a href="#" style="display:none">交易大厅</a></h4>
+          <ul id="event_log" class="list_trade">
+          <LI class=clearfix>
+          	<span class=icon_stray></span><a href="javascript:void(0);" onclick="GetGoodsLog($('goods_log_div'));sendPV('booth_GoodsLogPage');return false;" >点击查看记录</a>
+          </LI>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="sidebar">
+      <h3 class="title_sidebar">去好友和同学家门口瞅瞅</h3>
+      <div class="name_wrap">
+        <input type="text" value="输入姓名…" class="name_search" style="display:none" id="name_search_id" onfocus="this.style.color = '#000000';if(this.value=='输入姓名…'){this.value = '';} else {this.select();}" onblur="if(this.value==''){this.value = '输入姓名…';this.style.color = '#CCCCCC';}" />
+        <input type="hidden" id="inv_mark_id" value='0'/>
+        <div id="friends_list" class="list_name_wrap">
+          <h6 class="title_friend">已开通</h6>
+          <ul class="list_name" id="open_list">
+          </ul>
+          <h6 class="title_friend">未开通</h6>
+          <ul class="list_friend" id="notopen_list">
+        	<li style="margin:auto; text-align:center">
+        		<img src="http://imgcache.qq.com/campus_app_v1/booth/pic_booth/loading.gif"/>
+        	</li>
+          </ul>
+          <div id="find_friend" class="find_friend_wrap" style="display:none">
+            <p class="find_friend">你的好友还很少，你可以</p>
+            <p>&gt;&gt; <a href="javascript:goXiaoYou('http://xiaoyou.qq.com/index.php?mod=msearch')">去找找朋友</a></p>
+          </div>
+        </div>
+        <span id="drag_handler" class="icon_fun" style="display:"></span>
+      </div>
+      <h3 class="title_sidebar">最新加入<a href="javascript:FillPage();" class="tit_more">更多</a></h3>
+      <ul id="latest_user_list" class="online clearfix">
+	</ul>
+    </div>
+
+  </div>
+</div>
+
+<div id="register_box" class="float_box" style="display:none">
+  <div class="box_content clearfix">
+    <div id="register_box_title" class="float_box_tit">
+      <h5>开通游戏</h5>
+      <!--button title="关闭" class="close">&times;</button-->
+    </div>
+    <div class="float_box_body">
+      <div class="pic_shop"><img src="http://imgcache.qq.com/campus_app_v1/booth/pic_booth/game_s.jpg"  alt=""/></div>
+      <div class="tips_open">在抢摊大战游戏中，你可以通过把生意摆在好友或同学的摊位上来赚钱，换取更酷更高级的生意、房子。</div>
+    </div>
+    <div class="msg-bt">
+      <div class="word">
+        <button name="" type="" class="bt_tx_c4" onclick="Register()" id="reg_butn_id" >开通游戏</button>
+        <button class="bt_tx_c2" onclick="top.history.go(-1);">取消</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="register_success_box" class="float_box float_start" style="display:none">
+  <div class="box_content box_start clearfix">
+  
+    <div id="register_success_box_title" class="float_box_tit">
+      <h5>欢迎加入抢摊大战</h5>
+      <button title="关闭" class="close" onclick="HideRegisterSuccessBox();location.reload();">&times;</button>
+    </div>
+    <div class="float_box_body">
+      <div class="pic_trade_add"><img src="http://imgcache.qq.com/campus_app_v1/booth/pic_booth/welcome.jpg"  alt=""/></div>
+      <div class="tips_open tips_start">
+        <p class="thank_text">感谢你加入抢摊游戏大战！获赠一个旧书摊生意的经营权+100元生活费。同时你目前处于流动摊贩，需要缴纳每小时10块钱的城市管理费</p>
+        <strong class="skill_tips">温馨提示：(赚钱小技巧)</strong>
+        <ol class="list_skill">
+          <li>1、尽量趁摊位主人不在的时候，把生意摆到他的摊位上</li>
+          <li>2、要时不时上来查看有没有人把生意摆在你家的私人摊位上，然后给他开罚单赚取收入</li>
+          <li>3、经营更多的生意，赚得的收入越多</li>
+        </ol>
+      </div>
+    </div>
+    <div class="msg-bt">
+      <div class="word">
+        <button name="" class="bt_tx4" onclick="HideRegisterSuccessBox();location.reload();">开始游戏</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="need_verify_box" class="float_box" style="display:none">
+  <div class="box_content clearfix">
+    <div id="need_verify_box_title" class="float_box_tit">
+      <h5>开通游戏</h5>
+      <button title="关闭" class="close" style="display:none" onclick="HideNeedVerifyBox()">&times;</button>
+    </div>
+    <div class="float_box_body">
+      <div class="pic_shop"><img src="http://imgcache.qq.com/campus_app_v1/booth/pic_booth/game_s.jpg"  alt=""/></div>
+      <div class="tips_open">该游戏需要 <strong>头像通过审核</strong> 才能使用！<a href="javascript:openXiaoYou('http://xiaoyou.qq.com/index.php?mod=useredit&act=mylogo');">点击这里上传真实照片</a></div>
+    </div>
+    <div class="msg-bt">
+      <div class="word">
+        <input name="" type="button" value="好的，我知道了" class="btn_b_trade" onclick="goMyHome()"/>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="forfeit_box" class="float_box forfeit_box" style="display:none">
+  <div class="box_content forfeit_content clearfix">
+    <div id="forfeit_box_title" class="float_box_tit">
+      <h5>给&nbsp;<span id="forfeit_name"></span>&nbsp;开罚单</h5>
+      <button title="关闭" class="close" onclick="HideForfeitBox();">&times;</button>
+    </div>
+    <div class="forfeit_wrap">
+      <div class="pic_forfeit"><img id="forfeit_img" src="http://imgcache.qq.com/campus/images/0.gif" style="width:100px;height:100px;" alt=""/></div>
+      <div class="reason_forfeit">
+        <p>罚款：<span class="money_my" id="forfeit_money"></span>块</p>
+        <p>原因：摆在私家摊位</p>
+        <p>附言：(最多30个字)<br/>
+          <textarea id="forfeit_message" rows="" cols="" class="word_extral"></textarea>
+        </p>
+      </div>
+    </div>
+    <div class="msg-bt">
+      <div class="word">
+        <button name="" class="bt_tx_c2" onclick="ImposeForfeit();" >确定</button>
+        <button class="bt_tx_c2"  onclick="HideForfeitBox();">取消</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="setup_box" class="float_box" style="display:none">
+  <div class="box_content clearfix">
+    <div id="setup_box_title" class="float_box_tit">
+      <h5>摆摊</h5>
+      <button title="关闭" class="close" onclick="HideSetupBox()">&times;</button>
+    </div>
+    <p class="select_trade"><strong>请选择一门生意摆到该摊位：</strong></p>
+	    <div  id="setup_goods_list" class="detail_trade_wrap">
+	   </div>
+    <div class="msg-bt">
+      <div class="word">
+        <button name="" class="bt_tx_c2" onclick="SetupStall();">确定</button>
+        <button class="bt_tx_c2" onclick="HideSetupBox()">取消</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="index_box" class="float_box trade_box" style="display:none">
+     <div id="index_title_id" class="box_content trade_box_con clearfix">
+	     <div class="float_box_tit">
+		     <h5 id="index_box_title"></h5>
+			<button title="关闭" class="close" onclick="HideIndexBox()">&times;</button>
+		 </div>
+		 <div class="float_box_body" id="index_box_content">
+		 </div>
+		 <div class="msg-bt">
+            <div class="word" id="index_box_contrl">
+            </div>
+        </div>
+	 </div>
+</div>
+<div id="index_small_box" class="float_box" style="width:458px;display:none">
+     <div id="index_small_title_id" class="box_content clearfix" style="width:456px">
+	     <div class="float_box_tit">
+		     <h5 id="index_small_box_title"></h5>
+			<button title="关闭" class="close" onclick="HideSmallBox()">&times;</button>
+		 </div>
+		 <div class="float_box_body" id="index_small_box_content">
+		 </div>
+		 <div class="msg-bt">
+            <div class="word" id="index_small_box_contrl">
+            </div>
+        </div>
+	 </div>
+</div>
+
+<!--==S 管家代理1-->
+<div id="register_mgr_div" class="float_box" style="display:none">
+	<div class="box_content clearfix">
+	    <div id="setup_box_title" class="float_box_tit">
+	    	<h5>开通管家</h5> 
+	    	<button title="关闭" class="close" onclick="HindRegDiv()">&times;</button>
+	    </div>
+    	
+    	<div class="float_box_body">
+		    <div class="pop_butler">
+		    	<div id="reg_mgr_div_box" style="display:none">
+				<div class="cont select_form">
+			        <p><label for=""><input name="" type="checkbox" value="" id="0_reg_check" onclick="SelectRegWay(0);"/><span id="yellow_reg_p">黄钻LV<span id="reg_mgr_vip"></span>免费使用 <span id="reg_mgr_daynum"></span>天/月<span id="reg_mgr_desc"></span></span></label></p>
+			        <p class="select_form_tips">提示：管家服务将从第二天凌晨3点开始代管。</p>
+				</div>
+				
+				<div class="butler_nonce_box">	尊敬的用户：感谢大家的支持与关注！由于业务调整，抢摊大战业务将于6月上旬停止运营，在此期间部分功能可能无法使用，由此给您造成的不便，我们表示诚挚的歉意，请及时使用您的道具，谢谢！
+				</div>
+			    
+			    <div id="reg_err_div_box" style="display:none">
+				    <div class="cont butler_msg">
+						<div class="icon_undone">
+							<h3>支付失败！</h3>
+							<p id='reg_err_div_p'>很抱歉，你的帐户余额不足！</p>
+						</div>
+						<div class="option" id="reg_err_div_button" style="display:none">
+						</div>
+				    </div>
+			    </div>
+			    
+			    
+			    <div class="butler_intro_box">
+				    <strong class="butler_intro_tit">管家代理介绍：</strong>
+				    <ol><li>1. 自你成功雇佣管家后第二天凌晨3点，管家开始代管你的全部生意；</li>
+				    <li>2. 代管期间，管家每隔12小时会帮你摆摊；</li>
+				    <li>3. 若生意被好友罚款、举报变成流动生意，管家也会在摆摊时间点再次帮你把生意摆好；</li>
+				    <li>4. 代管期间，你仍然可以手动摆摊，但托管时间不会改变；</li>
+				    <li>5. 你可以在“管家记录”中查阅代管记录。</li>
+				    <li>6. 黄钻LV1-LV3用户每月可免费享受3天管家服务，黄钻LV4-LV7用户每月可免费享受5天管家服务。</li></ol>
+			    </div>
+	  		</div>
+	  	</div>
+	  	
+	  	<div class="msg-bt">
+			<div class="word">
+		    	<button name="" class="bt_tx_c2" onclick="SetupStall();" id="reg_mgr_but">确定</button>
+		    	<button class="bt_tx_c2" onclick="HindRegDiv()">取消</button>
+			</div>
+		</div>
+  	</div>	
+</div>
+
+<div class="float_box" id="index_frame_box" style="display:none;width:458px;">
+	<div class="box_content clearfix" style="width:456px">
+	    <div id="setup_box_title" class="float_box_tit">
+	    	<h5 id="index_frame_title">消费保护</h5>
+	    	<button title="关闭" class="close" onclick="HindFrame()">&times;</button>
+	    </div>
+	    <div class="float_box_body">
+	    	<iframe border=0 marginWidth=0 marginHeight=0 scrolling=no id="index_frame" src="" height="300" width="400" style="margin-left:21px"></iframe>
+	    </div>
+  	</div>	
+</div>
+	    
+
+
+<div id="info" class="msg_wrap msg2" style="z-index: 100; display:none"><span class="msg_left"></span><span id="info_content"></span></div>
+<div id="st"></div>
+<script type="text/javascript" src="http://imgcache.qq.com/campus/js/ping.js" charset="utf-8"></script>
+<!--  Flash Scoket Test  -->
+<script>
+if(QZFL.media.getFlashVersion().major>9)
+	$('st').innerHTML = QZFL.media.getFlashHtml({
+						"src" :"http://"+imgcacheDomain+"/qzone/app/booth/flash/SocketTester.swf",
+						"width" : 0,
+						"height": 0,
+						"allowScriptAccess" : "always",
+						"id" : "st",
+	 					"name" : "st",
+						"flashvars" : "result_host=113.108.89.101&port_list=843,80,8080,443"
+						});
+
+
+</script>
+</body>
+</html>
+<!--[if !IE]>|xGv00|5382a45abf179420d4d52c21324bb3b1<![endif]-->

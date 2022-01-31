@@ -1,0 +1,22 @@
+/*login.css*/
+#loginbtn{ _line-height:42px; padding:0; -moz-border-radius:3px; -webkit-border-radius:3px; border-radius:3px; background:#8dba36 url(http://mat1.gtimg.com/www/mb/images/login/lg_btn120730b.png) no-repeat}
+#qlogin_select_tip{ padding:0; margin-bottom:8px; font:18px/22px Microsoft Yahei,Simsun,Tahoma}
+#list_uin input,
+#low_login_enable{margin:-3px 4px 0 0;*margin:0 1px 0 -3px;vertical-align:middle; outline:none}
+#low_login_hour{ margin-left:4px; vertical-align:middle; outline:none}
+#low_login_box,.btn_box{ margin-top:10px}
+#loginbtn{ width:140px; height:40px; border:0; font-size:20px; color:#fff; text-shadow:#5c9114 0px 0px 2px; font-family:Microsoft Yahei,Simsun,Arial,sans-serif; overflow:hidden; cursor:pointer; background-position:0 0; outline:none}
+#loginbtn:hover{ background-position:-141px 0}
+
+#qlogin_loading{ color:#999}
+
+/*reset default*/
+body,div,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,textarea,p,blockquote,th,td{ line-height:1.75}
+#list_uin,.linemid{ margin:0}
+#login{ width:auto; padding:0}
+#list_uin li{ padding:0; min-height:0}
+.x_lowLogin{ padding:0}
+.btn_box{ padding:0}
+#list_uin li input{ float:none; width:auto; position:static}
+#list_uin label{ margin:0; float:none; width:auto}
+#loginbtn{ font-weight:normal}

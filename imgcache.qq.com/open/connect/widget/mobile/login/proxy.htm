@@ -1,0 +1,561 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <meta charset="UTF-8">
+  <title>Proxy</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0, maximum-scale = 1.0,user-scalable=no" />
+  <meta name="format-detection" content="telephone=no" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <script type="text/javascript">
+    document.domain = 'qq.com';
+  </script>
+</head>
+
+<body>
+  <script type="text/javascript">
+    function getParam(name) {
+      var regex = "(?:^|[?&#])" + encodeURIComponent(name) + "=([^&#?]*)";
+      var value = (location.href).match(new RegExp(regex, "")) || ["", ""];
+      return value[1].replace(/[+]/ig, '%20');
+    }
+    function escapeHTML(str) {
+      return str.split("&").join("&amp;")
+        .split("<").join("&lt;")
+        .split(">").join("&gt;")
+        .split("'").join("&apos;")
+        .split('"').join("&quot;");
+    }
+    function getCookie(name) {
+      var r = new RegExp("(?:^|;+|\\s+)" + name + "=([^;]*)"),
+        m = document.cookie.match(r);
+      return (!m ? "" : decodeURIComponent(m[1]))
+    }
+
+    function delCookie(name, domain, path) {
+      var _path = path || location.pathname.substring(0, location.pathname.lastIndexOf('/') + 1);
+      document.cookie = name + "=; expires=Mon, 26 Jul 1997 05:00:00 GMT; " + ("path=" + _path) + (";domain=" + (domain || document.domain))
+    }
+
+    //SNG数据上报
+    window.MM = (function () {
+      var image = new Image(),
+        paramObj = {};
+
+      /**
+       * @param {string} cgi cgi路径, 不携带参数, 例如: https://openmobile.qq.com/oauth2.0/m_sdkauthorize
+       * @param {string} retcode 返回码, 透传cgi的retcode
+       * @param {string} tmcost cgi耗时, 在请求cgi前打"请求时间戳"t1, 执行callback时马上打"响应时间戳"t2
+       *                          此处传入t2-t1的值, 单位为ms
+       * @param {object} extra 扩展参数对象
+       */
+      var report = function (cgi, retcode, tmcost, extra) {
+        var url,
+          paramArr = [];
+
+        // 处理上报项
+        paramObj.commandid = cgi;
+        paramObj.resultcode = retcode;
+        paramObj.tmcost = tmcost;
+        if (extra) {
+          for (var i in extra) {
+            if (extra.hasOwnProperty(i)) {
+              paramObj[i] = extra[i];
+            }
+          }
+        }
+
+        if (retcode == 0) {
+          // 成功的上报采样为1/20
+          // frequency为采样分母
+          paramObj.frequency = 20;
+          var ranNum = Math.floor(Math.random() * 100 + 1);
+          if (ranNum > 5) {
+            return;
+          }
+        }
+
+        for (var j in paramObj) {
+          if (paramObj.hasOwnProperty(j)) {
+            paramArr.push(j + "=" + encodeURIComponent(paramObj[j]));
+          }
+        }
+        url = "http://wspeed.qq.com/w.cgi?" + paramArr.join("&");
+        // image.src = url;
+      };
+
+      /**
+       * @param {string} appid 可到http://m.isd.com/app/mm 申请
+       *                 互联Web: 1000128, 查找Web: 1000130
+       * @param {string} uin 用户qq号
+       * @param {string} version 版本号 'QC_WEB' -> 互联, 'FIND_WEB_4.2' -> 查找
+       */
+      var init = function (appid, uin, version) {
+        paramObj = {
+          appid: appid,
+          touin: uin,
+          releaseversion: version,
+          frequency: 1
+        };
+      };
+
+      return {
+        init: init,
+        report: report
+      };
+    })();
+
+
+
+    var page_type = getParam('page_type');
+    var auth_time = Number(getParam("auth_time"));
+    var auth_cgi;
+    if (page_type == 1) {
+      auth_cgi = "http://openmobile.qq.com/oauth2.0/m_authorize";
+    } else if (page_type == 2) {
+      auth_cgi = "https://graph.qq.com/oauth2.0/authorize?display=mobile";
+    }
+    var uin = getCookie("uin");
+    uin = uin.replace(/(^[0|o]*)/g, "");
+    //上报初始化
+    MM.init(1000128, uin, 'QC_WEB');
+
+
+
+    var rUrl = '';
+    function _Callback(ret) {
+      // 1001参数错误	1002解码失败	1003过期
+      if (ret.ret != 0) {
+        document.write('网络质量不好，请稍后再试。');
+        //上报授权失败
+        MM.report(auth_cgi, ret.ret, Date.now() - auth_time);
+        //setTimeout('history.back();', 5000);
+      } else {
+        rUrl = ret.url || '';
+      }
+    }
+    var rUrlKey = getParam('redirect_uri_key') || '';
+    var srcScript = '//openmobile.qq.com/oauth2.0/m_get_redirect_url?keystr=' + rUrlKey;
+    document.write('<script src="' + escapeHTML(srcScript) + '"><\/script>');
+  </script>
+  <script type="text/javascript">
+    !function () {
+      if (!rUrl) return;
+
+      if (typeof (console) == 'undefined' || !console) {
+        window.console = {
+          log: function () { },
+          info: function () { },
+          warn: function () { }
+        };
+      }
+      var set = function (key, value) {
+        if (!!window.localStorage) {
+          try {
+            localStorage.setItem(key, encodeURIComponent(value))
+          } catch (e) {
+            console.log(e)
+          }
+        } else {
+          return false
+        }
+      };
+      function toQueryPair(key, value) {
+        return encodeURIComponent(String(key)) + "=" + encodeURIComponent(String(value))
+      };
+      function toQueryString(obj) {
+        var result = [];
+        for (var key in obj) {
+          result.push(toQueryPair(key, obj[key]))
+        };
+        return result.join("&")
+      };
+
+      var openid = getParam('openid');
+      var appid = getParam('appid');
+      var access_token = getParam('access_token');
+      var key = getParam('key');
+      var url = rUrl;
+      var sdkv = getParam('sdkv');
+      var status_os = getParam("status_os");
+      var status_machine = getParam("status_machine");
+      var ua = navigator.userAgent;
+      var isAndroid = ua.indexOf("Android") > -1;
+      var isIOS = ua.indexOf("iPad") > -1 || ua.indexOf("iPhone") > -1 || ua.indexOf("iPod") > -1;
+      var isWinPhone = ua.indexOf("Windows Phone") > -1;
+      var _p = isIOS ? "ios" : isAndroid ? "android" : isWinPhone ? "winphone" : "";
+
+      //MTA上报
+      var getUuid = (function () {
+        // generate golobally unique identifier
+        var uid = "";
+        var guid = function () {
+          return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+            var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+            return v.toString(16);
+          }).toUpperCase();
+        };
+
+        var cookieUid = getCookie("ui");
+        if (cookieUid) {
+          uid = cookieUid;
+        } else {
+          uid = guid();
+
+        }
+
+        var cookie = "ui=" + uid + ";domain=" + location.host + ";path=/;max-age=" + (60 * 60 * 24 * 356);
+        document.cookie = cookie;
+
+        return function () {
+          return uid;
+        };
+      })();
+
+      window.reportImages = [new Image(), new Image(), new Image(), new Image(), new Image()];
+
+      /**
+       * 使用前修改KY
+       * @param {String} eventId  事件id
+       * @param {Object} data  参数  传入所在平台的入口平台 等  uin可不传 大小写参照邮件
+       */
+
+      var getPlatform = (function () {
+        var platform = "PC";
+
+        var ua = window.navigator.userAgent;
+
+        if (/iPhone/.test(ua)) {
+          platform = "iPhone";
+        } else if (/Android/.test(ua)) {
+          platform = "Android";
+        } else if (/Windows Phone/.test(ua)) {
+          platform = "WindowPhone";
+        }
+
+        return function () {
+          return platform;
+        };
+      })();
+
+      function mtaReport(eventId, data) {
+        var getParamsFromUrl = function (name) {
+          var hash = window.location.hash;
+          var reg = new RegExp("(?:^|&)" + name + "=([^=&]+)(?:&|$)");
+          var result;
+
+          hash = hash.replace(/^#/, "");
+          result = reg.exec(hash);
+
+          if (result) {
+            return result[1];
+          }
+        };
+
+        var kyMap = {
+          "Android": "AJQL249T5CUA",
+          "PC": "AH46I8G5IHWE",
+          "iPhone": "I2KN7UR1DG5U"
+        };
+
+        var platform = getPlatform();
+        var KY = kyMap[platform] || kyMap['PC'];
+        // var SDK = getParamsFromUrl("SDK") || getParamsFromUrl("sdk") || "";
+        var ui = getParamsFromUrl("ui") || getParamsFromUrl("UI") || "";
+
+        var stringify = function (data) {
+          if (window["JSON"]) {
+            return JSON.stringify(data);
+          } else {
+            var s = [];
+            for (var i in data) {
+              if (typeof data[i] == "object") {
+                s.push("\"" + i + "\":" + stringify(data[i]));
+              } else {
+                s.push("\"" + i + "\":" + (data[i]));
+              }
+            }
+
+            return "{" + s.join(",") + "}";
+          }
+        };
+
+        var uin = getCookie("uin") || 0;
+        if (uin && (/^o([0-9]+)$/).test(uin)) {
+          var g_iUin = parseFloat(RegExp.$1);
+        } else {
+          var g_iUin = 0;
+        }
+
+        var reportData = {
+          ky: KY,
+          ui: ui || getUuid(),
+          et: 1000,
+          ts: ~~(+ new Date / 1000),
+          ei: eventId,
+          du: 1,
+          kv: data
+        };
+
+        var kvData = {
+          Platform: platform || "PC",
+          Appid: data.appid || data.Appid || "",
+          UIN: data.UIN || g_iUin,
+          Entrance: platform == "PC" ? "PC" : "H5",
+          Time: "",
+          SDK: "",
+          Ext1: ""
+        };
+
+        if (data.SDK) {
+          kvData.SDK = kvData.Platform + "," + data.SDK;
+        } else {
+          delete kvData.SDK;
+        }
+
+        if (data.Time) {
+          kvData.Time = data.Time;
+        } else {
+          delete kvData.Time;
+        }
+
+        if (data.Ext1) {
+          kvData.Ext1 = data.Ext1 || data.ext1;
+        } else {
+          delete kvData.Ext1;
+        }
+
+        reportData.kv = kvData;
+
+        var cgi = "http://cgi.connect.qq.com/report/mstat/report";
+        var url = cgi + "?data=[" + stringify(reportData) + "]";
+
+        var img = window.reportImages.shift();
+        !img && (img = new Image());
+        // img.src = url;
+        img.onload = img.error = function () {
+          window.reportImages.push(this);
+        };
+      }
+
+
+      var reportData = function (nvalue, needos) {
+        var img = new Image();
+        var str = 'http://cgi.connect.qq.com/report/bnl?data=' + appid + "," + nvalue;
+        if (needos) str += "," + sdkv + "," + _p + status_os + "$" + status_machine;
+        // img.src = str;s
+      }
+
+      //上报授权成功
+      MM.report(auth_cgi, '0', Date.now() - auth_time);
+      //上报授权成功
+      mtaReport("LoginSuccess", {
+        Appid: appid,
+        SDK: sdkv,
+        Time: Date.now() - auth_time
+      });
+      function inMQQ() {
+        return /QQ\/([\d.]+)/.test(navigator.userAgent)
+      }
+      try {
+        var isBrowser = getParam('browser') || 0;
+        var browserError = getParam('browser_error');
+        var arr = url.split('#');
+
+        var params = mapQuery(arr[arr.length - 1]); //这里要取最后一个#后边的内容作为参数，因为回调url中也可能有#
+        var token_key = getParam('token_key') || "";
+        var has_auth = getParam('has_auth');
+        var update_auth = getParam('update_auth');
+        //有登录态
+        if (update_auth == 0) {
+          //有登录态 无授权项登录成功
+          if (has_auth == 0) {
+            reportData("11070");
+          }
+          //有登录态 有授权项登录成功
+          else {
+            reportData("11071");
+          }
+        }
+        else {
+          //无登录态 登录成功
+          reportData("11072");
+        }
+
+
+
+
+        if (isBrowser == 1 && (typeof (token_key) == 'undefined' || !token_key)) {
+          document.write('获取token_key参数出错！请重新登录')
+        };
+        var loginSuccessType = (isBrowser == 1) ? 4 : 3;
+
+        params.access_token = encode(params.access_token, token_key);
+        params.serial = getParam('serial');
+        params.sendinstall = getParam('sendinstall');
+        params.installwording = getParam('installwording');
+        params.cb = "setKey";
+        params.key = key;
+        params.appid = appid;
+        arr[1] = toQueryString(params);
+        if (browserError != 1 && isBrowser == 1) {
+          arr[0] = "tencent" + appid + "://tauth.qq.com/";
+          url = arr.join('?#')
+        } else {
+          set(openid + '_' + appid, key);
+          console.log(openid + '_' + appid + ' : ' + key);
+          delCookie('r_url', '', '/');
+
+        };
+        if (url) {
+          if (getParam("server_side") == "1") {
+            url = url.replace(/access_token=([^&]+)/, "access_token=" + getParam("code"));
+            if (!inMQQ())
+            url = url.replace(/openid=([^&]+)/, "openid=");
+          }
+          console.log(url);
+          if (browserError != 1 && isBrowser == 1) {
+            var testIframe = document.createElement("iframe");
+            testIframe.style.display = "none";
+            document.body.appendChild(testIframe);
+            testIframe.src = url;
+
+            var t1 = Date.now();
+            setTimeout(function () {
+              //返回第三方失败
+              var duration = Date.now() - t1;
+              if (duration < 2000) {
+                var _param = toQueryString({
+                  "client_id": appid,
+                  "sdkv": sdkv,
+                  "status_os": status_os,
+                  "status_machine": status_machine,
+                  "back_fail": 1,
+                  "browser": isBrowser
+                });
+
+                var downLoadUrl = "//openmobile.qq.com/oauth2.0/m_jump?page=downloadqz.html" + "&" + _param;
+                window.open(downLoadUrl, "_self");
+              }
+              else {
+                if (!isIOS)
+                  window.open('about:blank', "_self");
+              }
+            }, 1500);
+
+          } else {
+            //防止xss
+            var tt = url.toString().toLowerCase();
+            var s = tt.split(':');
+            //if (s[0] != 'http' && s[0] != 'https' && s[0] != 'auth' && s[0].indexOf('tencent')<0 && s[0] != 'oauth' && s[0] != 'qweibo4android'){
+            if (s[0] == 'javascript' || s[0] == 'data') {
+              url = "http://" + url;
+            }
+
+            if (/^(https?|ftp):\/\//i.test(url)) {
+              location.replace(url);
+            } else {
+              window.open(url, "_self");
+            }
+          }
+
+        } else {
+          document.write('回调地址出错！请重新登录？？')
+        }
+      } catch (e) {
+        document.write(e.message)
+      };
+      function mapQuery(uri) {
+        var i,
+          key,
+          value,
+          index,
+          pieces = uri.split("&"),
+          params = {};
+        for (i = 0; i < pieces.length; i++) {
+          try {
+            index = pieces[i].indexOf("=");
+            key = pieces[i].substring(0, index);
+            value = pieces[i].substring(index + 1);
+            if (!(params[key] = unescape(value))) {
+              throw new Error("uri has wrong query string when run mapQuery.")
+            }
+          } catch (e) { }
+        };
+        return params
+      };
+
+
+      function f(s, k) {
+        var ki = 0;
+        var kl = k.length / 2;
+        var output = [];
+        for (var i = 0, l = s.length / 2; i < l; ++i) {
+          var n = parseInt("" + s[i * 2] + s[i * 2 + 1], 16);
+          var kToInt = parseInt(k[ki * 2] + k[ki * 2 + 1], 16);
+          var o = n ^ kToInt;
+          output.push(o);
+          ki += 1;
+          ki %= kl
+        };
+        return output
+      };
+      function encode(s, k) {
+        var sourceHexArr = getCharCodeAsHexArray(s);
+        var sToHex = generateHexCodeFromeArray(sourceHexArr);
+        var kHexArr = getCharCodeAsHexArray(k);
+        var kToHex = generateHexCodeFromeArray(kHexArr);
+        var o = f(sToHex, kToHex);
+        return generateHexCodeFromeArray(o)
+      };
+      function decode(s, k) {
+        var kHexArr = getCharCodeAsHexArray(k);
+        var kToHex = generateHexCodeFromeArray(kHexArr);
+        var o = f(s, kToHex);
+        var result = getStrFromCharCodeArray(o);
+        return result
+      };
+      function getStrFromCharCodeArray(charCodeArray) {
+        var r = [];
+        for (var i = 0, l = charCodeArray.length; i < l; ++i) {
+          c = String.fromCharCode(charCodeArray[i]);
+          r.push(c)
+        };
+        return r.join('')
+      };
+      function getCharCodeAsHexArray(str) {
+        var arr = [];
+        for (var i = 0, l = str.length; i < l; ++i) {
+          arr.push(str.charCodeAt(i).toString(16))
+        };
+        return arr
+      };
+      function generateHexCodeFromeArray(arr, single) {
+        var result = "";
+        var flag = false;
+        for (var i = 0, l = arr.length; i < l; ++i) {
+          var tmp = arr[i].toString(16).toUpperCase();
+          if (!single) {
+            if (tmp.length < 2) {
+              tmp = "0" + tmp
+            }
+          } else {
+            flag = true;
+            console.warn(1)
+          };
+          result += tmp
+        };
+        if (flag) console.warn(result);
+        if (result.length % 2) console.warn(result + "====");
+        return result
+      }
+
+    }();
+  </script>
+</body>
+
+</html>
+
+<!--[if !IE]>|xGv00|499430845c35cfe71bcf5c2ea50f9604<![endif]-->

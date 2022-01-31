@@ -1,0 +1,190 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+	<title>登陆成功</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=GB2312" />
+	<script type="text/javascript">
+	//<![CDATA[
+		document.domain="qq.com";
+
+		var p=function(){};
+		
+		function setLoginStatus() {
+			try {
+			if (parent.g_version == 5) {
+				if(parent.g_iUin == parent.g_iLoginUin) {
+					parent.ownermode = true;
+					parent.QZONE.space.updateCSS(".ownerMode","display","inline");
+					parent.QZONE.space.updateCSS(".clientMode","display","none");
+				}else{
+					parent.ownermode = false;
+					parent.QZONE.space.updateCSS(".ownerMode","display","none");
+					parent.QZONE.space.updateCSS(".clientMode","display","inline");
+				}
+			}else{
+				if(parent.g_iUin == parent.g_iLoginUin) {			
+					parent.ownermode = true;
+					parent.insertCSS(0, ".ownerMode", "display:'inline'"); // 修改title
+					parent.insertCSS(0, ".clientMode", "display:none");											
+				}
+				else {
+					parent.ownermode = false;
+					parent.insertCSS(0, ".clientMode", "display:'inline'"); // 修改title
+					parent.insertCSS(0, ".ownerMode", "display:none");						
+				}
+			
+				if(parent.updateAllModuleTitle)parent.updateAllModuleTitle(parent.ownermode); // 修改模块title
+			}
+			}catch(ex){}
+			if(parent.toolbarRefresh)parent.toolbarRefresh(); // 刷新工具条
+		}
+
+		//由空间URL形成用户标识
+		function spaceURL2uid(s){
+			if(!s) {
+				s=parent.location.href;
+			}
+			
+			var re1=/http:\/\/user\.qzone\.qq\.com\/(\d{5,10})/i;
+			var re2=/http:\/\/(\d{5,10})\.qzone\.qq\.com/i;
+			var re3=/http:\/\/([\w\-\d]+)\.qzone\.qq\.com/i;
+			var re4=/http:\/\/imgcache\.qq\.com\/[^\d]+(\d{5,10})/i;
+			var re5=/http:\/\/qzone\.qq\.com\/blog\/(\d{5,10})-(\d+)/i;
+			if(re1.test(s))
+				return (re1.exec(s))[1];
+			else if(re2.test(s))
+				return (re2.exec(s))[1];
+			else if(re3.test(s)){
+				var tmp=(re3.exec(s))[1];
+				if(tmp=="new"){
+					return parent.g_iUin;
+				}else return tmp;
+			}
+			else if(re4.test(s))
+				return (re4.exec(s))[1];
+			else if(re5.exec(s))
+				return (re5.exec(s))[1];
+			else
+				return parent.g_iUin;
+		}
+
+		function getParameter(name,cancelBubble){
+			var r = new RegExp("(\\?|#|&)"+name+"=([^&#]*)(&|#|$)");
+			var m = location.href.match(r);
+			if ((!m || m=="") && !cancelBubble) m = parent.location.href.match(r);
+			return (!m?"":m[2]);
+		}
+
+		function loginInit(){
+			var s=getParameter("para",true);
+			var t=parseInt((parent.getCookie("uin")).replace(/^o0*(\d{5,10})$/,"$1"),10);
+			parent.g_iLoginUin=isNaN(t)?0:t;
+			
+			p=(!!parent.closePopup)?parent.closePopup:function(){};
+			
+			if (s) {				
+				setLoginStatus();
+			}	
+			
+			if(s=="interact"){
+				parent.location = "http://rc.qzone.qq.com/interact";
+				return;
+			}
+			else if(s == 'reload'){
+				parent.location.reload(true);
+				return;
+			}
+			else if(s=="mall"){
+				p();
+			}
+			else if(s=="BBS"){
+				var f=parent.document.getElementById("tbbs");
+				if(!!f && f.contentWindow)
+					f.contentWindow.verify();
+				p();
+			}
+			else if(s=="club"){
+				var f=parent.document.getElementById("ic");
+				if(!!f && f.contentWindow)
+					f.contentWindow.loginCallback();
+				p();
+			}
+			else if(s=="blogComment" || s=="moodComment"){
+				var f=!!parent.isStatic?top:parent.document.getElementById("tblog");
+				if(!parent.isStatic && !!f && f.contentWindow)
+					f.contentWindow.loginCallback();
+				else if(!!parent.isStatic){
+					f.loginCallback();
+				}
+				alert("登录成功");
+				p();
+			}
+			else if(s=="mgbComment"){
+				var f=parent.document.getElementById("tgb");
+				if(!!f && f.contentWindow)
+					f.contentWindow.loginCallback();
+				alert("登录成功");
+				p();
+			}
+			else if(s=="photo"){
+				var f=parent.document.getElementById("tphoto");
+				if(!!f && f.contentWindow)
+					f.contentWindow.LoginBack();
+				alert("登录成功");
+				p();
+			}
+			else if(s=="act"){
+				var f=parent.document.getElementById("act");
+				if(!!f && f.contentWindow)
+					f.contentWindow.loginCallback();
+				alert("登录成功");
+				p();
+			}
+			else if(s=="ownerOperation"){ // 在进行主人态操作时候，如果用户登录超时，弹出的登录框使用该参数
+				alert("登录成功！");
+				p();
+				if(parent.g_iUin != parent.g_iLoginUin) {
+					parent.location.href="http://user.qzone.qq.com/"+spaceURL2uid();					
+					return;
+				}
+			}
+			else if(s=="driftbottle") {
+				alert("登录成功！");
+				p();
+				//if(parent.g_iUin != parent.g_iLoginUin) {
+					if(!!parent.dbLoginCallback) parent.dbLoginCallback();
+					parent.dbLoginCallback = null;
+				//	return;
+				//}
+			}
+			else if(s=="soren") {
+				alert("登录成功！");
+				p();
+				if(!!parent.sorenLoginback) parent.sorenLoginback();
+				return;
+
+			}
+			else if(s=="music"){
+				alert("登录成功！");
+				p();
+				var f=parent.document.getElementById("tmusic");
+				if(!!f && f.contentWindow)
+					f.contentWindow.loginCallback();
+				return;
+			}
+			else if(s=="zhen"){
+				p();
+				if(parent.loginCallback)parent.loginCallback();
+				return;
+			}
+			else {
+				parent.location.href="http://user.qzone.qq.com/"+spaceURL2uid();
+				return;
+			}
+		}
+
+		loginInit();
+	//]]>
+	</script>
+	</head>
+	<body></body>
+</html>

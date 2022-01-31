@@ -1,0 +1,113 @@
+u{text-decoration: none; white-space: nowrap;}
+body { background: #fff; font-family: "\5FAE\8F6F\96C5\9ED1"; font-size: 12px;margin: 0;}
+ul,ol,li{ list-style: none;}
+.inputstyle { border: 1px solid #bdbdbd; color: #808080; font-size: 14px; height: 18px; margin: 1px; padding: 5px; width: 213px;
+background: #fff url(http://3gsoft.gtimg.com/msoft/sec/webss/web_pim/images/text-bg.png) repeat-x left top;}
+.inputstyle:focus{border: 2px solid #7eb808; margin: 0;}
+h1, h2, h3, h4 { margin: 0; padding: 0;}
+a { color: #406a97; text-decoration: none;}
+a:link, a:visited, a:active { color: #406a97; }
+a:hover { color: #406a97; text-decoration: underline;}
+a.b:link, a.b:visited, a.b:active { color: #406a97; text-decoration: none;}
+a.b:hover { color: #406a97; text-decoration: none;}
+#login { float: none; margin: 0 auto; padding: 0 0 5px; width: 370px;}
+#login h4 { background: url("http://imgcache.qq.com/ptlogin/v4/style/0/images/icons.gif") no-repeat scroll 0 0 transparent; border-bottom: 1px solid #438ECE; font-size: 12px; font-weight: bold; height: 21px; padding: 7px 0 0 30px;}
+#login h4 .btn_close, #login h4 .btn_help { border: 0 none; cursor: pointer; float: right; height: 17px; margin-right: 5px; width: 17px;}
+#login h4 .btn_close {
+    background: url("http://imgcache.qq.com/ptlogin/v4/style/0/images/icons.gif") no-repeat scroll 0 -284px transparent;
+    margin-top: -1px;
+}
+#login h4 .btn_help {
+    background: url("http://imgcache.qq.com/ptlogin/v4/style/0/images/icons.gif") no-repeat scroll 0 -308px transparent;
+}
+#login ul { margin: 0; padding: 10px 0 5px; overflow: hidden; zoom: 1;}
+#login ul li {padding-bottom: 10px; float: left; width: 100%;}
+#login ul li span { float: left; padding-right: 5px; padding-top: 7px; text-align: right; width: 65px;color: #535353;font-size: 12px;}
+
+#login .about { clear: both; margin-left: 110px;  padding-top: 3px;}
+#login #verifytip { color: #808080;}
+#login em {
+    color: #FF0000;
+    font-style: normal;
+    padding: 0 3px;
+}
+#login p {
+    color: #535353;
+    font-size: 12px;
+    margin: 0;
+    padding: 8px 15px 12px 0;
+}
+#login label {
+    color: #535353;
+    margin-top: 10px;
+    padding: 0 0 0 8px;
+    position: absolute;
+}
+#login .error {
+    background: url("http://imgcache.qq.com/ptlogin/v4/style/0/images/icons.gif") no-repeat scroll 0 -396px transparent;
+    line-height: 20px;
+    margin: 15px 30px;
+    padding: 31px 0 30px 65px;
+}
+#login #verifytip {
+    padding: 0 0 7px;
+}
+#login #verifyshow {
+    padding: 0;
+}
+#login .low_login {
+    margin-top: 0;
+}
+.login_button {float: none; margin: 0 auto; padding-left: 70px;}
+.loginbtn {
+    background: url("http://imgcache.qq.com/ptlogin/v4/style/0/images/icons.gif") no-repeat scroll 0 -160px transparent;
+    border: 0 none;
+    color: #204497;
+    cursor: pointer;
+    height: 27px;
+    width: 68px;
+}
+.btn,.btn_select,.btn_gray { background: url(http://3gsoft.gtimg.com/msoft/sec/webss/web_pim/images/login-btn.png) no-repeat;
+    border: 0 none; cursor: pointer; height: 39px;width: 282px; color: #fff; font-weight: bold;}
+.loginbtn_g {
+    background: url("http://imgcache.qq.com/ptlogin/v4/style/0/images/icons.gif") no-repeat scroll 0 -30px transparent;
+    border: 0 none;
+    color: #2473A2;
+    cursor: pointer;
+    font-weight: bold;
+    height: 33px;
+    width: 126px;
+}
+.btnlong {
+    background: url("http://imgcache.qq.com/ptlogin/v4/style/0/images/icons.gif") no-repeat scroll 0 -143px transparent;
+    border: 0 none;
+    color: #2473A2;
+    cursor: pointer;
+    font-weight: bold;
+    height: 31px;
+    width: 125px;
+}
+.lineright {height: 18px; line-height: 18px; margin: 0 8px 0 0; text-align: right;}
+.linemid {
+    color: gray;
+    padding: 10px 8px 0 30px;
+}
+.linecenter {
+    padding: 10px 8px 0 0;
+    text-align: center;
+}
+.hi_style {
+    height: 200px;
+}
+.list_name { margin-left: 15px; padding-top: 20px; text-align: left;}
+#lowlogin_tips { color: red; padding-right: 10px;}
+.err_m { color: #b10000; display: block!important; padding-left: 26px!important; height: 16px; line-height: 16px;}
+.main { background-color: #fff;}
+
+/********derrick*******/
+#list_uin li{ padding: 5px 0;}
+#list_uin input{ vertical-align: middle;}
+#list_uin label{ display: inline-block; vertical-align: middle; margin: 0; position: static;}
+
+.btn_select,.btn_gray{width:310px; background-position: 0 -39px; margin-bottom: 10px; position: relative; left: -32px;}
+.btn_gray{ color: gray;}
