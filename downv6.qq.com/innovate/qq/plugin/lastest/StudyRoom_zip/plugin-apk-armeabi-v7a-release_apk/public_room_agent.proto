@@ -1,0 +1,58 @@
+import "common_types.proto";
+package public_room_agent.proto;
+
+option java_package = "com.tencent.jungle.videohub.proto";
+option java_outer_classname = "RoomAgentProto";
+
+/*// 获取房间基本信息 */
+message GetRoomBaseInfoReq {
+    repeated uint32 room_ids = 1; // 房间ID
+    repeated uint32 room_nos = 2; // 房间no 只在批量拉取支持
+    repeated uint64 group_codes = 3; //群号 只在批量拉取支持
+
+    optional uint32 get_way = 99; //[0:id/1:no/2:群号]
+};
+
+message GetRoomBaseInfoRsp {
+    repeated videohub.RoomBaseInfo room_base_infos = 1; // 房间信息
+};
+
+//编辑房间基础信息
+message EditRoomBaseInfoReq {
+    required uint32 room_id = 1; // roomId
+    required videohub.RoomBaseInfo room_base_info = 2; // 房间信息
+};
+
+message EditRoomBaseInfoRsp {
+    optional videohub.RoomBaseInfo room_base_info = 1; // 房间信息
+};
+
+//新增房间基础信息
+message AddRoomBaseInfoReq {
+    required videohub.RoomBaseInfo room_base_info = 1; // 房间信息
+};
+
+message AddRoomBaseInfoRsp {
+    optional uint32 room_id = 1; // roomId
+};
+
+
+//批量拉取可用房间号
+//11208拉取可用房间号[内部使用]
+message BatchGetRoomNoReq {
+    optional uint64 room_id = 1; // roomId
+    optional uint32 room_no_count = 2; // 拉取房间号的数量
+};
+
+message BatchGetRoomNoRsp {
+    repeated uint64 room_nos = 2; // 拉取房间号
+};
+
+//删除房间信息
+message DelRoomBaseInfoReq {
+    optional uint32 room_id = 1; // 房间ID
+};
+
+message DelRoomBaseInfoRsp {
+    optional uint32 state = 1; //[0:ok]
+};

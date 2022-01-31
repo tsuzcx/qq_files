@@ -1,0 +1,28 @@
+package tencent.im.cs.cmd0x429;
+
+enum SubCmd {
+    SubCmd_QueryRoomPreview = 1;
+}
+
+message SubCmd0x1ReqBody {
+    optional uint32 uint32_room_id = 1;
+    optional uint64 uint64_uin = 2; //anchor uin
+}
+
+message SubCmd0x1RspBody {
+    optional string str_url = 1; //pic url
+    optional uint64 uint64_timestamp = 2; //create ts
+    optional string str_nick_name = 3; //nick name
+}
+
+message ReqBody {
+    optional uint32 uint32_sub_cmd = 1;
+    optional SubCmd0x1ReqBody msg_subcmd0x1_req = 2;
+
+}
+
+message RspBody {
+    optional uint32 uint32_sub_cmd = 1;
+    optional int32 int32_result = 2; //0-成功，其他失败
+    optional SubCmd0x1RspBody msg_subcmd0x1_rsp = 3;
+}

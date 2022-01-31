@@ -1,0 +1,429 @@
+import "common_types.proto";
+package game_play_matchmaker.proto;
+option java_package = "com.tencent.jungle.videohub.proto";
+
+
+enum MATCHMAKER_SEAT_TYPE
+{
+    MATCHMAKER_SEAT_TYPE_NONE           = 0; // 未定义不在房间内
+    MATCHMAKER_SEAT_TYPE_MALE_VIP       = 1; // 场上男嘉宾
+    MATCHMAKER_SEAT_TYPE_FEMALE_VIP     = 2; // 场上女嘉宾
+    MATCHMAKER_SEAT_TYPE_HOST           = 3; // 主持人
+    MATCHMAKER_SEAT_TYPE_MALE_WAITING   = 4; // 候场男嘉宾
+    MATCHMAKER_SEAT_TYPE_FEMALE_WAITING = 5; // 候场女嘉宾
+}
+
+enum MATCHMAKER_GIFT_STATUS
+{
+    MATCHMAKER_GIFT_STATUS_NO_SEND = 1;
+    MATCHMAKER_GIFT_STATUS_ALREADY_SEND = 2;
+}
+
+message MatchmakerVipUser // 场上嘉宾或主持
+{
+    optional MATCHMAKER_SEAT_TYPE seat_type = 1; // 座位类型, 主持人/男嘉宾/女嘉宾
+    optional int32 seat_no       = 2; // 座位号
+    optional uint64 uid          = 3; // 用户ID
+    optional uint64 seq          = 4; //台上用户场榜seq
+    optional uint32 fresh_user   = 5; //仅男嘉宾返回此字段 0:未知类型，1:新用户 2：非新用户
+    optional uint32 seat_time    = 6; //上台时间
+}
+
+message EssentialMatchmakerInfo // 红娘玩法信息
+{
+    optional uint32 essential_matchmaker_info_seq  = 1; // 信息seq
+    repeated MatchmakerVipUser vip_users           = 2; // 场上嘉宾和主持列表
+    optional int32 cas                        	   = 3; // tmem 的 cas 值
+    optional uint64 gameKey 				       = 4; //用于标识一场游戏
+    optional uint32 room_id 					   = 5;
+    optional uint32 seat_price                     = 6;//男嘉宾上台费用
+    optional uint32 is_host_on                     = 7;//该房间是否有红娘上过台
+    optional uint32 auto_seaton_switch = 8[default = 1];//自动上台开关 0--关闭  1--开启
+}
+
+message MatchmakerWaitingInfo
+{
+    optional uint32 male_waiting_seq         		 	 = 1; // 场上嘉宾列表Seq
+    repeated MatchmakerWaitingUser male_waiting_users 	 = 2; // 男候场嘉宾列表
+    optional uint32 female_waiting_seq       		     = 3; // 场上嘉宾列表Seq
+    repeated MatchmakerWaitingUser female_waiting_users  = 4; // 女候场嘉宾列表
+    optional int32 cas                       			 = 5; // tmem 的 cas 值
+}
+
+
+message MatchmakerWaitingUser // 候场嘉宾
+{
+    optional uint64 uid 		    = 1;
+    optional uint32 waiting_in_time	= 2;  //加入时间  单位秒
+}
+
+message MatchmakerInfoPush // 红娘信息push
+{
+    required uint32 room_id                            = 1; // 房间ID
+    optional EssentialMatchmakerInfo essential_info    = 2; // 玩法信息
+    optional MatchmakerWaitingInfo waiting_info        = 3; // 候场嘉宾
+};
+
+message MatchmakerADMINPush // 红娘信息push
+{
+    required uint32 room_id             = 1; // 房间ID
+    optional uint64 admin_uid           = 2;//主持人
+    optional uint64 vip_uid             = 3;//被踢的嘉宾
+};
+
+message QuicGiftInfo
+{
+    optional uint32 gift_id = 1;
+    optional string gift_name = 2;
+    optional string gift_icon_url_little = 3;
+    optional string gift_icon_url_big =4;
+    optional uint32 gift_price = 5;
+    optional string gift_words = 6;  //文案
+    optional uint32 gift_amount = 7; //送礼个数
+}
+
+//CMD_GAME_PLAY_MATCHMAKER_GET_WAITING_LIST       = 14001; // 获取嘉宾列表
+message GetMatchmakerWaitingListReq
+{
+    optional uint32 room_id       = 1; // 房间id
+};
+
+message GetMatchmakerWaitingListRsp
+{
+    optional MatchmakerWaitingInfo waiting_info = 1; // 嘉宾列表
+};
+
+
+//CMD_GAME_PLAY_MATCHMAKER_GET_ESSENTIAL_INFO     = 14002; // 获取玩法信息
+message GetEssentialMatchmakerInfoReq
+{
+    optional uint32 room_id = 1; // 房间id
+    optional uint32 get_quick_gift_info = 2; // 是否获取快捷礼物信息，为1时获取
+};
+
+message GetEssentialMatchmakerInfoRsp
+{
+    optional EssentialMatchmakerInfo essential_info = 1; // 玩法信息
+    optional QuicGiftInfo host_gift = 2;                //主播礼物
+    optional QuicGiftInfo male_gift = 3;                //男嘉宾礼物
+    optional QuicGiftInfo female_gift = 4;              //女嘉宾礼物
+};
+
+
+//CMD_GAME_PLAY_MATCHMAKER_WAITING_IN             = 14003; // 嘉宾上列表
+message MatchmakerWaitingInReq
+{
+    optional uint32 room_id = 1; // 房间id
+    optional videohub.GENDER gender  = 2; // 性别这里后台会做一下校验
+}
+
+message MatchmakerWaitingInRsp
+{
+    optional MatchmakerWaitingInfo waiting_info = 1; // 嘉宾列表
+}
+
+//CMD_GAME_PLAY_MATCHMAKER_WAITING_OUT            = 14004; // 嘉宾下列表
+message MatchmakerWaitingOutReq
+{
+    optional uint32 room_id = 1; // 房间id
+}
+
+message MatchmakerWaitingOutRsp
+{
+    optional MatchmakerWaitingInfo waiting_info = 1; // 嘉宾列表
+}
+
+//CMD_GAME_PLAY_MATCHMAKER_VIP_IN                 = 14005; // 嘉宾上舞台
+message MatchmakerVIPInReq
+{
+    optional uint32 room_id = 1; // 房间id
+    optional videohub.GENDER gender  = 2; // 性别这里后台会做一下校验
+    optional uint32 scene_from  = 3; //场景, 0 群视频, 1 一起看
+    optional uint64 scene_groupno = 4; //场景群号
+}
+
+message MatchmakerVIPInRsp
+{
+    optional int32 result  = 1; //0:抢麦成功 其他：失败
+    optional EssentialMatchmakerInfo essential_info = 2; // 玩法信息
+    optional MatchmakerWaitingInfo waiting_info = 3; // 嘉宾列表
+}
+
+//CMD_GAME_PLAY_MATCHMAKER_VIP_OUT                = 14006; // 嘉宾下舞台
+message MatchmakerVIPOutReq
+{
+    optional uint32 room_id = 1; // 房间id
+}
+
+message MatchmakerVIPOutRsp
+{
+    optional EssentialMatchmakerInfo essential_info = 1; // 玩法信息
+    optional MatchmakerWaitingInfo waiting_info = 2; // 嘉宾列表
+}
+
+//CMD_GAME_PLAY_MATCHMAKER_ADMIN_VIP_OUT          = 14007; // 嘉宾被主持人踢下舞台
+message MatchmakerADMINVIPOutReq
+{
+    optional uint32 room_id = 1; // 房间id
+    optional uint64 uid = 2;//被踢嘉宾uid
+}
+
+message MatchmakerADMINVIPOutRsp
+{
+    optional EssentialMatchmakerInfo essential_info = 1; // 玩法信息
+    optional MatchmakerWaitingInfo waiting_info = 2; // 嘉宾列表
+}
+
+//CMD_GAME_PLAY_MATCHMAKER_SEND_GIFT              = 14008; // 赠送加QQ礼物
+message MatchmakerSendGiftReq
+{
+    optional uint64 uid = 1; //嘉宾uid
+    optional uint32 room_id = 2; // 房间id
+    optional uint32 scene_from  = 3; //场景, 0 群视频, 1 一起看
+    optional uint64 scene_groupno = 4; //场景群号
+}
+
+message MatchmakerSendGiftRsp
+{
+    optional int32 result  = 1; // 0:成功 1：已经送过了，2：送礼成功，但是获取uin失败
+    optional uint64 uin = 2; //送礼成功时返回嘉宾uin
+}
+
+//CMD_GAME_PLAY_MATCHMAKER_GET_GIFT_STATUS        = 14009; // 获取加QQ礼物状态
+message MatchmakerGetGiftStatusReq
+{
+    optional uint64 uid = 1; //嘉宾uid
+}
+
+message MatchmakerGetGiftStatusRsp
+{
+    optional int32 status  = 1; //1:未送过，2：已送  其他：失败
+    optional uint64 uin = 2; //送礼成功时返回嘉宾uin
+    optional uint32 gift_id = 3;
+    optional string gift_name = 4;//礼物信息从这几个字段获取
+    optional string gift_icon_url_little = 5;
+    optional string gift_icon_url_big = 6;
+    optional uint32 gift_amount = 7;
+    optional uint32 gift_price = 8;
+}
+
+//CMD_GAME_PLAY_MATCHMAKER_HOST_IN                = 14010; // 主持人上台(仅后台调用)
+message MatchmakerHostInReq
+{
+    optional uint32 room_id = 1;
+    optional uint64 uid = 2;
+};
+
+message MatchmakerHostInRsp
+{
+    optional EssentialMatchmakerInfo essential_info = 1;
+}
+
+//CMD_GAME_PLAY_MATCHMAKER_HOST_OUT               = 14011; // 主持人下台(仅后台调用)
+message MatchmakerHostOutReq
+{
+    optional uint32 room_id = 1;
+    optional uint64 uid = 2;
+};
+
+message MatchmakerHostOutRsp
+{
+    optional EssentialMatchmakerInfo essential_info = 1;
+}
+
+
+//CMD_GAME_PLAY_MATCHMAKER_HOST_WAITING_IN        = 14012; // 主持人上列表(仅后台调用)
+message MatchmakerHostWaitingInReq
+{
+    optional uint32 room_id = 1;
+    optional uint64 uid = 2;
+};
+
+message MatchmakerhostWaitingInRsp
+{
+    optional MatchmakerWaitingInfo waiting_info = 1; // 嘉宾列表
+}
+
+//CMD_GAME_PLAY_MATCHMAKER_HOST_WAITING_OUT       = 14013; // 主持人下列表(仅后台调用)
+message MatchmakerHostWaitingOutReq
+{
+    optional uint32 room_id = 1;
+    optional uint64 uid = 2;
+};
+
+message MatchmakerHostWaitingOutRsp
+{
+    optional MatchmakerWaitingInfo waiting_info = 1; // 嘉宾列表
+}
+
+
+//CMD_GAME_PLAY_MATCHMAKER_GET_GAMED_ETAIL        = 14014; // 获取玩法信息(仅后台调用)
+//房间协议GetGameDetailReq
+
+//CMD_GAME_PLAY_MATCHMAKER_CLEAN                  = 14015; // 清场红娘玩法(仅后台调用)
+message MatchmakerCleanReq
+{
+    optional uint32 room_id = 1;
+}
+
+message MatchmakerCleanRsp
+{
+    optional int32 result  = 1;
+}
+
+//CMD_GAME_PLAY_MATCHMAKER_EXIT                   = 14016; // 退出红娘玩法(仅后台调用)
+message MatchmakerExitReq
+{
+    optional uint32 room_id = 1;
+}
+
+message MatchmakerExitRsp
+{
+    optional int32 result  = 1;
+}
+
+message GiftStatus
+{
+    optional uint32 status = 1;
+}
+
+message UseToStageStatus
+{
+    optional uint32 status = 1;
+}
+
+//CMD_GAME_PLAY_MATCHMAKER_GET_IDENTITY           = 14017; // 获取是否是红娘
+
+message MatchmakerGetIdentityReq{
+    optional uint64 anchor_uid = 1;
+}
+
+message MatchmakerGetIdentityRsp{
+    optional uint32 retcode = 1; //结果0为红娘，其他不是红娘
+}
+
+message MatchmakerSeatUserInfo {
+    optional uint64 uid = 1; //用户uid
+    optional videohub.GENDER gender = 2; //用户性别
+    optional string nick = 3; //用户姓名
+    optional uint32 age = 4; //用户年龄
+    optional string cover = 5; //用户开播封面
+    optional string city = 6; //所在城市
+    optional string province = 7; //所在省
+    optional string country = 8; //所在国家
+    optional uint32 matchmaker = 9; //是否是红娘, 0:不是,1:是
+    optional uint32 match_number = 10; //红娘配对成功数量
+}
+
+
+message MatchMakerEmptyRoomInfo {
+    optional uint32 room_id = 1; //房间ID
+    optional uint32 game_id = 2; //玩法id, 红娘玩法这里固定为3
+    optional uint64 group_code = 3; //群号
+    repeated MatchmakerSeatUserInfo seatUsers = 4; //舞台上用户信息
+}
+
+//CMD_GAME_PLAY_MATCHMAKER_GET_EMPTY_SEAT_ROOM_LIST    = 14018; // 获取有空座位的房间列表
+message MatchMakerGetEmptySeatRoomListReq {
+    optional videohub.GENDER gender  = 1; // 需要请求空座位的性别
+}
+
+message MatchMakerGetEmptySeatRoomListRsp {
+    repeated MatchMakerEmptyRoomInfo room_infos = 1; //请求房间信息列表
+}
+
+//CMD_GAME_PLAY_MATCHMAKER_GET_IS_FRESH_USER        = 14019; // 判断是否是新用户
+message MatchMakerGetIsFreshUserReq {
+    optional uint64 uid = 1;
+}
+
+message MatchMakerGetIsFreshUserRsp {
+    optional uint32 result  = 1;//0:未知类型，1:新用户 2：非新用户
+}
+
+//CMD_GAME_PLAY_MATCHMAKER_GET_BOTTOM_GIFT        = 14020; // 获取底部快捷礼物
+message MatchMakerGetBottomGiftReq {
+    optional uint32 room_id = 1; //房间ID
+}
+
+message MatchMakerGetBottomGiftRsp {
+    optional QuicGiftInfo bottom_gift = 1;
+}
+
+//CMD_GAME_PLAY_MATCHMAKER_GET_WINDOW_GIFT_CONFIG  = 14021; //获取弹窗送礼配置
+message MatchMakerGetWindowGiftConfigReq {
+    optional uint32 room_id = 1; //房间ID
+}
+
+message MatchMakerGetWindowGiftConfigRsp {
+    optional uint32 until_enter_room         = 1;  //进房后的第x秒
+    optional uint32 interval_time            = 2;  //其后每间隔x秒
+    optional uint32 vip_on_stage_time        = 3;  //且嘉宾已上麦超过x秒
+    optional uint32 max_time_for_one_vip     = 4;  //男用户被邀请对同一女嘉宾送礼的弹窗次数应当<=x次
+    optional QuicGiftInfo left_button_gift   = 5;  //左按钮礼物
+    optional QuicGiftInfo right_button_gift  = 6;  //右按钮礼物
+    optional uint32 window_gift_open         = 7;  //0:关闭 1:开启
+}
+
+
+
+//CMD_GAME_PLAY_MATCHMAKER_SET_AUTO_SEATON_SWITCH = 14022; //设置自动上嘉宾席开关
+message MatchMakerSetAutoSeatOnSwitchReq {
+    optional uint32 room_id = 1; //房间ID
+    optional uint32 auto_seaton_switch  = 2;  //0:关闭 1:开启
+}
+
+message MatchMakerSetAutoSeatOnSwitchRsp {
+
+}
+
+//CMD_GAME_PLAY_MATCHMAKER_VIP_SEAT_INVITE       = 14023; //抱人上嘉宾席
+message MatchMakerVipSeatInviteReq {
+    optional uint32 room_id = 1; //房间ID
+    optional uint32 seat_type = 2;//座位类型  1--男候场 2--女候场
+    optional uint64 waiting_vip_uid = 3;//被抱的嘉宾
+}
+
+message MatchMakerVipSeatInviteRsp {
+
+}
+
+//CMD_GAME_PLAY_MATCHMAKER_VIP_INVITE_PUSH = 10957;//抱人上嘉宾push
+message MatchMakerVipSeatInvitePush // 红娘抱人上嘉宾push
+{
+    required uint32 room_id             = 1;//房间ID
+    optional uint64 admin_uid           = 2;//主持人
+    optional uint64 waiting_vip_uid     = 3;//被抱的嘉宾
+}
+
+//CMD_GAME_PLAY_MATCHMAKER_GET_ENCOURAGE_GIFT_CONFIG  = 14024; //获取鼓励送礼配置
+message MatchMakerGetEncourageGiftConfigReq {
+     optional uint32 room_id = 1; //房间ID
+}
+
+message LevelInfo {
+    optional uint32 low        = 1;//价值下限闭区间
+    optional uint32 high       = 2; //价值上限闭区间
+    optional string gift_words = 3;//礼物文案
+}
+
+message MatchMakerGetEncourageGiftConfigRsp {
+     optional uint32 delay_time               = 1;  //延迟x秒
+     optional uint32 interval_time            = 2;  //x秒不弹
+     optional uint32 max_time                 = 3;  //一天最多次数
+     optional QuicGiftInfo left_button_gift   = 4;  //左按钮礼物
+     optional QuicGiftInfo right_button_gift  = 5;  //右按钮礼物
+     repeated LevelInfo levelInfo             = 6;  //三个等级的文案
+     optional uint32 encourage_gift_open      = 7;  //0:关闭 1:开启
+}
+
+//CMD_GAME_PLAY_MATCHMAKER_GET_EVALUABLE_  = 14025; //获取是否可以评论
+message MatchMakerGetEvaluableReq {
+
+}
+
+message MatchMakerGetEvaluableRsp {
+    optional uint32 ret_code            = 1;    // 错误码，0表示成功
+    optional string ret_msg             = 2;    // 返回信息
+    optional uint32 is_evaluable        = 3;   // 是否可评价，0 不可评级 1 可评价
+}

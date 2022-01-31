@@ -1,0 +1,25 @@
+package videohub.giftswitch;
+option java_package = "com.tencent.jungle.videohub.proto";
+
+//cmd 11103
+message GetPaySwitchReq {
+    optional uint64 uid = 1;
+}
+
+message GetPaySwitchResp {
+    optional uint32 gift_switch = 1; //送礼开关 1:启用金豆 0:保持花豆
+    optional uint32 is_ios = 2; //是否IOS消费用户 1: 是  0: 否
+    optional uint32 is_transfered = 3; //是否转换过 1:是 0:没转过
+    optional uint32 balance = 4; //花样直播的余额
+}
+
+//cmd 11104
+message TransforBalanceReq {
+    optional uint64 uid = 1;
+    optional uint32 tfto = 2; //1 代表转给IOS   其他值代表转给安卓
+}
+
+message TransforBalanceResp {
+    optional uint32 transfor_balance = 1; //转账的金额
+    optional uint32 is_transfered = 2; //是否转账 1:已转过 0:未转过
+}

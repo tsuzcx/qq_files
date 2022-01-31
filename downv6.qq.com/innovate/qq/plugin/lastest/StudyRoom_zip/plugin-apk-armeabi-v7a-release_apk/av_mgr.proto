@@ -1,0 +1,283 @@
+package av_mgr.proto;
+
+option java_package = "com.tencent.jungle.videohub.proto";
+enum RspCode {
+    ret_unknow_err             = 10000;
+    ret_redis_err              = 10001;
+    ret_ckv_err                = 10002;
+    ret_invalid_uin            = 10003;
+    ret_invalid_roomid         = 10004;
+    ret_key_not_found          = 10005;
+}
+
+enum ScreenshotFrom {
+    FROM_INTERACT = 1; //互动直播
+    FROM_LIVE     = 2; //直播
+}
+
+enum AnchorStatusCode
+{
+    STATUS_START_LIVE     =  1;  //开播
+    STATUS_STOP_LIVE      =  2;  //关播
+    STATUS_PAUSE_LIVE     =  3;  //开播
+    STATUS_OFFLINE        =  4;  //卡顿
+    STATUS_LOW_FRAME      =  6; //卡顿恢复
+    STATUS_NOW_LIVING     =  7; //直播中
+    STATUS_PAUSE_RESUME   =  8;//暂停恢复
+}
+
+//////////////////////////////////////////////////
+//CMD_STOP_STREAM = 10502; //主播客户端:通知停止录播/推流
+//////////////////////////////////////////////////
+//客户端机型
+message Extinfo {
+    optional string net_type = 1;           //客户端网络类型
+    optional string phone_type = 2;         //客户端机型
+    optional string client_version = 3;     //客户端版本号
+    optional Resolution resolution = 4;     //分辨率
+    optional uint32 place = 5;              //主播麦位
+    optional uint32 mode = 6;               //模式, 2-表演模式, 1-自由模式
+    optional uint32 enable_video = 7;       //是否启用视频
+    optional uint32 enable_voice = 8;       //是否启用音频
+    optional uint32 seat_type = 9;           //座位类型
+}
+//monitor监控
+message MediaInfo {
+    optional Resolution resolution = 1; //分辨率
+    optional uint32 video_cap_fps = 2; //视频采集fps
+    optional uint32 video_send_fps = 3; //视频发送fps（判断卡顿的字段）
+    optional uint32 audio_cap_fps = 4; //音频采集fps
+    optional uint32 audio_send_fps = 5; //音频发送fps
+    optional uint32 lost_rate = 6; //百分比, 1-100
+    optional uint32 cpu_rate = 7; //应用APP CPU使用率 range:0 ~100
+    optional uint32 cpu_rate_device = 8; //系统CPU使用率 range:0 ~100    
+}
+//分辨率
+message Resolution {
+    optional uint32 height = 1;
+    optional uint32 width = 2;
+}
+//开播、关播请求 
+message AvRoomStatusChgReq { //uid由包头带过来
+                             optional uint32 room_id = 1; //房间id，（必填）
+                             optional uint32 client_type = 2; //客户端类型
+                             optional Extinfo ext_info = 3; //额外信息
+}
+//开播、关播回复
+message AvRoomStatusChgRsp {
+}
+
+//////////////////////////////////////////////////
+//CMD_STREAM_HEARTBEAT = 10503; //主播客户端:心跳
+//////////////////////////////////////////////////
+//心跳内容
+message AvRoomStatusReportReq //主播uin通过包头带过来
+{
+    required uint32 room_id = 1; //所在房间
+    required uint32 status = 2; //当前状态, 1-开播, 2-停播, 3-直播中
+    optional MediaInfo media_info = 3;
+    optional bytes extra = 4; //extra字段, 服务端填写, 客户端不用关心
+};
+//心跳回复
+message AvRoomStatusReportRsp {
+    optional uint32 hb_interval = 1 [default = 1]; //下次心跳间隔
+    optional uint32 result = 2;                    //标记心跳是否正常, 0/不填-正常, 其他-额外定义
+};
+
+//////////////////////////////////////////////////
+//CMD_REQ_OPENSDK_SIG = 10504; //客户端:进房请求opensdk sig
+//////////////////////////////////////////////////
+//权限
+enum EOpensdkPriv
+{
+    UPB_CREATE = 1;
+    UPB_ENTER = 2;
+    UPB_SEND_AUDIO = 4;
+    UPB_RECV_AUDIO = 8;
+    UPB_SEND_VIDEO = 16;
+    UPB_RECV_VIDEO = 32;
+    UPB_SEND_ASSIST = 64;
+    UPB_RECV_ASSIST = 128;
+};
+
+message GetAvAuthKeyReq
+{
+    optional uint32 room_id = 1;
+    optional uint32 priviledge = 2;//权限要求
+}
+
+message GetAvAuthKeyRsp
+{
+    optional bytes av_auth_key = 1;
+}
+
+//////////////////////////////////////////////////
+//CMD_SERVER_SET_OPENSDK_PRIV = 10508; //业务后端：设置用户avsdk权限
+//////////////////////////////////////////////////
+message SetAvPrivReq
+{
+    optional uint32 room_id = 1;
+    optional uint32 priviledge = 2;//权限要求  EOpensdkPriv
+}
+
+message SetAvPrivRsp
+{
+}
+
+//////////////////////////////////////////////////
+//CMD_FETCH_ROOM_PREVIEW = 10509       //客户端: 拉取房间预览
+//////////////////////////////////////////////////
+
+//中间pb, 外部不需要使用
+//key:preview_${roomid}
+//key2:preview_${roomid}_${uin}
+message RoomPreviewMiddleMsg {
+    optional string url = 1;       //url
+    optional uint64 timestamp = 2; //截图生成时间戳
+}
+
+message QueryRoomPreviewReq {
+    optional uint32 room_id = 1;
+    optional uint64 uin = 2;       //主播号
+}
+
+message QueryRoomPreviewRsp {
+    required int32 result = 1;     //0-ok, other-error
+    optional string url = 2;       //图片地址
+    optional uint64 timestamp = 3; //图片生成时间戳
+}
+
+//消息类型:1, 2,
+//1-RoomPicPreviewMsg, 2-RoomPicRiskMsg
+message RoomPicByPass {
+    optional int32 msg_id = 1;     //消息类型, 1-房间截图, 2-鉴黄
+    optional bytes data = 2;       //消息数据
+    optional int32 from = 3;       //来源, 1-互动直播, 2-直播
+}
+
+message RoomPicPreviewMsg {
+    optional uint64 userid = 1;    //用户id;
+    optional int32 groupnum = 2;   //房间号
+    optional int64 sdkappid = 3;   //sdkappid
+    optional string filename = 4;  //文件名
+    optional string url = 5;       //链接地址
+    optional int64 timestamp = 6;  //生成时间戳
+    optional string sign = 7;      //签名
+    optional uint32 height = 8;    //高
+    optional uint32 width = 9;     //宽
+    optional uint64 groupid = 10;  //群号
+}
+
+message AbductionRisk {
+    optional int32 level = 1;
+    optional int32 type = 2;
+}
+
+message RoomPicRiskMsg {
+    optional int32 id = 1;
+    optional int32 room_id = 2;
+    optional uint64 userid = 3;
+    optional string img = 4;
+    repeated int32 type = 5;
+    optional int32 confidence = 6;
+    optional int32 normal_score = 7;
+    optional int32 porn_score = 8;
+    optional int32 hot_score = 9;
+    optional int32 level = 10;
+    optional int64 screenshot_time = 11;
+    optional string ocr_msg = 12;
+    optional string sign = 13;
+    optional int64 send_time = 14;
+    repeated AbductionRisk abduction_risk = 15;
+    optional uint64 groupid = 16;  //群号
+}
+
+message GetLiveInfoReq {
+    required string livecode = 1; //直播码
+}
+message GetLiveInfoRsp {
+    optional StreamInfo info = 1; //直播信息
+}
+
+
+//其他 内部使用..
+message SyncBroadcastInfo {
+    optional uint32 type = 1;                   //1-开播, 2-停播
+    optional AvRoomStatusChgReq info = 2;    //请求包
+    optional uint64 uid = 3;                    //主播uid
+    optional uint32 startTime = 4;              //开播时间, spec, 只在开播的时候使用
+}
+message SyncBroadcastInfoRsp {
+}
+
+message ServerPass {
+    optional uint32 enable_video = 1;  //启用视频
+    optional uint32 enable_voice = 2;  //启用音频
+    optional uint32 set_type = 3; //权限相关
+    optional uint32 place = 4; //主播麦位
+    optional uint32 mode = 5; //模式, 2-表演模式, 1-自由模式
+}
+
+// key: anchor_play_url_${uid}
+message AnchorPlayUrl {
+    optional string rtmp = 1;    //rtmp地址
+    optional string flv = 2;     //flv地址
+    optional string hls = 3;    //hls地址
+    optional uint64 ts = 4;     //开播时间
+    optional uint32 live_type = 5;  //开播类型
+    optional string live_code = 6;  //直播码
+    optional Resolution resolution = 7; //分辨率
+}
+
+// key: stream_info_${rid}
+message StreamInfo {
+    optional uint64 uid = 1;    //uid
+    optional uint64 roomid = 2; //房间id
+    optional uint32 live_type = 3; //直播类型
+}
+
+//key = anchor_status_uin_${uid}
+message AnchorStatus {
+    optional uint64 uid = 1;
+    optional uint32 last_heartbeat = 2;
+    optional uint32 status = 3;
+    optional uint32 live_type = 4;
+    optional uint32 begin_time = 5;
+    optional uint64 roomid = 6;
+    optional uint32 client_type = 7;
+    optional bytes extra = 8;
+}
+
+message SetAnchorStatusReq {
+    optional AnchorStatus status = 1;
+}
+
+message SetAnchorStatusRsp {
+}
+
+
+//
+//   msg id:
+//       594:huayang_live_status_svr::VideoChangeBroadcast
+//
+message AvMessagePass {
+    optional uint32 msg_id = 1;
+    optional bytes data = 2;
+    optional bytes header = 3; //CommonRequest
+}
+
+//CMD_QUERY_H5_URL                   = 10506; //业务后端:查询h5观看地址
+message QueryH5UrlReq {
+    optional uint64 uid = 1;
+}
+
+message QueryH5UrlRsp {
+    optional uint32 result = 1;
+    repeated string rtmp_url = 2;
+    repeated string hls_url = 3;
+    repeated string flv_url = 4;
+}
+
+
+
+

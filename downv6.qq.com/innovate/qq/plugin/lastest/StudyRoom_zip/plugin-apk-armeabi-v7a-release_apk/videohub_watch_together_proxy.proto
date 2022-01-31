@@ -1,0 +1,135 @@
+syntax = "proto2";
+package   videohub_watch_together_proxy;
+//default java package name 
+option  java_package="com.tencent.protobuf.videohubWatchTogetherProxy";
+
+enum BIG_CMD {
+    VIDEOHUB_WATCH_TOGETHER_SVR = 0x588;
+}
+
+//群视频从13901开始
+enum SUB_CMD {
+    //设置QQ群信息
+    SET_QQ_GROUP_ROOM_INFO = 0x1; //群视频13901
+    //获取QQ群用户基础信息
+    GET_QQ_GROUP_ROOM_INFO =0x2; //群视频13902
+    //获取当前用户状态
+    GET_USER_STATUS = 0x3; //群视频13903
+    //获取群视频房间信息
+    GET_QVIDEO_ROOM_INFO = 0x4;  //群视频13904 
+    //开启一起看，仅供cgi调用，做小程序登录态透传
+    START_WATCH_TOGETHER = 0x5;  //群视频13905
+}
+
+message QQGroupInfo {
+    optional uint64  gid 	    =	1; ////群号
+    optional RoomInfo roominfo	=	2;	//房间信息
+    optional uint32  start_time = 	3;	//开启时间
+}
+
+enum SRC_TYPE {
+    NOW = 1;
+    QQ_GROUP=2;
+}
+
+message RoomInfo {
+    optional uint32	type	=	1; //房间类型
+    optional uint64 id		=	2; //房间id
+    optional bytes	jump	= 	3; //跳转地址
+    optional bytes	cover	= 	4; //封面
+    optional uint32 polling = 	5; //轮询标志
+    optional bytes	name 	= 	6; //直播间名称
+}
+
+//0x1 设置一起看状态信息
+message SetQQGroupRoomInfoReq {
+    optional uint64 gid	= 1;  //一起看QQ群号
+    optional uint32 oper_type = 2;	//1开启、2结束、3加入、4退出、5切换直播间
+    optional uint64 room_id	= 3;	//一起看群视频房间id, oper_type为1,2,5时需要
+    optional uint32 polling = 4; //是否开启自动切换房间，0:不开启, 1:开启，oper_type为1时需要
+}
+
+message SetQQGroupRoomInfoRsp {
+    optional int32 	 result	= 1; //返回结果  0:正常
+    optional string	 msg    = 2; //错误原因
+    optional string  tips_text	= 3;//提示文案
+}
+
+//0x2 获取一起看房间状态信息
+message GetQQGroupRoomInfoReq {
+    optional uint32	src	=	1;	 //SRC_TYPE
+    optional uint64 gid	=	2;    //QQ群号
+    optional bytes 	openid =3; //用户openid(优先使用)
+    optional uint64 qq	=	4;  //用户qq号
+
+}
+
+message GetQQGroupRoomInfoRsp {
+    optional int32 	 result	= 1; //返回结果  0:正常 1 : 不存在
+    optional string	 msg    = 2; //错误原因
+    optional QQGroupInfo qq_group_info	=	3;//房间信息
+}
+
+
+//0x3 获取当前用户的一起看状态
+message GetUserWatchTogetherStatusReq
+{
+    optional uint64 group_id = 1; // 一起看群号
+    optional uint32 room_id = 2; // 观看的房间房间ID
+}
+
+message GetUserWatchTogetherStatusRsp
+{
+    optional uint32 user_type = 1; //用户类型，0:普通用户, 1:群主, 2:管理员
+    optional uint32 watch_together_status = 2; //一起看状态，0:没有开启一起看, 1:开启一起看
+    optional uint32 is_sponsor = 3; //是否是发起者，0:不是, 1:是(开启一起看后有效)
+    optional VideoSetting video_setting = 10; //一起看设置
+}
+
+message VideoSetting
+{
+ optional uint32 start_privilege = 1; //0:不允许普通用户开启，1: 允许普通群成员开启
+}
+
+//0x4 获取群视频房间信息
+message GetQVideoRoomInfoReq {
+    optional uint64 room_id = 1; //需要查询的房间id
+}
+
+message QVideoRoomInfo {
+    optional uint64 room_id = 1; //房间id
+    optional string room_cover_url = 2; //房间封面url
+    optional string room_jump_url = 3; //房间跳转url
+    optional string room_name = 4; //房间名称
+    optional uint64 room_online_num = 5; //房间内在线人数
+}
+
+message GetQVideoRoomInfoRsp {
+    optional int32 	 result	= 1; //返回结果  0:正常
+    optional string	 msg    = 2; //错误原因
+    optional QVideoRoomInfo room_info = 3; //房间信息
+}
+
+//0x5 开启一起看，仅供cgi调用，做小程序登录态透传
+message StartWatchTogetherReq {
+    optional uint64 group_id = 1; // 一起看群号
+    optional uint32 room_id = 2; // 观看的房间房间ID
+}
+
+message StartWatchTogetherRsp {
+    optional int32 	 result	= 1; //返回结果  0:正常
+    optional string	 msg    = 2; //错误原因
+}
+
+service videohub_watch_together_proxy {
+    //rpc 0x1
+    rpc SetQQGroupRoomInfo(SetQQGroupRoomInfoReq) returns (SetQQGroupRoomInfoRsp);
+    //rpc 0x2
+    rpc GetQQGroupRoomInfo(GetQQGroupRoomInfoReq) returns (GetQQGroupRoomInfoRsp);
+    //rpc 0x3
+    rpc GetUserStatus(GetUserWatchTogetherStatusReq) returns (GetUserWatchTogetherStatusRsp);
+    //rpc 0x4
+    rpc GetQVideoRoomInfo(GetQVideoRoomInfoReq) returns (GetQVideoRoomInfoRsp);
+    //rpc 0x4
+    rpc StartWatchTogether(StartWatchTogetherReq) returns (StartWatchTogetherRsp);
+}

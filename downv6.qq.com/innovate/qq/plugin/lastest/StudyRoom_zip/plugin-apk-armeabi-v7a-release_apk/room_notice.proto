@@ -1,0 +1,68 @@
+syntax = "proto3";
+package trpc.ssr.room_notice;
+
+service RoomNoticeOperation {
+    rpc FetchRoomNotice (FetchRoomNoticeReq) returns (FetchRoomNoticeRsp);
+    rpc UpdateRoomNotice (UpdateRoomNoticeReq) returns (UpdateRoomNoticeRsp);
+    rpc ClearRoomNotice (ClearRoomNoticeReq) returns (ClearRoomNoticeRsp);
+}
+
+enum ResultCode {
+    RET_OK                                                               = 0;     // 成功
+    RET_PARAM_ERROR                                                      = 10001; // 参数错误
+    RET_FREQUENCY_ERROR                                                  = 10002; // 频率错误
+    RET_SECURITY_ERROR                                                   = 10003; // 安全打击错误
+    RET_INNER_ERROR                                                      = 10004; // 内部错误
+    RET_PERMISSION_ERROR                                                 = 10005; // 权限错误
+    RET_HAS_NO_NOTICE_ERROR                                              = 10006; // 暂无公告
+}
+
+message PublishUserInfo {
+    uint64 uid                                                           = 1;     // 用户uid
+    string nike_name                                                     = 2;     // 昵称
+    string head_url                                                      = 3;     // 头像
+    string grade                                                         = 4;     // 年级
+}
+
+message FetchRoomNoticeReq {
+    uint32 room_id                                                       = 1;     // 房间id
+}
+
+message FetchRoomNoticeRsp {
+    ResultCode code                                                      = 1;     // 错误码
+    string err_msg                                                       = 2;     // 错误信息
+    uint32 room_id                                                       = 3;     // 房间id
+    PublishUserInfo publish_user                                         = 4;     // 发布者信息
+    string room_notice                                                   = 5;     // 房间公告
+    string room_notice_id                                                = 6;     // 公告id(格式：144115223777669672_1605534889)
+}
+
+message UpdateRoomNoticeReq {
+    string room_notice                                                   = 1;     // 房间公告
+    uint32 room_id                                                       = 2;     // 房间号
+}
+
+message UpdateRoomNoticeRsp {
+    ResultCode code                                                      = 1;     // 错误码
+    string err_msg                                                       = 2;     // 错误信息
+    uint32 room_id                                                       = 3;     // 房间id
+    PublishUserInfo publish_user                                         = 4;     // 发布者信息
+}
+
+message ClearRoomNoticeReq {
+    uint32 room_id                                                       = 1;     // 房间id
+}
+
+message ClearRoomNoticeRsp {
+    ResultCode code                                                      = 1;     // 错误码
+    string err_msg                                                       = 2;     // 错误信息
+    uint32 room_id                                                       = 3;     // 房间id
+    PublishUserInfo publish_user                                         = 4;     // 发布者信息
+}
+
+message UpdateRoomNoticePush {
+    string room_notice                                                   = 1;     // 房间公告
+    string room_notice_id                                                = 2;     // 公告id
+    PublishUserInfo publish_user                                         = 3;     // 发布者信息
+    uint32 room_id                                                       = 4;     // 房间id
+}

@@ -1,0 +1,36 @@
+syntax = "proto2";
+package trpc.ssr.create_room;
+import "self_study_room.proto";
+option java_package = "tencent.self_study_room.client";
+
+service RoomOperation {
+	rpc CreateRoom (CreateRoomReq) returns (CreateRoomRsp);
+}
+
+message LabelInfo {
+	optional uint32 label_id                      								 = 1; // 主题id
+	optional string label_msg                                                     = 2; // 主题信息
+}
+
+message CreateRoomReq {
+	optional uint64 uid                                                           = 1; // 用户uid
+	optional tencent.self_study_room.client.ROOM_TYPE room_type                   = 2; // 房间类型
+	repeated uint32 label_ids                                            = 3; // 房间label id, 后台负责转换为对应的标签
+    optional string room_name                                                     = 4; // 房间名
+}
+
+enum ResultCode {
+    RET_OK                                                               = 0;     // 成功
+    RET_PARAM_ERROR                                                      = 10001; // 参数错误
+	RET_CREATE_ERROR                                                     = 10002; // 创建错误
+	RET_CHECK_ERROR                                                      = 10003; // 校验建房资格错误
+	RET_ROOM_FULL_ERROR                                                  = 10004; // 主题自习室已到最大值
+	RET_SECURITY_ERROR                                                   = 20001; // 安全检查错误
+}
+
+message CreateRoomRsp {
+	optional ResultCode code                                                      = 1; // 返回码
+	optional string err_msg                                                       = 2; // 错误信息
+	optional uint32 room_id                                                       = 3; // 房间号
+	optional string room_name                                                     = 4; // 房间名
+}

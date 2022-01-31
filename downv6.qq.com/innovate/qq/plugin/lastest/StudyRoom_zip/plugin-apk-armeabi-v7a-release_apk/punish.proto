@@ -1,0 +1,179 @@
+import "common_types.proto";
+
+package videohub.punish;
+
+option java_package = "com.tencent.jungle.videohub.proto";
+
+//秩序管理类型
+enum PUNISH_TYPE
+{
+    PUNISH_TYPE_LOGIN     =  1;  //登录
+    PUNISH_TYPE_ENTERROOM =  2;  //进入房间(某个人进入房间)
+    PUNISH_TYPE_BROADCAST =  4;  //开播
+    PUNISH_TYPE_WORD      =  8;  //文字聊天
+    PUNISH_TYPE_KICK      =  16; //踢人
+    PUNISH_TYPE_ROOM      =  32; //整个房间(整个房间)
+    PUNISH_TYPE_ALARM     =  64; //警告
+    PUNISH_TYPE_STAGE     =  128; //管理员禁止开播
+}
+
+//秩序管理封禁信息
+message ForbidInfo
+{
+    optional uint64 uid              = 1; //被封uid
+    optional uint32 effect_time      = 2; //生效时间 time(NULL)
+    optional uint32 end_time         = 3; //结束时间
+    optional uint64 handler          = 4; //操作人员 uid/uin
+    optional bytes reason            = 5; //被封原因
+    optional uint32 punish_type      = 6; //push type
+    optional uint32 left_time        = 7; //剩余时长 s
+}
+
+//封禁
+message ForbidReq
+{
+    required uint32 type              = 1; //PUNISH_TYPE
+    required uint64 uid               = 2; //uid
+    optional uint32 room_id           = 3; //所在房间
+    optional uint32 time              = 4; //时长 s
+    optional bytes reason             = 5; //操作原因
+    optional bytes window_tips        = 6; //弹窗文案
+}
+
+message ForbidRsp
+{
+
+}
+
+
+//解封
+message PermitReq
+{
+    required uint32 type              = 1; //PUNISH_TYPE
+    required uint64 uid               = 2; //uid
+    optional uint32 room_id           = 3; //所在房间
+    optional bytes reason             = 4; //操作原因
+}
+
+message PermitRsp
+{
+
+}
+
+
+//查询房间内被禁止用户
+message GetRoomForbidInfoReq
+{
+    required uint32 room_id  = 1;
+    optional uint32 flag     = 2; //标志位,将需要获取房间内被禁的信息位置1，如需要同时获取房间内禁止进房用户列表、被踢列表、被禁言列表，则flag=PUNISH_TYPE_ENTERROOM | PUNISH_TYPE_KICK | PUNISH_TYPE_WORD
+    optional uint32 page_no  = 3; //第几页 (从0开始，不填表示所有页码)
+    optional uint32 per_page_num = 4; //每页包含的记录数
+
+
+}
+
+
+message GetRoomForbidInfoRsp
+{
+    repeated ForbidInfo forbid_info_list = 1;  //禁止进房|被踢用户|禁止文字|房间被禁
+    optional uint32 total_records        = 2;  //总共条数
+}
+
+
+//查询用户被禁信息(开播/登录)
+message GetUserForbidInfoReq
+{
+    required uint64 uid      = 1;
+    optional uint32 room_id  = 2;
+    optional uint32 flag     = 3; //标志位,将需要获取的信息位置1，如需要同时获取开播、登录信息，则flag=PUNISH_TYPE_LOGIN|PUNISH_TYPE_BROADCAST
+}
+
+message GetUserForbidInfoRsp
+{
+    repeated ForbidInfo forbid_info_list     = 1; //登录|开播|禁止进房|被踢用户|禁止文字
+}
+
+message AreaInfo
+{
+    optional uint32 country   = 1;  //国家代码
+    optional uint32 province  = 2;  //省份代码
+    optional uint32 city      = 3;  //城市代码
+
+    optional string country_name  = 7;
+    optional string province_name = 8;
+    optional string city_name     = 9;
+}
+
+//校验地区
+message CheckAreaReq
+{
+    optional uint32 client_ip = 1;  //ip地址，网络字节序
+    optional uint32 room_id   = 2;  //房间id
+    optional string client_ipv6 = 3;//
+}
+
+message CheckAreaRsp
+{
+    optional uint32 result      = 1;  //0:正常 其他:禁止地区
+    optional AreaInfo area_info = 2;  //地区信息
+}
+
+
+enum OPERATOR_TYPE
+{
+    STAGE_REMOVE     = 1; //移除
+    STAGE_UP         = 2; //上移
+    STAGE_DOWN       = 3; //下移
+    STAGE_ADD_TIME   = 4; //续时
+
+}
+
+enum RECORD_TYPE
+{
+    STAGE_LIST   = 1; //排麦列表
+}
+
+message RecordUser
+{
+    optional uint64 uid    = 1; //uid
+    optional string nick   = 2; //昵称
+    optional string avatar = 3; //头像
+}
+
+message OperationRecord
+{
+    optional RecordUser handler    = 1; //操作者
+    optional RecordUser user       = 2; //被操作者
+    optional uint32 operate_type   = 3; //操作类型 OPERATOR_TYPE
+    optional uint32 operate_time   = 4; //操作时间
+    optional string operate_desc   = 5; //操作说明
+}
+
+//拉取操作记录
+message GetOperationRecordReq
+{
+    optional uint32 record_type   =  1; //记录类型  RECORD_TYPE
+    optional uint32 room_id       =  2; //房间id
+    optional uint32 start_idx     =  3; //开始索引 0开始
+    optional uint32 num           =  4; //请求个数，必须<10
+}
+
+message GetOperationRecordRsp
+{
+    repeated OperationRecord records = 1;
+    optional uint32 room_id          = 2;
+    optional uint32 total            = 3; //总数
+}
+
+//写操作记录
+message WriteOperationRecordReq
+{
+    optional uint32 record_type     = 1; //记录类型
+    optional uint32 room_id         = 2;
+    optional OperationRecord record = 3;
+}
+
+message WriteOperationRecordRsp
+{
+
+}

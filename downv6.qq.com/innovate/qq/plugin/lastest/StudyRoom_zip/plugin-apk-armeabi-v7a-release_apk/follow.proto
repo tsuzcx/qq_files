@@ -1,0 +1,61 @@
+package videohub.follow;
+option java_package = "com.tencent.jungle.videohub.proto";
+import "common_types.proto";
+
+message FollowStatus {
+    optional FollowUserInfo anchor = 1;
+    optional uint32 isFollowed = 2; //主人关注了此人，即在主人的关注列表里   1 在 0 不在
+    optional uint32 isFans = 3; //此人关注了主人，即在主人的粉丝列表里	  1 在 0 不在
+    optional uint32 followNum = 4;
+    optional uint32 fansNum = 5;
+}
+
+message FollowReq {
+    repeated FollowUserInfo ids = 1;
+}
+message GetListReq {
+    optional uint32 start = 1;
+    optional uint32 num = 2;
+    optional uint64 uid = 3;
+    optional bool getInfo = 4; // 是否要获取资料
+    optional uint32 online_only = 5; // 1 只拉取在线 ， 其他 拉取全部
+}
+message FollowRepertory {
+    repeated FollowUserInfo ids = 1;
+}
+message FollowUserInfo {
+    optional uint64 uid = 1; //
+    optional uint64 uin = 2;
+    optional string pic = 3;
+    optional string name = 4;
+    optional uint64 online_num = 5;
+    optional uint64 roomNo = 6;
+    optional uint64 startTime = 7;
+    optional uint64 followTime = 8;
+    optional bool follow_each_other = 9;
+
+    optional uint32 user_gender = 10; //1 男，2女
+    optional string user_city = 11;
+    optional string user_province = 12;
+    optional uint32 user_age = 13;
+    optional UserExpLev userExpLev = 14; // 用户等级
+
+    optional string room_name = 15; //所在房间名
+    optional uint32 room_id = 16; //所在房间id
+    optional uint64 group_code = 17; //所在房间群号
+    optional uint32 room_type = 18; //所在房间类型
+
+}
+message FollowResp {
+    required uint32 ret_code = 1; // 96 uin/uid为零  , 97 请求size为零或存在uid查不到uin ,  98 请求参数size>10 , 99 服务内部处理错误
+    required string err_message = 2;
+}
+message FollowStatusResp {
+    required uint32 ret_code = 1;
+    required string err_message = 2;
+    repeated FollowStatus followStatus = 3;
+}
+message GetListResp {
+    repeated FollowUserInfo ids = 1;
+    optional uint64 total = 2;
+}

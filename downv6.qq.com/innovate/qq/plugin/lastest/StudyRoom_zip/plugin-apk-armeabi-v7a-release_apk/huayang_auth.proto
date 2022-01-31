@@ -1,0 +1,35 @@
+package com.tencent.jungle.huayang.proto;
+
+message PhoneAuthInfo {
+    optional string phone = 1;
+    optional uint32 phone_status = 2;
+}
+
+//1001:检查用户的认证信息
+message CheckAuthStatusReq {
+}
+
+message CheckAuthStatusRsp {
+    optional uint32 result = 1; //0成功 10:系统错误
+    optional uint32 phone_status = 2; //0:未验证  1:已验证
+    optional string phone = 3; //手机号码
+}
+
+//1002:下发短信验证码
+message GetVerifyCodeReq {
+    optional string phone = 1;
+}
+
+message GetVerifyCodeRsp {
+    optional uint32 result = 1; //0:成功 1:手机号码已被占用 2:验证码请求太频繁  10:系统错误
+}
+
+//1003:检查短信验证码
+message CheckVerifyCodeReq {
+    optional string phone = 1;
+    optional uint32 code = 2;
+}
+
+message CheckVerifyCodeRsp {
+    optional uint32 result = 1; //0成功 1:校验失败 10:系统错误
+}

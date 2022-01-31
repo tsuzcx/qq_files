@@ -11,7 +11,7 @@ def proc_dir(path:str):
         name,suf = fn.rsplit('.',1)
     except ValueError:
         return
-    if suf not in {'zip','7z'}:return
+    if suf not in {'zip','7z','apk'}:return
     pn = f'{name}_{suf}'
     dp = os.path.join(dn,pn)
     os.system(f"rm -rf {dp}")

@@ -1,0 +1,67 @@
+syntax = "proto2";
+
+package tencent.self_study_room.client;
+
+message CreateStudyGroupReq {
+  enum OperType {
+    DefaultValue = 0;
+    CreateRoom = 1;
+    CreateGroup = 2;
+  }
+  optional uint64  uid = 1;
+  optional string groupName = 2;
+  optional OperType operType = 3;
+}
+
+message CreateStudyGroupRsp {
+  enum ErrCode {
+    DefaultValue = 0;
+    Success = 1001;
+    NotExistGroup = 1002;   //创建房间操作调用时返回，表示用户没有小组且不能自动创建小组
+    ParamError = 1003;
+    SvrError = 1004;
+    HasInGroup = 1005;  //用户主动创建小组时，标示用户已经加入或创建了小组
+  }
+  optional ErrCode errCode = 1;
+  optional string errMsg = 2;
+  optional string groupName = 3;
+  optional uint64 createTime = 4;
+  optional uint32 memberNum = 5;
+  optional uint64 totalStudyTime = 6;
+}
+
+message CloseStudyGroupReq {
+}
+
+message CloseStudyGroupRsp {
+  enum ErrCode {
+    DefaultValue = 0;
+    Success = 1001;
+    ParamError = 1003;
+    SvrError = 1004;
+  }
+  optional ErrCode errCode = 1;
+  optional string errMsg = 2;
+}
+
+
+message GetStudyGroupReq {
+  optional uint64 targetUid = 1;  //用户uid
+}
+
+message GetStudyGroupRsp {
+  enum ErrCode {
+    DefaultValue = 0;
+    Success = 1001;
+    NotExistGroup = 1002;
+    ParamError = 1003;
+    SvrError = 1004;
+  }
+  optional ErrCode errCode = 1;
+  optional string errMsg = 2;
+  optional string groupName = 3;
+  optional uint64 createTime = 4;
+  optional uint32 memberNum = 5;
+  optional uint64 totalStudyTime = 6;
+  optional uint64 creatorUid = 7;    //小组创建者uid
+}

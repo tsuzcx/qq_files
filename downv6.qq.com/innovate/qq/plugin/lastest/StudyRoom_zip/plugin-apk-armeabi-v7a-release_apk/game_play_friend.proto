@@ -1,0 +1,195 @@
+import "common_types.proto";
+
+package game_play_friend.proto;
+option java_package = "com.tencent.jungle.videohub.proto";
+
+//CMD_EXIT_GAME_PLAY_FRIEND                	 = 11613; // 退出交友玩法
+message ExitGamePlayFriendReq {
+    required uint32 room_id = 1; // 房间id
+}
+
+message ExitGamePlayFriendRsp {
+}
+
+
+//CMD_CLEAN_GAME_PLAY_FRIEND                	 = 11614; // 清场交友玩法
+message CleanGamePlayFriendReq {
+    required uint32 room_id = 1; // 房间id
+}
+
+message CleanGamePlayFriendRsp {
+}
+
+
+//CMD_GAME_PLAY_ADD_FRIEND_ROOM                  = 11615; // 交友玩法新增一个房间
+message AddFriendRoomReq {
+    required uint32 room_id = 1; // 房间id
+}
+
+message AddFriendRoomRsp {
+}
+
+//CMD_GET_GAME_PLAY_FRIEND_START_SEQ =11617; //拉取本场交友玩法开始SEQ
+message GetGamePlayFriendStartSeqReq {
+    required uint32 room_id = 1; // 房间id
+}
+
+message GetGamePlayFriendStartSeqRsp {
+    optional uint32 room_id = 1;
+    optional uint64 start_seq = 2;
+}
+
+// 贡献信息
+message ContributionInfo {
+    optional uint64 uid = 1; // 贡献用户uid
+    optional uint64 value = 3; // 贡献值
+    optional string name = 4; // 名称
+    optional videohub.GENDER gender = 5; // 性别
+    optional string avatar = 6; // 头像图片id；客户端拼出url
+};
+
+
+//心动信息
+message LoveInfo {
+    optional uint64 uid = 1; //主动心动方
+    optional uint32 seat_no = 2; //主动心动方座位号
+
+    optional uint64 to_uid = 3; //被心动方
+    optional uint32 to_seat_no = 4; //被心动方座位号
+};
+
+message EssentialDatingInfo // 交友信息
+{
+    required uint32 essential_dating_info_seq = 1; // 必要交友信息Seq
+    optional videohub.DATING_STAGE dating_stage = 2; // 游戏进程 0 - 3
+    repeated videohub.VipUser vip_users = 3; // 场上嘉宾和主持列表
+    optional int32 cas = 4; // tmem 的 cas 值
+    optional int32 memberlist_seq = 5; // 在线用户 seq
+
+    repeated ContributionInfo man_infos = 6; //男帽子贡献者信息
+    repeated ContributionInfo woman_infos = 7; //女帽子贡献者信息
+
+    optional videohub.DATING_GAME_MODEL game_mode = 8; //游戏模式, 0:相亲,1:真心话
+    optional uint64 start_seq = 9; //本场开始seq,用于标识一场游戏
+
+    repeated LoveInfo love_infos = 10; //心动信息
+}
+
+message WaitingInfo {
+    required uint32 male_waiting_seq = 1; // 场上嘉宾列表Seq
+    repeated ODWaitingUser male_waiting_users = 2; // 男候场嘉宾列表
+    required uint32 female_waiting_seq = 3; // 场上嘉宾列表Seq
+    repeated ODWaitingUser female_waiting_users = 4; // 女候场嘉宾列表
+    optional int32 cas = 5; // tmem 的 cas 值
+}
+
+
+message ODWaitingUser // 候场嘉宾
+{
+    required uint64 uid = 1;
+    optional uint32 mic_status = 2; //  0  无  , 1 有
+    optional uint32 waiting_in_time = 3; //加入时间  单位秒
+}
+
+
+// 主持人上下台
+message EditHostReq {
+    required uint32 room_id = 1;
+    required uint64 uid = 2;
+};
+
+message EditHostRsp {
+    required EssentialDatingInfo essential_dating_info = 1;
+}
+
+// 主持人抱嘉宾上台, 候场嘉宾上台
+message EditVipReq {
+    required uint32 room_id = 1; // 房间ID
+    required uint64 uid = 2; // 用户ID
+};
+
+message EditVipRsp {
+    optional EssentialDatingInfo essential_dating_info = 1; // 交友信息
+    optional WaitingInfo waiting_info = 2; // 候场嘉宾
+};
+
+/* // 拉取必要交友信息 */
+message GetEssentialDatingInfoReq {
+    required uint32 room_id = 1; // 房间id
+};
+
+message GetEssentialDatingInfoRsp {
+    optional EssentialDatingInfo essential_dating_info = 1; // 交友信息
+};
+
+/* // 拉取候场嘉宾列表 */
+message GetWaitingListReq {
+    required uint32 room_id = 1; // 房间id
+    optional uint32 is_get_male = 2; // 获取男嘉宾
+    optional uint32 is_get_female = 3; // 获取女嘉宾
+};
+
+message GetWaitingListRsp {
+    optional WaitingInfo waiting_info = 1; // 交友信息
+};
+
+// 普通用户加入/退出候选列表
+message EditWaitingReq {
+    required uint32 room_id = 1; // 房间id
+    required uint64 uid = 2; // 候场嘉宾uid
+    optional uint32 mic_status = 3; //  0  无  , 1 有
+};
+
+message EditWaitingRsp {
+    optional WaitingInfo waiting_info = 1; // 候场嘉宾
+};
+
+
+/* // 开关麦 */
+message SetMicStatusReq {
+    required uint32 room_id = 1; // 房间ID
+    required uint64 uid = 2; // 用户ID
+    required bool bool_status = 3; // MIC开关
+};
+
+message SetMicStatusRsp {
+    optional EssentialDatingInfo essential_dating_info = 1; // 交友信息
+};
+
+
+/*  // 主持人切换交友进程 */
+message SetDatingStageReq {
+    required uint32 room_id = 1; // 房间ID
+    required videohub.DATING_STAGE dating_stage = 2; // 交友进程
+};
+
+message SetDatingStageRsp {
+    optional EssentialDatingInfo essential_dating_info = 1; // 交友信息
+};
+
+// 选择心动对象
+message LoveReq {
+    required uint32 room_id = 1; //房间id
+    required uint64 uid = 2; // 用户id
+    required uint64 to_uid = 3; // 被喜欢, 心动的用户id
+}
+
+message LoveRsp {
+    optional EssentialDatingInfo essential_dating_info = 1; // 交友信息
+}
+
+message DatingInfoPush // 交友信息push
+{
+    required uint32 room_id = 1; // 房间ID
+    optional EssentialDatingInfo essential_dating_info = 2; // 交友信息
+    optional WaitingInfo waiting_info = 3; // 候场嘉宾
+};
+
+/*// 管理操作 */
+message AdminOperationPush {
+    required uint32 room_id = 1; // 房间ID
+    required uint64 uid = 2; // 用户ID
+    required uint64 admin_uid = 3; // 管理用户ID
+    required videohub.ADMIN_OP_TYPE op_type = 4; // 管理操作类型
+    optional string detail = 5; // 提示详情
+};

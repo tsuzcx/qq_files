@@ -1,0 +1,139 @@
+{
+  "value": [
+    {
+      "role": "bigger",
+      "type": 1,
+      "is_default": 0,
+      "audio": {
+        "aec": 1,
+        "agc": 0,
+        "ans": 0,
+        "anti_dropout": 1,
+        "au_scheme": 1,
+        "channel": 2,
+        "codec_prof": 4106,
+        "frame": 40,
+        "kbps": 64,
+        "max_antishake_max": 1000,
+        "max_antishake_min": 400,
+        "min_antishake": 120,
+        "sample_rate": 48000,
+        "silence_detect": 1
+      },
+      "net": {
+        "rc_anti_dropout": 1,
+        "rc_init_delay": 250,
+        "rc_max_delay": 900
+      },
+      "video": {
+        "define_crop_camera_data": true,
+        "anti_dropout": 0,
+        "codec_prof": 5,
+        "format": -2,
+        "format_fix_height": 720,
+        "format_fix_width": 960,
+        "format_max_height": -1,
+        "format_max_width": -1,
+        "fps": 20,
+        "fqueue_time": -1,
+        "live_adapt": 0,
+        "maxkbps": 1200,
+        "maxqp": 30,
+        "minkbps": 500,
+        "minqp": 18,
+        "qclear": 1,
+        "small_video_upload": 0
+      }
+    },
+    {
+      "role": "small",
+      "type": 3,
+      "is_default": 0,
+      "audio": {
+        "aec": 1,
+        "agc": 0,
+        "ans": 0,
+        "anti_dropout": 0,
+        "au_scheme": 1,
+        "channel": 2,
+        "codec_prof": 4106,
+        "frame": 40,
+        "kbps": 64,
+        "max_antishake_max": 1000,
+        "max_antishake_min": 400,
+        "min_antishake": 120,
+        "sample_rate": 48000,
+        "silence_detect": 1
+      },
+      "net": {
+        "rc_anti_dropout": 1,
+        "rc_init_delay": 250,
+        "rc_max_delay": 900
+      },
+      "video": {
+        "define_crop_camera_data": true,
+        "anti_dropout": 0,
+        "codec_prof": 5,
+        "format": -2,
+        "format_fix_height": 480,
+        "format_fix_width": 640,
+        "format_max_height": -1,
+        "format_max_width": -1,
+        "fps": 15,
+        "fqueue_time": -1,
+        "live_adapt": 0,
+        "maxkbps": 1000,
+        "maxqp": 33,
+        "minkbps": 400,
+        "minqp": 18,
+        "qclear": 1,
+        "small_video_upload": 0
+      }
+    },
+    {
+      "role": "audience",
+      "type": 2,
+      "is_default": 0,
+      "audio": {
+        "aec": 0,
+        "agc": 0,
+        "ans": 0,
+        "anti_dropout": 0,
+        "au_scheme": 2,
+        "channel": 2,
+        "codec_prof": 4106,
+        "frame": 40,
+        "kbps": 64,
+        "max_antishake_max": 1000,
+        "max_antishake_min": 400,
+        "min_antishake": 120,
+        "sample_rate": 48000,
+        "silence_detect": 1
+      },
+      "net": {
+        "rc_anti_dropout": 1,
+        "rc_init_delay": 1000,
+        "rc_max_delay": 8000
+      },
+      "video": {
+        "define_crop_camera_data": false,
+        "anti_dropout": 0,
+        "codec_prof": 5,
+        "format": -2,
+        "format_fix_height": 480,
+        "format_fix_width": 640,
+        "format_max_height": -1,
+        "format_max_width": -1,
+        "fps": 25,
+        "fqueue_time": -1,
+        "live_adapt": 0,
+        "maxkbps": 1200,
+        "maxqp": 33,
+        "minkbps": 400,
+        "minqp": 18,
+        "qclear": 1,
+        "small_video_upload": 0
+      }
+    }
+  ]
+}

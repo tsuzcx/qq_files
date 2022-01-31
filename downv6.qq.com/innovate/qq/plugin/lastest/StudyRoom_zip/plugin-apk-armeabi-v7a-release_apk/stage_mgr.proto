@@ -1,0 +1,272 @@
+package stage_mgr.proto;
+import "common_seq_info.proto";
+import "av_mgr.proto";
+import "common_types.proto";
+import "self_study_room.proto";
+
+option java_package = "com.tencent.jungle.videohub.proto";
+option java_outer_classname = "StageMgr";
+
+enum LIST_ID {
+    CHIEF_LIST_ID   = 0; //首席列表id
+	LINE_LIST_ID    = 1; //连线列表id
+    CONTROL_LIST_ID    = 2; //连线列表id
+};
+
+enum SEAT_TYPE_PUBLIC
+{
+	SEAT_TYPE_1           = 101; //  音视频座位 （显示）
+	SEAT_TYPE_2           = 102; //  控麦座位 (不显示)
+	SEAT_TYPE_3           = 103; //  音频座位  (显示)
+	SEAT_TYPE_4           = 104; //  预上台    (不显示)
+	SEAT_TYPE_5           = 105; //  麦序座位 只有视频权限
+}
+
+enum FREE_EXTRA_TYPE
+{
+    FREE_SPEAK_TYPE      =1;    //自由说话模式
+	PRESS_SPEAK_TYPE     =2;    //按键说话模式
+}
+
+enum PERFORM_EXYRA_TYPE
+{
+    TYPE_ONLY_ANCHOR               =0;    //仅管理员
+	TYPE_EVERY_ONE                 =1;    //允许所有人上台
+	TYPE_GROUP_MEMBER              =2;    //群成员
+}
+
+enum LIVE_EXTRA_MODE
+{
+	LIVE_EXTRA_LINE_MODE              =0; //连麦模式
+    LIVE_EXTRA_MAIXU_MODE             =1; //麦序模式
+}
+
+enum LINE_QUEUE_FLAG
+{
+    LIVE_QUEUE_OPEN            =0; //连麦开(默认)
+	LIVE_QUEUE_CLOSE           =1; //连麦关
+}
+
+message SeatInfo //座位信息
+{
+	optional uint32 seat_type      = 1; // 座位类型
+    optional uint32 seat_no        = 2; // 座位号
+    optional uint64 uid            = 3; // 用户ID
+    optional int32 audio_right     = 4; // 是否具有音频上行权限 0--没有 1--有
+    optional int32 video_right     = 5; // 是否具有视频上行权限 0--没有 1--有
+	optional uint64 timestamp      = 6; // 上台时间戳
+	optional uint32 open_mic       = 7; // 是否开麦         0--否   1--是 (默认关闭)
+	optional uint32 audio_play     = 8; // 是否允许播放音频 0--不允许 1--允许
+	optional uint32 video_play     = 9; // 是否允许播放视频 0--不允许 1--允许
+	optional uint32 open_camera    = 10; //是否开摄像头    0--否   1--是 (默认关闭)
+	optional uint64 invite_uid     = 11; //邀请人uid
+	optional uint32 show_pre       = 12; //是否展示准备倒计时 0--展示(默认)  1--不展示
+	optional uint32 landscape_type = 13; // 1--横屏   0--默认
+	optional uint32 list_id        = 14; //SEAT_TYPE_4预上台专用字段.表示预上台的类型.取值为enum LIST_ID.
+	optional uint64 tinyid         = 15; //ios
+	optional uint32 open_screen    = 16; //屏幕分享
+	optional uint32 client_type    = 17; //上台客户端类型  1--pc
+	optional uint32 open_ppt       = 18; //ppt
+	optional uint32 open_media     = 19; //媒体文件
+	optional videohub.GENDER gender = 20; // 性别 红娘玩法需要
+	optional tencent.self_study_room.client.MEMBER_ROLE user_role      = 21; // 用户身份信息 取值SelfStudyRoom.ROLE_XXX
+};
+
+message RoomStageInfo // 房间舞台信息
+{
+	repeated SeatInfo seat_list               = 1; //舞台座位信息
+	optional uint32 control_mic               = 2; //控麦      1--控麦       0--非控麦
+	optional uint32 stage_mode                = 3; //舞台模式  1--聊天模式   2--直播模式
+	optional uint32 free_extra_type           = 4; //自由模式扩展类型  1--自由说话       2--按F2说话
+	optional uint32 perform_extra_type        = 5; //表演模式扩展类型  0-仅管理员   1-所有人  2-群成员和管理员
+    optional uint32 waiting_time              = 6; //轮麦模式设置轮麦时间   0--不限时间
+    optional uint32 live_time                 = 7; //当前首麦的表演时间
+    optional uint32 invite_timeout            = 8; //邀请上台等待确认超时时间
+    optional uint32 now_ts                    = 9; //返回当前时间戳，给客户端使用
+    optional uint32 line_queue_flag           = 10; //连麦开关 0--打开(默认)  1--关闭
+    optional uint32 live_extra_mode           = 11; //直播模式下的扩展模式  0--连麦模式（默认）  1--麦序模式
+};
+
+message WaitingUser // 列表信息
+{
+    required uint64 uid 		  = 1;
+    optional uint32 mic_status	  = 2;  // 是否有麦克风硬件  0--没有  1--有
+	optional uint32 video_status  = 3;  // 是否有摄像头硬件  0--没有  1--有
+	optional uint32 status        = 4;  // 用户状态          0--默认  1--预上台状态
+	optional uint32 type          = 5;  // 申请类型   1--音视频连线   2--音频连线
+    optional uint32 landscape_type = 6; //  1--横屏   0--默认
+	optional uint64 timestamp     = 7;  //  上列表时间戳
+	optional uint64 tinyid        = 8;  //ios
+	optional uint32 client_type   = 9;  // 上台客户端类型
+};
+
+message CommonListInfo //通用WaitingUser列表
+{
+    required uint32 list_id              = 1; // 列表id 唯一标识列表类型
+    repeated WaitingUser waiting_users    = 2;
+};
+
+message WaitingListInfo  //房间列表信息
+{
+    repeated CommonListInfo waiting_lists  = 1;
+};
+
+//抱某人上台 10101
+//踢人下台   10102   10111--控麦上台   10112--控麦下台
+message SeatEditReq
+{
+    required uint32 room_id         = 1; // 房间ID
+    required uint32 is_assign_seat  = 2; // 弃用，是否指定座位 1--指定  0--不指定
+    optional uint32 seat_no         = 3; // 弃用，抱上的座位号(指定座位之后使用)
+    required uint64 uid             = 4; // 被操作的用户ID
+	optional uint32 landscape_type  = 5; // 弃用，1--横屏   0--默认
+	optional uint32 list_id         = 6; // 弃用，用户区分连麦用户和首麦用户,取值为enum LIST_ID.
+};
+
+message SeatEditRsp
+{
+    required public_seq_info.proto.SeqInfo room_stage_seq_info        = 1; // 房间舞台信息
+    optional public_seq_info.proto.SeqInfo waiting_list_seq_info      = 2; // 列表
+	optional bytes auth_err_data									  = 3; // 上面鉴权失败，结构详见self_study_room.proto的ConfigInfo结构
+    optional string encourage_wording = 4; // 鼓励文案
+    optional uint32 increased_study_gift_power = 5; // 新增小闪电
+    optional string diary_id = 6;//学习记录
+};
+
+//CMD_CONFIRM_SEAT_ON                = 10109; // 确认上台
+//CMD_CONFIRM_SEAT_OFF               = 10110; // 确认下台
+message ConfirmSeatReq
+{
+	required uint32 room_id         = 1; // 房间ID
+	required uint32 list_id         = 2; // 确认的上台类型取值为enum LIST_ID.
+	optional uint32 landscape_type  = 3; //  1--横屏   0--默认
+};
+
+//CMD_CONFIRM_SEAT_ON                = 10109; // 确认上台
+//CMD_CONFIRM_SEAT_OFF               = 10110; // 确认下台
+message ConfirmSeatRsp
+{
+	required public_seq_info.proto.SeqInfo room_stage_seq_info        = 1; // 房间舞台信息
+	optional public_seq_info.proto.SeqInfo waiting_list_seq_info      = 2; // 列表
+};
+
+//用户上列表 10103
+//用户下列表 10104
+//操作列表   10105
+message EditWaitingListReq
+{
+   required uint32 room_id         = 1; //房间id
+   optional uint64 edit_uid        = 2; //被操作的uid
+   optional uint32 from_list_id    = 3; //源列表id
+   optional uint32 to_list_id      = 4; //目的列表id
+   optional uint32 position        = 5; //被移动的位置
+   optional uint32 mic_status	   = 6; //是否有麦克风硬件  0--没有  1--有
+   optional uint32 video_status    = 7; //是否有摄像头硬件  0--没有  1--有
+   optional uint32 type            = 8; //申请类型   1--音视频连线   2--音频连线
+   optional uint32 landscape_type  = 9; //  1--横屏   0--默认
+}
+
+message EditWaitingListRsp
+{
+    required public_seq_info.proto.SeqInfo waiting_list_seq_info      = 1; // 列表
+	optional public_seq_info.proto.SeqInfo room_stage_seq_info        = 2; // 房间舞台信息
+}
+
+//拉取列表信息  10106
+//拉取房间舞台信息 10107  使用GetSeqInfoReq GetSeqInfoRsp
+//拉取列表信息的body
+message WaitingListIds
+{
+    repeated uint32 list_id       = 1;  // 列表的id
+}
+
+//麦克风 开关上报  10113
+message MicStatusReportReq
+{
+ 	required uint32 room_id        = 1; // 房间id
+	required uint64 uid            = 2; // 用户uid
+	required uint32 type           = 3; // 上报类型  1--mic   2--carema  3--屏幕分享 4-ppt　
+	required uint32 open           = 4; //  0--关闭   1--打开   （默认关闭）
+	optional av_mgr.proto.Extinfo ext_info    = 5; //额外信息
+}
+
+message MicStatusReportRsp
+{
+    optional public_seq_info.proto.SeqInfo room_stage_seq_info        = 1; // 房间舞台信息
+}
+
+//上行权限开关 10114 10116
+message EditSendPrivReq
+{
+ 	required uint32 room_id           = 1; // 房间id
+	required uint64 uid               = 2; // 用户uid
+	optional uint32 open_send_priv    = 3; // 开关上行权限  0--关   1--开
+}
+message EditSendPrivRsp
+{
+}
+
+//编辑舞台模式10117    10120--控麦开始    10121--控麦结束   10122--编辑自由模式  10123--编辑直播模式
+message EditStageConfigReq
+{
+    required uint32 room_id                    = 1; // 房间id
+	optional uint32 stage_mode                 = 2; // 舞台模式  1--自由模式  2--表演模式
+	optional uint32 control_mic                = 3; // 控麦      1--控麦      0--非控麦
+	optional uint32 perform_extra_type         = 4; // 表演模式扩展类型   0-仅管理员   1-所有人可排麦
+	optional uint32 waiting_time               = 5; // 轮麦模式设置轮麦时间  0--不限时长
+	optional uint32 free_extra_type            = 6; // 自由模式扩展类型  1--自由说话       2--按F2说话
+    optional uint32 line_queue_flag            = 7; // 0--打开(默认)  1--关闭
+	optional uint32 live_extra_mode            = 8; // 0--连麦模式  1--麦序模式
+}
+message EditStageConfigRsp
+{
+}
+
+//编辑直播模式轮麦时长
+message EditLiveModeTimeReq
+{
+    required uint32 room_id                    = 1; // 房间id
+	optional uint32 type                       = 2; // 1--续时间   2--修改轮麦时长
+	optional uint32 waiting_time               = 3; // 轮麦模式设置轮麦时间  0--不限时长
+	optional uint64 uid                        = 4; // 续时长的uid
+}
+
+message EditLiveModeTimeRsp
+{
+}
+
+//舞台认证 10130
+message CheckUserAuthStatusReq
+{
+    optional uint64 uid              =1;
+	optional uint32 room_id          =2;
+}
+
+message CheckUserAuthStatusRsp
+{
+	optional uint32 phone_status    = 1;    //0:未验证  1:已验证
+}
+
+//    CMD_START_WATCH_TOGETHER           = 10132; // 开启一起看通知舞台
+message StartWatchtogetherReq
+{
+	optional uint64 group_code       =1;
+	optional uint32 room_id          =2;
+}
+
+message StartWatchtogetherRsp
+{
+
+}
+
+//    CMD_ROOM_PRIVATE                   = 10133; // 房间关闭公开的时候通知舞台
+message RoomPrivateReq
+{
+
+	optional uint32 room_id          =1;
+}
+
+message RoomPrivateRsp
+{
+
+}

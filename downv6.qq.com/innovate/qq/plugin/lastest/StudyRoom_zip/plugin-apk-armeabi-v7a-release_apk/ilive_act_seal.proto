@@ -1,0 +1,183 @@
+//海豹系统
+//@author=vickliu
+//@date=2016/12/22
+
+package ilive_act_seal;
+
+// wns push推送命令字
+enum SEAL_PUSH_CMD {
+    ACT_SEAL_PUSH = 0xfa; // 海豹系统meta推送
+    ACT_DATA_PUSH = 0xf9; // 海豹数据中心推送
+}
+
+// ReqFilter中定义的business
+enum BUSINESS {
+    BUSINESS_RECOMMEND = 100; // 推荐页
+    BUSINESS_ROOM = 101; // 房间服务
+    BUSINESS_DISCOVER = 102; // 发现页
+    BUSINESS_PERSONAL = 103; // 个人中心
+}
+
+// pb map
+message KeyValueMap {
+    optional string key = 1; // key
+    optional string value = 2; // value数据（json）
+}
+
+
+// wns 海豹push实体
+message SealPush {
+    optional uint64 id = 1; //活动id
+    optional RspFilter filter = 2; // 返回的数据所属的信息，用于信息丢弃（如roomId不同）
+    optional string message_id = 3; //业务附加信息
+}
+
+// wns 数据中心push实体
+message DataPush {
+    repeated KeyValueMap datas = 1; //
+}
+
+// 活动信息
+message ActSeal {
+    optional uint64 id = 1; // 活动id
+    optional string meta = 2; // 活动视图描述信息（json）
+    repeated KeyValueMap kvs = 3; // 需要替换的key value
+    optional uint64 ukey = 4; // ukey, (id+ukey表示一张唯一的海豹)
+}
+
+// 通用查询条件
+message ReqFilter {
+    optional uint64 uin = 1; //用户uin
+    optional uint32 platform = 2; //客户端http://tapd.oa.com/individual_broadcast/markdown_wikis/#1010126711005761473
+    optional uint32 match_ver = 3; //活动协议适配版本：1:海豹系统版1版本（int类型版本）
+    optional uint32 business = 4; //所属业务，根据该值“转发”到不同的业务服务器执行过滤处理, 101:房间内container
+    repeated KeyValueMap additions = 10; // 额外条件，根据container不同而不同。当container=room，addition=AdditionRoom，其他待定义
+}
+
+// 通用返回值中的Filter
+message RspFilter {
+    optional uint32 match_ver = 1; // 活动协议适配版本：1:海豹系统版1版本（int类型版本）
+    optional uint32 business = 2; //所属业务，根据该值“转发”到不同的业务服务器执行过滤处理, 101:房间内container
+    repeated KeyValueMap additions = 10; // 额外条件，根据container不同而不同。当container=room，addition=AdditionRoom，其他待定义
+}
+
+// 推送策略
+message PushPolicy {
+    optional uint32 way = 1; //推送策略,0-按房间号推, 则additions中填写房间号 1-全服广播，拉取开播房间广播
+    repeated KeyValueMap additions = 10; //0:[{"roomId":"123456"}]
+}
+
+// 0x01 活动数据更新请求(后端调用)
+message PushReq {
+    required uint64 id = 1; //通过id的方式更新
+    optional uint32 source = 2; //发送请求来源，0-活动系统，1-定时器(自检查延迟发送)，2-管理后台手工发送
+    optional PushPolicy policy = 10; //推送策略
+}
+
+message PushRsp {
+    optional uint32 result = 1; // 0:成功，1:找不到活动，2:活动未开始，3:活动已过期，4:其他失败
+    optional string msg = 2; // 错误信息
+}
+
+// 0x02 按容器拉取活动（客户端调用）
+message PullByContainerReq {
+    required string container = 1; // 活动适配的container：room:房间，home:首页推荐，其他待定义
+    optional ReqFilter filter = 2; // 通用条件，类似某些协议头
+}
+
+message PullByContainerRsp {
+    optional uint32 result = 1; // 0:成功，1:找不到container
+    repeated ActSeal acts = 2; // 活动列表
+    optional RspFilter filter = 3; // 返回的数据所属的信息，用于信息丢弃（如roomId不同）
+}
+
+// 0x03 按id拉取活动（客户端调用）
+message PullByIdReq {
+    repeated uint64 ids = 1; // 活动id（只拉取这部分活动）
+    optional ReqFilter filter = 2; // 通用条件，类似某些协议头
+    optional string message_id = 3; // message_id
+}
+
+message PullByIdRsp {
+    optional uint32 result = 1; // 0:成功，1:找不到id对应的活动
+    repeated ActSeal acts = 2; // 活动列表
+    optional RspFilter filter = 3; // 返回的数据所属的信息，用于信息丢弃（如roomId不同）
+}
+
+// 0x04 活动数据更新推送请求（后端调用）
+message PushDataReq {
+    repeated KeyValueMap datas = 1; //需要更新的数据
+    optional uint32 source = 2; //发送请求来源，0-活动系统，1-定时器(自检查延迟发送)，2-管理后台手工发送
+    optional PushPolicy policy = 10; //推送策略
+}
+
+message PushDataRsp {
+    optional uint32 result = 1; // 0:成功，1:其他失败
+    optional string msg = 2; // 错误信息
+}
+
+// 0x05 按key拉数据
+message PullDataByKeyReq {
+    repeated string keys = 1; // 需要拉取的key
+    optional ReqFilter filter = 2; // 通用条件，类似某些协议头
+}
+
+message PullDataByKeyRsp {
+    repeated KeyValueMap datas = 1; //
+    optional uint32 result = 2; // 0:成功，1:其他失败
+    //    optional RspFilter filter   = 3; // 返回的数据所属的信息，用于信息丢弃（如roomId不同）
+}
+
+// key:dynamic_data_${seal_id}_${messid}
+message DynamicTMData {
+    repeated KeyValueMap kvs = 1; //业务自己维护的数据 以keyvalue存储
+}
+
+// wns 海豹push实体
+message SealPushV2 {
+    optional uint64 id = 1; // 活动id
+    optional RspFilter filter = 2; // 返回的数据所属的信息，用于信息丢弃（如roomId不同）
+    optional ActSeal acts = 3; // 活动列表
+}
+
+//13006 push 海豹
+message PushSealReq {
+    required uint64 id = 1; //海豹id
+    optional uint32 source = 2; //发送请求来源，0-活动系统，1-定时器(自检查延迟发送)，2-管理后台手工发送
+    optional PushPolicy policy = 10; //推送策略
+    repeated KeyValueMap datas = 11; //用来替换 $proxy_data
+}
+
+message PushSealRsp {
+    optional uint32 result = 1; // 0:成功，1:找不到活动，2:活动未开始，3:活动已过期，4:其他失败
+    optional string msg = 2; // 错误信息
+}
+
+//@service=ilive
+//@serviceName=ilive_act_seal
+//@l5=
+//@l5_test=
+//@port=
+service ilive_act_seal {
+
+    // 活动接入方有数据更新需要push（后端调用）
+    //@cmd=0x01
+    rpc Push (PushReq) returns (PushRsp);
+
+    // 按类型请求活动,在各个tab页切换时
+    //@cmd=0x02
+    rpc PullByContainer (PullByContainerReq) returns (PullByContainerRsp);
+
+    // 按id请求活动，在收到push后，从push的内容中获取id作为入参
+    //@cmd=0x03
+    rpc PullById (PullByIdReq) returns (PullByIdRsp);
+
+    //推送数据（后端调用）
+    //@cmd=0x04
+    rpc PushData (PushDataReq) returns (PushDataRsp);
+
+    //按key拉数据
+    //@cmd=0x05
+    rpc PullDataByKey (PullDataByKeyReq) returns (PullDataByKeyRsp);
+
+};

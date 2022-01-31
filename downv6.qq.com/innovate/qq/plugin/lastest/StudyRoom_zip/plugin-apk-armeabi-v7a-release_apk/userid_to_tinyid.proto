@@ -1,0 +1,16 @@
+package userid_to_tinyid.proto;
+;
+
+message TinyIdInfo {
+    optional uint64 uid = 1; // uid
+    optional uint64 tinyid = 2; // 帐号为空返回0，查不到填 1，其他错误 2
+}
+
+//获取tinyid
+message GetTinyIdByUidReq {
+    repeated uint64 uids = 1; //需要换取tinyid的uid列表
+}
+
+message GetTinyIdByUidRsp {
+    repeated TinyIdInfo tinyid_info_list = 2; // 已获取绑定的帐号列表
+}

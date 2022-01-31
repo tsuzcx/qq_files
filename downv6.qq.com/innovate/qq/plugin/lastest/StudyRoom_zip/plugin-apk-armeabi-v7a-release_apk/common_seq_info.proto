@@ -1,0 +1,79 @@
+package public_seq_info.proto;
+
+option java_package = "com.tencent.jungle.videohub.proto";
+option java_outer_classname = "CommSeqInfo";
+
+//对象seq枚举   注释格式：描述 联系人
+enum SEQ_TYPE {
+    SEQ_TYPE_NONE = 0; //起始值
+    SEQ_TYPE_ROOM_STAGE_INFO = 1; //房间舞台信息 kinglong
+    SEQ_TYPE_WAITING_LIST_INFO = 2; //房间列表信息 kinglong
+    //SEQ_TYPE_MEMBERLIST_INFO            = 3; //成员列表 codix
+
+};
+
+// 对象seq信息
+message SeqInfo {
+    required uint32 type = 1; // 如房间DatingList,房间的WaitingList
+    required uint64 id = 2; // 模块实例id ；如是room实例则填roomId
+    optional uint64 seq = 3; // seq
+    optional bytes data = 4; // 对象序列化bytes
+}
+
+// 通用心跳req
+message CommHeartbeatReq {
+    required uint32 room_id = 1; // 房间id
+    repeated SeqInfo seq_infos = 2; // 请求SeqInfo对象列表
+}
+
+// 通用心跳rsp
+message CommHeartbeatRsp {
+    required uint32 heartbeat_time = 1; // 房间id
+    repeated SeqInfo seq_infos = 2; // 请求SeqInfo对象列表
+}
+
+// 某个对象seq变化了的push
+message SeqInfoPushReq {
+    required SeqInfo seq_info = 1;
+}
+
+message SeqInfoPushRsp {
+
+}
+
+// 获取某个SeqInfo对象request
+message GetSeqInfoReq {
+    required SeqInfo seq_info = 1;
+}
+
+// 获取某个SeqInfo对象response
+message GetSeqInfoRsp {
+    required SeqInfo seq_info = 1;
+}
+
+
+// 设置某个SeqInfo对象request
+message SetSeqInfoReq {
+    required SeqInfo seq_info = 1; //必须设置seq 不需要data
+}
+
+// 设置某个SeqInfo对象response
+message SetSeqInfoRsp {
+    required SeqInfo seq_info = 1;
+}
+
+//心跳服务存活探测  用于超时逻辑
+message SurvivalDetectionReq {
+}
+
+message SurvivalDetectionRsp {
+}
+
+//CMD_GET_NUMBER_ONLINE_USERS        = 10604;//内部：获取在线用户数
+//获取全平台在线用户数，根据心跳统计，有部分延时误差
+message NumberOnlineUsersReq {
+}
+
+message NumberOnlineUsersRsp {
+    optional uint64 number_online_users = 1; //在线用户数
+}

@@ -1,0 +1,101 @@
+syntax = "proto2";
+
+package tencent.answer_question_room.client;
+
+enum ResponseCode {
+  RET_DEFAULT = 0;
+  RET_OK = 1;
+  //通用错误
+  RET_PARAM_ERROR = 10001; //客户端参数错误
+  RET_SVR_TIMEOUT = 10002; //服务器超时
+  RET_SVR_ERROR = 10003; //服务器异常
+  RET_CMD_ERROR = 10004; //命令字错误
+}
+
+enum QuestionStatus {
+  QUESTION_STATUS_DEFAULT = 0; //default value
+  QUESTION_STATUS_NOT_ANSWER = 1; //未解答
+  QUESTION_STATUS_ANSWERING = 2; //解答中
+  QUESTION_STATUS_ANSWERED = 3; //已解答
+  QUESTION_STATUS_IGNORED = 4; //已跳过
+}
+
+enum Direction {
+  DirectionDefault = 0;
+  DirectionForward = 1;
+  DirectionBackward = 2;
+}
+
+enum Reviewstatus {
+  ReviewstatusDefault = 0;    //
+  Reviewing           = 1;    //审核中
+  ReviewSuccess       = 2;    //审核成功
+  ReviewFailed        = 3;    //审核失败
+}
+
+message Question {
+  optional uint64 question_id = 1; //问题id
+  optional string content = 2; //问题内容
+  optional string image_url = 3; //图片url
+  optional QuestionStatus status = 4; //回答状态
+  optional uint64 author_uid = 5; //提问者uid
+  optional Reviewstatus review_status  = 6; //审核状态
+}
+
+message DoQuestionReq {
+  optional uint32 room_id = 1;
+  optional Question Question_info = 2;  //提问信息
+}
+
+message DoQuestionRsp {
+  optional ResponseCode code = 1; // 返回码
+  optional string err_msg = 2; // 错误信息
+}
+
+message UpdateQuestionStatusReq {
+  optional uint32 room_id = 1;
+  optional uint64 question_id = 2;  //问题id
+  optional QuestionStatus status = 3;  //问题状态
+}
+
+message UpdateQuestionStatusRsp {
+  optional ResponseCode code = 1; // 返回码
+  optional string err_msg = 2; // 错误信息
+}
+
+message GetQuestionListReq {
+  optional uint32 room_id = 1; //roomId
+  optional Direction direction = 2; //1往前，2往后
+  optional uint32 start_index = 3; //起始位置（拉上一页传第一条的序号，拉下一页传最后一条的序号，拉当前解答页传0）
+  optional uint32 count = 4; //拉取数量
+}
+
+message GetQuestionListRsp {
+  optional ResponseCode code = 1; // 返回码
+  optional string err_msg = 2; // 错误信息
+  repeated Question list = 3; // 问题列表
+  optional uint64 first_index = 4; // 第一条的序号
+  optional uint64 total_question_num = 5; //总问题数量
+  optional uint64 answered_num = 6; //已回答数量
+}
+
+message InviteSeatReq {
+  optional uint32 room_id = 1;
+  required uint64 invitedUid = 2;  //被邀请人uid
+}
+
+message InviteSeatRsp {
+  optional ResponseCode code = 1; // 返回码
+  optional string err_msg = 2; // 错误信息
+}
+
+// 提问push
+message QuestionPush{
+  optional uint64 question_uid = 1; //提问者uid
+  optional uint64 answer_uid = 2; //回答者uid
+  optional uint32 room_id = 3; //房间id
+  optional QuestionStatus state = 4; //问题状态
+  optional uint64 question_id = 5; //问题id
+  optional uint64 total_question_num = 6; //总提问数
+  optional Question answering_question = 7; //当前解答的问题（10965协议且state==QUESTION_STATUS_ANSWERING有此字段）
+}

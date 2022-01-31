@@ -1,0 +1,109 @@
+package videohub.auth.proto;
+import "common_types.proto";
+option java_package = "com.tencent.jungle.videohub.proto";
+
+enum MANAGER_TYPE
+{
+	MANAGER_TYPE_OF         = 13;    //官方
+	MANAGER_TYPE_OW         = 9;     //房间所有者 会长
+	MANAGER_TYPE_VP         = 7;     //高级房间管理员
+	MANAGER_TYPE_AD         = 5;     //初级房间管理员
+	MANAGER_TYPE_VIP        = 3;     //荣誉房间管理员
+	MANAGER_TYPE_NONE       = 0;     //普通观众 游客
+};
+
+//用户艺人身份
+enum USER_IDENTITY
+{
+	USER_IDENTITY_NULL               = 0; //普通用户
+	USER_IDENTITY_AUTHENTICATED      = 1; //认证用户
+	USER_IDENTITY_ANCHOR_UNION       = 2; //艺人
+	USER_IDENTITY_ANCHOR_UNION_NOW   = 3; //当前房间所属工会艺人
+}
+
+enum USER_PRIV
+{
+	PRIV_ANCHOR_SEQUENCE               =262144;       //主播序列设置
+	PRIV_EDIT_STAGE_MODE               =131072;       //模式切换
+	PRIV_VISIT_LIMIT_SET               =65536;       //访问限制设置
+	PRIV_SET_GAME                      =32768;        //玩法设置
+	PRIV_PRESIDENT_ADMIN               =16384;        //会长管理后台
+	PRIV_ANCHOR_ADMIN                  =8192;         //主播管理后台
+	PRIV_ROOM_DATA_ADMIN               =4096;         //房间资料管理
+	PRIV_VP_ADMIN                      =2048;         //管理高级管理员
+	PRIV_AD_ADMIN                      =1024;         //管理初级管理员
+	PRIV_VIP_ADMIN                     =512;          //管理荣誉管理会员
+	PRIV_ROOM_PUBLIC_SCREEN_ADMIN      =256;          //公屏设置
+	PRIV_BLACK_USER_LIST_ADMIN         =128;          //黑名单管理
+	PRIV_STAGE_ADMIN                   =64;           //上下麦管理
+	PRIV_MIC_LIST_ADMIN                =32;           //麦序管理
+	PRIV_FORBID_IP                     =16;           //封ip`
+	PRIV_FORBID_ID                     =8;            //封号
+	PRIV_ROOM_KICK                     =4;            //踢出房间
+	PRIV_FORBID_WORD                   =2;            //禁言
+	PRIV_DEFAULT                       =1; 	          //是否展示管理员马甲  否(0)--因艺人身份得到的管理员身份,不可被撤销
+}
+
+//key room_manager_${room_id}
+message RoomManagerInfoList
+{
+	repeated ManagerInfo manager_info  = 1;  //房间管理员信息
+}
+
+message UserIdentityInfo
+{
+	optional uint32 user_identity       = 1;   // 用户身份
+	optional ManagerInfo manager_info   = 2;   // 用户拥有的管理员身份
+	optional uint64 user_id             = 3;   // 用户id
+}
+
+//批量获取用户身份信息  11501
+message BatchGetUserIdentityInfoReq
+{
+	optional uint32 room_id        = 1;   //房间id
+	repeated uint64 user_id_list   = 2;   //用户id列表
+}
+
+message BatchGetUserIdentityInfoRsp
+{
+	repeated UserIdentityInfo user_identity_info_list = 1;  //用户身份信息列表
+}
+
+//获取房间管理员信息 11502
+message GetRoomManagerInfoReq
+{
+	optional uint32 room_id   = 1;   //房间id
+	optional uint32 start_num = 2;   //分页开始
+	optional uint32 end_num   = 3;   //分页结束
+}
+
+message GetRoomManagerInfoRsp
+{
+	repeated ManagerInfo manager_info = 1;  //房间管理员信息
+	optional uint32 total             = 2;  //房间管理员总数
+}
+
+//设置管理员 11503  撤销管理员 11504
+message EditManagerInfoReq
+{
+	required uint64 user_id    		= 1;
+	required uint32 room_id    		= 2;
+	optional uint32 manager_type	= 3;
+}
+
+message EditManagerInfoRsp
+{
+}
+
+//获取平台官方管理员列表
+message GetOfManagerInfoListReq
+{
+	optional uint32 room_id   = 1;   //房间id
+}
+message GetOfManagerInfoListRsp
+{
+	repeated ManagerInfo manager_info = 1;  //平台管理员
+}
+
+
+

@@ -1,0 +1,66 @@
+// 消息附加信息，客户端自定义协议
+package tencent.im.bj;
+
+// 请求包包头
+message MsgInfo
+{
+    optional uint32 version = 1 [default=1];            //版本号
+    optional MSG_CLIENT_TYPE client_type = 2;        //客户端类型
+    optional string sender = 3;
+    optional string avatar = 4;
+    optional uint64 uin = 5;
+    optional int32 gender = 6;
+    /**
+    * 用户类型
+    * {@link IODUser#INFO_TYPE_QQ}
+    * {@link IODUser#INFO_TYPE_HY}
+    */
+    optional int32 info_type = 7;
+    optional MSG_TYPE msg_type = 8 [default=COMMON_MSG];  //消息类型
+    optional uint64 at_user_uin = 9;                //@信息uin
+    optional string at_user_nick_name = 10;         //@信息昵称
+    optional string grade = 11; //用户年级信息
+}
+
+enum MSG_TYPE{
+    COMMON_MSG = 1;  //普通消息
+    AT_MSG = 2;      //@消息
+    IMG_MSG= 3;      //图片消息
+}
+
+// 客户端类型定义
+enum MSG_CLIENT_TYPE
+{
+    MSG_ANDROID = 1;
+    MSG_IOS = 2;
+    MSG_PC = 6;
+}
+
+/**
+* 自习室三期新增代表@消息的TIMCustomElem，ATInfo存放于TIMCustomElem.data里面，区分依据 TIMCustomElem.desc="at"
+*
+* at消息的老版本兼容逻辑，发表@消息的时候，在@Element的后面紧跟一个TIMTextElem 内容为"@XXX"
+* 这样老版本就能识别TIMTextElem，而新版本需要主动舍弃掉该elem
+*/
+message ATInfo{
+    optional uint64 at_user_uin = 1;
+    optional string at_user_nick_name = 2;
+}
+
+/**
+* 自习室三期新增：通用的消息兼容方案
+* CompatibleMessage存放于TIMCustomElem.data里面，区分依据 TIMCustomElem.desc="brief"
+*/
+message MessageBrief{
+    optional string text = 1;
+}
+
+/**
+ * 自习室8417版本增加图片消息
+ * 图片消息的老版本兼容逻辑，发图片消息的时候，在Elem的后面紧跟一个TIMTextElem 内容为“[图片]”
+ */
+message ImgInfo {
+    optional string img_path = 1;
+    optional uint32 img_width = 2;
+    optional uint32 img_height = 3;
+}

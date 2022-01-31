@@ -1,0 +1,484 @@
+package public_cmd.proto;
+option java_outer_classname = "PublicCmd";
+
+//5位数字命令字，前三位表示服务，后两位表示子命名字
+enum CMD
+{
+    //jarviswu
+    CMD_CHECK_AUTH_STATUS_ios          = 1001;  // 检查是否手机认证 ios7.25版本使用
+
+    //public_roomsvr
+    CMD_PUBLIC_ENTER_ROOM              = 10001; // 通用进房
+    CMD_PUBLIC_EXIT_ROOM               = 10002; // 通用退房
+    CMD_GET_GAME_LIST                  = 10003; // 拉取房间玩法列表
+    CMD_GET_GAME_DETAIL                = 10004; // 拉取房间玩法详情
+    CMD_GET_PLAT_GAME_LIST             = 10005; // 拉取平台支持的玩法列表
+    CMD_PREFETCH_ENTER_ROOM_INFO       = 10006; // 预加载进房信息
+    CMD_GET_USER_NUM                   = 10007; // 拉取房间人数  [10007不再支持新接入，请到成员列表服务拉取 11703]
+    CMD_GET_ROOM_BACKGROUND            = 10008; // 拉取房间背景信息
+    CMD_GET_WT_MEMBER_LIST             = 10009; // 拉取一起看成员列表
+    CMD_GET_WT_MEMBER_LIT_LIST         = 10010; // 拉取一起看预览成员列表
+    CMD_ADD_WT_MEMBER_LIST             = 10011; // 添加一起看成员列表
+
+
+    //stagemgr
+    CMD_SEAT_INVITE                    = 10101; // 主麦抱其他人连麦
+    CMD_SEAT_KICK                      = 10102; // 踢某人下台
+    CMD_WAITING_LIST_ON                = 10103; // 上列表
+    CMD_WAITING_LIST_OFF               = 10104; // 下列表
+    CMD_EDIT_WAITING_LIST              = 10105; // 操作列表
+    CMD_GET_WAITING_LIST               = 10106; // 拉取列表
+    CMD_GET_ROOM_STAGE_INFO            = 10107; // 拉取房间舞台信息
+    CMD_CLEAR_ROOM_STAGE               = 10108; // 清理舞台
+    CMD_CONFIRM_SEAT_ON                = 10109; // 确认上台
+    CMD_CONFIRM_SEAT_OFF               = 10110; // 确认下台
+    CMD_CONTROL_SEAT_ON                = 10111; // 控麦上台
+    CMD_CONTROL_SEAT_OFF               = 10112; // 控麦下台
+    CMD_MIC_STATUS_REPORT              = 10113; // 麦克风开、关上报 摄像头开、关上报
+    CMD_EDIT_SEND_PRIV                 = 10114; // 上行权限开关（目前未使用）
+    CMD_RESTORE_SEND_PRIV              = 10115; // 断网重连后恢复上行权限
+    CMD_EDIT_SEND_PRIV_V2              = 10116; // 开启上行权限(认证)
+    CMD_EDIT_STAGE_MODE                = 10117; // 编辑舞台模式
+    CMD_AUDIO_SEAT_ON                  = 10118; // 音频座位上台
+    CMD_AUDIO_SEAT_OFF                 = 10119; // 音频座位下台
+    CMD_CONTROL_START                  = 10120; // 控麦开始
+    CMD_CONTROL_END                    = 10121; // 控麦结束
+    CMD_EDIT_CHAT_MODE                 = 10122; // 编辑自由模式
+    CMD_EDIT_LIVE_MODE                 = 10123; // 编辑直播模式
+    CMD_EDIT_LIVE_TIME                 = 10124; // 编辑直播模式轮麦时长
+    CMD_BATCH_GET_ROOM_STAGE_INFO      = 10125; // 批量拉取舞台信息
+    CMD_DETECT_STAGE_INFO              = 10126; // 检查首席麦位
+    CMD_AUDIO_AND_VIDEO_SRAT_ON        = 10127; // 聊天模式下音频视频同时上台
+    CMD_EDIT_LINE_QUEUE                = 10128; // 开关连麦队列
+    CMD_EDIT_STAGE_MODE_EX             = 10129; // 编辑舞台模式和子模式
+    CMD_CHECK_USER_AUTH_STATUS         = 10130; // 检查用户是否认证
+    CMD_BATCH_GET_WAITING_LIST         = 10131; // 批量拉取等候列表
+    CMD_START_WATCH_TOGETHER           = 10132; // 开启一起看通知舞台
+    CMD_ROOM_PRIVATE                   = 10133; // 房间关闭公开的时候通知舞台
+
+    //user_svr 用户资料服务
+    CMD_GET_USER_INFO                  = 10201; // 拉取用户资料
+    CMD_SET_USER_INFO                  = 10202; // 设置用户资料
+    CMD_GET_MINI_USER_INFO             = 10203; // 拉取mini用户资料卡
+    CMD_WHETHER_GROUP_MEMBER           = 10204; // 是否群成员判断
+    CMD_GET_PHOTO_LIST                 = 10205; // 拉取用户照片列表
+    CMD_DEL_PHOTO_LIST                 = 10206; // 删除用户照片
+    CMD_ADD_PIC_TO_ALBUM               = 10207; // 增加用户照片
+    CMD_SET_PIC_TO_ALBUM               = 10208; // 设置用户照片
+    CMD_GET_UID_UIN_INFO_INNER         = 10211; // 内部获取UIN/UID资料
+    CMD_GET_UID_UIN_INFO               = 10212; // 获取UIN/UID资料
+    CMD_GET_HY_QQ_USER_INFO            = 10213; // 拉取用户hy+qq资料
+    CMD_SET_USER_INFO_TYPE             = 10214; // 修改用户资料类型
+    CMD_INIT_USER_INFO                 = 10215; // 初始化用户资料(OIDB资料)
+    CMD_GET_UIN_SKEY_BY_OPEN           = 10216; // 通过openkey换取uin skey
+    CMD_GET_USER_VOICE_COVER           = 10217; // 批量拉取用户语音封面
+    CMD_SET_USER_VOICE_COVER           = 10218; // 设置用户语音封面
+    CMD_GET_HY_USER_INFO_INNER         = 10219; // 拉取用户hy用户资料(内部接口)
+    CMD_BASIC_USER_INFO                = 10220; // 批量拉取用户基础资料
+    CMD_EXTEND_USER_INFO               = 10221; // 批量拉取用户扩展资料
+    CMD_SECOND_IDENTITY_ALERT          = 10222; // 获取用户第二身份弹窗状态
+    CMD_CONFIRM_SECOND_IDENTITY_ALERT  = 10223; // 确认用户第二身份已弹窗  27ef
+    CMD_RCMD_USER_INFO                 = 10224; // 拉取首页用户资料（无登录态）
+    CMD_ACTIVITY_FLOAT_URL             = 10225; // 拉取活动浮层入口url
+    CMD_GET_USER_HALL_STATE            = 10226; // 拉取用户大厅打开状态
+    CMD_SET_USER_HALL_STATE            = 10227; // 修改用户大厅打开状态
+    CMD_GET_USER_HALL_BLACK            = 10228; // 判断用户是否是大厅黑名单用户
+
+
+    //badge_svr 徽章服务
+    CMD_GET_USER_BADGE_INFO            = 10301; // 拉取用户徽章信息
+    CMD_GET_BADGE_LIST                 = 10302; // 拉取徽章配置
+    CMD_ADD_USER_BADGE                 = 10303; // 下发徽章
+
+    //love_login 登录服务
+    CMD_GET_USER_LOGIN_SIG             = 10401; // 登录校验并返回usersig用于imsdk
+    CMD_INIT_USERINFO                  = 10402; // 初始化某个用户的资料
+    CMD_GET_APPID_BY_UID               = 10403; // (内部)通过uid获取imsdk appid
+    CMD_GET_APPID_BY_ROOMID            = 10404; // (内部)通过roomid获取imsdk appid
+
+    //avmgr opensdk音视频
+    CMD_START_STREAM                   = 10501; //主播客户端:通知开启录播/推流
+    CMD_STOP_STREAM                    = 10502; //主播客户端:通知停止录播/推流
+    CMD_STREAM_HEARTBEAT               = 10503; //主播客户端:心跳
+    CMD_REQ_OPENSDK_SIG                = 10504; //客户端:进房请求opensdk sig
+    CMD_SYNC_STREAM_STATUS             = 10505; //内部:状态事件内部旁路到hbsvr
+    CMD_QUERY_H5_URL                   = 10506; //业务后端:查询h5观看地址
+    CMD_SERVER_CLOSE_PLAY              = 10507; //业务后端:踢掉主播
+    CMD_SERVER_SET_OPENSDK_PRIV        = 10508; //业务后端：设置用户avsdk权限
+    CMD_FETCH_ROOM_PREVIEW             = 10509; //拉取预览图
+    CMD_QUERY_LIVECODE                 = 10510; //查询直播码
+    CMD_CHANGE_STREAM                  = 10511; //更改推流状态
+
+    //状态相关
+    CMD_SET_STREAM_STATUS              = 10525; //内部:设置状态(statemgr)
+    CMD_SET_ANCHOR_STATUS              = 10526; //内部:设置状态(livestatus)
+    CMD_QUERY_ANCHOR_STATUS            = 10527; //业务后端:查询主播状态
+    CMD_QUERY_ANCHOR_LIST              = 10528; //业务后端:查询在线主播列表
+    CMD_QUERY_ANCHOR_LIST_BY_TAIL      = 10530; //查询在线主播列表，通过块号
+    CMD_QUERY_ROOM_LIST_BY_TAIL        = 10531; //查询在线房间列表，通过块号
+    CMD_QUERY_QUNROOM_BY_TAIL          = 10532; //查询Qun房间, 通过块号
+
+    //通用心跳服务
+    CMD_COMM_HEART_BEAT                = 10601;//通用心跳请求
+    CMD_SET_SEQ_INFO                   = 10602;//内部：设置SeqInfo请求
+    CMD_SURVIVAL_DETECTION             = 10603;//内部：心跳服务存活探测
+    CMD_GET_NUMBER_ONLINE_USERS        = 10604;//内部：获取在线用户数
+
+    //礼物服务(读)
+    CMD_GET_GIFT_LIST                  = 10701;//查询礼物列表
+    CMD_GET_BALANCE                    = 10702;//查询余额
+    CMD_GET_GIFT_STORE                 = 10703;//查询库存
+    CMD_GET_PER_GAME_USER_SCORE_LIST   = 10704;//拉取房间单场魅力榜&单场土豪榜列表
+    CMD_GET_WEALTH                     = 10705;//财富榜
+    CMD_GET_ACT_FREE_gift_time         = 10706;//获取活动免费礼物累积时间
+    CMD_GET_ITEM_LIST                  = 10707;//取商品列表
+    CMD_GET_POPULARITY_VALUE           = 10708;//取花样+交友+群视频的人气值
+    CMD_GET_GIFT_CONFIG                = 10709;//拉取礼物配置
+    CMD_GET_PAY_HISTORY                = 10710;//拉取送礼历史
+    CMD_RANK_PUSH                      = 10711;//魅力榜土豪榜变化通用活动回调接口
+    CMD_GET_MAN_SCORE_LIST             = 10712;//拉取房间单场男神榜
+    CMD_GET_FEMALE_SCORE_LIST          = 10713;//拉取房间单场女神榜
+    CMD_GET_RICH_SCORE_LIST            = 10714;//拉取房间土豪榜
+    CMD_GET_MATCHMAKER_MATCH_RICH_SCORE_LIST = 10715;//拉取红娘玩法场土豪榜
+    CMD_GET_MATCHMAKER_WEEK_RICH_SCORE_LIST = 10716;//拉取红娘玩法周土豪榜
+    CMD_GET_MATCHMAKER_RANK_CALL_BACK  = 10717; //红娘玩法榜单变动回调
+    CMD_GET_MATCHMAKER_MATCH_NUMBER    = 10718; //拉取某一红娘牵手成功次数
+
+    //关注
+    CMD_FOLLOW                         = 10801;//关注操作
+    CMD_UNFOLLOW                       = 10802;//取消关注操作
+    CMD_GET_FOLLOW_LIST                = 10803;//拉取关注列表
+    CMD_GET_FANS_LIST                  = 10804;//拉取粉丝列表
+    CMD_GET_FOLLOW_STATUS              = 10805;//拉取关注状态
+
+    //pushsvr
+    CMD_COMMON_SEQ_PUSH                = 10901;//通用seq push
+    CMD_ENTER_ROOM_PUSH                = 10902;//通用进房push
+    CMD_COMMON_ROOM_PUSH               = 10903;//按房间通用push(后台内部使用)
+    CMD_COMMON_UID_PUSH                = 10904;//按uid通用push(后台内部使用)
+    CMD_MEMBER_LIST_PUSH               = 10905;//成员列表push
+    CMD_SET_IM_FORBID                  = 10906;//IM禁言
+    CMD_GET_IM_FORBID_LIST             = 10907;//获取IM禁言列表
+    CMD_PUSH_API_IM_ADD_MEMBER         = 10908;//im群加人
+    CMD_PUSH_API_IM_DELETE_MEMBER      = 10909;//im群踢人
+    CMD_PUSH_API_IM_JOIN_LIST          = 10910;//查询加入的群列表
+    CMD_PUSH_SEND_GIFT_INNER           = 10911;//送礼物(后台内部使用)
+    CMD_PUSH_FAVAOR                    = 10912;//关注
+    CMD_PUSH_API_MEMBER_INFO           = 10913;//房间身份变化push(后台内部使用)
+    CMD_USER_INFO_CHANGE               = 10914;//用户资料修改push
+    CMD_SEAL_COMMON_PUSH_DATA          = 10915;//海豹系统push  data
+    CMD_SEAL_COMMON_PUSH_ID            = 10916;//海豹系统push  id
+    CMD_SEAL_COMMON_PUSH_V2            = 10917;//海豹push id+海豹
+    CMD_ALL_ROOM_PUSH                  = 10918;//全房间push(后台内部使用)
+    CMD_COMM_PUSH4WEB                  = 10919;//push4web
+    CMD_SYS_NOTIFY_PUSH                = 10920;//聊天区系统消息提示
+    CMD_PUNISH_PUSH                    = 10921;//秩序管理push
+    CMD_EDIT_MANAGER_PUSH              = 10922;//设置管理员push
+    CMD_ROOM_CONFIG_PUSH               = 10923;//房间配置push
+    CMD_IM_SELF_INFO_PUSH              = 10924;//聊天本人身份push
+    CMD_PUSH_SEND_GIFT                 = 10925;//送礼物
+    CMD_PUSH_COMBO_OVER                = 10926;//连击结束PUSH
+    CMD_PUSH_API_IM_DELETE_GROUP       = 10929;//IM解散房间
+    CMD_PUSH_API_IM_CREATE_GROUP       = 10930;//IM创建房间
+    CMD_ANCHOR_STATUS_PUSH             = 10931;//主播状态下发
+    CMD_ROOM_GAME_PLAY_STATE_PUSH      = 10932;//房间玩法变化push
+    CMD_PUSH_COMFIRM_SEAT              = 10933;//确认上台push 拒绝上台push
+    CMD_GAME_PLAY_FRIEND_DATING_INFO_PUSH = 10934;//交友玩法DATING_INFOpush
+    CMD_GAME_PLAY_FRIEND_ADMIN_PUSH    = 10935;//交友玩法ADMINpush
+    CMD_PUSH_ROOM_USER_SCORE           = 10936;//单场魅力&土豪信息PUSH
+    CMD_LOG_UPLOAD_PUSH                = 10937;//触发上传日志push
+    CMD_RICH_OWN_PUSH                  = 10938;//土豪榜个人贡献push
+    CMD_NOBILITY_ENTER_ROOM            = 10939;//爵位用户进房push
+    CMD_NOBILITY_CHANGE                   = 10940;//爵位升降级push
+    CMD_PK_STAGE_PUSH                  = 10945;//PK舞台push
+    CMD_PK_INVITE_PUSH                 = 10946;//PK邀请push
+    CMD_PK_GAME_START_PUSH             = 10947;//PK接受开始游戏push
+    CMD_PK_CANCEL_PUSH                 = 10948;//PK取消邀请
+    CMD_PK_PROP_USE_PUSH               = 10949;//PK道具使用push
+    CMD_PK_PROP_PROGRESS_PUSH          = 10950;//PK道具积累进度push
+    CMD_MARQUEE_NOTIFY_PUSH            = 10951;//跑马灯通知
+    CMD_WT_MEMBER_LIST_PUSH            = 10952;//一起看成员列表push
+    CMD_GAME_PLAY_MATCHMAKER_INFO_PUSH = 10953;//红娘玩法push
+    CMD_GAME_PLAY_MATCHMAKER_RANK_PUSH = 10954;//红娘玩法舞台上用户榜单变化push
+    CMD_GAME_PLAY_MATCHMAKER_ADMIN_PUSH = 10955;//红娘玩法主持人踢嘉宾下台push
+    CMD_COURSE_NOTICE_PUSH				=	10956;//课程通知
+    CMD_GAME_PLAY_MATCHMAKER_VIP_INVITE_PUSH = 10957;//抱人上嘉宾push
+	CMD_SECURE_PUSH						= 10958; //自习室安全推送
+    CMD_NOTIFY_PUSH                     = 10959;//通知类型push eg:观众自习列表变化push
+    CMD_STUDY_MEMBER_COUNT_CHANGED_PUSH =10960;//成员个数变化push
+    CMD_YUNYING_MESSAGE_PUSH = 10963;   //运营消息push
+
+    //礼物服务(写)
+    CMD_SEND_GIFT                      = 11101;//送礼
+    CMD_COMBO_OVER                     = 11102;//礼物连击结束
+    CMD_GET_PAY_SWTICH                 = 11103;//拉取支付开关接口
+    CMD_TRANSFOR_BALANCE               = 11104;//支付余额转账接口
+    CMD_CLEAN_LOVE_RANK                = 11105;//清理交友榜单接口
+
+    //Room Info Agent服务
+    CMD_GET_ROOM_INFO                  = 11201;//[老命令不再支持,用11204]
+    CMD_BATCH_GET_ROOM_INFO            = 11202;//[老命令不再支持,用11205]
+    CMD_EDIT_ROOM_BASE_INFO_OLD        = 11203;//[老命令不再支持,用11207]
+
+    CMD_ADD_ROOM_BASE_INFO             = 11204;//新增房间基础信息
+    CMD_GET_ROOM_BASE_INFO             = 11205;//拉取房间基础信息
+    CMD_BATCH_GET_ROOM_BASE_INFO       = 11206;//批量拉取房间基础信息
+    CMD_EDIT_ROOM_BASE_INFO            = 11207;//编辑房间基础信息
+    CMD_DEL_ROOM_BASE_INFO             = 11208;//删除房间基础信息
+    CMD_RETRIEVE_IM_ROOM               = 11209;//回收IM房间
+    CMD_GET_ROOMID_BY_ROOMNO           = 11210;//通过房间no换取房间id
+    CMD_SET_ROOM_COVER_INFO            = 11211;//新增房间封面信息
+    CMD_GET_ROOM_COVER_INFO            = 11212;//拉取房间封面信息
+    CMD_UPDATE_ROOM_COVER_STATUS       = 11213;//更新房间封面状态
+
+    //配置
+    CMD_GET_CHARGE_CONFIG              = 11301;//充值配置
+    CMD_GET_ROOM_ACTIVITY_CONFIG       = 11307;//拉取活动房间配置
+
+    //秩序管理 punish
+    CMD_PUNISH_FORBID                  = 11401; //封禁 (登录、开播、发言、进房)
+    CMD_PUNISH_PERMIT                  = 11402; //解封
+    CMD_KICKOUT_ROOM                   = 11403; //踢出房间
+    CMD_GET_USER_FORBID_INFO           = 11405; //拉取用户被封信息 (登录、开播)
+    CMD_GET_ROOM_FORBID_INFO           = 11406; //拉取房间被禁止进入人员信息
+    CMD_CHECK_AREA                     = 11407; //校验地区合法性
+    CMD_REPORT                         = 11408; //举报
+    CMD_WRITE_OPERATION_RECORD         = 11409; //写操作记录
+    CMD_GET_OPERATION_RECORD           = 11410; //读取操作记录
+
+    //auth_mgr
+    CMD_BATCH_GET_USER_IDENTITY_INFO   = 11501; //拉取用户身份信息
+    CMD_GET_ROOM_MANAGE_INFO           = 11502; //拉取房间管理员
+    CMD_PRIV_SET_MANAGE_INFO           = 11503; //设置房间管理员
+    CMD_PRIV_DEL_MANAGE_INFO           = 11504; //删除房间管理员
+    CMD_GET_OFFICIAL_MANAGER_INFO_LIST = 11505; //拉取官方管理员
+
+    //交友玩法插件10213
+    CMD_GAME_PLAY_FRIEND_HOST_IN                   = 11601; // 主持人上台
+    CMD_GAME_PLAY_FRIEND_HOST_OUT                  = 11602; // 主持人下台
+    CMD_GAME_PLAY_FRIEND_GET_WAITING_LIST          = 11603; // 拉取候场嘉宾列表
+    CMD_GAME_PLAY_FRIEND_GET_ESSENTIAL_DATING_INFO = 11604; // 拉取必要交友信息，包括在场嘉宾列表
+    CMD_GAME_PLAY_FRIEND_WAITING_IN                = 11605; // 普通用户上台(加入等候列表)
+    CMD_GAME_PLAY_FRIEND_WAITING_OUT               = 11606; // 候场嘉宾下台
+    CMD_GAME_PLAY_FRIEND_VIP_OUT                   = 11607; // 场上嘉宾主动下台
+    CMD_GAME_PLAY_FRIEND_ADMIN_VIP_IN              = 11608; // 主持人抱嘉宾上台
+    CMD_GAME_PLAY_FRIEND_ADMIN_VIP_OUT             = 11609; // 主持人踢人下台
+    CMD_GAME_PLAY_FRIEND_ADMIN_SET_MIC_STATUS      = 11610; // 开关麦
+    CMD_GAME_PLAY_FRIEND_ADMIN_SET_DATING_STAGE    = 11611; // 主持人切换交友进程
+    CMD_GAME_PLAY_FRIEND_LOVE                      = 11612; // 选择心动对象
+    CMD_EXIT_GAME_PLAY_FRIEND                      = 11613; // 退出交友玩法
+    CMD_CLEAN_GAME_PLAY_FRIEND                     = 11614; // 交友玩法清场
+    CMD_GAME_PLAY_ADD_FRIEND_ROOM                  = 11615; // 交友玩法新增一个房间
+    CMD_GAME_PLAY_GET_GAME_DETAIL                  = 11616; // 拉取玩法详情
+    CMD_GET_GAME_PLAY_FRIEND_START_SEQ             = 11617; //拉取本场交友玩法开始SEQ
+    CMD_DOLPHIN_CALLBACK                            = 11618; //通用活动回调[内部调用]
+
+    //memberlist
+    CMD_GET_ROOM_MEMBER_UID_LIST       = 11701; //拉取房间成员列表
+    CMD_GET_ROOM_MEMBER_INFO           = 11702; //拉取成员信息
+    CMD_BATCH_GET_ROOM_MEMBER_NUM      = 11703; //拉取房间人数
+    CMD_BATCH_GET_ROOM_NOT_EMPTY       = 11704; //拉取有人的房间集合
+    CMD_GET_USER_IN_ROOM               = 11705; //获取用户是否在指定房间
+    CMD_GET_ROOM_MEMBER_REDIS          = 11706; // 获取房间里的redis值 */
+
+    //爵位信息
+    CMD_MONTH_CONTRIBUTION             = 11801;// 通用活动旁路(内)
+    CMD_GET_USER_LIST_NOBILITY         = 11802;// 批量拉取爵位信息
+    CMD_BUY_JACTET                       = 11803;// 购买黄马褂
+
+    //user online
+    CMD_UPDATE_USER_STATUS             = 11901; //更新用户状态
+    CMD_GET_USER_STATUS                = 11902; //拉取用户状态
+    CMD_CHECK_USER_IN_ROOM             = 11903; //检查某个用户是否在某个房间 (成员列表)
+    CMD_SYNC_HEART_BEAT                = 11904; //心跳同步
+
+    //anchor_info
+    CMD_BATCH_GET_ANCHOR_INFO          = 12001; //批量拉取主播信息
+
+    //勋章服务
+    CMD_ADD_MEDAL                      = 12101; //添加勋章
+    CMD_GET_MEDAL                      = 12102; //获取勋章
+    CMD_ADD_MEDALS                     = 12103; //增加勋章批量
+    CMD_GET_MEDAL_DETAIL               = 12105; //拉取勋章详情
+
+    // 每日任务 Jungle_videohub_missino
+    CMD_GET_USER_TASK_INFO             = 12201; //获取用户任务信息
+    CMD_GET_TASK_AWARD                 = 12202; //领取任务奖励
+    CMD_GET_USER_ACTIVE_INFO           = 12206; //获取用户活跃礼包信息
+    CMD_GET_ACTIVE_AWARD               = 12207; //领取活跃礼包奖励
+    CMD_GET_USER_EXPLEVP               = 12208; //拉取用户经验值及等级
+    CMD_WORD_UDP_PACKAGE               = 12209; //用户发言udp包
+
+
+    //中转服务
+    CMD_GET_TRANSIT_PAGE_INFO          = 12301; //获取承接页详情
+    CMD_GET_TRANSIT_ROOM_INFO          = 12302; //获取房间卡承接页详情
+    CMD_GET_TINYID_BY_UID              = 12303; //获取tinyid
+    CMD_GET_TRANSIT_PAGE_INFO_V2       = 12304; //获取承接页详情 改版
+    CMD_GET_USER_QUN_LIST_INFO         = 12305; //获取我加入的群信息
+
+    // 通用上报
+    CMD_COMMON_REPORT                  = 12401; //IM通道上报
+    CMD_ANONYMOUS_REPORT               = 12402; //匿名通道上报（Android、pc登录前上报）
+    CMD_IOS_QQSSO_REPORT               = 12403; //IOS QQSSO通道上报
+    CMD_MONITOR_REPORT                 = 12410; //monitor上报
+
+    //抽奖
+    CMD_GET_LOTTERY_CONFIG             = 12501; //拉取抽奖配置
+    CMD_USER_DRAW_LOTTERY              = 12502; //用户抽奖
+    CMD_GET_DRAW_LOTTERY_RECORD        = 12503; //获取抽奖记录 个人或平台
+    CMD_GET_RANK                       = 12504; //获取排行榜 日榜+周榜
+    CMD_GET_MY_RANK                    = 12505; //获取我的排行榜 日榜+周榜
+
+    //认证&安全相关
+    CMD_CHECK_AUTH_STATUS              = 12601; //检查是否手机认证
+    CMD_CHECK_SECURITY_HIT             = 12606; //检查是否安全打击
+
+    //艺人资料服务
+    CMD_GET_ANCHOR_PERC_INFO           = 12701; //拉取艺人分成比例
+    CMD_GET_ANCHOR_INFO                = 12702; //拉取艺人资料
+
+    //PK玩法服务
+    CMD_PK_JOIN_LIST                   = 12801; //加入pk列表
+    CMD_PK_GET_LIST                    = 12802; //查询pk列表
+    CMD_PK_EXIT_LIST                   = 12803; //退出pk列表
+    CMD_PK_INVITE                      = 12804; //发起pk
+    CMD_PK_ACCEPT                      = 12805; //接受pk邀请
+    CMD_PK_GAMELIST                    = 12806; //拉取游戏列表
+    CMD_PK_PLAY_DETAIL                 = 12807; //拉取玩法详情（内部调用）
+    CMD_PK_CANCEL                      = 12808; //取消pk邀请
+    CMD_PK_RESULT_UP                   = 12809; //pk结果上报
+    CMD_PK_EDIT_WAITINGLIST            = 12810; //编辑pk排队序列
+    CMD_PK_PROP_USE                    = 12811; //道具使用
+    CMD_PK_GIFT_HIPPO                  = 12812; //接收送礼旁路
+    CMD_PK_PROP_PROGRESS_QUERY         = 12813; //游戏道具进度查询
+    CMD_PK_SELF_MSG                    = 12820; //自身消息旁路（内部调用）
+
+
+
+    //通用配置
+    CMD_GET_COMMON_CONFIG               = 12901; //拉取通用配置
+    CMD_GET_COMMON_FLAG_BUFFER         = 12902; //拉取通用配置
+    CMD_GET_COMMON_MODULE_CONFIG       = 12903; //拉取模块配置
+
+    //海豹系统
+    CMD_SEAL_PUSH_ID                   = 13001; //海豹推送id(后端调用)
+    CMD_SEAL_PULL_BY_CONTAINER         = 13002; //拉取容器内海豹(客户端调用)
+    CMD_SEAL_PULL_BY_ID                = 13003; //拉取指定id海豹(客户端调用)
+    CMD_SEAL_PUSH_DATA                 = 13004; //海豹推送数据(后端调用)
+    CMD_SEAL_PULL_DATA                 = 13005; //拉取海豹数据(客户端调用)
+    CMD_SEAL_PUSH_V2                   = 13006; //海豹推送id+seal
+
+    //房间管理
+    CMD_GET_ROOM_CONFIG                = 13101; //拉取房间配置
+    CMD_SET_ROOM_CONFIG                = 13102; //设置房间配置
+    CMD_ADD_ROOM                       = 13103; //新增房间
+    CMD_GET_ROOM_ID_BY_GROUP_CODE      = 13104; //群号换取房间ID 可附带拉取房间基础信息
+    CMD_GET_MAX_ROOM_ID                = 13105; //获取平台当前ROOMID最大值[后端调用]
+    CMD_SET_ROOM_GAME_PLAY_STATE       = 13106; //设置房间玩法
+    BATCH_CMD_GET_ROOM_CONFIG          = 13107; //批量拉取房间配置
+    CMD_DEL_ROOM                       = 13108; //删除回收房间
+    CMD_SET_ROOM_NOTICE                = 13109; //设置房间公告
+    CMD_GET_IS_EDUCATION_MODE_BY_GROUP_CODE = 13110;  //通过群号拉取当前是否是公开课玩法
+    CMD_GET_IS_EDUCATION_MODE_BY_ROOMID = 13111;  //通过房间号拉取当前是否是公开课玩法
+    CMD_GET_IS_GAME_OPEN_BY_ROOMID     = 13112;  //校验游戏时候开启
+    CMD_OPEN_ROOM                      = 13113;  //打开房间
+    CMD_CLOSE_ROOM                     = 13114;  //关闭房间
+
+    //爵位消息
+    CMD_GET_NOBILITY_ENTER_ROOM_MSG     = 13201; //拉取爵位进房消息 客户端sso
+    CMD_WRITE_NOBILITY_MSG              = 13202; //写爵位消息（降级、即将降级） 爵位定时任务
+    CMD_DEL_NOBILITY_MSG                = 13203; //删除爵位消息（降级、即将降级）cgi回调
+    CMD_GET_NOBILITY_DEGRADE_MSG        = 13204; //拉取爵位降级消息 （海报）
+    CMD_GET_NOBILITY_DEMOTION_MSG       = 13205; //拉取爵位即将降级消息 （海报）
+    CMD_GET_HY_NOBILITY_FIRST_ENTERROOM_MSG =13206;//花样老爵位首次进房消息 （海报）
+    CMD_NOBILITY_USER_ENTER_ROOM        = 13207;   //爵位进房消息 (进房hippo通知)
+
+    //动效资源管理
+    CMD_BATCH_GET_EFFECT_RESOURCE       = 13301; //拉取动效资源文件
+    CMD_GET_EFFECT_RESOURCE_ID_LIST     = 13302; //拉取动效ID列表
+    CMD_GET_ALL_EFFECT_RESOURCE         = 13303; //拉取全量资源动效文件
+    CMD_GET_USER_RESOURCE               = 13306; //拉取用户的座驾铭牌
+    CMD_ADD_USER_RESOURCE               = 13307; //发放座驾、铭牌
+    CMD_CHOOSE_USER_RESOURCE            = 13308; //选择座驾
+
+    //活动入口服务
+    CMD_GET_ACTIVITY_FLOATP                = 13401; //
+    CMD_GET_LOTTERT_FLOATP                = 13402    ;
+
+    //首页推荐审核服务
+     CMD_GET_RCMD_CHECK_STATE            = 13501; // 拉取推荐考核状态
+    CMD_SET_RCMD_CKECK_INFO                = 13502; // 设置推荐审核资料
+
+    //136伴奏服务
+	CMD_MUSIC_SEARCH                    = 13601;  //音乐搜索
+	CMD_MUSIC_RECOMMOND                 = 13602;  //获取推荐音乐
+	CMD_MUSIC_OP                        = 13603;  //音乐操作
+    CMD_MUSIC_GET_RECORD                = 13604;  //获取用户添加记录
+    CMD_MUSIC_REPORT                    = 13605;  //伴奏上报
+    CMD_BATCH_GET_MUSIC_INFO            = 13606;  //批量获取伴奏信息
+    CMD_MUSIC_GET_TOP_ID_LIST           = 13607;  //获取榜单id
+    CMD_MUSIC_GET_SONG_LIST_IDS         = 13608;  //获取歌单广场歌单id
+    CMD_MUSIC_GET_SONG_LIST_INFO        = 13609;  //获取歌单歌曲信息列表
+
+    //137举报服务
+    CMD_REPORT_INFO                    = 13701;  //举报信息
+    CMD_REPORT_RESULT                  = 13702;  //信安返回结果
+    CMD_REPORT_HANDLED                 = 13703;  //管理后来处理完成
+
+	//代理商系统
+	CMD_GET_INVITE_LIST                  = 13801;   //获取邀请列表
+    CMD_ADD_INVITE_INFO                  = 13802;   //添加邀请
+    CMD_EDIT_INVITE_INFO                 = 13803;   //修改状态
+	CMD_GET_AGENT_INFO					 = 13804;	//是否是代理商
+	CMD_ADD_AGENT                        = 13805;   //添加代理商
+    CMD_DEL_AGENT                        = 13806;   //删除代理商
+
+    //一起看代理服务
+    CMD_WATCH_TOGETHER_SET_QQ_GROUP_ROOM_INFO = 13901; //设置QQ群一起看信息
+    CMD_WATCH_TOGETHER_GET_QQ_GROUP_ROOM_INFO = 13902; //获取QQ群一起看信息
+    CMD_WATCH_TOGETHER_GET_USER_STATUS = 13903; //获取用户一起看状态
+    CMD_WATCH_TOGETHER_GET_ROOM_INFO = 13904; //获取房间信息
+    CMD_WATCH_TOGETHER_START_FOR_CGI = 13905; //开启一起看，给cgi提供openid鉴权校验
+    CMD_WATCH_TOGETHER_STOP_FOR_CGI = 13906; //结束一起看，给cgi提供openid鉴权校验
+
+    CMD_GAME_PLAY_MATCHMAKER_GET_WAITING_LIST       = 14001; // 获取嘉宾列表
+    CMD_GAME_PLAY_MATCHMAKER_GET_ESSENTIAL_INFO     = 14002; // 获取玩法信息
+    CMD_GAME_PLAY_MATCHMAKER_WAITING_IN             = 14003; // 嘉宾上列表
+    CMD_GAME_PLAY_MATCHMAKER_WAITING_OUT            = 14004; // 嘉宾下列表
+    CMD_GAME_PLAY_MATCHMAKER_VIP_IN                 = 14005; // 嘉宾上舞台
+    CMD_GAME_PLAY_MATCHMAKER_VIP_OUT                = 14006; // 嘉宾下舞台
+    CMD_GAME_PLAY_MATCHMAKER_ADMIN_VIP_OUT          = 14007; // 嘉宾被主持人踢下舞台
+    CMD_GAME_PLAY_MATCHMAKER_SEND_GIFT              = 14008; // 赠送加QQ礼物
+    CMD_GAME_PLAY_MATCHMAKER_GET_GIFT_STATUS        = 14009; // 获取加QQ礼物状态
+    CMD_GAME_PLAY_MATCHMAKER_HOST_IN                = 14010; // 主持人上台(仅后台调用)
+    CMD_GAME_PLAY_MATCHMAKER_HOST_OUT               = 14011; // 主持人下台(仅后台调用)
+    CMD_GAME_PLAY_MATCHMAKER_HOST_WAITING_IN        = 14012; // 主持人上列表(仅后台调用)
+    CMD_GAME_PLAY_MATCHMAKER_HOST_WAITING_OUT       = 14013; // 主持人下列表(仅后台调用)
+    CMD_GAME_PLAY_MATCHMAKER_GET_GAMED_ETAIL        = 14014; // 获取玩法信息(仅后台调用)
+    CMD_GAME_PLAY_MATCHMAKER_CLEAN                  = 14015; // 清场红娘玩法(仅后台调用)
+    CMD_GAME_PLAY_MATCHMAKER_EXIT                   = 14016; // 退出红娘玩法(仅后台调用)
+    CMD_GAME_PLAY_MATCHMAKER_GET_IDENTITY           = 14017; // 获取是否是红娘
+    CMD_GAME_PLAY_MATCHMAKER_GET_EMPTY_SEAT_ROOM_LIST = 14018; // 获取有空座位的房间列表
+    CMD_GAME_PLAY_MATCHMAKER_GET_IS_FRESH_USER        = 14019; // 判断是否是新用户
+    CMD_GAME_PLAY_MATCHMAKER_GET_BOTTOM_GIFT        = 14020; //获取底部快捷礼物
+    CMD_GAME_PLAY_MATCHMAKER_GET_WINDOW_GIFT_CONFIG = 14021; //获取弹窗送礼配置
+    CMD_GAME_PLAY_MATCHMAKER_SET_AUTO_SEATON_SWITCH = 14022; //设置自动上嘉宾席开关
+    CMD_GAME_PLAY_MATCHMAKER_VIP_SEAT_INVITE        = 14023; //抱人上嘉宾席
+
+	//课程相关
+	CMD_REPLAY_NOTICE 	=	15001;	//公开课录播回放, 已废弃
+	CMD_COURSE_NOTICE 	=	15002;	//课程通知
+
+    //群号换roomId
+    CMD_GET_ROOM_ID = 17201;
+
+    CMD_NEW_GET_MEMBER_UID_LIST = 29101; //自习室二期：拉取用户列表
+
+    //房间公告（房主编辑）
+    CMD_GET_ROOM_NOTICE = 17901; // 进房拉取房间公告
+    CMD_UPDATE_ROOM_NOTICE = 17902; // 房主请求修改公告
+    CMD_CLEAR_ROOM_NOTICE = 17903; // 清除房间公告
+    CMD_PUSH_ROOM_NOTICE = 10969; // 后台推送房间公告
+
+};

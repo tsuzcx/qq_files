@@ -1,0 +1,107 @@
+package moz.music_ilive;
+option java_package = "com.tencent.jungle.videohub.proto";
+option java_outer_classname = "MusicProto";
+
+enum SearchType {
+    SmartBox = 1;
+    MusicSearch = 2;
+}
+
+message MusicInfo {
+	optional string song_name = 1; //歌曲名称;
+	optional uint32 song_id = 2; //歌曲id;
+	optional string mid = 3; //歌曲伴奏id，表示当前歌曲是否存在伴奏，不存在时为0;
+	optional string singer_name = 4; //歌手名称
+	optional bytes play_url = 5; //歌曲播放URL;
+	optional bytes accompany_url = 6; //伴奏URL;
+    optional bytes song_lyric = 7; //歌词文本内容;
+    optional uint32 flag = 8; //歌词格式1为LRC，2为KRC;
+    optional bytes album = 9;
+    optional uint32 isFavor = 10;
+}
+
+//====================================protocol
+
+message SearchMusicReq {
+	optional uint32 uint32_type = 1; //1:smart_box;2:music_search;
+	optional string keyword = 2; //smart_box中为模糊搜索关键字；music_search中为关键字;
+	optional uint32 utf8 = 3; //中文设为1，其余默认为0;
+	optional uint32 page = 4; //搜索第几页，默认取值1
+	optional uint32 num = 5; //每页个数，默认取值10，不得超过30
+}
+
+message SearchMusicRsp {
+	optional uint32 uint32_type = 1;
+	optional uint32 total_page = 2;
+	optional uint32 cur_num = 3; //返回本次搜索结果数，cur_num <= sizepage;
+	optional uint32 index = 4; //返回当前页码;
+	repeated MusicInfo music_list = 5; //返回的搜索结果;
+    optional bytes keyword = 6; //返回搜索关键字;
+}
+
+message RecommendMusicReq {
+	optional uint32 num = 1; //期待返回记录数，默认为20
+	optional uint32 offset = 2; //从第几条开始
+}
+
+message RecommendMusicRsp {
+	optional uint32 cur_num = 2; //返回本次搜索结果数，cur_num <= sizepage;
+	optional uint32 index = 3; //返回当前页码;
+	repeated MusicInfo music_list = 4; //返回的推荐结果，只包含歌曲名和歌曲id;
+}
+
+message GetMusicReq {
+	optional uint32 type = 1;
+    optional uint32 song_id = 2; //要获取的歌曲id;
+    optional string mid = 3;
+    optional string song_name = 4;
+    optional string singer_name = 5;
+    optional uint32 bid = 6 [default = 1]; //1--回音  2--群视频
+}
+
+message GetMusicRsp {
+    optional MusicInfo music = 2; //歌曲的详细信息;
+}
+
+
+message GetUserRecordReq {
+	optional uint32 bid = 1[default = 1]; //1--回音  2--群视频
+}
+
+message GetUserRecordRsp {
+    optional Record  record = 1;
+}
+
+message Record {
+    repeated MusicInfo music_list = 1; //tmem存储用户信息;
+}
+
+//CMD_MUSIC_REPORT  = 13605;  //伴奏上报
+message MusicReportReq {
+	optional uint32 room_id         = 1;
+	optional uint64 uid             = 2;
+	optional uint32 op              = 3;  //1-伴奏开始 2-伴奏结束
+	optional MusicInfo music_info   = 4; 
+}
+
+message MusicReportRsp {
+}
+
+//CMD_BATCH_GET_MUSIC_INFO  = 13606;  //批量获取伴奏信息
+message BatchGetMusicInfoReq {
+	repeated uint32 room_id_list  = 1;
+}
+
+message BatchGetMusicInfoRsp {
+	repeated RoomMusicInfo music_info_list = 1;
+}
+
+message RoomMusicInfo {
+	required uint32 room_id       = 1;     //房间id
+    optional MusicInfo music_info = 2;     //伴奏信息
+	optional uint64 uid           = 3;     //主播uid
+}
+
+//==============================
+
+

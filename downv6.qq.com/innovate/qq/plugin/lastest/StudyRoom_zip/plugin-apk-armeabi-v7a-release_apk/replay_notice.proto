@@ -1,0 +1,39 @@
+package videohub.user;
+option java_package = "com.tencent.jungle.videohub.proto";
+option java_outer_classname = "ReplayNoticeProto";
+
+
+enum ERR_CODE {
+	EC_OK = 0;
+	EC_PARAM_ERROR = 10001;
+	EC_SERVER_TIMEOUT = 10002;
+	EC_SERVER_ERROR = 10003;
+}
+
+//CMD_REPLAY_NOTICE 	=	15001;	//命令字已废弃,公开课录播回放
+//CMD_COURSE_NOTICE 	=	15002;	//课程通知
+message  ReplayNoticeReq {
+	optional uint64 gid	= 1;		//群号
+	optional uint64 roomid = 2;		//房间ID
+	optional uint32 type = 3;		//1上麦后，2下麦后
+	optional uint32 all_quit = 4;	//新增字段,是否全员退出，1是
+	optional uint64 cid	= 5;		//课程id，开课时返回，下课时带来
+	optional uint32 replay_option = 6;	//上麦麦时使用,是否录播，1是
+	optional uint32 start_broadcast = 7;	//下麦时使用,是否开播，1是
+}
+
+message ReplayNoticeRsp {
+	optional bytes replay_link = 1;			//回放链接,录播下麦时返回
+	optional bytes course_stat_text = 2;	//课程统计文本，下麦时使用,有则展示，无则不展示
+	optional uint64 cid	= 3;				//课程id，开课时返回
+}
+
+//CMD_REPLAY_OPTION 	=	15003;	//录播选项拉取
+message ReplayOptionReq {
+	optional uint64 gid	= 1;		//群号
+	optional uint64 roomid = 2;		//房间ID
+}
+
+message ReplayOptionRsp {
+	optional uint32 replay_option = 1;	//是否录播，1是
+}

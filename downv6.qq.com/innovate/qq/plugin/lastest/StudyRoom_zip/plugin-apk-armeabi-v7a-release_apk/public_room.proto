@@ -1,0 +1,244 @@
+import "common_seq_info.proto";
+
+package public_room.proto;
+
+enum ERR_RESULT
+{
+    //0-15bit: 0-65535 进房错误，操作失败。如黑名单，房间不存在
+    ER_GET_ROOMID_NOT_EXIST             = 1;   //roomid不存在
+    ER_GROUP_VISIT_LIMIT                = 2;   //非群成员不允许进房
+    ER_BLACK_ROOM                       = 4;   //房间被封
+    ER_BLACK_USER                       = 8;   //用户在黑名单列表(被踢、被禁止登录、被禁止进入房间)
+    ER_GROUP_VIDEO_FORBIDDEN            = 16;  //群视频已关闭
+    ER_ROOM_IS_CREATING                 = 32;  //房间正在创建中
+    ER_ILLEGAL_GROUPCODE                = 64;  //群被封禁
+    ER_ROOM_IS_CLOSE                    = 128; //房间已经关闭
+    
+    //16-31bit: 65536 - 4294967295
+    ER_GET_USER_INFO_FAILD              = 65536;     //获取用户信息失败
+    ER_GET_USER_TYPE_FAILD              = 131072;    //获取用户类型失败
+    ER_GET_ROOM_STAGE_INFO_FAILD        = 262144;    //获取舞台信息失败
+    ER_GET_AV_AUTH_KEY_FAILD            = 524288;    //拉取av_auth_key失败
+
+    //32 - : 4294967296 - 保留
+};
+
+//通用进房用户基本信息
+message UserInfo
+{
+	required uint64 uid           = 1; // tinyid
+    optional string name          = 2; // 名称
+    optional uint32 gender        = 3; // 性别
+    optional uint32 user_type     = 4; // 用户类型
+    optional string avatar        = 5; // 头像图片id；客户端拼出url
+    optional uint32 has_second_identity = 6; //是否具有第二身份(hy)
+    optional uint64 uin           = 7; // tinyid
+    optional uint32 hn_base_info_completed   = 8;//是否完成红娘基本资料 0:未完成 1:已完成（现在只有性别）
+    optional uint32 hn_ex_info_completed   = 9;//是否完成红娘扩展资料0:未完成 1:已完成（身高，婚姻状况，月收入，名字，头像）
+}
+
+//通用房间基本信息
+message RoomInfo
+{
+    optional uint32 room_id      = 1; // 房间ID
+    optional string room_name    = 2; // 房间名称
+    optional string chat_room_id = 3; // IM聊天室id
+    optional uint32 room_show_no = 4; // 房间号码
+    optional uint64 group_code   = 5; // 绑定的群号，无则为0
+    optional string pic          = 6; // 房间封面
+    optional uint32 room_type    = 7; // 房间类型 [1:交友 2:群]
+    optional uint32 room_status  = 8; // 房间状态 [0:打开 1:关闭]
+    optional bytes bytes_business_info = 9; //透传业务信息
+}
+
+//通用房间玩法信息
+message GameInfo 
+{
+    required uint32 game_id      = 1;   // 玩法id
+    optional string game_name    = 2;   // 玩法名称
+    optional bytes  game_detail  = 3;   // 玩法详情。例如交友相亲玩法，此处即是代表EssentialDatingInfo的bytes
+}
+
+//1.通用房间进房
+message EnterRoomReq
+{
+    optional uint32 room_code          = 1; // 长号或短号
+    optional uint64 group_code         = 2; // 群号
+    optional uint32 room_id            = 3; // 房间ID
+    optional uint32 enter_room_type    = 4; // 进房类型：一起看这里填1, 公开课填2
+    optional uint64 src_group_code     = 5; // 观众群号
+    optional uint32 pre_create_flag    = 6; // 1: 预创建房间,默认不进入房间,如果需默认进入则不用设置此字段
+}
+
+/*
+进房回包如下错误码需要做下兼容，单独到后台svr拉取相关信息:
+    EC_GET_USER_INFO_FAILD               //获取用户信息失败
+    EC_GET_USER_TYPE_FAILD               //获取用户类型失败
+    EC_GET_ROOM_STAGE_INFO_FAILD         //获取舞台信息失败
+    EC_GET_AV_AUTH_KEY_FAILD             //拉取av_auth_key失败
+*/
+message EnterRoomRsp
+{
+    optional RoomInfo room_info  = 1;                      // 房间信息
+    optional UserInfo self_info  = 2;                      // 用户信息 
+    optional public_seq_info.proto.SeqInfo stage_info = 3; // 舞台信息
+    optional bytes av_auth_key  = 4;                       // av权限信息
+    optional int64 result       = 5;                       //EC_GET_ROOMID_NOT_EXIST|EC_GET_USER_INFO_FAILD|EC_GET_USER_TYPE_FAILD|EC_GET_ROOM_STAGE_INFO_FAILD...
+    optional string result_tip  = 6;                       //result表示进房失败时应该提示给用户的信息.
+    optional uint32 room_flag = 7;                          //房间flag, 给客户端用来做一些判断，比如特别时期不用弹幕,1:自由模式不允许聊天
+    repeated GameInfo game_info  = 8; // 房间当前玩法
+}
+
+//2.通用房间退房
+message ExitRoomReq
+{
+    required uint32 room_id      = 1; // 房间id  
+}
+
+message ExitRoomRsp
+{
+}
+
+
+//3.拉取房间正在进行的玩法信息
+message GetRoomGameListReq
+{
+    required uint32 room_id      = 1; // 房间id
+}
+
+message GetRoomGameListRsp
+{
+    repeated GameInfo game_info  = 1; // 房间当前玩法
+}
+
+//4.拉取玩法详情
+message GetGameDetailReq
+{
+    required uint32 room_id      = 1; //房间id
+    repeated uint32 game_id      = 2; //玩法id
+}
+
+message GetGameDetailRsp
+{
+    repeated GameInfo game_info  = 1; // 房间当前玩法详情
+}
+
+//5.拉取平台支持的玩法信息
+message GetPlatGameListReq
+{
+    required uint32 room_id   = 1;
+}
+
+message GetPlatGameListRsp
+{
+    repeated GameInfo game_info  = 1; //平台支持的玩法列表
+}
+
+//6. CMD_PREFETCH_ENTER_ROOM_INFO = 10006  进房预加载
+message PrefetchEnterRoomInfoReq
+{
+    optional uint32 room_code          = 1; // 长号或短号
+    optional uint64 group_code         = 2; // 群号  
+}
+
+message PrefetchEnterRoomInfoRsp
+{
+    optional uint32 room_id                           = 1; // 业务房间id
+    optional public_seq_info.proto.SeqInfo stage_info = 2; // 舞台信息
+    optional bytes av_auth_key                        = 3; // av进房票据
+    optional uint32 member_count                      = 4; // 房间人数；自由模式下返回
+
+}
+
+//玩法心跳
+message GameHeartbeatReq
+{
+    required uint32 room_id          = 1;
+    required uint32 game_id          = 2;
+    repeated public_seq_info.proto.SeqInfo seq_infos       = 3;
+};
+
+message GameHeartbeatRsp
+{
+	required uint32 heartbeat_time   = 1;
+    repeated public_seq_info.proto.SeqInfo seq_infos       = 2;
+};
+
+message GameHeartbeatPush
+{	
+    required uint32 heartbeat_time   = 1;
+	required uint32 room_id          = 2;
+    required uint32 game_id          = 3;
+    optional public_seq_info.proto.SeqInfo seq_infos       = 4;
+};
+
+//CMD_GET_USER_NUM                   = 10007; // 拉取房间人数
+message GetUserNumReq
+{
+    optional uint32 room_id = 1; //房间ID
+}
+
+message GetUserNumRsp
+{
+    optional uint32 num = 1;
+}
+
+
+message  RoomBackGround
+{
+    optional string       image = 1; //背景图
+    optional string       icon  = 2; //图标
+    optional string       tips  = 3; //鼠标移动到图标时的提示
+    optional string video_image = 4; //PC视频区背景图
+}
+
+//CMD_GET_ROOM_BACKGROUND
+message GetRoomBackGroundReq
+{
+    optional uint32 room_id = 1; 
+}
+
+message GetRoomBackGroundRsp
+{
+    optional uint32 room_id                = 1;
+    optional uint32 white_flag             = 2; //0:不在白名单  1:在白名单
+    optional RoomBackGround back_ground    = 3;
+
+}
+
+message GetWatchTogetherMemberListReq{
+     optional uint32 room_id         = 1;//查询的房间号
+     optional uint64 group_code      = 2; // 查询的群号
+     optional uint32 page           = 3;//从第一页开始每页20人，传1 ，则返回 0-19位用户
+}
+
+message GetWatchTogetherMemberListRsp{
+    optional string group_name    = 1;//群名称
+    optional uint32 total_count   = 2;
+    optional uint32 cur_count     = 3;
+    optional uint32 page          = 4;  // 返回的页码
+    repeated UserInfo userlist    = 5;  // 用户信息列表
+}
+
+message GetWatchTogetherMemberListLittleReq{
+     optional uint32 room_id         = 1;//查询的房间号
+     optional uint64 group_code      = 2; // 查询的群号
+     optional uint32 num             = 3;//查询的个数
+}
+
+message GetWatchTogetherMemberListLittleRsp{
+    optional string group_name    = 1; //群名称
+    optional uint32 total_count   = 2; //总个数
+    optional uint32 count         = 3;//实际返回的个数
+    repeated UserInfo userlist    = 4;  // 用户信息列表
+}
+
+message AddWatchTogetherMemberListReq{
+     optional uint32 room_id         = 1;//房间号
+     optional uint64 group_code      = 2; // 群号
+     optional uint64 uid           = 3;//uid
+}
+
+message AddWatchTogetherMemberListRsp{
+     optional  int32 result         = 1;//
+}

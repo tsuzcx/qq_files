@@ -1,0 +1,15 @@
+package videohub.config;
+option java_package = "com.tencent.jungle.videohub.proto";
+
+
+message ChargeConfig {
+    optional bool charge_disable = 1; //充值开关
+}
+
+message GetChargeConfigReq {
+    optional string version = 1;
+    optional string build = 2;
+}
+message GetChargeConfigResp {
+	optional ChargeConfig chargeConfig = 1;
+}

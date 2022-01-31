@@ -1,0 +1,188 @@
+import "common_types.proto";
+
+package public_room_manage.proto;
+
+option java_package = "com.tencent.jungle.videohub.proto";
+option java_outer_classname = "PublicRoomManage";
+
+//拉取房间公共配置	
+//CMD_GET_ROOM_CONFIG				   = 13101;  //拉取房间配置
+message GetRoomConfigReq
+{
+    required uint32 room_id      = 1; //房间id
+}
+
+message GetRoomConfigRsp
+{
+    optional RoomConfig  room_config = 1;
+}
+
+//批量拉取房间公共配置	最多20个
+//BATCH_CMD_GET_ROOM_CONFIG				   = 13107;
+message BatchGetRoomConfigReq
+{
+    repeated uint32 room_ids      = 1; //房间id
+}
+
+message BatchGetRoomConfigRsp
+{
+    repeated RoomConfig  room_config_list = 1;
+}
+
+//设置房间公共配置
+//CMD_SET_ROOM_CONFIG				   = 13102;  //设置房间配置
+message SetRoomConfigReq
+{
+    required uint32 room_id      = 1; //房间id
+    optional RoomConfig  room_config = 2;  //此处只能修改基本配置，不能修改 RoomGamePlayState
+}
+
+message SetRoomConfigRsp
+{
+    optional uint32 room_id      = 1; //房间id
+    optional RoomConfig  room_config = 2;
+}
+
+message RoomConfig
+{
+    optional uint64 flag                   = 1; //房间开关 0:只请求台上用户声音;
+    optional uint32 line_waiting_time      = 3; //连麦等待时长
+    optional uint32 forbid_all_word           = 4;//禁止所有人聊天[1禁止，2不禁止]
+    optional uint32 allow_word_join_room_time = 5;//进房后N s发言
+    optional uint32 word_interval_time        = 6;//发言间隔
+    optional uint32 word_length_limit         = 7;//长度
+    optional uint32 forbid_link               = 8;//禁止链接[1禁止生效]
+    optional uint32 visit_limit     	   = 9; //访问限制 [1:非群成员可访问；2:非群成员不可访问]
+
+    optional uint32 room_id      = 99; //房间id
+
+
+	//以下是内嵌对象，用于复杂逻辑
+
+	//房间玩法状态，通过CMD_GET_ROOM_CONFIG拉取, 通过CMD_SET_ROOM_GAME_PLAY_STATE修改
+	optional RoomGamePlayState  room_game_play_state	=100;
+
+	//房间公告，通过CMD_GET_ROOM_CONFIG拉取, 通过CMD_SET_ROOM_NOTICE修改
+	optional RoomNotice room_notice	= 101;
+    optional uint32 is_education_certification = 102; //如果开启公开课玩法有效, 主持是否是教育认证老师，0:不是或主持位上没人或者非公开课玩法,1:是
+}
+
+//CMD_ADD_ROOM = 13103;  //新增房间
+enum ROOM_ADD_WAY
+{
+	ROOM_ADD_WAY_BY_GROUP_CODE = 1;
+}
+message AddRoomReq
+{
+	optional uint32 add_way = 1;   //新增方式 [1:群号,]
+	optional uint64 group_code = 2; //群号
+}
+
+message AddRoomRsp
+{
+    optional videohub.RoomBaseInfo room_base_info = 1; // 房间信息
+}
+
+//CMD_GET_ROOM_ID_BY_GROUP_ODE       = 13104;  //群号换取房间ID
+message GetRoomIdByGroupCodeReq
+{
+    required uint64 group_code      = 1; // 房间对应的群号
+	optional bool require_room_info = 2; //是否需要房间信息[true:需要]
+}
+
+message GetRoomIdByGroupCodeRsp
+{
+    optional uint32 room_id            = 1; // 房间id
+	optional videohub.RoomBaseInfo room_base_info = 2; // 房间基本信息
+}
+
+
+//CMD_GET_MAX_ROOM_ID       		   = 13105;  //获取平台当前ROOMID最大值[后端调用]
+message GetMaxRoomIdReq
+{
+
+}
+
+message GetMaxRoomIdRsp
+{
+    optional uint32 max_room_id         = 1; // 最大房间id
+}
+
+
+message RoomGamePlayStateItem
+{
+	optional uint32 game_id      = 1; //玩法id
+	optional uint32 game_state   = 2; //玩法state[1:打开\2:关闭\其他:关闭]
+}
+
+message RoomGamePlayState
+{
+	optional uint32 room_id      = 1; //房间id  PUSH时使用
+	repeated RoomGamePlayStateItem items = 2; //玩法不存在或者玩法state=2 都是关闭
+}
+
+
+//CMD_SET_ROOM_GAME_PLAY_STATE			   = 13106;  //设置房间玩法
+message SetRoomGamePlayStateReq
+{
+    required uint32 room_id      = 1; //房间id
+    required uint32 game_id 	 = 2; //玩法id
+    required uint32 game_state 	 = 3; //玩法state[1:打开\2:关闭]
+}
+
+message SetRoomGamePlayStateRsp
+{
+    optional uint32 room_id      = 1; //房间id
+	optional RoomGamePlayState game_play_state = 2;
+    optional uint32 is_education_certification = 3; //如果开启公开课玩法有效, 主持是否是教育认证老师，0:不是或主持位上没人或者非公开课玩法,1:是
+}
+
+
+//CMD_DEL_ROOM = 13108;  //删除回收房间
+message DelRoomReq
+{
+	optional uint32 del_way = 1;   //删除方式 [1:群号,2.roomid]
+	optional uint64 group_code = 2; //群号
+}
+
+message DelRoomRsp
+{
+    optional uint32 state = 1; // 删除状态[0:成功,]
+}
+
+
+message RoomNotice
+{
+	optional string notice = 1; //公告内容[可以为空，表示清空公告]
+	optional uint32 state 	= 2; //[0:设置成功  1:内容非法]
+	optional uint64 op_uid 	= 3; //操作人uid[后台用,设置时不用填]
+	optional uint64 update_time = 4; //更新时间[后台用,设置时不用填]
+}
+
+//CMD_SET_ROOM_NOTICE       		   = 13109; //设置房间公告
+message SetRoomNoticeReq
+{
+	required uint32 room_id      = 1; //房间id
+	required RoomNotice room_notice = 2;
+}
+
+message SetRoomNoticeRsp
+{
+	optional uint32 room_id      	= 1; //房间id
+	optional RoomNotice room_notice      = 2; //房间id
+}
+
+
+//CMD_GET_ROOM_CONFIG_BY_GROUP_CODE = 13110;  //通过群号拉取当前玩法信息
+message GetRoomConfigByGroupCodeReq
+{
+    required uint64 group_code      = 1; // 房间对应的群号
+}
+
+message GetRoomConfigByGroupCodeRsp
+{
+    optional uint32 room_id = 1; // 房间id
+	optional uint32 is_education_mode = 2; // 是否是公开课模式,0:不是,1:是
+}
+
+
