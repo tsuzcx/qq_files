@@ -1,0 +1,17 @@
+<!doctype html><html><head><title>虎跃星辰</title><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="full-screen" content="true"><meta name="screen-orientation" content="portrait"><meta name="x5-fullscreen" content="true"><meta name="360-fullscreen" content="true"><style>body {
+                min-height: 100vh;
+            }</style><script src="https://qqhb-2022.cdn-go.cn/images/latest/files/qqapi.wk.js?_discheck=1&_bid=4901"></script><script data-content="setFontScript">(function () {
+        (function () {
+            var html = document.documentElement;
+            function setFont() {
+                var cliWidth = window.top.innerWidth || html.clientWidth || 375;
+                cliWidth < 280 && (cliWidth = 280);
+                cliWidth > 600 && (cliWidth = 600);
+                html.style.width = cliWidth + 'px';
+                html.style.fontSize = 100 * (cliWidth / 750) + 'px';
+            }
+            window.addEventListener('resize', setFont, false);
+            setFont();
+        })()
+        var html = document.documentElement;
+    })();</script><script src="https://qqhb-2022.cdn-go.cn/images/latest/v2.6.14/vue.runtime.min.js?_discheck=1&_bid=4901" crossorigin></script></head><body><div id="app"></div><script src="https://qqhb-2022.cdn-go.cn/spring-2022/latest/pages/qr-page.client.js?" crossorigin></script></body><script src="https://qqhb-2022.cdn-go.cn/spring-2022/latest/tracker/index.js?_discheck=1&amp;_bid=4907" defer="defer" crossorigin></script></html>
