@@ -1,0 +1,1280 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>说说</title>
+<base href="//qzs.qq.com/">
+<style>
+.lazyload {
+	width: 118px;
+	height: 118px;
+	display: block;
+	border: 1px solid #ccc;
+	background:url(/qzone/app/mood_v6/images/lazyload-spin.gif) center center no-repeat #eee;
+}
+.feed_wrap .error_cont {
+position: relative;
+width: 420px;
+padding: 20px 30px;
+margin: 30px auto;
+border-radius: 3px;}
+.error_cont .error_info {
+margin-left: 30px;
+font-weight: bold;
+font-size: 14px;
+text-align: left;
+margin-bottom: 15px;
+}
+.error_cont p {
+text-align: center;
+}
+.icon_big_hint {
+	background: url(/qzone/app/mood_v6/images/error-22.32.png)  center center no-repeat #eee;
+	_background: url(/qzone/app/mood_v6/images/error-22.ie6.png)  center center no-repeat #eee;
+	width: 22px;
+	height: 22px;
+	display: block;
+	float: left;
+}
+</style>
+</head>
+<body>
+<script type="text/javascript">
+window.isIframe = 1;
+function getParameter(href,name){var r=new RegExp("(\\?|#|&)"+name+"=([^&#]*)(&|#|$)");var m=href.match(r);return(!m?"":m[2]);}
+(function(){
+    document.domain = location.hostname;
+
+    if(getParameter(location.href, 'cdn_use_https')==1){
+        window.g_cdn_proto = 'https:'
+    }
+})();
+(function(global){
+	//调试模式，会干掉后边
+	window.g_isDebugMode = false;
+	try{
+		window.g_isDebugMode = getParameter(top.location.href,'debug') == 'on';
+	}catch(e){}
+
+	//获得当前用户的分布信息
+	window._locationCache = {};
+	window._locationCallback = function(o){
+		window._locationCache = o;
+		//gTimeStampsPool[5]=(new Date());
+	};
+	var uin;
+	var token;
+	
+	//var locationHTML = document.domain == 'qq.com' ? :'';
+})(this);
+</script>
+<script type="text/javascript">
+(function(scope){
+	//辅助方法
+	var cache = {};
+	var tmpl = function tmpl(str, data) {
+		// Figure out if we're getting a template, or if we need to
+		// load the template - and be sure to cache the result.
+		var fn = !/\W/.test(str) ? cache[str] = cache[str] || tmpl(document.getElementById(str).innerHTML) :
+		// Generate a reusable function that will serve as a template
+		// generator (and which will be cached).
+		new Function("obj", "var p=[],print=function(){p.push.apply(p,arguments);};" +
+		// Introduce the data as local variables using with(){}
+		"with(obj){p.push('" +
+		// Convert the template into pure JavaScript
+		str.replace(/[\r\t\n]/g, " ").replace(/'(?=[^%]*%>)/g, "\t").split("'").join("\\'").split("\t").join("'").replace(/<%=(.+?)%>/g, "',$1,'").split("<%").join("');").split("%>").join("p.push('") + "');}return p.join('');");
+		// Provide some basic currying to the user
+		return data ? fn(data) : fn;
+	};
+	scope.tmpl = tmpl;
+})(window);
+
+
+
+window.console || (window.console = {log : function(){}});
+
+var gTimeStampsPool = [];
+var g_sdms = {};
+var g_proto = window.location.protocol;
+try{
+    g_sdms = parent.g_sdms || {};
+    g_proto = parent.g_proto || window.location.protocol;
+}catch(err){
+    
+}
+gTimeStampsPool[0]=(new Date());/*zero point*/
+
+/*这是新的测速统计，以前的测速都是合并在一起的，不方便了解每个页面的性能*/
+var timeStampsPool = [];
+timeStampsPool[0] = (new Date()); /*零点*/
+
+var QZONE = QZONE || {};
+QZONE.FP = QZONE.FP || parent.QZONE.FrontPage;
+QZONE.PY = QZONE.PY || parent.QZONE.PengYou;
+var qzlog;
+try{
+	qzlog = QZONE.FP._t.QZONE.consoleFM ;
+}catch(err){
+	qzlog = {
+		debug : function(){},
+		error : function(){},
+		info : function(){},
+		log : function(){},
+		warn : function(){}
+	};
+}
+var qzoneVersion = parent.g_version || 6;
+qzlog.info({cm:"MOOD_APP",cf:"PAGE_START"});
+var g_V = top.g_V || {
+		qz:'_2.1.1.5',
+		ci:'_0823',
+		jq: '1.9.1', //这里默认用1.9.1,避免在拿不到jq版本的时候误用2.0
+		sea: '2.0.0'
+	},
+	g_iLoginUin = 0,
+	siDomain = top.siDomain || 'qzonestyle.gtimg.cn',
+	imgcacheDomain = top.imgcacheDomain || 'qzs.qq.com',
+	g_UserBitmap = '0',
+	g_LoginBitmap = '0',
+	g_StyleID = top.g_StyleID.replace('v6/','') || '16',
+	g_hasCustomStyle = 0,
+	g_diyTitle = '',
+	g_diySkin = 0,
+	g_SceneID = 9,
+	g_fullMode = 6,
+	g_Mode = 'ofp',
+	g_frameStyle = 1,
+	g_version = 6,
+	g_isFriend = 0,
+	g_NowTime = 1325145132,
+	g_timestamp = 0,
+	g_Dressup = {items:[],windows:[]},
+	iv = {},
+	g_StaticFlag = '0',
+	g_TransparentLevel = 0,
+	g_isDirectApp = 0,
+	g_isBGScroll = 0,
+	ownermode = true,
+	ownerProfileSummary = [],
+	g_fl = 0,
+	g_ReadOnly = 0,
+	g_Errno = 0,
+	g_isOFP = '1',
+	g_isHideTitle = '0',
+	g_icLayout = '0',
+	g_Data = {},
+	g_isFromPengYou ='',
+	g_isBrandQzone = '',
+	g_isFamousQzone = '',
+	g_xwMode = '',
+	g_needDec = 1,
+	g_isFastPav = '1',
+	_s_ = new Date();
+
+	g_V.qz = g_V.qz || '_2.1.1.5';
+	g_V.ci = g_V.ci || '_0823';
+	g_V.jq  = g_V.jq || '1.9.1';
+	g_V.sea = g_V.sea || '2.0.0';
+</script>
+<script  type="text/javascript">
+document.write('<script type="text/javascript" src="' + ((window.g_cdn_proto || location.protocol )+'//'+siDomain+'/ac/lib/seajs/sea-'+g_V.sea+'.js') + '" \/><\/script>');
+</script>
+<script  type="text/javascript">
+var MOOD = MOOD || {};
+
+(function(MOOD){
+	MOOD.version = '20170728';
+	MOOD.cssVersion = '20170728';
+	MOOD.env = MOOD.env || {};
+	MOOD.cookie = MOOD.cookie || {};
+
+	MOOD.cookie.get = function(name) {
+		var nameEQ = name + "=";
+		var ca = document.cookie.split(';');
+		for(var i=0;i < ca.length;i++) {
+			var c = ca[i];
+			while (c.charAt(0)==' ') c = c.substring(1,c.length);
+			if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+		}
+		return '';
+	}
+
+	MOOD.env.getCSRFToken = function(){
+		var str = MOOD.cookie.get('skey');
+		var hash = 5381;
+		for(var i = 0, len = str.length; i < len; ++i){
+			hash += (hash << 5) + str.charAt(i).charCodeAt();
+		}
+		return hash & 0x7fffffff;
+	};
+
+	MOOD.env.getLoginUin = function(){
+		var uin = parseInt(MOOD.cookie.get('uin').replace(/[^\d]/g, ''), 10);
+		if(uin){
+			return uin + '';
+		}
+		return top.g_iLoginUin + '';
+	};
+
+	MOOD.util = MOOD.uitl || {};
+
+	MOOD.util.unixTimeToString = function(config){
+		config = config || {};
+		config.type = config.type || 0;
+		timestamp = (config.timestamp || 0) * 1000;
+		var now;
+		if (timestamp>0){
+			now = new Date(timestamp);
+		}else{
+			now = new Date();
+		}
+
+		var month = now.getMonth() + 1;
+		var date = now.getDate();
+		var hours = now.getHours();
+		var minutes = now.getMinutes();
+		var seconds = now.getSeconds();
+
+		var datetime = {
+			'YYYY': now.getFullYear(),
+			'mm': month>9?month:('0'+month),
+			'dd': date>9?date:('0'+date),
+			'H': hours>9?hours:('0'+hours),
+			'i': minutes>9?minutes:('0'+minutes),
+			's': seconds>9?seconds:('0'+seconds)
+		};
+
+		var date_str = datetime['YYYY'] + '-' + datetime['mm'] + '-' + datetime['dd'] + ' ';
+		var time_str = datetime['H'] + ':' + datetime['i'] + ':' + datetime['s'];
+
+		var result = '';
+		switch(config.type){
+			case 1:
+				result = date_str;
+				break;
+			case 2:
+				result = time_str;
+				break;
+			default:
+				result = (date_str + ' ' + time_str)
+		}
+		return result;
+	};
+
+	MOOD.util.getHttpParams = function(key){
+		var r = new RegExp('(\\?|#|&)'+key+'=([^&#]*)(&|#|$)');
+		var m = location.href.match(r);
+		var v = decodeURIComponent(!m?'':m[2]).replace(/\+/g,' ');
+		return OOP.tpl.filter(v);
+	}
+
+	MOOD.lang = MOOD.lang || {};
+
+	/**
+	 * @static
+	 * @method randomArray
+	 * @param {Array} target The array to random.
+	 * @return {Array}
+	 */
+	MOOD.lang.randomArray = function RandomArray(target) {
+		if (Object.prototype.toString.apply(target) != '[object Array]') {
+			return target;
+		}
+		var r, tmp, len = target.length;
+		for (var i = 0; i < len; i++) {
+			r = Math.floor(Math.random() * len);
+			tmp = target[r];
+			target[r] = target[i];
+			target[i] = tmp;
+		}
+		return target;
+	};
+})(MOOD);
+
+/* simple string format */
+var OOP = OOP || {};
+(function(OOP){
+	OOP.tpl = OOP.tpl || {};
+	var getByPath = function (obj,path,parma){
+		obj = obj || {};
+		var paths = path.split('.'), len, i;
+		len = paths.length;
+		for(i=0;i<len;i++){
+			obj =  obj[paths[i]];
+			if(typeof obj == 'function'){
+				obj = obj();
+			}
+			if (obj === undefined || obj === null) {
+				break;
+			}
+		}
+		return obj;
+	}
+
+	OOP.tpl.format = function(tpl,obj){
+		var formatRegex = /\{{([\d\w\.]+)\}}/g,v;
+		return tpl.replace(formatRegex,function(m,n){
+			v = getByPath(obj,n);
+			return v === undefined ?'':v;
+		});
+	}
+
+	OOP.tpl.html = function (string) {
+		var HTML_CHARS = {
+	        '&': '&amp;',
+	        '<': '&lt;',
+	        '>': '&gt;',
+	        '"': '&quot;',
+	        "'": '&#x27;',
+	        '/': '&#x2F;',
+	        '`': '&#x60;'
+		};
+	    var r = (string + '').replace(/[&<>"'\/`]/g, function(match){
+	    	return HTML_CHARS[match];
+	    });
+	    return r;
+	};
+	OOP.tpl.filter = function (string) {
+	    var r = (string + '').replace(/[&<>"'\/`]/g, function(match){
+	    	return '';
+	    });
+	    return r;
+	};
+})(OOP);
+/* simple string format end */
+
+
+
+
+(function(){
+
+	var realUin = top.QZONE && top.QZONE.FP && top.QZONE.FP.getQzoneConfig && (top.QZONE.FP.getQzoneConfig('loginUin')>0 || (top.QZONE.FP.getQzoneConfig('loginUin')+'').length >4)  && top.QZONE.FP.getQzoneConfig('loginUin');
+	var loginUin = realUin || MOOD.env.getLoginUin();
+	var queryUin = MOOD.util.getHttpParams('uin') || loginUin;
+
+	var isOwner = loginUin == queryUin;
+	//统一都直接进我的说说
+	var tab = MOOD.util.getHttpParams('tab') || 'mine';//(isOwner? 'mine':'mine');
+	var params = OOP.tpl.filter(MOOD.util.getHttpParams('params')).split(',');
+	var action = MOOD.util.getHttpParams('action');
+	//var actionParams = MOOD.util.getHttpParams('poster');
+	var tid = MOOD.util.getHttpParams('tid') , t1_source = MOOD.util.getHttpParams('source');
+	var url = '';
+	var prefix = window.location.protocol === 'https:' ? ('https://'+(top.g_cgidomain||'h5')+'.qzone.qq.com/proxy/domain/') : 'http://';
+	var tokenDomain = window.location.protocol === 'https:' ? 'http://taotao.qzone.qq.com' :  'http://taotao.qq.com'; //https下，走h5代理，所以token要用qzone.qq.com来算
+	
+	//启动逻辑，区分参数，进入不同的页面
+	if(tab=='timer'){
+		tab = 'schedule';
+	}
+	switch(params[0]){
+		case 'mymood' : //我的说说 QZONE.FP.toApp('/mood/mymood/timer'); 去定时说说接口
+			tab = 'mine';
+			if(params[1] == 'timer'||params[1] == 'schedule'){
+				tab = 'schedule';
+			}
+			break;
+		case 'list':
+			tab = 'mine';
+			queryUin = params[1] || loginUin;
+			isOwner = loginUin == queryUin;
+			break;
+		case 'mine':
+			tab = 'mine';
+			break;
+		case 'setting' : //设置页面
+			url = 'https://user.qzone.qq.com/proxy/domain/qzs.qq.com/qzone/app/mood_v6/html/setting.html';
+			window.location = url;
+			break;
+		case 'jumpToAudit' : //评论审核
+			url = OOP.tpl.format(prefix + 'taotao.qq.com/cgi-bin/emotion_cgi_censor_get?uin={{uin}}&pos=0&num=10&g_tk={{token}}',{uin:queryUin,token:QZONE.FP.getACSRFToken(tokenDomain)});
+			window.location.href = url;
+			break;
+		case 'audit' : //审核
+			url = OOP.tpl.format(prefix + 'taotao.qq.com/cgi-bin/emotion_cgi_censor_get?uin={{uin}}&pos=0&num=10&g_tk={{token}}',{uin:queryUin,token:QZONE.FP.getACSRFToken(tokenDomain)});
+			window.location.href = url;
+			break;
+		case 'timer':
+		case 'schedule' : //定时说说
+			tab = 'schedule';
+			break;
+		default :
+			if(/[0-9a-z]+/i.test(params[0])){//详情
+				var p = params[0].split('.');
+				tid = p[0];
+				t1_source = p[1] || '1';
+				tab = 'detail';
+			}
+			if(tid && t1_source){
+				tab = 'detail';
+			}
+	}
+	if(params[0]=='audit' || params[0]=='jumpToAudit'){ //如果params是这两个，就不要往下执行了
+
+		return;
+	}
+	MOOD.env = MOOD.env || {};
+	MOOD.env.t1_source = t1_source;
+	MOOD.env.tid = tid;
+	MOOD.env.uin = queryUin;
+	MOOD.env.loginUin = loginUin;
+	MOOD.env.tab = tab;
+	MOOD.env.action = action;
+
+
+
+	window._preloadCache = {
+		code: 9999,
+		message: '很抱歉，当前网络繁忙，请稍候再试！',
+		result: {code:9999,msg:'很抱歉，当前网络繁忙，请稍候再试！'}
+	};
+
+	if(tab=='hot'){
+		/**hack for 热门说说**/
+		window._Callback = function(d){
+			window._Callback = null;
+			window._LocalCacheCallbackData = d;
+			var msglist = [];
+			var data  = window._LocalCacheCallbackData || {};
+			data.data = data.data || [];
+			for(var i =0;i<data.data.length&&i<20;i++){
+				msglist.push(window._fakeData(data.data[i]));
+			}
+			MOOD.lang.randomArray(msglist);
+			window._preloadCache.auth_flag = 1;
+			window._preloadCache.msglist = msglist;
+			window._preloadCache.total = data.totalCnt;//data.data.length;
+			gTimeStampsPool[5]=(new Date());
+		};
+	}
+
+	window._LocalCache = function(d){
+		window._LocalCache = null;
+		window._preloadCache = d;
+	};
+
+	window._fakePic = function(image){
+		var data = {
+			height : image.length,
+			pictype : 0,
+			richsubtype : 2,
+			url1 : image.MPicUrl,
+			url2 : image.BPicUrl,
+			url3 : image.BPicUrl,
+			width : image.width
+		};
+		return data;
+	}
+
+	window._fakeData = function(item){
+		var data = {
+			auth_flag: 1,
+			certified : 1,
+			conlist : [],
+			content : item.text,
+			created_time: 0,
+			createTime : MOOD.util.unixTimeToString({timestamp:item.created}),
+			dest_name : '',
+			//em_alt : "一般",
+			//em_head : -1,
+			// lbs :{
+			// 	id : '',
+			// 	idname : '',
+			// 	name : '',
+			// 	pos_x : '',
+			// 	pos_y : ''
+			// },
+			name : item.nickname,
+			//ppos : 0,
+			//puin : 721289260,
+			replies : 0,
+			right : 1,
+			rt_sum : 0,
+			source_name : '',
+			source_url : '',
+			t1_source : 1,
+			t1_subtype : 1,
+			t1_termtype : 0,
+			tid : item.source.tid,
+			uin : item.source.uin
+			//urltype : 1
+		};
+		var pics = [];
+		item.images= item.images || []
+		for(var i = 0;i<item.images.length;i++){
+			pics.push(window._fakePic(item.images[i]));
+		}
+
+		if(pics.length>0){
+			data.pic = pics;
+			data.pictotal =  pics.length;
+		}
+
+		var videos = [];
+		item.videos = item.videos || [];
+		for(var i = 0;i<item.videos.length;i++){
+			videos.push({
+			url1: item.videos[i].vimagUrl,
+			url2: item.videos[i].SrcUrl,
+			url3: item.videos[i].PlayerUrl
+			});
+			/*@deprecated
+			data.url1 = item.videos[i].vimagUrl;
+			data.url2 = item.videos[i].SrcUrl;
+			data.url3 = item.videos[i].PlayerUrl;
+			data.urltype = 3;*/
+		}
+
+		if(videos.length>0){
+			data.video = videos;
+			data.videototal  = videos.length;
+		}
+		return data;
+	}
+	var _protocol = 'https:';
+	if(top.location.href.indexOf('forcehttp') > -1){
+		_protocol = 'http:';
+	}
+	/**hack for 热门说说结束**/
+	var moodAppCss = (qzoneVersion==6 ? [
+		'<link rel="stylesheet" rev="stylesheet" href="//{{siDomain}}/qzone_v6/gb/skin/{{g_StyleID}}.css" type="text/css" media="screen" \/>',
+		'<link rel="stylesheet" rev="stylesheet" href="//{{siDomain}}/qzone_v6/say.css?max_age=999999&v='+MOOD.cssVersion+'" type="text/css" media="screen" \/>',
+		'<link rel="stylesheet" rev="stylesheet" href="//{{siDomain}}/qzone_v6/qz_shuoshuo_audio.css?max_age=999999&v='+MOOD.cssVersion+'" type="text/css" media="screen" \/>'
+		] :
+	 [
+		'<link rel="stylesheet" rev="stylesheet" href="'+ _protocol +'//{{siDomain}}/aoi/skin/{{g_StyleID}}.css" type="text/css" media="screen" \/>',
+		'<link rel="stylesheet" rev="stylesheet" href="//{{siDomain}}/aoi/say.css?max_age=999999&v='+MOOD.cssVersion+'"" type="text/css" media="screen" \/>',
+		'<link rel="stylesheet" rev="stylesheet" href="//{{siDomain}}/qzone_v6/qz_shuoshuo_audio.css?max_age=999999&v='+MOOD.cssVersion+'"" type="text/css" media="screen" \/>'
+	]);
+	var _load = moodAppCss.concat([
+
+		'<script type="text/javascript" src="{{proto}}//{{siDomain}}/ac/qzone/qzfl/qzfl{{qz}}.js"><\/script>',
+		'<script type="text/javascript" src="{{proto}}//{{siDomain}}/qzone/app/mood_v6/api/api.js?max_age=999999&v='+MOOD.version+'"><\/script>',
+		'<script type="text/javascript" src="{{proto}}//{{siDomain}}/qzone/app/mood_v6/script/render.js?max_age=999999&v='+MOOD.version+'"><\/script>',
+		top == window ? '<script type="text/javascript" src="//{{siDomain}}/qzone/v6/interface/interface_v6{{g_V.ci}}.js?max_age=2592000"><\/script>':''
+		
+		]).join('');
+	var location = '';
+	//idcNo为2表示用上海的cgi
+	if(window._locationCache && window._locationCache.idcNo==2){
+		location = 'sh.';
+	}
+	qzlog.info({cm:"MOOD_APP",cf:"LOAD_DATA_START"});
+	timeStampsPool[1]=(new Date());
+	var _data = {
+		imgcacheDomain : imgcacheDomain,
+		siDomain:siDomain,
+        proto : window.g_cdn_proto || '',
+		g_StyleID:g_StyleID,
+		g_V:g_V,
+		qz : g_V.qz,
+		sea : g_V.sea || '2.0.0',
+		host: document.domain,
+		uin: queryUin,
+		random: Math.floor(Math.random()*25),
+		token: MOOD.env.getCSRFToken(),
+		location : location
+		
+	};
+	if (location.search != ''){
+		document.write(OOP.tpl.format(_load,_data));
+	}
+	gTimeStampsPool[4]=(new Date());
+})();
+</script>
+<div class="mod_wrap bg mod-wrap">
+	<div style="font-size:14px; line-height:20px; margin:1px 0 7px 25px;display:none;" data-note="pengyou.com" id="pengyou_headbar">
+		<a href="#" target="_top" class="c_tx"></a>
+		<span style="margin:0 5px;">-</span><span>说说</span>
+	</div>
+	<div class="mod_wrap_inner">
+		<div class="bor mod-tab author_display">
+			<div class="mod-tab-list shuoshuo_menu author_display">
+				<ul>
+					<li class="nav_home" style="display:none;">
+						<a href="//user.qzone.qq.com/proxy/domain/qzs.qq.com/qzone/app/mood_v6/html/index.html" class="c-tx2" data-tab="index" id="menu_index">
+							<span class="item-wrap bor-tx">
+								说说首页
+								<!-- <span class="item-num">367</span>
+							-->
+						</span>
+					</a>
+				</li>
+				<li class="nav_my">
+					<a href="//user.qzone.qq.com/proxy/domain/qzs.qq.com/qzone/app/mood_v6/html/index.html?tab=mine" class="c-tx2" data-tab="mine" id="menu_feedlist">
+						<span class="item-wrap bor-tx">
+							我的说说
+							<!-- <span class="item-num">63</span>
+						-->
+					</span>
+				</a>
+			</li>
+			<li class="nav_weibo" style="display:none;">
+				<a href="//user.qzone.qq.com/proxy/domain/qzs.qq.com/qzone/app/mood_v6/html/index.html?tab=weibo" data-tab="weibo" id="menu_weibo" title="内容同步自腾讯微博" class="c-tx2">
+					<span class="item-wrap bor-tx">
+						我的微博
+						<!-- <span class="item-num">6</span>
+					-->
+				</span>
+			</a>
+		</li>
+		<li class="nav_wall"  style="display:none;">
+			<a href="//user.qzone.qq.com/proxy/domain/qzs.qq.com/qzone/app/mood_v6/html/wall.html?from=app" id="menu_wall" class="c-tx2">
+				<span class="item-wrap bor-tx">
+					说说墙
+					<!-- <span class="item-num">2</span>
+				-->
+			</span>
+		</a>
+		</li>
+		</ul>
+		</div>
+		</div>
+		<div class="bg2 bor3 mod_tab" style="display:none;">
+			<h1 class="friend_feed_head visitor_display"></h1>
+			<div class="mod_tab_nav shuoshuo_menu author_display none">
+				<ul>
+					<li class="nav_home author_display">
+						<!-- 激活状态 需要添加 bg current bor3 ，并下面的 c_tx 改成 c_tx2 -->
+						<a href="//user.qzone.qq.com/proxy/domain/qzs.qq.com/qzone/app/mood_v6/html/index.html" class="c_tx2" data-tab="index" id="menu_index">说说首页</a>
+					</li>
+					<li class="nav_my">
+						<a href="//user.qzone.qq.com/proxy/domain/qzs.qq.com/qzone/app/mood_v6/html/index.html?tab=mine" class="c_tx2" data-tab="mine" id="menu_feedlist">我的说说</a>
+					</li>
+					<li class="nav_weibo author_display">
+						<a href="//user.qzone.qq.com/proxy/domain/qzs.qq.com/qzone/app/mood_v6/html/index.html?tab=weibo" class="c_tx2" data-tab="weibo" id="menu_weibo" title="内容同步自腾讯微博">我的微博</a>
+					</li>
+					<li class="nav_wall author_display">
+						<a href="//user.qzone.qq.com/proxy/domain/qzs.qq.com/qzone/app/mood_v6/html/wall.html?from=app" id="menu_wall" class="c_tx2">说说墙</a>
+						<!--2012感恩有你-->
+						<span class="hot"></span>
+					</li>
+				</ul>
+			</div>
+			<!-- op -->
+		</div>
+
+		<!-- 内容区 开始 -->
+		<div class="app_mood" id="app_mod">
+			<div class="container" id="ICFeedsContainer">
+				<div class="main_wrap bg3">
+                    <div class="main bg bor3">
+						<div class="none" id="mood-banner-top">
+						</div>
+						<!--说说发表框原型-->
+						<div class="poster_wrap author_display" id="mood_poster_container_wrapper">
+							<script type="text/javascript">
+						(function(){
+							var moodPosterPlaceHolder=[
+								'<div id="QM_Mood_Poster_Container" class="qz-poster">',
+								'	<div class="qz-inputer bor2">',
+								'		<div id="qz_poster_editor_v4_container" class="textarea c_tx3" contenteditable="true"></div>',
+								'	</div>',
+
+								'	<div class="qz-poster-attach-side">',
+								'		<div class="attach">',
+								'			<div class="item bor3 bg4 item-pic">',
+								'				<a href="#" class="pic">',
+								'					<i class="icon icon-pic"></i>',
+								'					<span class="txt">照片</span>',
+								'				</a>',
+								'			</div>',
+								'			<div class="item bor3 bg4 item-other">',
+								'				<a href="#" class="other">',
+								'					<i class="icon icon-other"></i>',
+								'					<span class="txt">其他</span>',
+								'				</a>',
+								'			</div>',
+								//'<div class="item bor3 bg4 item-funny">   <a href="javascript:void(0)" onclick="return false;" class="funny evt_click" data-hottag="ATTACHBAR.UPUP">    <i class="icon icon-funny"></i>    <span class="txt">趣味表情</span>   </a></div>',
+
+								'		</div>',
+								'		<!-- attach -->',
+								'		<div class="other-attach-drop none">',
+								'			<div class="pop-drop bg bor2">',
+								'				<div class="arr"> <b class="in bor2"></b> <b class="out bor_bg"></b>',
+								'				</div>',
+								'				<!-- 箭头 -->',
+								'				<ul class="list">',
+								'					<li class="evt_click" data-hottag="ATTACHBAR.MUSIC">',
+								'						<a href="#">',
+								'							<i class="icon icon-music">♫</i>',
+								'							<span class="txt">添加音乐</span>',
+								'						</a>',
+								'					</li>',
+								'					<li class="evt_click" data-hottag="ATTACHBAR.VIDEO">',
+								'						<!-- hover 加bg2 -->',
+								'						<a href="#">',
+								'							<i class="icon icon-video"></i>',
+								'							<span class="txt">添加视频</span>',
+								'						</a>',
+								'					</li>',
+								'					<li class="evt_click" data-hottag="ATTACHBAR.ATTACHMENT">',
+								'						<a href="#">',
+								'							<i class="icon icon-attach"></i>',
+								'							<span class="txt">添加附件</span>',
+								'						</a>',
+								'					</li>',
+								'					<li class="bor2 evt_click" data-hottag="ATTACHBAR.TEMPLATE">',
+								'						<a href="#">',
+								'							<i class="icon icon-template"></i>',
+								'							<span class="txt">模板说说</span>',
+								'						</a>',
+								'					</li>',
+								'				</ul>',
+								'			</div>',
+								'			<!-- drop -->',
+								'		</div>',
+								'		<!-- other-drop -->',
+								'	</div>',
+								'	<!-- attach-side -->',
+								'	<div class="attachbar-holder" id="qz_poster_attachbar_v4_container" ></div>',
+								'	<div class="qz-poster-pops-holder">',
+								'		<!-- 浮层占位 -->',
+								'	</div>',
+								'	<!-- pop-holder -->',
+								'	<div class="qz-poster-status-holder" id="qz_poster_v4_resource_container">',
+								'		<!-- 附件占位 -->',
+								'	</div>',
+								'	<!-- status_holder -->',
+								'	<div class="qz-poster-ft">',
+								'	<div class="qz-poster-attach" id="qz_poster_fun_attachbar_v4_container">',
+								'		<a href="#" class="emot"> <i class="icon icon-emot"></i>',
+								'			<span class="txt">表情</span>',
+								'		</a>',
+								'		<a href="#" class="at"> <i class="icon icon-at"></i>',
+								'			<span class="txt">好友</span>',
+								'		</a>',
+								'		<a href="#" class=""> <i class="icon icon-topic"></i>',
+								'			<span class="txt">话题</span>',
+								'		</a>',
+								'	</div>',
+								'	<!-- attach -->',
+								'		<div class="qz-poster-sync none">',
+								'			<div class="sync-nuts">',
+								'				<a class="sync-qq" href="#" title="同步QQ">',
+								'					<i class="icon icon-qq"></i>',
+								'					<span class="txt">同步QQ</span>',
+								'				</a>',
+								'				<a class="sync-weibo" href="#" title="同步微博">',
+								'					<i class="icon icon-weibo"></i>',
+								'					<span class="txt">同步微博</span>',
+								'				</a>',
+								'				<a class="sync-ex" href="#" title="分享到">',
+								'					<i class="icon icon-ex"></i>',
+								'					<span class="txt">分享到</span>',
+								'				</a>',
+								'			</div>',
+								'			<div class="sync-ex-drop">',
+								'				<!-- drop -->',
+								'			</div>',
+								'			<!-- other-drop -->',
+								'		</div>',
+								'		<div class="op evt_click" data-hottag="MOODPOSTER.POST">',
+								'			<a href="#" class="btn-post gb_bt">发表</a>',
+								'		</div>',
+								'	</div>',
+								'</div>'
+
+								].join('');
+						document.write(moodPosterPlaceHolder);
+						})();
+
+
+						</script>
+						</div>
+
+						<!--说说发表框原型 结束-->
+						<div class="feed_wrap">
+							<div class="network_busy none">
+								<p>非常抱歉您看到此信息，因当前说说的用户过多<br/>
+									导致服务器繁忙，请等待3秒后重试。。</p>
+								<button type="button" class="bt_tx2">重试</button>
+							</div>
+
+                            					<div class="feed_head bbor3">
+                            						<div class="feed_tab">
+									
+									<a href="//user.qzone.qq.com/proxy/domain/qzs.qq.com/qzone/app/mood_v6/html/index.html?tab=mine" class="tab_itm mood_tab c_tx author_display ">我的说说 <span class="none">(0)</span></a>
+									<a href="//user.qzone.qq.com/proxy/domain/qzs.qq.com/qzone/app/mood_v6/html/index.html?tab=mine" class="tab_itm c_tx mood_tab_visitor visitor_display">TA的说说 <span class="none">(0)</span></a>
+									<span class="split c_tx3 author_display">|</span>
+									<a href="//user.qzone.qq.com/proxy/domain/qzs.qq.com/qzone/app/mood_v6/html/index.html?tab=schedule" class="tab_itm timer_tab c_tx author_display">定时说说 <span class="none">(0)</span></a>
+								</div>
+								<a href="//user.qzone.qq.com/proxy/domain/qzs.qq.com/qzone/app/mood_v6/html/index.html" class="go_home visitor_display">返回说说主页</a>
+                            </div>
+
+							<!--热门说说 -->
+
+							<div id="feed_commend_body">
+								<div id="error_tip_cont" class="error_cont bgr3" style="display:none;"><span class="icon_big_hint"></span><p class="error_info">服务器正在升级维护中，建议您稍后再尝试打开。谢谢！</p><p>请尝试<a href="javascript:void(0);" onclick="location.reload();return false;" class="c_tx">刷新</a>，恢复服务</p></div>
+								<div class="feed_commend_note none">
+									<span class="fc_msg">
+										<i class="icon_hot_commend"></i>
+										想找到更多有趣的说说？和网友一起关注热门说说吧
+									</span>
+									<span class="open_fc c_tx">
+										<a href="javascript:void(0);">展开热门说说</a>
+									</span>
+								</div>
+								<div class="feed_commend" style="display:none;">
+									<h2 class="tit">热门说说</h2>
+									<div class="hd bg2 bor2">
+										<ul class="tab" id="commend-tab">
+										</ul>
+										<strong class="close ui_x bg6_hover c_tx3">×</strong>
+									</div><!-- hd -->
+									<div class="bd bor2">
+										<div class="commend_op"><a href="javascript:void(0);" class="js-next-group">换一组</a></div>
+										<div class="commend_list clearfix">
+										</div><!-- list -->
+									</div><!-- bd -->
+								</div>
+							</div>
+
+							<!-- feed_commend -->
+							<ol id="msgList" class="mod_feed_lst js_error_display"></ol>
+
+							<div id="pager" class="mod_pagenav tbor js_error_display"></div>
+							<div id="bottom-sponsor" class="say-bottom-ad none">
+								<div id="bottom-sponsor-img"></div>
+								<i class="icon-close-square" id="bottom-sponsor-close" style="display:none;"></i>
+							</div>
+						</div>
+						<!--.feed_wrap-->
+					</div>
+					<!--.main-->
+				</div>
+				<!--.main_wrap-->
+
+				<div class="sidebar lite_hide">
+                    <div class="profile bg"></div>
+					<!-- .profile-->
+					<!-- .com_post-->
+<div class="com_post side_panel author_display none">
+	<div class="hd none">
+		<h3>说说写日志</h3>
+	</div>
+
+	<div class="bd">
+		<a href="http://rc.qzone.qq.com/blog?catalog=ugc&amp;ref=rukou/shuoshuorizhi" class="btn bor2 bg" target="_blank"><i class="icon_post"></i>写说说日志</a><br />
+		<span class="c_tx3">将每周的说说记录转变为日志</span>
+	</div>
+</div>
+<!-- .split_line-->
+<div class="split_line bor2 bg author_display none"></div>
+
+<!-- pop_apps -->
+<div class="split_line bor2 bg none" id="pop_apps_split"></div>
+<div class="pop_apps side_panel none" id="pop_apps_sponsors">
+	<div class="hd none">
+		<h3 class="none">趣味应用</h3>
+	</div>
+	<div class="bd">
+		<div class="pop_apps_wrap">
+			<div class="pop_apps_group">
+				<div class="app_hd">
+					<div id="qzone_shuoshuo_img_1"></div>
+					<div class="switcher">
+						<span>&#9679;</span>
+						<span class="current">&#9679;</span>
+						<span>&#9679;</span>
+						<div class="mask"></div>
+					</div>
+					<i class="icon-close-square" id="qzone_shuoshuo_close_1" style="display:none;"></i>
+				</div>
+				<ul class="app_list" id="qzone_shuoshuo_imgtxt_1">
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- .com_post-->
+<div class="side_commend side_panel visitor_display" style="display:none;">
+	<div class="hd">
+		<h3 class="">热门说说</h3>
+	</div>
+	<div class="bd bg">
+		<div class="commend_list clearfix">
+			<!-- 动画效果： 添加 commend_item_hover ，设置 item_img 渐变消失 margin-top:-127px; ，让 item_con 的高度渐变到 height:217px; -->
+			
+		</div><!-- list -->
+	</div>
+</div>
+<div class="split_line bor2 bg visitor_display" style="display:none;"></div>
+
+<script type="text/tpl" id="mood-sidebar-commend">
+	<div class="commend_item" data-uin="{uin}" data-tid="{tid}">
+		<div class="item_img bor3">
+			<a href="javascript:void(0);" data-uin="{uin}" data-tid="{tid}"><img src="{images_url}" alt="" width="200" /></a>
+			<div class="num"><a href="javascript:void(0);" data-uin="{uin}" data-tid="{tid}"><i class="c_bg6"></i><span class="c_tx6 bg6" id="count-s{tid}">{count}</span></a></div>
+		</div>
+		<div class="item_con" data-uin="{uin}" data-tid="{tid}">
+			<a href="{profile_url}" class="item_nickname" target="_blank" onclick="QZFL.event.cancelBubble();">{nickname}</a>
+			{content_html}
+		</div>
+		<div class="item_op">
+			<a href="{detail_url}" class="item_dtl none" target="_blank">查看详情</a>
+			<a href="javascript:void(0);" class="js-next-group item_change">换一组</a>
+			<a href="javascript:void(0);" class="item_rep gb_bt" data-uin="{uin}" data-tid="{tid}">我也来说</a>
+		</div>
+	</div>
+</script>
+					<div id="rec_vedio" class="mod_sec bor2 mod-rec-vedio none"></div>
+					<div id="rel_search" class="mod_sec bor2 none"></div>
+					<div id="hot_topic" class="mod_sec bor2 mod-hot-topic none">
+						<div class="mod-sec-hd">
+							<h3>大家都在看</h3>
+						</div>
+						<div class="mod-sec-bd">
+							<ul id="hot_topic_bd"></ul>
+						</div>
+						<div class="mod-sec-ft mod-hot-change">
+							<a href="#">换一换</a>
+						</div>
+					</div>
+					<div class="new_comment side_panel visitor_display"></div>
+					<!-- .hot_news-->
+					<!-- 评论审核 -->
+<!-- .split_line-->
+<div class="split_line bor2 bg qzone_display review_notice author_display"></div>
+
+<!-- .com_audit-->
+<div class="com_audit side_panel qzone_display review_notice author_display">
+	<div class="hd">
+		<h3>评论审核</h3>
+	</div>
+	<div class="bd">
+		<p class="audit_tips c_tx3">
+			开启评论审核后，非好友对您说说的回复经过审核才能显示
+			<a href="javascript:void(0);" onclick="MOOD.jumpToAudit();" class="c_tx" id="censor_count">当前待审核评论 (0)</a>
+		</p>
+	</div>
+</div>
+					<div class="split_line bor2"></div>
+					<a target="_blank" data-rel="mood_help" href="http://kf.qq.com/faq/120227U7vmAf131028uquuaa.html">说说使用帮助</a>
+					
+					<p class="c_tx3" style="margin-top: 10px;">温馨提醒：<br />若有修改QQ密码会清除定时说说发表，需要重新设置定时说说</p>
+                </div>
+				<!--.sidebar-->
+			</div>
+			<!--.container-->
+		</div>
+		<!-- .app_travel -->
+	</div>
+	<!-- .mod_wrap_inner -->
+</div>
+<!-- .bg_mode -->
+
+<script type="text/tpl" id="mood-commend-photo">
+	<div class="commend_item bor2">
+		<div class="item_img bor3">
+			<a href="javascript:void(0);" onclick="UseHot.selected('{uin}','{tid}');return false;"><img src="{images_url}" alt="" width="177px" /></a>
+			<div class="num"><a href="javascript:void(0);" onclick="UseHot.selected('{uin}','{tid}');return false;"><i class="c_bg6"></i><span class="c_tx6 bg6" id="count-{tid}">{count}</span></a></div>
+		</div>
+		<div class="item_con" onclick="UseHot.selected('{uin}','{tid}');return false;">
+			<a href="{profile_url}" class="item_nickname" target="_blank" onclick="QZFL.event.cancelBubble();">{nickname}</a>
+			{content_html}
+		</div>
+		<div class="item_op">
+			<a href="{detail_url}" class="item_dtl none" target="_blank">查看详情</a>
+			<a href="javascript:void(0);" class="item_rep gb_bt" onclick="UseHot.selected('{uin}','{tid}');return false;">我也来说</a>
+		</div>
+	</div>
+</script>
+<script type="text/tpl" id="mood-commend-text">
+	<div class="commend_item bor2">
+		<div class="item_con" onclick="UseHot.selected('{uin}','{tid}');return false;">
+			<a href="{profile_url}" class="item_nickname" target="_blank" onclick="QZFL.event.cancelBubble();">{nickname}</a>
+			{content_html}
+		</div>
+		<div class="item_op">
+			<a href="{detail_url}" class="item_dtl none" target="_blank">查看详情</a>
+			<a href="javascript:void(0);" class="item_rep gb_bt" onclick="UseHot.selected('{uin}','{tid}');return false;">我也来说 <span id="count-{tid}">{count}</span></a>
+		</div>
+	</div>
+</script>
+<script type="text/javascript">
+var elements = document.getElementsByTagName('a');
+
+for(var i=0;i<elements.length;i++) {
+	var ele = elements[i];
+    if(location.href.indexOf('g_iframeUser=1') > -1 && ele.href.indexOf('user.qzone.qq.com') > -1) {
+    	var _href = ele.href.indexOf('?')>-1?(ele.href+'&g_iframeUser=1'):(ele.href+'?g_iframeUser=1');
+    	ele.href = _href;
+    }
+}
+
+window.QZONE = window.QZONE || {};
+
+// global
+var isQzone = document.domain == "qq.com" || document.domain == "user.qzone.qq.com";
+var isOwner = MOOD.env.uin == MOOD.env.loginUin;
+(function(QZONE){
+	/*将来可以移除*/
+	QZONE.FP = QZONE.FP || parent.QZONE.FrontPage;
+	QZONE.PY = QZONE.PY || parent.QZONE.PengYou;
+	var isLogin = 0!= QZONE.FP.getQzoneConfig("loginUin");
+	/*将来可以移除*/
+
+	var isLite = (function(){
+		if (QZONE.PY && QZONE.PY.hasLeftBar){
+			return QZONE.PY.hasLeftBar();
+		}else{
+			return false;
+		}
+	})();
+	document.write([
+	'<style>',
+		(isLite?'.lite .bg_mode .box_ml { border-style: none;} .lite .bg_mode .box_ml .app_mood .container .main{padding-top: 0;} .lite .bg_mode .box_ml .app_mood .container .main .feed_wrap{ margin-top: 0;}':''),
+		'.lite_hide {', (isLite ? 'display:none':''),'}',
+		(isLite ? '.lite .app_mood .container .main{ margin-right: 0; }':''),
+		'.qzone_display {',(isQzone ? '' : 'display:none !important;'),'}',
+		'.pengyou_display {',(isQzone ? 'display:none !important;' : ''),'}',
+		'.author_display {',(isOwner ? '' : 'display:none !important;'),'}',
+		'.visitor_display {',(isOwner ? 'display:none !important;' : ''),'}',
+		'.login_display {',(isLogin ? '' : 'display:none !important;'),'}', 
+	'</style>'
+	].join(''));
+})(QZONE);
+MOOD.tmp = MOOD.tmp || {};
+MOOD.tmp.profile = '<% var profile_baseurl = \'user.qzone.qq.com\';if(document.domain==\'pengyou.com\'){	profile_baseurl = \'baseapp.pengyou.com\';}%><div class="avatar"><a href="javascript:void(0);" onclick="return false;"><span class="skin_portrait_round"></span><img src="<%=QZONE.FP.getPURL(uin,100)%>" alt="" /></a></div><div class="bd"><div class="name"><span title="<%=escHTML(name)%>"><%=QZONE.FP.removeUBB(escHTML(name))%></span></div><div class="feed_num"><a href="http://<%=profile_baseurl%>/<%=uin%>/mood" onclick="return false;" class="c_tx goProfile" profileuin="<%=uin%>"><%=msgnum%></a>条说说</div><a href="//qzs.qq.com/qzone/app/mood_v6/html/setting.html"  class="c_tx link_set author_display none">设置</a><div class="op visitor_display qzone_display"><a href="http://<%=profile_baseurl%>/<%=uin%>/" target="_blank" class="ico_qzone">空间</a><a href="http://<%=profile_baseurl%>/<%=uin%>/weibo/guest/" target="_blank" class="ico_weibo login_display">微博</a></div></div><div class="box_shadow"></div>';
+MOOD.tmp.lastComment = '<div class="hd"><h3>最新评论</h3></div><div class="bd"><ul class="list"><%	var profile_baseurl = \'user.qzone.qq.com\';	if(document.domain ==\'pengyou.com\'){		profile_baseurl = \'baseapp.pengyou.com\';	}	var dateFormat = \'YY-mm-dd H:i:s\';	for(var i=0; i<msglist.length; ++i){		var item = msglist[i];		var commentlist = item.commentlist;		var hasComment = !!commentlist;		if(hasComment){			var comment = commentlist[0];		}%><li class="comment_feed" tid="<%=item.tid%>"><% if(hasComment){ %><div class="con bg bor2"><span class="arr bor2"><i class="bor_bg"></i></span><div class="info"><span class="c_tx3" title="<%=MOOD.util.getDateStr(comment.create_time,dateFormat)%>"><%=MOOD.util.friendlyTime(comment.create_time)%></span><a href="javascript:void(0);" onclick="return false;" class="nickname goProfile" profileUin="<%=comment.uin%>"><%=MOOD.util.getRemark(comment.uin,comment.name)%></a></div><div class="new_comment_content_<%=item.tid%>"><%=MOOD.util.showMention(comment.content,item.tid)%></div></div><% } %><div class="itm"><%=item.rt_con?MOOD.util.getContent(item.rt_con.conlist,item.content,item.rt_tid,item.rt_uin,0,1):MOOD.util.getContent(item.conlist,item.content,item.tid,item.uin,0,1)%><a href="http://<%=profile_baseurl%>/<%=item.uin%>/mood/<%=item.tid%>.<%=item.t1_source%>" onclick="return false;" title="<%=MOOD.util.getDateStr(item.created_time,dateFormat)%>" class="c_tx3 goDetail"><%=MOOD.util.friendlyTime(item.created_time)%></a><div class="attach"><% 					var imgSrc = item.pic&&item.pic.length&&item.pic[0].url1;					var musicSrc = item.audio&&item.audio.length&&MOOD.Music.getAlbumImage(item.audio[0].albumid);					var videoSrc = item.video&&item.video.length&&item.video[0].url1;					var rediculous = function(url){						return ((typeof url) == "string" ? url : "").replace("qp.qq.com","p.qpimg.cn");					};					if(imgSrc){ %><div class="img_thumb"><a href="http://<%=profile_baseurl%>/<%=item.uin%>/mood/<%=item.tid%>.<%=item.t1_source%>" onclick="return false;" class="goDetail"><img src="<%=rediculous(imgSrc)%>"></a></div><% }else if(musicSrc){ %><div class="music_thumb"><a href="http://<%=profile_baseurl%>/<%=item.uin%>/mood/<%=item.tid%>.<%=item.t1_source%>" onclick="return false;" class="goDetail"><span class="mask"></span><img src="<%=rediculous(musicSrc)%>"></a></div><% }else if(videoSrc){ %><div class="video_thumb"><a href="http://<%=profile_baseurl%>/<%=item.uin%>/mood/<%=item.tid%>.<%=item.t1_source%>" onclick="return false;" class="goDetail"><img src="<%=rediculous(videoSrc)%>"><span class="play"></span></a></div><% } %></div></div><div class="op"><a href="#" onclick="return false;" class="last_comment_button"> 评论(<span class="comment_num"><%=item.replies%></span>) </a><a href="#" onclick="return false;" class="last_retweet_button"> 转发(<span class="retweet_num"><%=item.rt_sum%></span>) </a></div></li><%}%></ul></div>';
+MOOD.tmp.hotTopic = '<%for(var i=0; i<items.length; ++i){var item = items[i];%><li class="bg2"><p class="itm bor3"><span class="c_tx3" id="<%=item.likekey%>"><%=item.count%></span><a href="http://rc.qzone.qq.com/qzonesoso/?search=<%=encodeURIComponent(escHTML(item.keyword))%>" class="c_tx up goSearch" keyword="<%=item.keyword%>" target="_blank" onclick="return false;" title="<%=escHTML(item.title)%>"><%=escHTML(item.title)%></a></p><%if(item.tip){%><p class="con bg bor3"><span class="arr"><i></i></span><%=escHTML(item.tip)%></p><%}%></li><%}%>';
+MOOD.tmp.content = '<%items = items || [];for(var i=0; i<items.length; ++i){var item = items[i];%><%if(item.type == 0){%><a href="javascript:void(0);" onclick="return false;" target="_blank" class="c_tx goProfile" profileUin="<%=item.uin%>" profilePft="<%=item.who%>">@<%=MOOD.util.getRemark(item.uin,item.nick)%></a><%}else if(item.type == 1){		var link = escHTML(item.ourl||item.url);		if(obj.certified){			var url = document.createElement(\'a\');			url.href = escHTML(item.ourl||item.url);			if(url.hash){				url.hash += \'&tc_qz_original=\' + obj.uin;			}else{				url.hash = \'#tc_qz_original=\' + obj.uin;			}			link = url.href;		}	%><a href="<%=link%>" data-title="<%=escHTML(item.ourl||item.url)%>" target="_blank" class="c_tx <%=nosafecheck?\'\':\'safecheck\'%>"><%=escHTML(item.url)%></a><%}else{%><%=MOOD.util.parseContent(item.con)%><%}%><%}%>';
+
+(function(){
+     
+    
+     var preloadcgi = (function(){
+         
+            // MOOD.env.t1_source = t1_source;
+	        // MOOD.env.tid = tid;
+	        // MOOD.env.uin = queryUin;
+	        // MOOD.env.loginUin = loginUin;
+	        // MOOD.env.tab = tab;
+	        // MOOD.env.action = action;
+         
+            var realUin = top.QZONE && top.QZONE.FP && top.QZONE.FP.getQzoneConfig && (top.QZONE.FP.getQzoneConfig('loginUin')>0 || (top.QZONE.FP.getQzoneConfig('loginUin')+'').length >4)  && top.QZONE.FP.getQzoneConfig('loginUin');
+            var loginUin = realUin || MOOD.env.getLoginUin();
+        	var queryUin = MOOD.env.uin
+            //统一都直接进我的说说
+            var tab = MOOD.env.tab;
+            var params = OOP.tpl.filter(MOOD.util.getHttpParams('params')).split(',');
+            var action = MOOD.env.action
+            //var actionParams = MOOD.util.getHttpParams('poster');
+            var tid = MOOD.env.tid , t1_source = MOOD.env.t1_source;
+			var basePath;
+            var token;
+            if(window.g_sdms['taotao.qq.com'] || window.g_sdms['taotao.qzone.qq.com']){
+                basePath = g_proto + '//taotao.{{host}}';
+                token = QZONE.FP.getACSRFToken('http://taotao.qzone.qq.com');
+            }else{
+                basePath = g_proto + '//taotao.{{host}}';
+                token = QZONE.FP.getACSRFToken('http://taotao.qq.com');
+            }
+			//var mine_tpl = '//{{location}}taotao.{{host}}/cgi-bin/emotion_cgi_msglist_v6?uin={{uin}}&ftype=0&sort=0&pos=0&num=20&replynum=100&g_tk={{token}}&callback=_preloadCallback&code_version=1&format=jsonp';
+			var mine_tpl =  basePath +'/cgi-bin/emotion_cgi_msglist_v6?uin={{uin}}&ftype=0&sort=0&pos=0&num=20&replynum=100&g_tk={{token}}&callback=_preloadCallback&code_version=1&format=jsonp&need_private_comment=1';
+			
+			var timer_tpl = basePath + '/cgi-bin/emotion_cgi_timershuoshuolist_v6?uin={{uin}}&pos=0&num=20&hostuin={{uin}}&g_tk={{token}}&callback=_preloadCallback&code_version=1&format=jsonp';
+			
+			var detail_tpl = basePath + '/cgi-bin/emotion_cgi_msgdetail_v6?uin={{uin}}&tid={{tid}}&t1_source={{t1_source}}&ftype=0&sort=0&pos=0&num=20&g_tk={{token}}&callback=_preloadCallback&code_version=1&format=jsonp&need_private_comment=1';
+			var hot_tpl = '//{{siDomain}}/qzone_v6/act/hotTopic/top20_{{random}}.js';
+			
+			var cgi_tpl = '';
+			
+			switch(tab){
+				
+				case 'mine':
+					cgi_tpl = mine_tpl;
+					break;
+				case 'schedule':
+					cgi_tpl = timer_tpl;
+					break;
+				case 'detail':
+					cgi_tpl = detail_tpl;
+					break;
+				
+			}
+			var url = OOP.tpl.format(cgi_tpl,{
+				siDomain: top.siDomain,
+				host: 'qq.com',
+				uin: OOP.tpl.html(queryUin),
+				loginUin: MOOD.env.loginUin,
+				tid: OOP.tpl.html(tid),
+				t1_source: OOP.tpl.html(t1_source),
+				random: Math.floor(Math.random()*25),
+				token: token,
+				location : location
+			});
+			
+			return url;
+		})()
+     
+     var appendScript = function(src){
+         
+         var stag = document.createElement('script');
+            stag.type="text/javascript";
+            stag.src = src;
+            document.body.appendChild(stag);
+            stag = null;
+     }
+     
+     var onPreloadFinished = function(){
+            
+            timeStampsPool[3] =(new Date()); //开始渲染首屏页面
+            
+            //把详情页数据变成数组
+            if(MOOD.env.tab=='detail' && window._preloadCache.code===0){
+                window._preloadCache = MOOD.getDetailSuc(window._preloadCache);
+            }
+            
+            
+            MOOD.render(window._preloadCache);
+            
+           
+            
+            
+            var onlyfirstscreen = false;
+            var proxyoff = false;
+            try{
+                onlyfirstscreen =  top.location.href.indexOf('onlyfirstscreen=1')>-1;
+                var proxyoff = top.location.href.indexOf('proxyoff=1')>-1;
+                if(proxyoff){
+                    QZONE.FP._t.QZFL.config.xhrProxyEnable = function(){return 0;}
+                }
+            }catch(err){}
+
+            timeStampsPool[4] =(new Date()); //渲染首屏完成
+            qzlog.info({cm:'MOOD_APP',cf:'RENDER_PAGE_FINISHED'});
+
+            qzlog.info({cm:"MOOD_APP",cf:"LOAD_JS_START"});
+            // debug mode switch
+            var debugMode = false;
+            if(top.location.href.indexOf('concat_debug_on')>-1){
+                   debugMode = true;
+            }
+            var scriptsTmpl = [
+                '<%for(var i=0;i<scripts.length;i++){%>',
+                '	'+(window.g_cdn_proto || location.protocol)+'//<%=siDomain%><%=scripts[i]%>?max_age=<%=maxAge%>&ver=<%=jsVer%>',
+                '<%}%>'
+            ].join('');
+            //基础库，n久不变的，可做长cache
+            var libScripts = [];
+            libScripts.push('/ac/qzfl/appclientlib.js');
+            libScripts.push('/qzone/app/controls/pager/pager.js');
+            //业务库，经常变化，cache时间尽量短
+            var businessScripts = [];
+            businessScripts.push('/qzone/app/utils/requirejSolution_1.0_qzone.js');
+            //D:\code\qzone_platform_proj\v8_front_source\core\seajs_config.js
+            businessScripts.push('/qzone/v8/core/seajs_config.js');
+            businessScripts.push('/qzone/app/mood_v6/script/app_patch.js');
+            // businessScripts.push('/qzone/app/mood_v6/api/api.js');
+            businessScripts.push('/qzone/app/mood_v6/script/index.js');
+            
+            //businessScripts.push('/qzone/app/mood_v6/launcher/main.js');
+            
+            //seajs提前，保证在加载businessScripts之前完成
+            //appendScript((window.g_cdn_proto || location.protocol )+'//'+siDomain+'/ac/lib/seajs/sea-'+g_V.sea+'.js');
+
+            appendScript(tmpl(scriptsTmpl,{
+                siDomain : siDomain,
+                scripts : (['/c/='+libScripts.join(',')]),
+                jsVer : 20130607,
+                maxAge : 999999
+
+            }));
+
+            if(debugMode){
+                for(var i=0;i<businessScripts.length;i++){
+                    appendScript(tmpl(scriptsTmpl,{
+                        siDomain : siDomain,
+                        scripts : ([businessScripts[i]]),
+                        jsVer : MOOD.version,
+                        maxAge : 999999
+                    }))    
+                }
+            }else{
+                appendScript(tmpl(scriptsTmpl,{
+                    siDomain : siDomain,
+                    scripts : (['/c/='+businessScripts.join(',')]),
+                    jsVer : MOOD.version,
+                    maxAge : 999999
+                }))    
+            }
+            
+            
+            // document.write('<script type="text/javascript" src="'+(window.g_cdn_proto || location.protocol )+'//'+siDomain+'/ac/lib/seajs/sea-'+g_V.sea+'.js"><\/script>');
+            // !onlyfirstscreen && appendScript()
+            timeStampsPool[5] =(new Date()); //渲染首屏完成  
+            
+            };
+     
+     var _loader = new top.QZFL.JSONGetter(preloadcgi, void (0), null, "utf-8");
+		_loader.onSuccess = function(o) {
+			window._preloadCache = o;
+            
+            if(MOOD.env.tab=='detail'){
+                //TODO:详情页这里的格式又不一样，继续兼容吧
+                window._preloadCache.result={code : o.code ,msg:o.message};
+
+            }else{
+
+                window._preloadCache.result = o.result || {code:9999,msg:"很抱歉，当前网络繁忙，请稍候再试！"};
+            }
+            
+            gTimeStampsPool[5]=(new Date()); //数据加载完成
+            timeStampsPool[2] =(new Date()); //数据加载完成
+            onPreloadFinished();
+             try{
+                //这里只会有成功的上报，失败的会再走异步逻辑拉一次
+                window.QZONE && QZONE.FP && QZONE.FP._t && QZONE.FP._t.TCISD && QZONE.FP._t.TCISD.haboStat({
+                    commandid : this._uri,
+                    stime : this.endTime - this.startTime,
+                    resultcode : 0,
+                    touin : MOOD.env.loginUin || 0,
+                    frequency : 1
+                })   
+            }catch(err){
+                
+            }
+        };
+        _loader.onError = function(){
+            onPreloadFinished();
+            try{
+                //这里只会有成功的上报，失败的会再走异步逻辑拉一次
+                window.QZONE && QZONE.FP && QZONE.FP._t && QZONE.FP._t.TCISD && QZONE.FP._t.TCISD.haboStat({
+                    commandid : this._uri,
+                    stime : this.endTime - this.startTime,
+                    resultcode : 999,
+                    touin : MOOD.env.loginUin || 0,
+                    frequency:1
+                })   
+            }catch(err){
+                
+            }
+        };
+        _loader.onTimeout = function(){
+            onPreloadFinished();
+             try{
+                //这里只会有成功的上报，失败的会再走异步逻辑拉一次
+                window.QZONE && QZONE.FP && QZONE.FP._t && QZONE.FP._t.TCISD && QZONE.FP._t.TCISD.haboStat({
+                    commandid : this._uri,
+                    stime : this.endTime - this.startTime,
+                    resultcode : 998,
+                    touin : MOOD.env.loginUin || 0,
+                    frequency : 1
+                })   
+            }catch(err){
+                
+            }
+        };
+        
+		_loader.send("_preloadCallback");
+		
+})();
+//$e('#mood_poster_container_wrapper').setHtml(MOOD.tmp.posterContainer);
+</script>
+</body>
+</html>

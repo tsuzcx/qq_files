@@ -1,0 +1,3476 @@
+<!doctype html>
+<html class="os_win7">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<script>
+if(/pengyou\.com$/.test(location.hostname)){
+	document.domain = 'pengyou.com';
+}else if(/qzone\.qq\.com$/.test(location.hostname)){
+	document.domain = 'qq.com';
+}else if(/qzone\.com$/.test(location.hostname)){
+	document.domain = 'qzone.com';
+}else{
+	document.domain = 'qq.com';
+}
+frameElement.g_isUploadInDialog = true;
+var jumpurl = /pengyou\.com$/.test(location.hostname)
+	? '/qzone/photo/zone/new/albumList.html#to=upload'
+	: '/qzone/photo/v7/page/photo.html?init=photo.v7/module/albumList/index&navBar=1&to=upload';
+location.href = 'http://'+location.host+jumpurl;
+
+var g_startTime = new Date();
+var g_pageLoadTimes = {startLoad:g_startTime};
+</script>
+<title>相册 | 照片上传</title>
+<style type="text/css">
+	.author-display {display:none;}
+	.visitor-display {display:none;}
+	.qzone-display {display:none;}
+	.center_msg{
+		font-size:14px;
+		text-align:center;
+		line-height:2;
+	}
+	.upload_area .center_msg{padding:150px 0;}
+	.upload_main_frame .center_msg{padding:30px 0;}
+	.test{display:none;}
+	.test p{padding-bottom: 5px;}
+</style>
+<script>
+//PSY
+var PSY = {
+	loadTimes :{startLoad:+new Date()},
+	_domains:{},
+	_photoVersionV7: top.g_photoVersionV7 || frameElement.g_photoVersionV7,
+	_photoVersionMap: top.g_photoVersionMap || frameElement.g_photoVersionMap
+};
+if(top.QZONE){
+	PSY._domains.imgcache = top.QZONE.FP._t.siDomain;
+	PSY._domains.main = 'user.qzone.qq.com';
+	PSY._domains.qzfl = top.QZONE.FP._t.imgcacheDomain;
+	PSY._qzflVersion = top.QZONE.FP._t.g_V.qz || '_2.1.34';
+	PSY._interfaceVersion = top.QZONE.FP._t.g_V.ci;
+	window.imgcacheDomain = PSY._domains.qzfl;
+	window.siDomain = PSY._domains.imgcache;
+	window.qlogoDomain = 'store.qq.com';
+}else{
+	PSY._domains.imgcache = 'qzonestyle.gtimg.cn';
+	PSY._domains.main = 'user.qzone.qq.com';
+	PSY._domains.qzfl = 'qzs.qq.com';
+	PSY._qzflVersion = '_2.1.34';
+	PSY._interfaceVersion = '_20131113';
+	window.imgcacheDomain = PSY._domains.qzfl;
+	window.siDomain = PSY._domains.imgcache;
+	window.qlogoDomain = 'store.qq.com';	
+}
+
+var cssurl = 'http://' + parent.siDomain + '/qzone_v6/photo_v4.css';
+document.write([
+	'\<link rel="stylesheet" rev="stylesheet" href="'+cssurl+'" type="text/css" media="screen" \/\>',
+	(frameElement.g_pyStyleUrl ?  //pengyou modify
+		'\<link rel="stylesheet" rev="stylesheet" href="'+frameElement.g_pyStyleUrl+'" type="text/css" media="screen" id="g_style" \/\>' :
+		'\<link rel="stylesheet" rev="stylesheet" href="'+frameElement.g_styleUrl+'" type="text/css" media="screen" id="g_style" \/\>')
+].join(""));
+</script>
+<script>
+g_pageLoadTimes.cssLoad = new Date();
+</script>
+<!--[if IE 6]>
+<script type="text/javascript">
+// <![CDATA[
+        try{
+	      document.execCommand("BackgroundImageCache", false, true);
+	    }
+	   catch(e){}
+// ]]>
+</script>
+<![endif]-->
+</head>
+<body class="mod_v6">
+<script>
+if (parent.QZONE.FrontPage.isInPengyou && parent.QZONE.FrontPage.isInPengyou()) {
+	document.write([
+		'\<div style="font-size:14px; line-height:20px; margin:1px 0 7px 25px; position:relative;"\>',
+			'\<a href="http://profile.pengyou.com/index.php?mod=profile&u=' + parent.g_iUin + '" class="c_tx" target="_parent"\>' + parent.QZONE.FP.getNickname() + '\<\/a\>\<span style="margin:0 5px;"\>-\<\/span\>\<span\>相册\<\/span\>',
+		'\<\/div\>'
+	].join(''));
+}
+</script>
+<div class="mod_wrap">
+	<div class="mod_wrap_inner">
+			<div class="mod_wrap_hd">
+				<div class="photo_header mod_hd_bar">
+					<div class="l crumbs">
+						<span>上传照片</span>
+						<span class="line divide c_tx3">&gt;</span>
+						<span class="current" id="upload_type" onclick="Page.clickTestUp();return false;">...</span>
+					</div>
+					<div class="qz_tab_v2_op other_op">
+						<a class="op_link op_feedback" href="javascript:void(0);" onclick="if(window.UploadStats){UploadStats.tcisdStats('suggest');}Page.suggestDeal();return false;" title="反馈问题"><i class="ui_icon icon_feedback"></i>反馈问题</a>
+						<a class="op_link op_back" href="javascript:;" onclick="QZONE.FP.toApp('/photo');return false;" title="返回相册首页">返回相册</a>
+					</div>
+				</div>
+			</div>
+			<div class="mod_wrap_bd">
+				<!--相册 S-->
+				<div id="upload_wrapper" class="photo_v3 photo_upload" style="width:auto;">
+					<div id="nav" style="padding-bottom:10px;display:none;"></div>
+					<div id="up_tips" class="hint" style="margin-bottom:10px;display:none;">
+						<strong class="icon_hint"><span>提示</span></strong> 
+						<span id="up_tips_content">腾讯网郑重承诺：我们将尽一切努力，坚决杜绝低俗信息，为广大网友创造一个绿色、健康、和谐的网络空间。同时，我们也真诚地希望广大网友对我们的工作进行监督。请点击：<a href="http://qzone.qq.com/helpcenter/announcement_info.htm?23" target="_blank" class="c_tx4" title="关于腾讯公司整治低俗内容的公告">关于腾讯公司整治低俗内容的公告</a></span> 
+						<a href="javascript:void(0);" onclick='$("up_tips").style.display="none";return false;' title="关闭提示" class="hint_close">关闭</a> 
+					</div>
+					<!--确定用哪个工具栏前占位用-->
+					<div id="op_bar_fake" class="upload_op_bar">
+						<span class="op_txt">上传到：</span>
+						<div class="op_select_wrap">
+						</div>
+					</div>
+					<div id="op_bar" class="upload_op_bar" style="display:none;">
+						<span class="op_txt">上传到：</span>
+						<div id="select_album" class="op_select_wrap">
+						</div>
+						<div class="op_set_details">
+							<span id="create_album_span" class="create_ablum" style="display:none;">或<a id="create_album" href="javascript:void(0)" title="新建相册">新建相册</a></span>
+							<span id="refresh_album_span" class="create_ablum" style="display:none;">或<a id="refresh_album" href="javascript:void(0)" title="刷新">刷新</a></span>
+							<span id="watermark_span" class="add_watermark" style="display:none;"><span class="divide c_tx3">|</span><a id="watermark" onclick="Page.makeWatermark();return false;" href="javascript:void(0);" title="照片水印">自定义水印</a><a id="watermark_cancel" href="javascript:void(0);" style="display:none;">取消</a></span>
+							<div id="option_quality" version="1" class="photo_quality" style="display:none;"><span class="divide c_tx3">|</span>照片尺寸：
+								<span class="radio_item" _photoType="0"><input type="radio" name="pic_size" id="photo_type_0" _photoType="0" class="radio" checked="true"><label for="photo_type_0">普通</label></span>
+								<span class="radio_item" _photoType="1"><input type="radio" name="pic_size" id="photo_type_1" _photoType="1" class="radio"><label for="photo_type_1">超大<i class="hd-flag"></i></label></span>
+								<span class="radio_item radio_item_last" _photoType="2"><input type="radio" name="pic_size" id="photo_type_2" _photoType="2" class="radio"><label for="photo_type_2">原图</label></span>
+							</div>
+							<iframe id="mask_quality" class="quality_bubble" style="width:220px;z-index:1;display:none;" src="about:blank" width="150px" frameborder="no"></iframe>
+							<div id="layer_quality" class="quality_bubble" style="width:150px;z-index:2;display:none;">
+                                <div id="photo_panel_1" class="quality_bubble_inner" style="display:none;">
+                                    <p class="length_adjust" style="display:none;">
+                                        自定义尺寸<input id="hd_size" type="text" maxlength="4" class="length_input" onblur="this.value=UploadQuality.checkHDSize(this.value);return false;"><span class="c_tx3">像素</span>
+                                    </p>
+                                    <p class="c_tx3">保存1600尺寸高清图</p>
+                                    <p class="c_tx3">大图模式查看更清晰</p>
+                                </div>
+                                <div id="photo_panel_2" class="quality_bubble_inner" style="display:none;">
+                                    <p class="c_tx3">保持照片原始尺寸</p>
+                                    <p class="c_tx3">支持下载，上传稍慢</p>
+                                </div>
+							</div>
+							<div id="more_setting_wrap" class="op_set_more_wrap" style="display:none;">
+								<span class="divide c_tx3">|</span>
+								<div id="more_setting" class="op_set_more">
+									<a id="more_setting_btn" href="javascript:void(0);" class="switch">设置<b class="mod_arr mod_arr_b"><span></span></b></a>
+									<iframe id="more_setting_mask" style="z-index:1;position:absolute;display:none;" src="about:blank" frameborder="no"></iframe>
+									<div id="more_setting_list" class="op_set_panel" style="z-index:2;display:none;">
+										<i class="adorn bor bg"></i>
+										<div id="more_setting_list_content" class="op_set_list">
+											<ul id="more_setting_list_ul">
+												<li id="option_autorotate" style="display:none;">智能旋转 <i id="check_autorotate" class="icon_mark" style="display:"></i></li>
+												<li id="option_watermark" style="display:none;">添加空间地址 <i id="check_watermark" class="icon_mark" style="display:none"></i></li>
+												<li id="option_syncwb" style="display:none;">同步到微博 <i id="check_syncwb" class="icon_mark" style="display:none"></i></li>
+											</ul>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="link_normal_upload">
+							<a id="go_simple" class="link_go_simple" style="display:none;" href="javascript:void(0);" onclick="UploadStats.tcisdStats('goSimple');Page.goSimpleUp();return false;"><i class="ui_icon icon_go_simple"></i>普通上传</a>
+							<a id="go_ax" class="link_go_simple" style="display:none;" href="javascript:void(0);" onclick="UploadStats.tcisdStats('goAx');if(g_uploadType=='Web'){g_sendReport(110200,1,15,true);}Page.goActUp();return false;"><i class="ui_icon icon_go_simple"></i>极速上传</a>
+						</div>
+					</div>
+					<div id="op_bar_new" class="photo-upload-hd clearfix photo-upload-nowatermark" style="display:none;">
+						<div class="hd-fl">
+							<span class="album-label">上传到</span>
+							<div id="select_album_new" class="op_select_wrap">
+							</div>
+						</div>
+						<div id="batch_info_area" class="hd-fr" style="display:none;">
+							<div id="modify_info_area" class="more-info-area" style="display:none;">
+								<label for="input_desc" class="desc-label">描述:</label>
+								<div class="desc-input">
+									<iframe id="mask_desc" style="z-index:1;position:absolute;width:336px;display:none;" src="about:blank" frameborder="no"></iframe>
+									<label for="input_desc" class="hide-clip" style="z-index:2;">描述下这批照片吧…</label>
+									<textarea id="input_desc" class="batch-desc" style="z-index:2;" type="text" maxlength="200"></textarea>
+								</div>
+							</div>
+
+							<!-- 添加水印后，增加 added-watermark；禁用时，增加op-watermark-disable -->
+							<div id="watermark_span_new" class="op-watermark" style="display:none;">
+								<a href="javascript:void(0);" class="add-watermark" onclick="Page.makeWatermark();return false;"><b class="ico-watermark"></b>添加水印</a>
+								<span class="edit-watermark"><b class="ico-watermark mr9"></b><a href="javascript:void(0);" class="mr9" onclick="Page.makeWatermark();return false;">编辑</a><a href="javascript:void(0);" onclick="Page.removeWatermark();return false;">取消</a></span>
+							</div>
+
+						</div>
+					</div>
+
+					<div class="upload_area" id="container" style="height:450px;width:100%;overflow:hidden;">
+						<p class="center_msg" id="center_msg" style="line-height:2;">
+							正在努力加载页面，请稍候...
+						</p>
+					</div>
+					<iframe id="mask_container" style="position:absolute;z-index:10;top:100px;display:none;opacity:0; filter:alpha(opacity=0);" width="100%" height="100%" src="about:blank" frameborder="no"></iframe>
+					<div id="flash_loading" style="font-size:14px;text-align:center;line-height:2;position:absolute;display:none;">
+						正在努力加载页面，请稍候...
+					</div>
+					<iframe id="mask_guide" class="beginners_tips select_photo_tips" style="position:absolute;top:240px;left:550px;z-index:10;display:none;" src="about:blank" frameborder="no"></iframe>
+					<div id="guide" class="beginners_tips select_photo_tips" style="position:absolute;top:240px;left:550px;z-index:20;display:none;">
+						<p class="hide_clip">点击可选择本地电脑中的照片</p>
+					</div>
+					<p class="tipline upload_tip_line">
+						<span class="l" id="bottom_tip" style="margin-left:5px;line-height:19px;display:none;"></span>
+						<span class="l" id="bottom_axver" style="margin-left:5px;line-height:19px;display:none;"></span>
+						<span class="r" id="bottom_go_simple" style="line-height:19px;display:none;">上传遇到问题，请选择<a href="javascript:void(0);" onclick="UploadStats.tcisdStats('goSimple');Page.goSimpleUp();return false;">普通上传</a></span>
+						<span class="r" id="bottom_go_ax" style="line-height:19px;display:none;">上传遇到问题，请选择<a href="javascript:void(0);" onclick="UploadStats.tcisdStats('goAx');if(g_uploadType=='Web'){g_sendReport(110200,1,15,true);}Page.goActUp();return false;">极速上传</a></span>
+					</p>
+					<div class="tipline upload_tip_line test">
+						<p id="test_donotshow">
+							<a href="javascript:void(0);" onclick="UploadQuality.setDonotShow(2,0);return false;">取消原图的不再提示</a>
+						</p>
+						<p id="test_axver" style="display:none;"></p>
+					</div>
+                </div>
+                <!--相册 E-->
+                <div id="upload_mark" class="mod-mark-frd" style="display:none;padding-bottom:300px;">
+                </div>
+            </div>
+    </div>
+</div>
+</body>
+<script>
+g_pageLoadTimes.qzflJSStartLoad = new Date();
+</script>
+<!--E 异步seajs引入,不阻塞页面-->
+<script type="text/javascript">
+document.write([
+	'<script type="text/javascript" src="'+frameElement.g_qzflUrl+'"><\/script>',
+	'<script type="text/javascript" src="/qzone/v8/applib/embeded.js"><\/script>',	
+	'<script type="text/javascript" src="http://'+ PSY._domains.imgcache +'/ac/lib/seajs/sea-2.1.1.js" \/><\/script>'
+].join(""));
+</script>
+<script type="text/javascript">
+seajs.config({
+	base: 'http://' + PSY._domains.imgcache +'/',
+	charset:'utf-8',
+	timeout:5*60*1000,
+	debug:0,
+	alias:{
+		'jquery' : 'http://' + PSY._domains.imgcache +'/qzone/photo/v7/js/lib/jquery.js',
+		'migrate-plugin': 'http://' + PSY._domains.imgcache + '/qzone/v8/engine/migrate-plugin.js'
+	},
+	paths:{
+		'photo.v7' : 'http://' + PSY._domains.imgcache +'/qzone/photo/v7/js',
+		'cssBase' : 'http://' + PSY._domains.imgcache,
+		'v8': 'http://' + PSY._domains.imgcache + '/qzone/v8',
+		'app' : 'http://' + PSY._domains.imgcache +'/qzone/app'
+	},
+	map:[
+		[/^.+\/lib\/qzfl\.js$/i,'http://' + PSY._domains.qzfl +'/ac/qzone/qzfl/qzfl'+(PSY._qzflVersion)+'.js'],
+		[/^.+\/jquery\.js$/,'http://' + PSY._domains.imgcache + '/ac/lib/jquery/1.8.3/jquery.js'],
+		//[/^.+\/tcisd.js/$/,'http://' + PSY._domains.imgcache + '/qzone/v8/core/stat.js'],
+		[/^(.+\/qzone\/photo\/v7\/js\/.+\.js)$/i,'$1?ver=' + PSY._photoVersionV7],
+		[/^(.+\/qzone_v6\/[^\/]+\.css)$/i,'$1?max_age=2592000&ver=' + PSY._photoVersionMap.css]
+	]
+});
+</script>
+<script>
+g_pageLoadTimes.qzflJSLoad = new Date();
+</script>
+<script type="text/javascript">
+//先停掉V8动态背景的css3动画
+if(QZONE && QZONE.FP._t.QZONE.qzEvent && QZONE.FP._t.QZONE.qzEvent.dispatch) {
+	QZONE.FP._t.QZONE.qzEvent.dispatch('DYNAMIC_SKIN_STOP');
+}
+//不管从哪跳过来的，进来之后就都用新的
+frameElement.g_isUploadNew = true;
+
+//提前设置height，以免抖动
+var g_isOldXWMode = QZONE.FP._t.QZONE.dressDataCenter.isOldXWMode();
+if (g_isOldXWMode) {
+	//5.0小窝
+	$e(".mod_wrap").setStyle("width", "740px");
+	$e("#container").setStyle("height", "340px");
+} else {
+	$e("#container").setStyle("height", ((window.screen && screen.height>=1024)?500:450)+"px");
+}
+
+var g_photoVersion = '20130515';
+if(frameElement && frameElement.g_photoVersion) {
+	g_photoVersion = frameElement.g_photoVersion;
+}
+document.write([
+	'<script type="text/javascript" src="/qzone/photo/zone/script/AlbumGet.js?max_age=2592000&v='+g_photoVersion+'"><\/script>',
+	'<script type="text/javascript" src="/qzone/photo/zone/new/script/upload.js"><\/script>'
+].join(""));
+</script>
+<script>
+g_pageLoadTimes.uploadJSLoad = new Date();
+</script>
+<script type="text/javascript">
+//flash相关
+var g_cacheVersion = "1112";
+var g_flashVersion;
+
+//点击流全量
+var photoUploadHotClick = function(tag, domain, url, opt){
+	opt = opt || {};
+	var _s = QZONE.FP._t.TCISD.hotClick,
+	x 		= opt.x || 9999,
+	y 		= opt.y || 9999,
+	doc 	= opt.doc || document,
+	w 		= doc.parentWindow || doc.defaultView,
+	p 		= w._hotClick_params || {};
+	url 	= url|| p.url|| w.location.pathname || "-";
+	domain 	= domain || p.domain || w.location.hostname || "-";	
+	QZONE.FP._t.QZFL.pingSender([_s.config.webServerInterfaceURL,"?dm=",domain+".hot","&url=",escape(url),"&tt=-","&hottag=",tag,"&hotx=",x,"&hoty=",y,"&rand=",Math.random()].join(""));
+};
+
+//新手引导
+var userGuide = QZONE.FP._t.QZONE.userGuide;
+var g_needShowGuide = userGuide && userGuide.needShowPhotoGuide && userGuide.needShowPhotoGuide();
+if(g_needShowGuide){
+	//这是框架里的需要显示，不一定真的会显示，提前加载css
+	QZFL.css.insertCSSLink("http://"+parent.siDomain+"/qzone_v6/beginners_photo.css");
+}
+
+//flash是否可用
+function isFlashValid(){
+	var limit = 10.001;	//最低10.1
+	var fv = QZFL.media.getFlashVersion();
+	return (fv?fv.toNumber():0)>=limit;
+}
+	//flashplayer安装地址
+	function getFlashPlayerUrl(){
+		var url = "http://www.adobe.com/go/getflash";
+		return url;
+	}
+	function getFlashPlayerUninstallUrl(){
+		return null;
+	}
+/////////////////////////////////////////////////
+//一些全局变量
+var g_ownerUin = QZONE.FP.getQzoneConfig('ownerUin');
+var g_loginUin = QZONE.FP.getQzoneConfig('loginUin');
+
+//QQ号
+var g_loginQQ = 0;
+if (QPHOTO.status.inPengyou) {
+	//朋友网的QQ号直接从cookie里拿
+	g_loginQQ = QZFL.cookie.get('uin').replace(/\D/g, '') - 0;
+} else {
+	g_loginQQ = QZONE.FP.getQzoneConfig('loginUin');
+}
+
+//单个相册允许的照片数上限
+var g_maxPhotoInAlbum = 10000;
+
+//存一下最后一次上传的批次id，上传完后圈人需要
+var g_lastBatchId = 0;
+
+
+//上传方式：Ax Flash Web
+var g_uploadType = QPHOTO.util.getParameter("type");
+
+//控件是否可用
+var getDrawExSupported = function(){
+	var isSupport = ua.windows && (ua.ie || ua.webkit || ua.firefox);
+	//目前win8.1下控件支持有问题，暂时先屏蔽
+	if(isSupport && ua.windows && ua.windows >= 6.3) {
+		isSupport = false;
+	}
+	return isSupport;
+}
+
+//验证一下对不对
+if(g_uploadType=="Ax"){
+	if(!getDrawExSupported()){
+		g_uploadType = "";
+	}
+}
+if(g_uploadType=="Flash"){
+	if(!isFlashValid()){
+		g_uploadType = "";
+	}
+}
+if(g_uploadType!="Ax" && g_uploadType!="Flash" && g_uploadType!="Web"){
+	if(getDrawExSupported()){
+		g_uploadType = "Ax";
+	}else{
+		g_uploadType = isFlashValid() ? "Flash" : "Web";
+	}
+}
+
+//版本号，控件的版本号后面算
+var g_AxVer = -1;
+if (g_uploadType=="Flash") {
+	g_AxVer = 20;
+} else if (g_uploadType=="Web") {
+	g_AxVer = 10;
+}
+
+//照片质量：0-普通，1-高清，2-原图
+var g_photoType = -1;
+//大图压缩质量
+var bigQuality = 85;
+//点击开始上传时间
+var g_firstStartUploadTime = 0;
+
+//区分来源
+var g_from = QPHOTO.util.getParameter("from") || "others";
+var g_innerfrom = QPHOTO.util.getParameter("innerfrom") || QPHOTO.util.getParameter("from") || "others";
+//取过之后就改掉，你怎么会变多呢？？？
+if(/innerfrom/.test(window.location.hash)){
+	window.location.hash = window.location.hash.replace(/innerfrom=\w+/g, "innerfrom=unknown");
+}else{
+	if(window.location.hash.length > 1){
+		window.location.hash = window.location.hash + "&innerfrom=unknown";
+	}else{
+		window.location.hash = "#innerfrom=unknown";
+	}
+}
+
+//区分ua
+var g_browser = "others";
+if(ua.ie){
+	g_browser = "ie";
+}else if(ua.webkit){
+	g_browser = "webkit";
+}else if(ua.firefox){
+	g_browser = "firefox";
+}
+
+//flash的window.wmode
+var flashWindowMode = false;
+//暂时只对ie9下的Flash 也用 window,遇到好几个ie9的白屏Flash
+var nowDate = QZFL.FP.getSvrTime() || new Date();
+var isIEGpu = (ua && ua.ie == 9);
+if(ua && ua.ie == 10) {
+	isIEGpu = true;
+}
+if(isIEGpu) {
+	//if(nowDate.getDate() % 2) {
+		flashWindowMode = true;
+	//}
+}
+/////////////////////////////////////////////////
+//记录lasterr
+g_loginUin && QPHOTO.data.del("upload_lasterr_"+g_loginUin);
+var _isAxDisabled = 0;//用于统计用户控件状态，1：版本过低不能使用 2：初始化失败转http
+function g_saveLastError(str){
+	var from = g_from;
+	if(_isAxDisabled) {
+		from = g_from + '.' + _isAxDisabled;
+	}
+	var value = "p="+(QPHOTO.status.inPengyou?"py":"qz")+",f="+from+",et="+((new Date()).getTime()-g_startTime.getTime())+",t="+g_uploadType+",ver="+g_AxVer+",ls="+g_lastStep+",ei="+str;
+	//QZFL.console.print("g_saveLastError "+value);
+	g_loginUin && QPHOTO.data.save("upload_lasterr_"+g_loginUin, value);
+}
+function g_getLastError(limit){
+	if(!g_loginUin){
+		return "";
+	}
+	var errinfo = QPHOTO.data.get("upload_lasterr_"+g_loginUin) || "";
+	if(limit > 0){
+		errinfo = errinfo.substr(0,limit);
+	}
+	return errinfo;
+}
+/////////////////////////////////////////////////
+//报返回码
+var g_report = QZONE.FP.isAlphaUser(true) || Math.random()<0.1;	//一开始抽样，同一个人的都报
+function g_sendReport(flag1,flag2,flag3,forceReport,time){
+	//QZFL.console.print("g_sendReport "+flag1+" "+flag2+" "+flag3);
+	time = time || 0;
+	if (g_report||forceReport){
+		QZONE.FP._t.TCISD.valueStat(flag1,flag2,flag3,{reportRate:1,duration:time});
+	}
+}
+window.g_sendReport_sugguest = g_sendReport;
+/////////////////////////////////////////////////
+//报关键步骤
+var g_needReportClickAdd = true;
+var g_needReportStartAdd = true;
+var g_needReportSelect = true;
+var g_needReportSelectDelay = true;
+var g_lastSelectTime = null;
+var g_needReportSucc = false;
+var g_stepMapNew = {
+	"enter":"step2_enternew",
+	"getver":"step3_getvernew",
+	"show":"step4_shownew",
+	"loadjs":"step5_loadjsnew",
+	"alist":"step6_alistnew",
+	"inited":"step7_initednew",
+	"initedcb":"step8_initedcbnew",
+	"clickadd":"step9_clickaddnew",
+	"startadd":"step10_startaddnew",
+	"selected":"step11_selectednew",
+	"clickupload":"step12_clickuploadnew",
+	"startupload":"step13_startuploadnew",
+	"uploadsucc":"step14_uploadsuccnew"
+};
+var g_succStepIndex = 14;
+var g_lastStepIndex = 0;
+var g_lastStep = "";
+var g_stepTimes = {};
+function g_refreshStep(simpleStepName){
+	var stepName = g_stepMapNew[simpleStepName];
+	if(!stepName){
+		return;
+	}
+	var index = parseInt(stepName.substring(4, stepName.indexOf("_")));
+	if(index > g_lastStepIndex){
+		//QZFL.console.print("g_refreshStep, now "+stepName);
+		g_lastStepIndex = index;
+		g_lastStep = simpleStepName;
+		g_stepTimes[g_lastStep] = new Date();
+	}
+}
+
+function g_reportKeyStep(simpleStepName){
+	g_refreshStep(simpleStepName);
+
+	var stepNameNew = g_stepMapNew[simpleStepName];
+	var tail = "." + [g_innerfrom,((g_lastStepIndex>=4)?g_uploadType:"unknown"),g_AxVer,g_browser,g_photoType].join(".");
+	//QZFL.console.print("g_reportKeyStep "+stepNameNew+", tail="+tail);
+	stepNameNew && photoUploadHotClick(stepNameNew + tail, "photostream.qzone.qq.com", "/uploadnew");
+
+	g_saveLastError("now "+stepNameNew);
+}
+
+/////////////////////////////////////////////////
+//报文本，这个要小心量
+function g_reportText(str, rate, params){
+	//QZFL.console.print("g_reportText "+str);
+	//rate有错则默认采样10%
+	if(!(rate > 0 && rate <= 1)){
+		rate = 0.1;
+	}
+	if(Math.random() >= rate){
+		return;
+	}
+	var urlLengthLimit = 2083,
+		url = "http://s.isdspeed.qq.com/cgi-bin/s.fcg";
+	params = params || {};
+	var dataId = params.dataId || 1000101;
+	var errType = params.type || g_uploadType;
+	//如果是flash上报版本号
+	var version = params.version || g_AxVer;
+	if(g_uploadType == 'Flash') {
+		version += QZFL.media.getFlashVersion();
+	}
+	var arrstr = [
+		"dataId=" + dataId,
+		"uin=" + g_loginQQ,
+		"ua=" + encodeURIComponent(navigator.userAgent),
+		"type=" + errType,
+		"version=" + version,
+		"str=" + encodeURIComponent(str)
+	].join('&');
+
+	url += ("?" + arrstr);
+	url = url.substring(0,urlLengthLimit); //就算被截断了也不管
+
+	//上报
+	QZONE.FP._t.QZFL.pingSender(url, 100);
+}
+/////////////////////////////////////////////////////////////////////
+//开始
+g_sendReport(110123,1,g_AxVer, true);
+
+g_reportKeyStep("enter");
+
+var g_speed = new QPHOTO.report.Speed();
+g_speed.setStart(g_startTime);
+g_speed.setTime();
+
+var UploadQuality = QPHOTO.upload.UploadQualityNew2;
+var UploadStats = QPHOTO.upload.UploadStats;
+var SyncWb = QPHOTO.upload.SyncWb;
+var UpdateAx = QPHOTO.upload.UpdateAx;
+
+var ModifyPhotoInfos = QPHOTO.upload.ModifyPhotoInfos;
+var UploadMark = QPHOTO.upload.UploadMark;
+
+var Wrapper = null;	//这个要到后面才能确定
+
+var Page = (function(){
+	var _uploadCfg = {
+		"uploadLimitNum" : (QZONE.FP.getVipStatus()>0?500:300),
+		"canWaterMark" : {
+			"Ax"	: { "0":true },
+			"Flash" : { "0":true }
+		},
+		"canNewWaterMark" : {
+			"Ax"	: { "0":true,"1":true,"2":false,  "msg":"暂不支持原图添加水印" },//只有普通和高清图上传才能设置水印
+			"Flash" : { "0":true,"1":true,"2":false,  "msg":"暂不支持原图添加水印" }
+		}
+	};
+	var _photoTypeMap = {
+		0 : '普通图',
+		1 : '高清图',
+		2 : '原图'
+	}
+
+	var _uin;
+	var _albums;
+	var _info;
+
+	var _aid;
+	var _currAlbum;
+
+	var _settingEnabled = true;
+
+	var _lastUploadNumberAll = 0;
+	var _lastProcessNumber = 0;
+	var _lastSuccNumber = 0;
+
+	var _batchUploadNum = 0;
+	var _batchUploadSize = 0;
+	var _batchUploadStart = null;
+	var _batchUploadEnd = null;		//记录end，因为控件会先弹确认框再调用uploadover，弹框时间不算
+
+	var _cfg = null;
+
+	var _timerStep = null;
+
+	var _createdAids = {};	//在这里创建的相册id
+	var _defaultAid = null;	//默认选择的相册id
+
+	var _albumSelector = null;
+
+	var _showUserGuide = false;			//是否显示了新手指引
+	var _reportClickUserGuide = false;	//是否上报了点击新手指引
+
+	var _clickTest = 0;//用于普通上传3击
+	
+
+	var _selectedPhotoCount = 0;		//当前选择的照片数
+	var _selectedPhotoSize = 0;
+	
+	var _watermarkId = null;			//当前已经设置的水印模板Id
+
+	//这几个灰度策略在Page.doInit里修改
+	var _use800 = false;		//是否上传800的图
+	var _use640 = true;			//最短边640，优先级比_use800高
+	var _isNewWatermark = false;//是否支持新水印
+	var _useNewOpBar = false;	//是否用新操作栏
+	var _canMark = false;		//是否启用圈人
+
+	//上传工具状态，start/edit/uploading/complete，flash上传多一个canceling
+	var _status = '';
+
+	//保存描述和位置
+	var _needSaveInfoAdd = false;		//点击添加照片时是否需要保存信息并清空已经填写的内容
+	var _needSaveInfoUnload = false;	//unload时是否需要保存信息并清空已经填写的内容
+
+	//圈人
+	var _needShowMark = false			//根据_canMark 和 上传到的相册 判断是否需要显示圈人
+	var _lastSuccLloc = '';				//最后一次上传成功的照片的lloc
+
+	//container是否隐藏
+	var _isHideContainer = false;
+	
+	function _updateUploadFeeds(data){
+		//QZFL.console.print("_updateUploadFeeds aid="+_aid+" uploadnum="+_lastUploadNumberAll+" processnum="+_lastProcessNumber+" succnum="+_lastSuccNumber);
+        //不用发feed咯
+            _lastProcessNumber = 0;
+            _lastSuccNumber = 0;
+            return;
+
+
+		if (!_aid || _lastUploadNumberAll == 0){
+			return;
+		}
+
+		if (_lastUploadNumberAll > 500) {
+			g_reportText("uploadnum over500, "+_lastUploadNumberAll, 1);
+		}
+
+		var url = QPHOTO.util.getUrl("update_upload_feeds");
+		
+		if (url.indexOf("?")!=-1){
+			url += ("&t="+Math.random());
+		}else{
+			url += ("?t="+Math.random());
+		}
+
+		data = data || {};
+		data.albumid = _aid;
+		data.refer = QPHOTO.status.refer;
+		data.plat = QPHOTO.status.plat;
+		data.appid = 4;
+		data.feeds = 1;
+		data.output_type = "jsonhtml";
+		data.uploadnum = _lastUploadNumberAll || 0;
+		data.processnum = _lastProcessNumber || 0;
+		data.succnum = _lastSuccNumber || 0;
+
+		var map = {
+			"Ax":"activex",
+			"Flash":"flash",
+			"Web":"web"
+		};
+		data.uploadby = map[g_uploadType];
+		if(g_uploadType=="Ax"){
+			data.axver = g_AxVer;
+		}
+		
+		/*
+		var post = new  QZONE.FP._t.QZFL.FormSender(url,"post",data, 'GB2312');
+		post.send();
+		*/
+		//用FormSender，ie67发不出去，不关心回调，直接用pingSender算了
+		for(var k in data){
+			url += "&"+k+"="+encodeURIComponent(data[k]);
+		}
+		QZONE.FP._t.QZFL.pingSender(url,100);
+
+		_lastProcessNumber = 0;
+		_lastSuccNumber = 0;
+	}
+	/**
+	 * 获取相册类型,用于直进主题相册
+	 */
+	function _getAlbumViewType(aid){
+		if(_albums && _albums.length){
+			for(var i = _albums.length-1;i>=0;i--){
+				if(_albums[i].id == aid){
+                    return _albums[i].viewtype;
+					return (_albums[i].viewtype ? _albums[i].viewtype : 0);
+				}
+			}
+		}
+		return 0;
+	}
+	
+	/**
+	 * 获取随机数
+	 */
+	function _getRandom() {
+		var rs = new Date().getTime() + Math.ceil(Math.random()*10000);	
+		return rs;
+	}
+
+	function _reportToSpeed(options) {
+		options = options || {};
+		var flag1 = options.flag1 || 177;
+		var flag2 = options.flag2 || 11;
+		var flag3 = options.flag3 || 47;
+		var sampling = options.sampling || 1;//默认全量
+		var times = options.times || '';
+		if (Math.random() > 1/sampling){
+			return;
+		}
+		var url = "http://isdspeed.qq.com/cgi-bin/r.cgi?flag1=" + flag1 + "&flag2=" + flag2 + "&flag3=" + flag3 +"&flag5=" + sampling + "&" + times+'&_='+ _getRandom();
+		//框架去发
+		QZONE.FP._t.QZFL.pingSender(url, 100);
+	}
+	
+	function _reportBatchSpeed(params){
+		//QZFL.console.print("_reportBatchSpeed num="+_batchUploadNum+" size="+_batchUploadSize);
+		if (_batchUploadNum == 0 || _batchUploadStart == null || _batchUploadEnd == null){
+			return;
+		}
+		var delay = _batchUploadEnd.getTime()-_batchUploadStart.getTime();
+		var spec = "";
+		var isSocketUser = (params && params.isSocketUser) ? true : false;
+		if(g_uploadType == 'Ax' && g_AxVer >= 242) {
+			isSocketUser = true;
+		}
+		var timesFlag = 0;
+		if (g_photoType == 2) {
+			spec = "r";
+			timesFlag = isSocketUser ? 3 : 6;
+		} else if (g_photoType == 1) {
+			spec = "o";
+			timesFlag = isSocketUser ? 2 : 5;
+		} else {
+			spec = "b";
+			timesFlag = isSocketUser ? 1 : 4;
+		}
+		if(g_uploadType == 'Ax' || g_uploadType == 'Flash') {
+			//计算平均
+			if(_batchUploadSize == 0) {
+				_batchUploadSize = 1;//强制非0
+			}
+			var averageSpeed = parseInt( parseInt(delay/_batchUploadSize * 102400 * 100) /100 );//每100K数据传递的延时
+			var times = timesFlag + '=' + averageSpeed;
+			var flag3 = g_uploadType == 'Ax' ? 51 : 52;
+
+			//总体批次测速
+			_reportToSpeed({
+				flag1 : 177,
+				flag2 : 11,
+				flag3 : flag3,
+				sampling : 1,
+				times : times
+			});
+
+			//flash做 分张数测速
+			if(g_uploadType == 'Flash') {
+				if( g_uploadType == 'Flash' && _batchUploadNum <= 1) {
+					//5张内单独测速
+					timesFlag = timesFlag + 6;
+				}
+				times = timesFlag + '=' + averageSpeed;
+				_reportToSpeed({
+					flag1 : 177,
+					flag2 : 11,
+					flag3 : 54,
+					sampling : 1,
+					times : times
+				});
+			}
+
+
+			//批次张数上报_batchUploadNum
+			var batchNum = '1=' + ( _batchUploadNum * 100);
+			_reportToSpeed({
+				flag1 : 177,
+				flag2 : 11,
+				flag3 : 50,
+				sampling : 100,
+				times : batchNum
+			});
+		}
+		//243在wrapper.js中已经上报架平了
+		if(g_uploadType != 'Ax' || g_AxVer < 243) {
+			//上报批量数据给架平
+			QPHOTO.upload.UploadReport.addData({
+				"num" : _batchUploadNum,
+				"spec" : spec,
+				"size" : _batchUploadSize,
+				"delay" : delay,
+				"errcode" : 0
+			});
+		}
+
+		_batchUploadNum = 0;
+		_batchUploadSize = 0;
+		_batchUploadStart = null;
+		_batchUploadEnd = null;
+	}
+	
+	var inner;
+	return inner = {
+		init : function(){
+			_uin = QZONE.FP.getQzoneConfig("loginUin");
+			_aid = QPHOTO.util.getParameter("a_id");
+			g_reportKeyStep("show");
+			g_sendReport(110254,1,g_AxVer, true);
+			g_speed.setTime();
+
+			var tc = QZONE.FP.getStatPackage();
+			var url = "/qzone/photo/zone/new/photoUpload/"+g_uploadType;
+			tc.pv("photo.qzone.qq.com",url);
+
+			//这个只是为了给photostream.qzone.qq.com随便上报点什么pv，要不看不到热点统计，不准没关系
+			setTimeout(function(){
+				tc.pv("photostream.qzone.qq.com",location.pathname+'.'+g_uploadType);
+			},10000);
+
+			//各种灰度策略
+			_use800 = true;
+			_use640 = true;
+			_isNewWatermark = QPHOTO.status.inQzone 
+				&& ((g_uploadType == "Flash") || (g_uploadType == "Ax" && g_AxVer>=248));
+			_useNewOpBar = g_uploadType=="Ax" && g_AxVer>=248;
+			_canMark = g_uploadType=="Ax" && g_AxVer>=248 && false;
+
+			//提前显示，防止出错时没有切换上传方式的入口
+			$("op_bar_fake").style.display = "none";
+			if(_useNewOpBar){
+				$("op_bar_new").style.display = "";
+				if(g_uploadType=="Ax"){
+					$("bottom_go_simple").style.display = "";
+				}else{
+					$("bottom_go_ax").style.display = "";
+				}
+			}else{
+				$("op_bar").style.display = "";
+				$("bottom_go_simple").style.display = "none";
+				$("bottom_go_ax").style.display = "none";
+			}
+
+			if (g_uploadType=="Ax") {
+				$("upload_type").innerHTML = "极速上传";
+				$("go_simple").style.display = "";
+				
+				if(QZONE.FP.isAlphaUser(true)){
+					$("bottom_axver").innerHTML = "您的控件版本是："+g_AxVer+"(Alpha可见)";
+					$("bottom_axver").style.display = "";
+				}
+
+				if (g_AxVer >= 248 && !g_isOldXWMode) {
+					$e("#container").setStyle("height", "540px");
+				}
+
+				//更新升级提示
+				UpdateAx && UpdateAx.refreshUpdateTip(g_AxVer);
+
+				//上报控件版本，这个是占可用控件的比例，前面那个包括没装和版本过低的
+				UploadStats.tcisdStats("axver2."+g_AxVer);
+			} else if (g_uploadType=="Flash") {
+				$("upload_type").innerHTML = "普通上传";
+				if (getDrawExSupported()) {
+					$("go_ax").style.display = "";
+				}
+
+				//上报flash版本
+				var fv = QZFL.media.getFlashVersion();
+				var fvstr = fv?fv.toString():"";
+				UploadStats.tcisdStats(("flashver."+fvstr.replace(/,/, "_")).replace(/,/g, "."));
+			} else if (g_uploadType=="Web") {
+				$("upload_type").innerHTML = "普通上传";
+				$e("#container").setStyle("height", "100px");
+				QZONE.css.removeClassName($("container"),"upload_area");
+				QZONE.css.addClassName($("container"),"upload_main_frame");
+
+				if(ua.isiPad || ua.isiPod || ua.isiPhone){
+					var temp = null;
+					var href = "";
+					var userAgent = navigator.userAgent;
+					if(ua.isiPad){
+						temp = userAgent.match(/(iPad).*OS\s([\d_]+)/);
+						href = "https://itunes.apple.com/cn/app/id433156786?mt=8";
+					}else if(ua.isiPod){
+						temp = userAgent.match(/(iPod).*OS\s([\d_]+)/);
+						href = "https://itunes.apple.com/cn/app/qq-kong-jian/id364183992?mt=8";
+					}else if(ua.isiPhone){
+						temp = userAgent.match(/(iPhone\sOS)\s([\d_]+)/);
+						href = "https://itunes.apple.com/cn/app/qq-kong-jian/id364183992?mt=8";
+					}
+					if (temp && temp.length >= 2 && href){
+						if(parseInt(temp[2].split("_")[0]) >= 6){
+							//ios6以上
+							$("bottom_tip").innerHTML = '批量上传照片，请<a href="'+href+'" target="_blank" onclick="UploadStats.tcisdStats(&quot;getApp&quot;);g_sendReport(110200,1,16,true);return true;">下载QQ空间应用</a>';
+						}else{
+							$("bottom_tip").innerHTML = '如果您不能添加照片，请<a href="'+href+'" target="_blank" onclick="UploadStats.tcisdStats(&quot;getApp&quot;);g_sendReport(110200,1,16,true);return true;">下载QQ空间应用</a>上传图片，感谢您的支持';
+						}
+						$("bottom_tip").style.display = "";
+					}
+				}else{
+					var goAxStr = "";
+					if(getDrawExSupported()){
+						$("go_ax").style.display = "";
+						goAxStr = '或<a href="javascript:void(0);" onclick="UploadStats.tcisdStats(&quot;goAx&quot;);g_sendReport(110200,1,14,true);Page.goActUp();return false;">使用极速上传</a>';
+					}
+					$("bottom_tip").innerHTML = '批量上传照片，请<a href="'+getFlashPlayerUrl()+'" target="_blank" onclick="UploadStats.tcisdStats(&quot;getFlash&quot;);g_sendReport(110200,1,13,true);return true;">安装flash工具</a>'+goAxStr;
+					$("bottom_tip").style.display = "";
+				}
+
+				g_sendReport(110200, 1, 11, true);
+			}
+
+			var jsurl = 'http://'+QZONE.FP._t.siDomain+'/qzone/photo/zone/new/script/upload'+g_uploadType+'Wrapper.js?v=' + g_photoVersion;
+			g_pageLoadTimes.uploadWrapperJSStartLoad = new Date();
+			
+			//加个前置统计110258
+			g_sendReport(110258,1,g_AxVer, true);
+			var isCallback = false;
+			var startLoadJsTime = new Date();
+			QZFL.imports(jsurl,
+				function(){
+					isCallback = true;
+					g_reportKeyStep("loadjs");
+					var loadjsDuration = new Date() - startLoadJsTime;
+					g_sendReport(110252,1,g_AxVer, true, loadjsDuration);
+					g_speed.setTime();
+					g_pageLoadTimes.uploadWrapperJSLoad = new Date();
+					inner.doInit();
+				},{
+					charset : "utf-8",
+					errCallback : function(){
+						//统计失败的
+						var loadjsDuration = new Date() - startLoadJsTime;
+						g_sendReport(110252, 2, 404, true, loadjsDuration);
+						isCallback = true;
+						g_reportText("loadjs error:"+jsurl, 1);
+						$("center_msg").innerHTML = '加载模块文件失败，<a href="javascript:void(0);" onclick="Page.retry();return false;">点此重试</a>';
+						g_saveLastError("loadjs err");
+					}
+				}
+			);
+			//20秒后上报
+			setTimeout(function(){
+				if(!isCallback) {
+					g_reportText("loadjs timeout"+jsurl, 1);
+				}
+			}, 20000);
+			QPHOTO.util.getUserCreditDegree(true,function(degree){
+				/*
+				if(degree >= frameElement.normalPolicyLevel){
+					_uploadCfg.uploadLimitNum = frameElement.multiNum[degree];
+					$("up_tips_content").innerHTML = '系统检测或多名用户举报，您的空间带有不符合互联网相关安全规范的不良信息，在您对日志、照片等内容做好自查清理前，系统会限制您一次只能上传'+_uploadCfg.uploadLimitNum+'张照片。在对违规内容进行清理后，我们还将对您空间进行1个月的观察提醒。感谢您的配合！<a href="http://qzone.qq.com/helpcenter/announcement_info.htm?23" target="_blank" class="c_tx4" title="关于腾讯公司整治低俗内容的公告">关于腾讯公司整治低俗内容的公告</a>';
+					$("up_tips").style.display = "";
+					return;
+				}
+				*/
+				if(frameElement.enablePolicy){
+					if (g_uploadType!="Web") {
+						if(degree < frameElement.urgentPolicyLevel){
+							$("up_tips_content").innerHTML = '当前为相册上传高峰时段，上传速度会较慢，该时段将持续2小时左右，建议您避开此时段上传。';
+						}else{
+							_uploadCfg.uploadLimitNum = frameElement.multiNum[degree];
+							$("up_tips_content").innerHTML = '当前为相册上传高峰时段，为保障上传通道顺畅，一次仅能上传'+ _uploadCfg.uploadLimitNum +'张照片。建议您避开此时段上传。';
+						}
+						$("up_tips").style.display = "";
+					} else {
+						if(degree < frameElement.urgentPolicyLevel){
+							$("up_tips_content").innerHTML = '当前为相册上传高峰时段，上传速度会较慢，该时段将持续2小时左右，建议您避开此时段上传。';
+							$("up_tips").style.display = "";
+						}
+					}
+				}
+			});
+		},
+		jumpFn : function(id){
+			switch (id) {
+			case "activex":
+				UploadStats.tcisdStats('nav.goAx');
+				Page.goActUp();
+				break;
+			case "flash":
+				UploadStats.tcisdStats('nav.goSimple');
+				Page.goSimpleUp();
+				break;
+			case "web":
+				UploadStats.tcisdStats('nav.goSimple');
+				Page.goSimpleUp();
+				break;
+			}
+		},
+		retry : function(){
+			var newInnerFrom = "retry";
+			window.location.hash="a_id="+_aid+"&type="+g_uploadType+(g_from?"&from="+g_from:"")+"&innerfrom="+newInnerFrom;
+			window.location.reload();
+		},
+		doInit : function(){
+			//移到里面
+			//获取warpper对象
+			window.Wrapper = QPHOTO.upload["Upload"+g_uploadType+"Wrapper"];
+
+			//step6从主流程里去掉了，但是为了保证各个统计不错位，在initWrapper之前报这个
+			g_reportKeyStep("alist");
+			g_sendReport(110253,1,g_AxVer, true);
+			g_speed.setTime();
+
+			g_pageLoadTimes.initWrapperStart = new Date();
+			//初始化控件
+			inner.initWrapper();
+
+			inner.initAlbumSelector();
+			inner.initOptions();
+			inner.initMark();
+		},
+		uninit : function(){
+			//影响外层的，最先取消
+			$e(QZONE.FP._t.window.document.body).unBind('click', inner.clickBody);
+
+			if(_timerStep){
+				clearTimeout(_timerStep);
+				_timerStep = null;
+			}
+
+			try{
+				if(g_uploadType == "Ax"){
+					//记录控件状态，记得要在Wrapper.uninit之前
+					AxStatusMonitor.setAxStatus("uninit", true);
+
+					//直接隐藏，避免控件残影
+					$("container").style.visibility = "hidden";
+					$("container").style.display = "none";
+				}
+
+				$("guide").style.display = "none";
+				$("mask_guide").style.display = "none";
+				inner.hideContainer(true);
+				inner.hideAllLayers();
+				window.Wrapper && Wrapper.uninit();
+			}catch(err){}
+			//恢复V8动态背景的css3动画
+			if(QZONE && QZONE.FP._t.QZONE.qzEvent && QZONE.FP._t.QZONE.qzEvent.dispatch) {
+				QZONE.FP._t.QZONE.qzEvent.dispatch('DYNAMIC_SKIN_RESUME');
+			}
+			//保存信息
+			if(_needSaveInfoUnload){
+				_needSaveInfoUnload = false;
+				inner.saveInfos(null, null, {showMsg:false});
+			}
+
+			try{
+				//没上报的都发出去
+				QPHOTO.upload.UploadReport.flush(true);
+			}catch(err){}
+
+			try{
+				//这堆上报放在最后，报不了就算了
+				if(g_uploadType != "Web" && (g_lastStepIndex < g_succStepIndex) && (g_loginQQ%100 == 1)){
+					g_lastStepIndex = 100;//改一下这个，以免报多次
+					var time = new Date().getTime() - g_startTime.getTime();
+					if(time >= 3000){
+						//超过3秒的才报
+						g_reportText("leave not succ: time="+time+",innerfrom="+g_innerfrom+",lasterr="+g_getLastError(), 1);
+					}
+				}
+
+				//点击过相册但没有上传成功的人上报
+				if(frameElement.g_uploadClickSelectAlbum && !frameElement.g_uploadSelectPhoto){
+					g_sendReport(110176,1,12,true,100);
+					if(frameElement.g_uploadReportCode){
+						g_sendReport(frameElement.g_uploadReportCode,1,12,true,100);
+					}
+				}
+				
+				//没点击过相册但没有上传成功的人上报
+				if(!frameElement.g_uploadClickSelectAlbum && !frameElement.g_uploadSelectPhoto){
+					g_sendReport(110176,1,18,true,100);
+					if(frameElement.g_uploadReportCode){
+						g_sendReport(frameElement.g_uploadReportCode,1,18,true,100);
+					}
+				}
+			}catch(err){}
+		},
+		initAlbumSelector : function(){
+			//初始化选择相册部分
+
+			//点击添加
+			function clickAddAlbum(){
+				UploadStats.tcisdStats("createalbum");
+
+				inner.createAlbum(function(d){
+					inner.refreshSelect(d.album.id);
+					inner.setAid(d.album.id);
+				});
+			}
+			//点击刷新
+			function clickRefreshAlbum(){
+				UploadStats.tcisdStats("refreshalbum");
+
+				//防止多次点击
+				$e("#refresh_album_span").hide();
+				inner.clearSelect("正在加载相册列表，请稍候...",{status:'loading'});
+
+				QPHOTO.util.getAlbums(function(d){
+					_albums = d || [];
+					ModifyPhotoInfos && ModifyPhotoInfos.setAlbums(_albums);
+
+					_info = QPHOTO.album.getUserInfo(_uin);
+
+					var selectedAid = inner.refreshSelect(_aid);
+					if(_albums.length > 0){
+						inner.setAid(selectedAid);
+					}
+
+					$e("#refresh_album_span").hide();
+					$e("#create_album_span").show();
+
+					$e("#create_album").unBind("click");
+					$e("#create_album").bind("click", function(){
+						QZFL.event.preventDefault();
+						QZFL.event.cancelBubble();
+						inner.createAlbum(function(d){
+							inner.refreshSelect(d.album.id);
+							inner.setAid(d.album.id);
+						});
+					});
+
+					inner.moveLayers();
+				},function(d){
+					inner.clearSelect("相册列表加载失败，请刷新",{status:'error'});
+
+					$e("#refresh_album_span").show();
+
+					inner.moveLayers();
+				});
+			}
+
+			if (QPHOTO.widget.AlbumSelectorRich) {
+				var needMask = g_uploadType=="Ax" || (g_uploadType=="Flash" && flashWindowMode);
+				if(_useNewOpBar){
+					_albumSelector = (new QPHOTO.widget.AlbumSelectorRich({
+						needMask:needMask,
+						needAdd:true,
+						canEmptyClick:false
+					}));
+					_albumSelector._templates.currentContentEmpty = '<p class="ablum_name textoverflow" style="width:160px;"><a class="js_empty_add">您还没有相册，点此创建</a></p>';
+					_albumSelector._templates.currentContentError = '<div class="refresh-status"><i class="icon-wj-refresh"></i><span class="refresh-txt"><a class="js_error_refresh">刷新相册列表</a></span></div>';
+				}else{
+					_albumSelector = (new QPHOTO.widget.AlbumSelectorRich({
+						needMask:needMask,
+						needAdd:false,
+						canEmptyClick:false
+					}));
+				}
+				_albumSelector.onChange = function(idx, album){
+					inner.onSelectChanged(album.id);
+				};
+				_albumSelector.onAddAlbum = clickAddAlbum;
+				_albumSelector.onRefreshAlbum = clickRefreshAlbum;
+				_albumSelector.renderIn(_useNewOpBar?$("select_album_new"):$("select_album"));
+				_albumSelector.clearSelect("正在加载相册列表，请稍候...",{status:'loading'});
+			}
+
+			g_pageLoadTimes.getAlbumsStart = new Date();
+			QPHOTO.util.getAlbums(function(d){
+				g_pageLoadTimes.getAlbumsSuccess = new Date();
+
+				g_sendReport(110173,1,0,true,new Date()-g_pageLoadTimes.getAlbumsStart);
+
+				_albums = d || [];
+				ModifyPhotoInfos && ModifyPhotoInfos.setAlbums(_albums);
+
+				_info = QPHOTO.album.getUserInfo(_uin);
+
+				var selectedAid = inner.refreshSelect(_aid);
+				if(_albums.length > 0){
+					inner.setAid(selectedAid);
+				}
+
+				$e("#refresh_album_span").hide();
+				$e("#create_album_span").show();
+
+				$e("#create_album").unBind("click");
+				$e("#create_album").bind("click", function(){
+					QZFL.event.preventDefault();
+					QZFL.event.cancelBubble();
+
+					clickAddAlbum();
+				});
+
+				if(_albums.length > 0 && UpdateAx && UpdateAx.isAxLevelUpUser && !UpdateAx.isAxLevelUpUser()) {
+					setTimeout(function(){
+						//开始上报测速点
+						var speed = new QPHOTO.report.Speed();
+						speed.setStart(g_pageLoadTimes.startLoad);
+						
+						speed.setTime(g_pageLoadTimes.cssLoad);
+						speed.setTime(g_pageLoadTimes.qzflJSStartLoad);
+						speed.setTime(g_pageLoadTimes.qzflJSLoad);
+						speed.setTime(g_pageLoadTimes.uploadJSLoad);
+						speed.setTime(g_pageLoadTimes.initStart);
+						speed.setTime(g_pageLoadTimes.uploadWrapperJSStartLoad);
+						speed.setTime(g_pageLoadTimes.uploadWrapperJSLoad);
+						speed.setTime(g_pageLoadTimes.getAlbumsStart);
+						speed.setTime(g_pageLoadTimes.getAlbumsSuccess);
+						speed.setTime(g_pageLoadTimes.initWrapperStart);
+						
+						speed.report(18,0.5,11);
+					},0);
+					//inner.initWrapper();
+				}else{
+					//没有就没有，点上传时自动创建
+				}
+
+				inner.moveLayers();
+			},function(d){
+				//失败不影响主流程
+				g_sendReport(110173,2,d?d.code:-1,true,new Date()-g_pageLoadTimes.getAlbumsStart);
+
+				inner.clearSelect("相册列表加载失败，请刷新",{status:'error'});
+
+				$e("#refresh_album_span").show();
+				$e("#create_album_span").hide();
+
+				$e("#refresh_album").unBind("click");
+				$e("#refresh_album").bind("click", function(){
+					QZFL.event.preventDefault();
+					QZFL.event.cancelBubble();
+
+					clickRefreshAlbum();
+				});
+
+				inner.moveLayers();
+			});
+		},
+		initOptions : function(){
+			//新操作栏
+			if(_useNewOpBar){
+				//先判断水印，因为会影响mask_desc的定位
+				if(_isNewWatermark){
+					$e("#op_bar_new").removeClass('photo-upload-nowatermark');
+					$e("#watermark_span_new").show();
+				}else{
+					$e("#op_bar_new").addClass('photo-upload-nowatermark');
+					$e("#watermark_span_new").hide();
+				}
+
+				if(ModifyPhotoInfos){
+					//显示描述部分
+					$e("#modify_info_area").show();
+
+					inner.setInputValue('input_desc','');
+
+					//绑定事件
+					$e('#input_desc').unBind('focus');
+					$e('#input_desc').bind('focus', function(e){
+						//QZFL.console.print('focus');
+						$e('.desc-input').addClass('desc-input-focus');
+						$e('#mask_desc').show();
+						//还是每次显示时都算大小吧，input_desc宽度可能会变
+						if(ua.webkit){
+							$("mask_desc").style.width = ($("input_desc").offsetWidth+2)+"px";
+							$("mask_desc").style.height = $("input_desc").offsetHeight+"px";
+							$("mask_desc").style.left = ($("input_desc").offsetLeft-1)+"px";
+							$("mask_desc").style.top = $("input_desc").offsetTop+"px";
+						}else{
+							$("mask_desc").style.width = $("input_desc").offsetWidth+"px";
+							$("mask_desc").style.height = $("input_desc").offsetHeight+"px";
+							$("mask_desc").style.left = $("input_desc").offsetLeft+"px";
+							$("mask_desc").style.top = $("input_desc").offsetTop+"px";
+						}
+						if(inner.getInputValue('input_desc') == ''){
+							inner.setInputValue('input_desc','',true);
+						}
+					});
+					$e('#input_desc').unBind('blur');
+					$e('#input_desc').bind('blur', function(e){
+						//QZFL.console.print('blur');
+						$e('.desc-input').removeClass('desc-input-focus');
+						$e('#mask_desc').hide();
+						var value = inner.getInputValue('input_desc');
+						if(value.length > 200){
+							value = value.substring(0,200);
+						}
+						inner.setInputValue('input_desc',value);
+						if(value){
+							$e('.desc-input').addClass('desc-has-char');
+						}else{
+							$e('.desc-input').removeClass('desc-has-char');
+						}
+					});
+					$e('#input_desc').unBind('keyup');
+					$e('#input_desc').bind('keyup', function(){
+						var value = trim($e(this).getVal());
+						if(value.length > 200){
+							$e(this).setVal(value.substring(0,200));
+						}
+					});
+				}
+			}
+
+			//质量
+			if (UploadQuality) {
+				var needMask = g_uploadType=="Ax" || (g_uploadType=="Flash" && flashWindowMode);
+				//预防js没生效
+				UploadQuality.create(g_uploadType, g_AxVer, function(photoType, hdsize){
+					if(_isNewWatermark){
+						if (_watermarkId && !inner.checkCanNewWatermark()) {
+							var msg = "您设置的水印不会应用到" + _photoTypeMap[photoType] + "上传上";
+							if(g_uploadType=="Ax"){
+								Wrapper.showMessageBox("提示", msg);
+							}else if(g_uploadType=="Flash"){
+								QZONE.FP.showMsgbox(msg, 2, 2000);
+							}
+						}
+					}
+
+					//旧水印
+					if (inner.checkCanWatermark()) {
+						inner.enableSingleInput("check_watermark", true);
+					} else {
+						inner.setChecked("check_watermark", false);
+						inner.enableSingleInput("check_watermark", false);
+					}
+				}, {needMask : needMask});
+			}
+
+			//可以收起来的设置
+			$e("#more_setting_btn").unBind();
+			$e("#more_setting_list_ul li").unBind();
+
+			$e("#more_setting_btn").bind("click", function(){
+				QZFL.event.preventDefault();
+				QZFL.event.cancelBubble();
+
+				if(!_settingEnabled){
+					return;
+				}
+
+				var open = QZFL.css.hasClassName($("more_setting"), "open");
+				if(open){
+					QZFL.css.removeClassName($("more_setting"), "open");
+					$("more_setting_list").style.display = "none";
+					$("more_setting_mask").style.display = "none";
+				}else{
+					QZFL.css.addClassName($("more_setting"), "open");
+					$("more_setting_list").style.display = "";
+					if(g_uploadType == "Ax" || (g_uploadType == "Flash" && flashWindowMode)){
+						$("more_setting_mask").style.left = ($("more_setting_list").offsetLeft+$("more_setting_list_content").offsetLeft) + "px";
+						$("more_setting_mask").style.top = ($("more_setting_list").offsetTop+$("more_setting_list_content").offsetTop) + "px";
+						$("more_setting_mask").style.width = $("more_setting_list_content").offsetWidth + "px";
+						$("more_setting_mask").style.height = $("more_setting_list_content").offsetHeight + "px";
+						$("more_setting_mask").style.display = "";
+					}
+				}
+			});
+			$e("#more_setting_list_ul li").onHover(
+				function() {
+					$e(this).addClass("hover");
+				},
+				function() {
+					$e(this).removeClass("hover");
+				}
+			);
+
+			var db = QZONE.FP._t.QZONE.FP.noShareDb;
+
+			//自动旋转
+			if (g_uploadType == "Ax" && g_AxVer >= 239) {
+				$("option_autorotate").style.display = "";
+				$("more_setting_wrap").style.display = "";
+
+				var value1 = 1;
+				var key1 = "autorotate_" + g_loginQQ;
+				if(db){
+					value1 = parseInt(db.get(key1));
+					if(isNaN(value1)){
+						value1 = 1;
+					}
+				}
+
+				inner.setChecked("check_autorotate", value1);
+				Wrapper && Wrapper.setAutoRotate(value1?true:false);
+
+				inner.bindCheckEvent("check_autorotate", function(checked){
+					Wrapper && Wrapper.setAutoRotate(checked);
+					if(db){
+						db.set(key1, checked?1:0);
+					}
+				});
+			}
+
+			//新水印
+			if(_isNewWatermark){
+				$e("#watermark_span").show();
+			}
+
+			//旧水印，有新水印的时候这个应该隐藏的，据说有用户投诉所以还是要放出来
+			if (QPHOTO.status.inQzone && (g_uploadType == "Ax" && g_AxVer >= 232 || g_uploadType == "Flash")) {
+				//空间 && 非名博 && 232以上控件或者flash 才显示水印选项
+				$("option_watermark").style.display = "";
+				$("more_setting_wrap").style.display = "";
+
+				var value2 = 0;
+				var key2 = "watermark_" + g_loginQQ;
+				if(db){
+					value2 = parseInt(db.get(key2))||0;
+				}
+
+				inner.setChecked("check_watermark", inner.checkCanWatermark() && value2);
+
+				inner.bindCheckEvent("check_watermark", function(checked){
+					if(db){
+						db.set(key2, checked?1:0);
+					}
+				});
+			}
+
+			//微博
+			if (QPHOTO.status.inQzone && (4*QZONE.FP.getBitMapFlag(11)+2*QZONE.FP.getBitMapFlag(10)+QZONE.FP.getBitMapFlag(9)==0) && QZONE.FP.getBitMapFlag(41)) {
+				//空间 && 公开 && 开通微博
+				$("option_syncwb").style.display = "";
+				$("more_setting_wrap").style.display = "";
+
+				SyncWb.getStatus(function(o){
+					if(o && !o.error && o.items && o.items.length > 0 && o.items[0]){
+						var value = o.items[0].ugcphoto == 1;
+						inner.setChecked("check_syncwb", value);
+
+						inner.bindCheckEvent("check_syncwb", function(checked){
+							SyncWb.setStatus((checked?true:false),function(o){
+								o = o || {};
+								if(o.error){
+									QZONE.FP.showMsgbox(o.msg,5,2000);
+									inner.setChecked("check_syncwb", !checked);	//出错，改回去
+								}
+							});
+						});
+					}
+				});
+			}
+
+
+			$e("body").unBind("click");
+			$e("body").bind("click", function(evt){
+				evt = evt || window.event;
+				var target = evt.target || evt.srcElement;
+				if(target.tagName == "INPUT" || target.tagName == "LABEL"){
+					return;
+				}
+
+				inner.clickBody(evt);
+			});
+
+			//还要绑定父层dom
+			try{
+				if(QZONE.FP._t.window && QZONE.FP._t.window.document && QZONE.FP._t.window.document.body) {
+					$e(QZONE.FP._t.window.document.body).unBind('click', inner.clickBody);
+					$e(QZONE.FP._t.window.document.body).bind('click', inner.clickBody);
+				}
+			}catch(e){}
+
+			//调整泡泡位置
+			inner.moveLayers();
+		},
+		initMark : function(){
+			//圈人
+			if(_canMark && UploadMark){
+				UploadMark.create($('upload_mark'));
+			}
+		},
+		clickBody : function(evt){
+			//QZFL.console.print('clickBody');
+			inner.hideAllLayers(true);
+
+			evt = evt || window.event;
+			var target = evt.target || evt.srcElement;
+			while (target && target != document.body && target != QZONE.FP._t.window.document.body) {
+				if(QZFL.css.hasClassName(target, 'js_friendselector_container')){
+					QZFL.event.cancelBubble(evt);
+					return;
+				}
+				target = target.parentNode;
+			}
+			UploadMark && UploadMark.hideFSList();
+		},
+		getChecked : function(id){
+			var checked = ($(id).style.display != "none");
+			return checked;
+		},
+		setChecked : function(id, value){
+			$(id).style.display = value?"":"none";
+		},
+		bindCheckEvent : function(id, cb){
+			$e("#"+id.replace("check","option")).unBind("click");
+			$e("#"+id.replace("check","option")).bind("click", function(){
+				QZFL.event.preventDefault();
+				QZFL.event.cancelBubble();
+				if (!_settingEnabled) {
+					return;
+				}
+				if (parseInt(this.getAttribute("_disabled"))) {
+					return;
+				}
+				if($(id).style.display != "none"){
+					$(id).style.display = "none";
+					cb && cb(false);
+				}else{
+					$(id).style.display = "";
+					cb && cb(true);
+				}
+			});
+		},
+		moveLayers : function(){
+			if (g_uploadType == "Ax" && g_AxVer < 232) {
+				//旧控件
+				var left = $("container").offsetLeft + $("container").offsetWidth - 140 - 25;
+				$("layer_quality").style.left = left+"px";
+				$("mask_quality").style.left = left+"px";
+			} else {
+				//新控件 Flash
+				var left = $("option_quality").offsetLeft + $("option_quality").offsetWidth - 140;
+				$("layer_quality").style.left = left+"px";
+				$("mask_quality").style.left = left+"px";
+			}
+		},
+		hideAllLayers : function(leaveHD){
+			if(leaveHD){
+				var setting = UploadQuality ? UploadQuality.getQualitySetting() : null;
+				if(setting && setting.photoType != 1){
+					inner.hideQualitySetting();
+				}
+			}else{
+				inner.hideQualitySetting();
+			}
+
+			_albumSelector && _albumSelector.collapseSelect();
+
+			var open = QZFL.css.hasClassName($("more_setting"), "open");
+			if(open){
+				QZFL.css.removeClassName($("more_setting"), "open");
+				$("more_setting_list").style.display = "none";
+				$("more_setting_mask").style.display = "none";
+			}
+		},
+		//初始化wrapper ax or flash
+		initWrapper : function(){
+			if($("center_msg")) {
+				$("center_msg").innerHTML = "正在努力加载页面，请稍候...";
+			}
+
+			var browserCode = 0;
+			if(ua.ie){
+				browserCode = 100;
+			}else if(ua.webkit){
+				browserCode = 200;
+			}else if(ua.firefox){
+				browserCode = 300;
+			}
+			var start = new Date();
+
+			if(!Wrapper){
+				inner.doInitWrapperError(1, browserCode, start);
+				return;
+			}
+
+			var width = $("container").offsetWidth;
+			if (!(width > 10)) {
+				if (QPHOTO.status.inPengyou) {
+					width = 900;
+				}else if(g_isOldXWMode){
+					width = 700;
+				}else {
+					width = 860;
+				}
+			}
+			var height = $("container").offsetHeight;
+			var qzonename = QZONE.FP.getQzonename() || "我的空间，我的时尚";
+			var dnsName = null;
+			try{
+				dnsName = QZONE.FP._t.g_dns_name;
+			}catch(e){}
+			var qzoneurl = 'http://'+ (dnsName || _uin)+'.qzone.qq.com';
+			var cfg = {
+				uin : _uin,
+				container : $("container"),
+				objectid : "uploadtool",
+				countLimit : _uploadCfg.uploadLimitNum,
+				watermarkType : (QPHOTO.zoneStatus.inPengyou ? 0 : 1),
+				watermarkCheck : inner.getChecked("check_watermark")?1:0,
+				watermarkName : qzonename,
+				watermarkUrl : qzoneurl,
+				onConstructor : inner.onConstructor,
+				onInited : inner.onInited,
+				onChangeStatus : inner.onChangeStatus,
+				onDownloadAx : inner.onDownloadAx,
+				onCheckAdd : inner.onCheckAdd,
+				onChangePhotoCount : inner.onChangePhotoCount,
+				onChangeCompressFlag : inner.onChangeCompressFlag,
+				onChangeCompressSize : inner.onChangeCompressSize,
+				onPrepareToUp : inner.onPrepareToUp,
+				onSingleResult : inner.onSingleResult,
+				onUploadOver : inner.onUploadOver,
+				onUploadReturn : inner.onUploadReturn,
+				onNextStep : inner.onNextStep,
+				onLocalError : inner.onLocalError,
+				getNormalInput : inner.getNormalInput,
+				socketConnectSucc : inner.socketConnectSucc,
+				socketConnectFail : inner.socketConnectFail,
+				getInput : inner.getInput,	//给Web上传用
+				onWatermarkPre: inner.onWatermarkPre,
+				cacheVersion : g_cacheVersion
+			};
+			if (g_uploadType == "Ax") {
+				cfg.version = QPHOTO.media.getDrawExVersion();
+				//控件才需要宽高，flash不填就是100%
+				cfg.width = width;
+				cfg.height = height;
+				//占住原来的位置作比较
+				AxStatusMonitor.setAxStatus("startinit2,initwrapper");
+			}else {
+				//清除掉AxStatusMonitor的状态
+				AxStatusMonitor.clear();
+			}
+			if (g_uploadType == "Flash") {
+				cfg.showFlash = inner.showContainer;
+				cfg.hideFlash = inner.hideContainer;
+				if (g_innerfrom == "test") {
+					flashWindowMode = true;
+					cfg.wmode = "window";
+					cfg.isTestFlash = true;
+				}else if(flashWindowMode) {
+					cfg.wmode = "window";
+				}
+				//没flash时提示安装
+				cfg.noFlashLink = '<a id="flash_err" href="'+getFlashPlayerUrl()+'" target="_blank" onclick="g_reportText(&quot;click noflash in flash&quot;,1);FixFlashMonitor.clickFix();return true;" style="font-size:14px;text-align:center;position:absolute;width:100%;top:'+($("container").offsetTop+150)+'px;">您的flash工具出现异常，点击重新安装flash工具</a>';
+			}
+
+			_cfg = cfg;
+
+			if(_timerStep){
+				clearTimeout(_timerStep);
+				_timerStep = null;
+			}
+			_timerStep = setTimeout(function(){
+				//初始化超时
+				g_reportText("initWrapper timeout", 1);
+				inner.doInitWrapperError(3, browserCode, start);
+			},15000);
+			
+			if(Wrapper.init(cfg)){
+				//初始化成功
+				if(g_uploadType == "Flash"){
+					var errDom = $("flash_err");
+					if(errDom && errDom.offsetWidth>0){
+						//虽然有object，但是其实还是失败了
+						inner.doInitWrapperError(5, browserCode, start);
+					}else{
+						inner.doInitWrapperSucc(0, browserCode, start);
+						//过1s再检查一次，有些环境这个延迟显示
+						setTimeout(function(){
+							var errDom = $("flash_err");
+							if(errDom && errDom.offsetWidth>0){
+								inner.doInitWrapperError(6, browserCode, start);
+							}else{
+								//不能放在doInitWrapperSucc，这里才是真的成功了
+								FixFlashMonitor.setResult(0);
+							}
+						},1000);
+					}
+				}else{
+					inner.doInitWrapperSucc(0, browserCode, start);
+				}
+			}else{
+				Wrapper.uninit();
+				if(g_uploadType == "Ax" && g_AxVer < 239 && ua.webkit){
+					//webkit控件重试一下
+					$("container").innerHTML = '<p class="center_msg" id="center_msg">正在努力加载页面，请稍候...</p>';
+					setTimeout(function(){
+						if(Wrapper.init(cfg)){
+							//初始化成功
+							inner.doInitWrapperSucc(4, browserCode, start);
+						}else{
+							//初始化失败
+							Wrapper.uninit();
+							inner.doInitWrapperError(2, browserCode, start);
+						}
+					},1000);
+				}else{
+					//初始化失败
+					inner.doInitWrapperError(2, browserCode, start);
+				}
+			}
+		},
+		//成功：0-一次成功，4-重试成功
+		doInitWrapperSucc : function(errcode, browserCode, start){
+			errcode = errcode || 0;
+
+			if(_timerStep){
+				clearTimeout(_timerStep);
+				_timerStep = null;
+			}
+			
+			g_sendReport(110127,1,g_AxVer, true);
+
+			var time = (new Date()).getTime() - start.getTime();
+			if (g_uploadType == "Ax") {
+				g_sendReport(110141,1,g_AxVer*1000+browserCode+errcode,false,time);
+			} else if (g_uploadType == "Flash") {
+				g_sendReport(110155,1,g_AxVer*1000+errcode,false,time);
+			}
+
+			g_reportKeyStep("inited");
+			g_speed.setTime();
+
+			if(g_uploadType == "Ax"){
+				AxStatusMonitor.setAxStatus("inited");
+			}
+
+			if(g_uploadType == "Flash"){
+				var loadingDom = $("flash_loading");
+				var loadingWidth = 180;
+				if(ua.webkit){
+					loadingDom.innerHTML = "正在努力加载页面，请稍候...<br/>如果在下面出现灰色拼图图案，请点击该图案来启动flash工具";
+					loadingWidth = 380;
+				}
+				loadingDom.style.left = ($("container").offsetLeft+parseInt(($("container").offsetWidth-loadingWidth)/2))+"px";
+				loadingDom.style.top = ($("container").offsetTop+100)+"px";
+				loadingDom.style.display = "block";
+			}
+
+			if(g_uploadType != "Web"){
+				var delay = 15000;
+				var beforeinit = g_stepTimes["inited"].getTime()-g_startTime.getTime();
+				if(g_uploadType == "Flash" && beforeinit > 5000){
+					delay = beforeinit*3;	//如果本来就慢，超时时间就跟着延长
+				}
+				_timerStep = setTimeout(function(){
+					//等待回调超时
+					if(_timerStep){
+						clearTimeout(_timerStep);
+						_timerStep = null;
+					}
+
+					if (g_stepTimes["inited"]) {
+						var time = (new Date()).getTime() - g_stepTimes["inited"].getTime();
+						if (g_uploadType == "Ax") {
+							g_sendReport(110156,2,g_AxVer*1000+1,false,time);
+							g_reportText("waitCallback timeout", 1);
+						} else if (g_uploadType == "Flash") {
+							g_sendReport(110157,2,g_AxVer*1000+1,false,time);
+							g_sendReport(110134,2,15,true);	//这个全量报一下
+
+							g_reportText("waitCallback timeout, "+location.host+", beforeinit="+beforeinit, 1);
+						}
+					}
+
+					g_saveLastError("waitCallback timeout");
+				},delay);
+			}
+		},
+		//失败：1-没有Wrapper，2-创建失败，3-创建超时，5-创建成功但是flashplayer异常，6-创建成功但是flashplayer延迟异常
+		doInitWrapperError : function(errcode, browserCode, start){
+			errcode = errcode || 2;
+			
+			if(_timerStep){
+				clearTimeout(_timerStep);
+				_timerStep = null;
+			}
+
+			$("flash_loading").style.display = "none";
+
+			if(errcode == 1){
+				//没有Wrapper
+				$("container").innerHTML = '<p class="center_msg" id="center_msg">加载上传工具失败，&nbsp;<a href="javascript:void(0);" onclick="Page.retry();return false;">点此重试</a></p>';
+			}else{
+				//有Wrapper但是创建失败
+				if (g_uploadType == "Ax") {
+					$("container").innerHTML = '<p class="center_msg" id="center_msg">加载上传工具失败，请&nbsp;<a href="javascript:void(0);" onclick="UploadStats.tcisdStats(&quot;initfail.retry&quot;);Page.retry();return false;">重试</a>&nbsp;或&nbsp;<a href="javascript:void(0);" onclick="UploadStats.tcisdStats(&quot;initfail.goSimple&quot;);Page.goSimpleUp();return false;">使用普通上传</a></p>';
+				} else if (g_uploadType == "Flash") {
+					var goAxStr = '';
+					if(getDrawExSupported()){
+						goAxStr = '<br/>您也可以&nbsp;<a href="javascript:void(0);" onclick="UploadStats.tcisdStats(&quot;initfail.goAx&quot;);Page.goActUp();return false;">使用极速上传</a>';
+					}
+					var getFlashStr = '';
+					var installUrl = getFlashPlayerUrl();
+					var uninstallUrl = getFlashPlayerUninstallUrl();
+					if(uninstallUrl){
+						getFlashStr = '您的flash工具出现异常，建议您卸载后重新安装（<a href="'+uninstallUrl+'" target="_blank" onclick="g_reportText(&quot;click uninstallflash in fail&quot;,1);return true;">下载卸载工具</a>&nbsp;<a href="'+installUrl+'" target="_blank" onclick="g_reportText(&quot;click noflash in fail&quot;,1);FixFlashMonitor.clickFix();return true;">下载安装工具</a>）';
+					}else{
+						getFlashStr = '您的flash工具出现异常，建议您&nbsp;<a href="'+installUrl+'" target="_blank" onclick="g_reportText(&quot;click noflash in fail&quot;,1);FixFlashMonitor.clickFix();return true;">重新安装flash工具</a>';
+					}
+					$("container").innerHTML = '<p class="center_msg" id="center_msg">'+getFlashStr+'<br/>为正常安装，请您关闭可能使用flash的软件，如：QQ、浏览器、视频播放器等'+goAxStr+'</p>';
+				} else {
+					$("container").innerHTML = '<p class="center_msg" id="center_msg">加载上传工具失败，&nbsp;<a href="javascript:void(0);" onclick="Page.retry();return false;">点此重试</a></p>';
+				}
+			}
+
+			var time = (new Date()).getTime() - start.getTime();
+			if (g_uploadType == "Ax") {
+				g_sendReport(110141,2,g_AxVer*1000+browserCode+errcode,false,time);
+			} else if (g_uploadType == "Flash") {
+				g_sendReport(110155,2,g_AxVer*1000+errcode,false,time);
+				if (errcode==5) {
+					g_sendReport(110134,2,16,true);	//全量
+					g_reportText("initWrapper flasherr " + errcode, 1);
+				} else if (errcode==6) {
+					g_sendReport(110134,2,17,true);	//全量
+					g_reportText("initWrapper flasherr " + errcode, 1);
+				}
+				FixFlashMonitor.setResult(errcode);
+			}
+
+			g_saveLastError("init wrapper err: "+errcode);
+		},
+
+		//不要用showActiveX/hideActiveX/showFlash/hideFlash了，统一同showContainer/hideContainer
+		showActiveX : function(refreshAx){
+			//不用_cfg.width,_cfg.height，因为container的大小会变
+			(g_uploadType == "Ax") && window.Wrapper && Wrapper.resize && Wrapper.resize($("container").offsetWidth, $("container").offsetHeight, refreshAx);
+		},
+		hideActiveX : function(refreshAx){
+			(g_uploadType == "Ax") && window.Wrapper && Wrapper.resize && Wrapper.resize(3, 3, refreshAx);
+		},
+		showFlash : function(){
+			if(g_uploadType == "Flash" && flashWindowMode) {
+				$("mask_container").style.display = "none";
+			}
+		},
+		hideFlash : function(){
+			if(g_uploadType == "Flash" && flashWindowMode) {
+				$("mask_container").style.display = "";
+			}
+		},
+		showContainer : function(refreshAx){
+			_isHideContainer = false;
+			inner.showActiveX(refreshAx);
+			inner.showFlash();
+
+			//解决弹框之后就不能focus到描述框的问题
+			if(_useNewOpBar){
+				try{
+					$('input_desc').focus();
+					$('input_desc').blur();
+				}catch(err){}
+			}
+		},
+		hideContainer : function(refreshAx){
+			_isHideContainer = true;
+			inner.hideActiveX(refreshAx);
+			inner.hideFlash();
+		},
+		refreshContainer : function(){
+			if(!_isHideContainer){
+				inner.showContainer();
+			}
+		},
+
+		goActUp : function(auto){
+			if (g_uploadType != "Ax" && getDrawExSupported()) {
+				var newType = "Ax";
+				if(auto){
+					//自动跳转的不改变innerfrom
+					window.location.hash="a_id="+_aid+"&type="+newType+(g_from?"&from="+g_from:"");
+				}else{
+					var newInnerFrom = g_uploadType.toLowerCase()+"up";
+					window.location.hash="a_id="+_aid+"&type="+newType+(g_from?"&from="+g_from:"")+"&innerfrom="+newInnerFrom;
+				}
+				window.location.reload();
+			}
+		},
+		goSimpleUp : function(auto, options){
+			options = options || {};
+			if (g_uploadType == "Ax") {
+				var newType = isFlashValid() ? "Flash" : "Web";
+				var urlfrom = options.from ? options.from : g_from;
+				urlfrom = urlfrom?"&from="+urlfrom:"";
+				if(auto){
+					//自动跳转的不改变innerfrom
+					window.location.hash="a_id="+_aid+"&type="+newType+urlfrom;
+				}else{
+					var newInnerFrom = g_uploadType.toLowerCase()+"up";
+					window.location.hash="a_id="+_aid+"&type="+newType+urlfrom+"&innerfrom="+newInnerFrom;
+				}
+				window.location.reload();
+			}
+		},
+		clickTestUp : function(){
+			_clickTest++;
+			if(_clickTest >= 3){
+				window.location.hash="a_id="+_aid+"&type="+g_uploadType+(g_from?"&from="+g_from:"")+"&innerfrom=test";
+				window.location.reload();
+			}
+		},
+		suggestDeal : function(){
+			//上报字符串
+			g_reportText("get support help", 1);
+			if(true || g_uploadType != 'Ax' || g_AxVer != 247 || !UpdateAx || !UpdateAx.supportLevelUp) {
+				Page.openSuggest();
+				return;
+			}
+			UpdateAx.supportLevelUp();
+		},
+		getSuggestUrl : function(){
+			var url = "http://support.qq.com/write.shtml?fid=375&SSTAG=Qzone_upload_"+g_uploadType;
+			//上传方式
+			if (g_uploadType == "Ax") {
+				url += "."+g_AxVer;
+				if(Wrapper && Wrapper.postAxLog) {
+					Wrapper.postAxLog();
+				}
+			} else if (g_uploadType == "Flash") {
+					url += ".socket";
+				var fv = QZFL.media.getFlashVersion();
+				url += ("."+(fv?fv:0)).replace(/,/g, ".");
+			}
+			
+			var errinfo = g_getLastError(1024);//最多1k
+			if(errinfo){
+				//support的sstag里不能有|
+				url += encodeURIComponent((";"+errinfo+",stay="+(new Date()-g_startTime)).replace(/[|]/g,";"));
+			}
+			//开始上传时间
+			if(g_firstStartUploadTime) {
+				var ieInfo = ';ut=' + (new Date()-g_firstStartUploadTime) + ';'
+				url += encodeURIComponent(ieInfo);
+			}
+			//加上ie的版本号
+			if(ua && ua.ie) {
+				var ieInfo = ';ieversion=' + ua.ie + ';'
+				url += encodeURIComponent(ieInfo);
+			}
+			
+			//上传质量+张数
+			var reportPhotoType = -1;
+			if(UploadQuality && UploadQuality.getQualitySetting) {
+				reportPhotoType = UploadQuality.getQualitySetting().photoType;
+			}
+			var photoInfo = 'pt=' + reportPhotoType + ';pc=' + _selectedPhotoCount + ';'
+			url += encodeURIComponent(photoInfo);
+			
+			//加上成功张数
+			var snInfo = 'sn=' + _lastSuccNumber + ';'
+			url += encodeURIComponent(snInfo);
+			
+			//加上图片大小,成功图片大小
+			var psInfo = 'ps=' + _selectedPhotoSize  + ';sps=' + _batchUploadSize  + ';';
+			url += encodeURIComponent(psInfo);
+
+			//版本信息
+			if(g_uploadType == "Flash"){
+				url += encodeURIComponent("flcv=" + g_cacheVersion + ";fluv=" + g_flashVersion + ";");
+			}
+			return url;
+		},
+		openSuggest : function(){
+			//打开support链接
+			var openSupportLink = function(){
+				//var url = "http://support.qq.com/discuss/375_1.shtml?SSTAG=Qzone_upload_"+g_uploadType;
+				var url = Page.getSuggestUrl();
+				window.open(url, '_blank');
+			};
+			openSupportLink();
+			return;
+		},
+		showQualitySetting : function(){
+			if (!UploadQuality) {
+				//预防js没生效
+				return;
+			}
+			UploadQuality.showQualitySetting();
+		},
+		hideQualitySetting : function(save){
+			if (!UploadQuality) {
+				//预防js没生效
+				return;
+			}
+			UploadQuality.hideQualitySetting(save);
+		},
+		saveQualitySetting : function(photoType, hdsize){
+			if (!UploadQuality) {
+				//预防js没生效
+				return;
+			}
+			UploadQuality.saveQualitySetting(photoType, hdsize);
+		},
+		checkCanWatermark : function(){
+			if (!UploadQuality) {
+				//预防js没生效
+				return true;
+			}
+			var photoType = UploadQuality.getQualitySetting().photoType;
+			return _uploadCfg.canWaterMark[g_uploadType][photoType];
+		},
+		checkCanNewWatermark : function(){
+			if (!UploadQuality) {
+				//预防js没生效
+				return true;
+			}
+			var photoType = UploadQuality.getQualitySetting().photoType;
+			return _uploadCfg.canNewWaterMark[g_uploadType][photoType];
+		},
+		enableAlbumOp : function(enabled){
+			_albumSelector && _albumSelector.enableSelect(enabled);
+			$("create_album").disabled = !enabled;
+		},
+		enableSettings : function(enabled){
+			_settingEnabled = enabled;
+			UploadQuality && UploadQuality.setEnabled(enabled);
+			$("more_setting_btn").disabled = !enabled;
+			inner.enableSingleInput("check_autorotate", enabled);
+			inner.enableSingleInput("check_watermark", enabled && inner.checkCanWatermark());
+			inner.enableSingleInput("check_syncwb", enabled);
+
+			if(enabled && inner.checkCanNewWatermark()){
+				$e("#watermark_span_new").removeClass('op-watermark-disable');
+			}else{
+				$e("#watermark_span_new").addClass('op-watermark-disable');
+			}
+		},
+		enableSingleInput : function(id, enabled){
+			var dom = $(id.replace("check","option"));
+			dom.setAttribute("_disabled", enabled?0:1);
+
+			if (!enabled) {
+				QZFL.css.addClassName(dom, "c_tx3");
+			} else {
+				QZFL.css.removeClassName(dom, "c_tx3");
+			}
+		},
+		setAid : function(aid){
+			_aid = aid;
+			var idx = QPHOTO.util.getIdx(_albums, "id", _aid);
+			_currAlbum = (idx != null) ? _albums[idx] : null;
+			window.location.hash="a_id="+_aid+"&type="+g_uploadType+(g_from?"&from="+g_from:"")+"&innerfrom=unknown";
+		},
+		onSelectChanged : function(aid){
+			inner.setAid(aid);
+
+			UploadStats.tcisdStats("selectalbum");
+			
+			//点击过相册列表上报
+			if(!frameElement.g_uploadClickSelectAlbum){
+				frameElement.g_uploadClickSelectAlbum = true;
+				g_sendReport(110176,1,11,true,100);
+				if(frameElement.g_uploadReportCode){
+					g_sendReport(frameElement.g_uploadReportCode,1,11,true,100);
+				}
+			}
+		},
+		clearSelect : function(emptyStr, opt){
+			_albumSelector && _albumSelector.clearSelect(emptyStr, opt);
+		},
+		refreshSelect : function(aid){
+			var retAid = '';
+			if(_albumSelector){
+				if(_albums && _albums.length > 0){
+					retAid = _albumSelector.refreshSelect(_albums, aid);
+				}else{
+					retAid = _albumSelector.clearSelect("您还没有相册哦！",{status:'empty'});
+				}
+			}
+			if(retAid && !_defaultAid && !_createdAids[retAid]){
+				//记录默认相册id，新创建的相册不算默认相册，统计用
+				_defaultAid = retAid;
+			}
+
+			if(!frameElement.g_uploadInitSelectAlbum){
+				frameElement.g_uploadInitSelectAlbum = true;
+				
+				if(window.g_innerfrom === 'albumlist'){
+					frameElement.g_uploadReportCode = 110177; 
+				}else if(window.g_innerfrom === 'photolist'){
+					frameElement.g_uploadReportCode = 110178; 
+				}
+				
+				g_sendReport(110176,1,16,true,100);
+				if(frameElement.g_uploadReportCode){
+					g_sendReport(frameElement.g_uploadReportCode,1,16,true,100);
+				}
+			}
+
+			if(
+				!frameElement.g_uploadClickSelectAlbumReportEnd
+				&& frameElement.g_uploadClickSelectAlbumReport
+			){
+				frameElement.g_uploadClickSelectAlbumReportEnd = true;
+				g_sendReport(110176,1,14,true,100);
+				if(frameElement.g_uploadReportCode){
+					g_sendReport(frameElement.g_uploadReportCode,1,14,true,100);
+				}
+				
+				if(frameElement.g_uploadPhotoList){
+					g_sendReport(110176,1,17,true,100);
+					if(frameElement.g_uploadReportCode){
+						g_sendReport(frameElement.g_uploadReportCode,1,17,true,100);
+					}
+				}
+			}
+			
+			return retAid;
+		},
+		refreshSelectItem : function(albumInfo){
+			_albumSelector && _albumSelector.refreshSelectItem(albumInfo);
+		},
+		createAlbum : function(cb, ecb){
+			if($("create_album").disabled){
+				return;
+			}
+
+			inner.enableAlbumOp(false);
+			inner.hideContainer();
+			QPHOTO.dialog.addAlbum(null,function(d){
+				inner.enableAlbumOp(true);
+				inner.showContainer();
+				QZONE.FP._t.g_XDoc[16] = null;
+				QPHOTO.album.refresh(_uin);
+				_albums.unshift(d.album);
+				_info.albumnum = _albums.length;
+
+				_createdAids[d.album.id] = d.album; //记录用户主动创建的相册，统计用
+
+				if(typeof cb == "function"){
+					cb(d);
+				}
+			},function(d){
+				inner.enableAlbumOp(true);
+				inner.showContainer();
+				if(typeof ecb == "function"){
+					ecb(d);
+				}
+			});
+		},
+		autoCreateAlbum : function(album, cb, ecb){
+			var data = null;
+			if(album){
+				data = {
+					"albumid" : album.id,
+					"uin" : _uin
+				};
+			}else{
+				data = {
+					"albumname" : "未命名相册",
+					"albumdesc" : "",
+					"albumclass" : 100,
+					"priv" : 1,
+					"bitmap" : "10000000",
+					"uin" : _uin
+				};
+				if(QZONE.FP.getBitMapFlag(55)){  //开通朋友网之后才传这个
+					data.pypriv = 1;
+				}
+			}
+			
+			var url = QPHOTO.domain.getUrl_v2({"uin":_uin, "key": "album_add"});
+			QPHOTO.util.dataSender_v2({
+				url: url,
+				data: data,
+				hostUin: _uin,
+				callback: function(d){
+					d.data = d.data  || {};
+					inner.enableAlbumOp(true);
+					QZONE.FP._t.g_XDoc[16] = null;
+					QPHOTO.album.refresh(_uin);
+					_albums.unshift(d.data.album);
+					_info.albumnum = _albums.length;
+					if(typeof cb == "function"){
+						cb(d.data);
+					}
+				},
+				errCallback: function(d){
+					inner.enableAlbumOp(true);
+					if(typeof ecb == "function"){
+						ecb(d);
+					}
+				},
+				options:{checkLogin:false}
+			});
+			
+		},
+		checkCanUpload : function(){
+			try{
+				if(QZONE.FP._t.photoconf == "0"){
+					inner.hideContainer();
+					var _c=new QZONE.FP._t.QZONE.widget.Confirm("提示","尊敬的QQ空间用户:<br/>相册正在进行临时维护，维护过程中，将不支持上传照片，建议您稍后再试！",QZONE.widget.Confirm.TYPE.OK);
+					_c.tips[0]='确定'; 
+					_c.onUnload=inner.showContainer;
+					_c.show();
+					g_saveLastError("cannot upload: photoconf");
+					return false;
+				}
+				if(!QPHOTO.zoneStatus.checkSessionUin(inner.showContainer, inner.showContainer)){
+					//errCb只在空间里有效，朋友里取消登录无法回调，所以只在空间里hide
+					QPHOTO.zoneStatus.inQzone && inner.hideContainer();
+					g_saveLastError("cannot upload: notlogin");
+					return false;
+				}
+
+				return true;
+			}catch(err){
+				g_reportText("checkCanUpload err, "+err, 1);
+			}
+			return true;
+		},
+		onConstructor : function(){
+			//QZFL.console.print("onConstructor");
+			$("flash_loading").style.display = "none";
+		},
+		//flash回调,ax控件回调
+		onInited : function(flashVersion){
+			//QZFL.console.print("onInited");
+			var isTimeout = !_timerStep;	//是否已经超时
+
+			g_flashVersion = flashVersion;
+
+			if(_timerStep){
+				clearTimeout(_timerStep);
+				_timerStep = null;
+			}
+
+			$("flash_loading").style.display = "none";
+			
+			g_sendReport(110135,1,g_AxVer, true);
+			g_reportKeyStep("initedcb");
+			g_speed.setTime();
+			if(g_uploadType == "Ax") {
+				AxStatusMonitor.setAxStatus("initedcb", true);
+				
+				//249的log设置
+				if( g_AxVer >= 249) {
+					var photoDraw = Wrapper.getAx();
+					if(photoDraw) {
+						//现在量还小，可以全部当loguser
+						photoDraw.SetLogUser(true);
+					}
+				}
+
+				if (g_AxVer >= 239) {
+					//智能旋转
+					Wrapper.setAutoRotate(inner.getChecked("check_autorotate")?true:false);
+				}
+				
+				//inited后升级
+				var needLeave = UpdateAx && UpdateAx.checkNeedUpdateAfterInited(g_AxVer);
+				if(needLeave) {
+					setTimeout(function(){
+						Wrapper.uninit();
+					}, 0);
+					return;
+				}
+				
+				//对一些版本做特殊处理
+				UpdateAx && UpdateAx.checkSpecialVersionsAfterInited(g_AxVer);
+			}
+
+			//后面是不影响使用的东东，上报、新手引导、检测、测试代码等等
+			//上报，排除弹框干扰
+			if (UpdateAx && UpdateAx.isAxLevelUpUser && !UpdateAx.isAxLevelUpUser()) {
+				if (g_uploadType == "Ax") {
+					g_speed.report(11, 1, 11);
+				}
+				if (g_uploadType == "Flash") 
+				{
+					g_speed.report(12, 1, 11); //全体用户的上报，日报数据，不要动
+				}
+			}
+
+			if (g_stepTimes["inited"]) {
+				var time = (new Date()).getTime() - g_stepTimes["inited"].getTime();
+				if (g_uploadType == "Ax") {
+					g_sendReport(110156,1,g_AxVer*1000+0,false,time);
+				} else if (g_uploadType == "Flash") {
+					var subcode = (!isTimeout?0:2);
+					g_sendReport(110157,1,g_AxVer*1000+subcode,false,time);
+				}
+				if(isTimeout){
+					if (g_uploadType == "Ax") {
+						g_reportText("waitCallback too long, time="+time, 1);
+					} else if (g_uploadType == "Flash") {
+						//观察flash加载过慢慢速用户测速
+						g_speed.report(13, 1, 11);
+
+						var beforeinit = g_stepTimes["inited"].getTime()-g_startTime.getTime();
+						g_reportText("waitCallback too long, time="+time+", domain="+location.host+", beforeinit="+beforeinit, 1);
+					}
+				}
+			}
+			//新手引导，朋友网不显示，小窝不显示，v8不显示
+			if (!QPHOTO.status.inPengyou && !g_isOldXWMode && (parseInt(QZONE.FP.getQzoneConfig("version"))<8) && (g_uploadType == "Ax" || g_uploadType == "Flash")) {
+				if (g_needShowGuide) {
+					if(g_uploadType == "Ax"){
+						if(g_AxVer < 232){
+							//旧控件按钮位置调整
+							$("guide").style.left = "500px";
+							$("guide").style.top = "280px";
+							$("mask_guide").style.left = "500px";
+							$("mask_guide").style.top = "280px";
+						}
+						if(g_AxVer >= 239){
+							//新控件背景色变了
+							$("guide").style.backgroundColor = "#F3F3F3";
+							$("mask_guide").style.backgroundColor = "#F3F3F3";
+						}else{
+							$("guide").style.backgroundColor = "#FFFFFF";
+							$("mask_guide").style.backgroundColor = "#FFFFFF";
+						}
+						$("guide").style.display = "";
+						$("mask_guide").style.display = "";
+					}else{
+						$("guide").style.display = "";
+					}
+
+					_showUserGuide = true;
+
+					var userGuide = QZONE.FP._t.QZONE.userGuide;
+					userGuide && userGuide.setPhotoGuide && userGuide.setPhotoGuide("finish");
+
+					var tc = QZONE.FP._t.QZONE.FP.getStatPackage();
+					tc && tc.pv("newusers.qzone.qq.com","select_photo_pv");
+				}
+			}
+			//ax控件缩放检测,使用seajs[js缩放检测,不支持ie6]
+			var isIE6= !!window.ActiveXObject&&!window.XMLHttpRequest;
+			if(g_uploadType == "Ax" && !isIE6) {
+				seajs.use(['photo.v7/common/util/zoom/zoomDetect'], function(zoom) {
+					if(zoom && zoom.checkZoomed && zoom.checkZoomed() && zoom.scale){
+						try{
+							var photoDraw = Wrapper.getAx();
+							if(photoDraw) {
+								photoDraw.Resize();
+							}
+							g_reportText("zoomDetect effect success" + zoom.scale(), 1);
+						}catch(err){
+							g_reportText("zoomDetect effect error" + zoom.scale(), 1);
+						}
+					}
+				});
+			}
+			if(g_uploadType == "Flash" && isIEGpu) {
+				photoUploadHotClick("flashupload.ie9.initedcb", "photoclick.qzone.qq.com", "/photo_abtest");
+			}
+			//以下是测试用的，记得放在最后
+			if (g_uploadType == "Ax") {
+				$e("#test_axver").show();
+				$e("#test_axver").setHtml("当前版本："+g_AxVer);
+			}
+
+		},
+		onDownloadAx : function(type){
+			//Flash存在问题
+			if(type == 'selected' && getDrawExSupported()) {
+				UpdateAx && UpdateAx.downloadAx();
+			}
+		},
+		onChangeStatus : function(status){
+			//QZFL.console.print("onChangeStatus "+_status+" "+status);
+			if(status == _status){
+				return;
+			}
+			var oldStatus = _status;
+			_status = status;
+
+			if(_useNewOpBar){
+				if(status == 'start'){
+					inner.clearBatchInfo();
+					$e("#batch_info_area").hide();
+				}else{
+					$e("#batch_info_area").show();
+				}
+				//加这个是因为input_desc不知道在哪里先focus了一次，从start到edit时直接就是展开状态
+				if(oldStatus == 'start'){
+					try{
+						$('input_desc').blur();
+					}catch(err){}
+				}
+			}
+
+			/*
+			if (g_uploadType == "Ax" && g_AxVer >= 248 && !g_isOldXWMode) {
+				var h = (status == 'start') ? _cfg.height : 570;
+				$e("#container").setStyle("height", h+"px");
+				Wrapper.resize && Wrapper.resize(_cfg.width, h, true);
+			}
+			*/
+			inner.enableAlbumOp(status != 'uploading' && status != 'canceling');
+			inner.enableSettings(status != 'uploading' && status != 'canceling');
+			if (status == "edit" || status == "uploading" || status == "canceling") {
+				window.onbeforeunload = function(){
+					return "离开该页面将退出照片上传。";
+				};
+			} else {
+				window.onbeforeunload = null;
+			};
+		},
+		onCheckAdd : function(){
+			//QZFL.console.print("onCheckAdd needSaveInfoAdd="+_needSaveInfoAdd);
+			if(_useNewOpBar && _needSaveInfoAdd){
+				_needSaveInfoAdd = false;
+
+				//onunload时不用保存了
+				_needSaveInfoUnload = false;
+
+				//开始下一批了，保存前面的信息
+				inner.saveInfos(null, null, {showMsg:false});
+
+				//UploadReturn时禁用的这些东东要重新启用
+				inner.enableAlbumOp(true);
+				inner.enableSettings(true);
+
+				inner.clearBatchInfo();
+			}
+
+			if(g_needReportClickAdd){
+				g_needReportClickAdd = false;
+
+				g_sendReport(110201,1,g_AxVer, true);
+				g_reportKeyStep("clickadd");
+			}
+			if(g_uploadType == "Flash" && isIEGpu) {
+				photoUploadHotClick("flashupload.ie9.clickadd", "photoclick.qzone.qq.com", "/photo_abtest");
+			}
+			if(_showUserGuide && !_reportClickUserGuide){
+				//有新手引导 且 没上报过点击
+				_reportClickUserGuide = true;
+				var tc = QZONE.FP._t.QZONE.FP.getStatPackage();
+				tc && tc.pv("newusers.qzone.qq.com","select_photo_click");
+			}
+
+			try{
+				frameElement.g_uploadSelectPhoto = true;
+			}catch(err1){
+				//有人卡在这，看看为什么
+				g_reportText("onCheckAdd err1, "+err1, 1);
+			}
+			try{
+				inner.hideAllLayers(true);
+			}catch(err2){
+				//有人卡在这，看看为什么
+				g_reportText("onCheckAdd err2, "+err2, 1);
+			}
+
+			if(g_uploadType == "Ax"){
+				AxStatusMonitor.setAxStatus("clickadd");
+			}
+
+			//var canAdd = inner.checkCanUpload();
+			if(g_needReportStartAdd){
+				g_needReportStartAdd = false;
+                g_sendReport(110408,1,g_AxVer, true);
+				g_reportKeyStep("startadd");
+			}
+			
+			return true;
+		},
+		onChangePhotoCount : function(count, size){
+			_selectedPhotoCount = count;
+			_selectedPhotoSize = size == undefined ? _selectedPhotoSize : size;
+		
+			//QZFL.console.print("onChangePhotoCount "+count+" "+size);
+			var hasPhoto = count > 0 || size > 0;
+			//存下来有多少张照片,以便崩溃上报
+			if(g_uploadType == "Ax"){
+				AxStatusMonitor.setAxPhotocount(count);
+			}
+			if(g_needReportSelect && hasPhoto){
+				g_needReportSelect = false;
+
+				g_sendReport(110202,1,g_AxVer, true);
+				g_photoType = -1;//避免重新上传时影响统计
+				g_reportKeyStep("selected");
+			}
+			if(hasPhoto){
+				g_lastSelectTime = new Date();
+
+				$("guide").style.display = "none";
+				$("mask_guide").style.display = "none";
+
+				if(g_uploadType == "Ax"){
+					AxStatusMonitor.setAxStatus("selected");
+				}
+			}
+		},
+		//<=231的版本才有
+		onChangeCompressFlag : function(photoType, waterMark){
+			//QZFL.console.print("onChangeCompressFlag photoType="+photoType+" waterMark="+waterMark);
+
+			photoType = photoType?1:0;
+
+			var setting = UploadQuality ? UploadQuality.getQualitySetting() : null;
+			var oldPhotoType = setting?setting.photoType:0;
+
+			if(photoType != oldPhotoType){
+				if(photoType){
+					inner.saveQualitySetting(1, -1);
+					inner.showQualitySetting();
+				}else{
+					inner.saveQualitySetting(0, -1);
+					inner.hideQualitySetting();
+				}
+			}
+			inner.setChecked("check_watermark", waterMark?true:false);
+
+			if (QPHOTO.status.inQzone) {
+				//空间才能加水印
+				var db = QZONE.FP._t.QZONE.FP.noShareDb;
+				if(db){
+					var key = "watermark_" + g_loginQQ;
+					try{
+						db.set(key, waterMark?1:0);
+					}catch(err){}
+				}
+			}
+		},
+		//>=248的版本才有
+		onChangeCompressSize : function(photoType){
+			//QZFL.console.print("onChangeCompressSize photoType="+photoType);
+
+			var setting = UploadQuality ? UploadQuality.getQualitySetting() : null;
+			var oldPhotoType = setting?setting.photoType:0;
+
+			if(photoType != oldPhotoType){
+				inner.saveQualitySetting(photoType, -1);
+			}
+
+			if (_watermarkId && !inner.checkCanNewWatermark()) {
+				var msg = "您设置的水印不会应用到" + _photoTypeMap[photoType] + "上传上";
+				Wrapper.showMessageBox("提示", msg);
+			}
+		},
+		onPrepareToUp : function(uploadNum){
+			//QZFL.console.print("onPrepareToUp uploadNum="+uploadNum+" aid"+_aid);
+			g_sendReport(110128,1,g_AxVer, true);
+
+			g_photoType = -1;//避免重新上传时影响统计
+			g_reportKeyStep("clickupload");
+
+			if(g_uploadType == "Ax"){
+				AxStatusMonitor.setAxStatus("clickupload");
+			}
+
+			if((g_uploadType == "Ax" || g_uploadType == "Flash") && g_needReportSelectDelay && g_stepTimes["selected"]){
+				g_needReportSelectDelay = false;
+				var speed = new QPHOTO.report.Speed();
+				speed.setStart(g_stepTimes["selected"]);
+				speed.setTime(g_lastSelectTime);
+				speed.setTime();
+				speed.report((g_uploadType=="Ax")?30:31,0.1,11);
+			}
+
+			try{
+				inner.hideAllLayers();
+			}catch(err){}
+
+			if(!inner.checkCanUpload()){
+				return;
+			}
+
+			if(!_albums){
+				//拉列表失败
+				Wrapper.showMessageBox("提示", "您的相册列表加载失败，请先刷新");
+				g_saveLastError("alist err");
+				return;
+			}
+
+			if (_currAlbum == null) {
+				//QZFL.console.print("noalbum creating");
+				g_saveLastError("noalbum creating");
+
+				//自动创建相册
+				var createStart = new Date();
+				inner.autoCreateAlbum(null, function(d){
+					g_sendReport(110172,1,0,true,new Date()-createStart);
+					inner.refreshSelect(d.album.id);
+					inner.setAid(d.album.id);
+					inner.startUpload(uploadNum);
+				},function(d){
+					g_sendReport(110172,2,d?d.code:-1,true,new Date()-createStart);
+					Wrapper.showMessageBox("提示", "请先创建一个相册来保存您的照片吧");
+					g_saveLastError("noalbum "+(d?d.code:-1));
+				});
+				return;
+			}
+
+			if (parseInt(_currAlbum.total) + parseInt(uploadNum) > g_maxPhotoInAlbum) {
+				//QZFL.console.print("over2000 creating");
+				g_saveLastError("over1000 creating");
+
+				//自动创建相册
+				var createStart = new Date();
+				inner.autoCreateAlbum(_currAlbum, function(d){
+					g_sendReport(110185,1,0,true,new Date()-createStart);
+					inner.refreshSelect(d.album.id);
+					inner.setAid(d.album.id);
+					setTimeout(function(){
+						try{
+							Wrapper.showMessageBox("提示", "所选照片超过了单个相册" + g_maxPhotoInAlbum + "张的限制，上传照片将被放到新建的同名相册中");
+						}catch(err){}
+					},100);
+					inner.startUpload(uploadNum);
+				},function(d){
+					g_sendReport(110185,2,d?d.code:-1,true,new Date()-createStart);
+					if (d.code == -10804) {
+						Wrapper.showMessageBox("提示", "抱歉，所选照片超过了单个相册" + g_maxPhotoInAlbum + "张的限制，请删除部分照片后重试");
+					} else {
+						Wrapper.showMessageBox("提示", "抱歉，当前使用相册的用户过多，请稍后重试");
+					}
+					g_saveLastError("over1000 "+(d?d.code:-1));
+				});
+				return;
+			};
+			inner.startUpload(uploadNum);
+			var reportTime = uploadNum * 100;
+			//顺便统计一下人均照片数
+			g_sendReport(110284, 1, g_AxVer, true, reportTime);
+		},
+		startUpload : function(uploadNum){
+			_lastUploadNumberAll = uploadNum;
+			_lastProcessNumber = 0;
+			_lastSuccNumber = 0;
+
+			_batchUploadNum = 0;
+			_batchUploadSize = 0;
+			_batchUploadStart = new Date();
+			if(!g_firstStartUploadTime) {
+				g_firstStartUploadTime = new Date();
+			}
+			_batchUploadEnd = null;
+
+			var param = inner.getInput();
+			//QZFL.console.print("startUpload photoType="+param.photoType+" bigsize="+param.bigsize+" bigquality="+param.bigquality+" hdsize="+param.hdsize+" hdquality="+param.hdquality+" waterMark="+param.waterMark+" aid="+param.aid);
+
+			g_photoType = param.photoType;
+			g_needReportSucc = true;
+			g_sendReport(110129,1,g_AxVer*1000+g_photoType, true);
+
+			g_reportKeyStep("startupload");
+
+			if(g_uploadType == "Ax"){
+				AxStatusMonitor.setAxStatus("startupload");
+			}
+
+			if((g_uploadType == "Ax" && g_AxVer >= 232) || (g_uploadType == "Flash")){
+				UploadStats.tcisdStats("quality."+param.photoType);
+				UploadStats.tcisdStats("watermark."+param.waterMark);
+			}
+
+			//记录上传到的相册是默认的，新创建的，还是用户选择的
+			var albumtype = "";
+			if(param.aid == _defaultAid){
+				albumtype = "default";
+			}else if(_createdAids[param.aid]){
+				albumtype = "create";
+			}else{
+				albumtype = "select";
+			}
+			UploadStats.tcisdStats("toalbum."+g_innerfrom+"."+albumtype);
+
+			//这批上传是否启用圈人
+			_needShowMark = _canMark && QPHOTO.status.inQzone && (_currAlbum.priv==1 || _currAlbum.priv==4 || _currAlbum.priv==6);
+			//QZFL.console.print("startUpload needShowMark="+_needShowMark);
+
+			var ret = Wrapper.startUpload(param);
+			if(ret && ret.batchid){
+				//QZFL.console.print("startUpload batchid="+ret.batchid);
+				UploadMark && UploadMark.setBatchId(ret.batchid);
+
+				g_lastBatchId = ret.batchid;
+			}
+		},
+		getInput : function(){
+			var setting = UploadQuality ? UploadQuality.getQualitySetting() : null;
+
+			var photoType = setting?setting.photoType:0;
+			var hdsize = setting?setting.hdsize:1600;
+			var bigsize = _use800?800:670;
+			bigsize = _use640?640:bigsize;
+			var bigquality = bigQuality;
+
+			if (photoType == 2) {
+				//原图
+				photoType = 2;
+				hdsize = 1600;
+				bigquality = 96;
+			} else if (photoType == 1) {
+				//高清
+				if (hdsize > bigsize || (g_uploadType == "Ax" && Wrapper.getVersion() < 232)) {
+					//这才是真的要存高清
+					photoType = 1;
+				} else {
+					//这只是把大图按96来压
+					photoType = 0;
+					bigsize = bigsize;
+				}
+				bigquality = 96;
+			} else {
+				photoType = 0;
+			}
+
+			var param = {
+				mspec : false,//多规格有问题，退回去
+				aid : _aid,
+				currAlbum : _currAlbum,	//给Web上传用
+				svrtime : QZONE.FP.getSvrTime().getTime(),
+				photoType : photoType,
+				bigsize : bigsize,
+				bigquality : bigquality,
+				hdsize : hdsize,
+				hdquality : 90,
+				waterMark : !!_watermarkId || inner.getChecked("check_watermark")?1:0
+				//waterMark : _isNewWatermark ? photoType == 0 && !!_watermarkId : inner.getChecked("check_watermark")?1:0
+			};
+			return param;
+		},
+		//取普通图的格式 + 其他设置,真danteng
+		getNormalInput : function(){
+			var setting = UploadQuality ? UploadQuality.getQualitySetting() : null;
+
+			var photoType = 0;
+			var hdsize = setting?setting.hdsize:1600;
+			var bigsize = _use800?800:670;
+			bigsize = _use640?640:bigsize;
+			var bigquality = bigQuality;
+
+			var param = {
+				mspec : false,//多规格有问题，退回去
+				aid : _aid,
+				currAlbum : _currAlbum,	//给Web上传用
+				svrtime : QZONE.FP.getSvrTime().getTime(),
+				photoType : photoType,
+				bigsize : bigsize,
+				bigquality : bigquality,
+				hdsize : hdsize,
+				hdquality : 90,
+				waterMark : !!_watermarkId || inner.getChecked("check_watermark")?1:0
+				//waterMark : _isNewWatermark ? photoType == 0 && !!_watermarkId : inner.getChecked("check_watermark")?1:0
+			};
+			return param;
+		},
+		//socket链接成功110270
+		socketConnectSucc : function(){
+			g_sendReport(110270, 1, 0, true);
+		},
+		//socket链接失败110270
+		socketConnectFail : function(data){
+			if(g_uploadType=="Flash"){
+				g_sendReport(110270, 2, 1, true);
+				if(data && typeof data == 'string') {
+					var cdn = "";
+					try{
+						cdn = location.host.split(".")[0];
+						//所有ip连不上时上报 多个ip链接错误的对应信息，运营商，用户ip  到文本上报
+						g_reportText(data, 1, {type : 'flash.socketConnectFail', version : cdn});
+					}catch(err){}
+				}
+			}
+			
+		},
+		onSingleResult : function(data, filename){
+			//QZFL.console.print("onSingleResult code="+data.ret+" newaid="+data.newaid+" total="+data.totalpic+" "+filename);
+			//QZFL.console.print("onSingleResult code="+data.ret+" lloc="+data.lloc);
+			data.ret = parseInt(data.ret);
+			seajs.use(['photo.v7/lib/jquery', 'photo.v7/lib/photo'], function($, PSY){
+				if(PSY && $) {
+					//返回码4.0:上报上传
+					var uploadUrl = 'http://up.photo.qq.com/cgi-bin/upload/cgi_upload_';
+					if(g_uploadType == 'Ax') {
+						uploadUrl += 'activex';
+					}else if(g_uploadType == "Flash") {
+						uploadUrl += 'pic';
+					}
+					var isSucc = (data.ret == 0 || data.ret == -301);
+					PSY.oz.returnCodeV4({
+						"domain" : PSY.uri(uploadUrl).hostname,
+						"cgi" : PSY.uri(uploadUrl).pathname,
+						"type" : isSucc ? 1 : 2,
+						"code" : data.ret,
+						"time" : 300,
+						"rate" : isSucc ? 10 : 1
+					});
+				}
+			});
+			if(g_needReportSucc && (data.ret == 0 || data.ret == -301)){
+				g_needReportSucc = false;
+				g_sendReport(110132,1,g_AxVer*1000+g_photoType, true);
+
+				g_reportKeyStep("uploadsucc");
+			}
+			switch(data.ret){
+				case 0 :
+					QZONE.FP._t.g_XDoc[16] = null;
+					QPHOTO.album.refresh(_uin);
+					QPHOTO.photo.refresh(_uin,_aid);
+					QPHOTO.util.clearNewPhoto();
+
+					var total = parseInt(data.totalpic);
+					if (total>0) {
+						_currAlbum.total = total;
+					} else {
+						_currAlbum.total = _currAlbum.total || 0;
+						_currAlbum.total++;
+					}
+					inner.refreshSelectItem(_currAlbum);
+					UploadStats.addSuc(_aid);
+					_lastProcessNumber++;
+					_lastSuccNumber++;
+					_batchUploadNum++;
+					_batchUploadSize += parseInt(data.contentlen)||0;
+					_batchUploadEnd = new Date();
+
+					ModifyPhotoInfos && ModifyPhotoInfos.addPhoto(_aid,data.lloc);
+					if(_needShowMark && _lastSuccNumber>0 && _lastSuccNumber%10==0){
+						UploadMark && UploadMark.checkPhotos(_aid,data.lloc,10);
+					}
+					_lastSuccLloc = data.lloc;
+					break;
+
+				case -301 :
+					QZONE.FP._t.g_XDoc[16] = null;
+					QPHOTO.album.refresh(_uin);
+					QPHOTO.photo.refresh(_uin,_aid);
+					QPHOTO.util.clearNewPhoto();
+
+					_updateUploadFeeds();
+
+					var newalbum = {
+						id : data.newaid,
+						total : parseInt(data.totalpic)||1,
+						name : _currAlbum.name,
+						desc : _currAlbum.desc,
+						classid : _currAlbum.classid,
+						priv : _currAlbum.priv,
+						pypriv : _currAlbum.pypriv,
+						question : _currAlbum.question||"",
+						answer : _currAlbum.answer||""
+					};
+					_albums.unshift(newalbum);
+					_info.albumnum = _albums.length;
+					inner.refreshSelect(data.newaid);
+					inner.setAid(data.newaid);
+					UploadStats.addSuc(_aid);
+					_lastProcessNumber++;
+					_lastSuccNumber++;
+					_batchUploadNum++;
+					_batchUploadSize += parseInt(data.contentlen)||0;
+					_batchUploadEnd = new Date();
+
+					ModifyPhotoInfos && ModifyPhotoInfos.addPhoto(_aid,data.lloc);
+					if(_needShowMark && _lastSuccNumber>0 && _lastSuccNumber%10==0){
+						UploadMark && UploadMark.checkPhotos(_aid,data.lloc,10);
+					}
+					_lastSuccLloc = data.lloc;
+					break;
+
+				default:
+					UploadStats.addErr(_aid);
+					_lastProcessNumber++;
+					_batchUploadNum++;
+					_batchUploadEnd = new Date();
+					g_saveLastError("singleresult "+data.ret);
+					break;
+			}
+
+			if(g_uploadType == "Ax"){
+				AxStatusMonitor.setAxStatus("singleresult"+data.ret+"_"+_lastProcessNumber+"_"+_lastUploadNumberAll);
+			}
+		},
+		/*
+		上传成功：
+			查看照片：onUploadOver - onNextStep
+			继续编辑：onUploadOver - onUploadReturn(0)
+		上传失败：
+			查看照片：onUploadOver - onNextStep
+			重试：onUploadOver - onUploadReturn(1)
+		*/
+		onUploadOver : function(params){
+			//QZFL.console.print('onUploadOver');
+			if(_needShowMark && _lastSuccNumber>0 && _lastSuccNumber%10>0){
+				UploadMark && UploadMark.checkPhotos(_aid,_lastSuccLloc,_lastSuccNumber%10);
+			}
+
+			_updateUploadFeeds();
+			_reportBatchSpeed(params);
+			
+			if(g_uploadType == "Ax"){
+				AxStatusMonitor.setAxStatus("uploadover",true);
+			}
+
+			if(_useNewOpBar){
+				//一批传完就保存
+				inner.saveInfos(null, null, {showMsg:false});
+
+				//点添加照片时不用检查，因为暂停上传也会收到这个消息
+				_needSaveInfoAdd = false;
+
+				//onunload时也要检查
+				_needSaveInfoUnload = true;
+			}
+		},
+		onUploadReturn : function(err){
+			//QZFL.console.print('onUploadReturn, err='+err);
+			if(g_uploadType == "Ax"){
+				AxStatusMonitor.setAxStatus("uploareturn",true);
+			}
+
+			if(!err){
+				//成功继续编辑时不能改相册和各种设置
+				inner.enableAlbumOp(false);
+				inner.enableSettings(false);
+			}else{
+				//失败重试时可以修改
+				inner.enableAlbumOp(true);
+				inner.enableSettings(true);
+			}
+
+			if(_useNewOpBar){
+				_needSaveInfoAdd = true;
+				_needSaveInfoUnload = true;
+			}
+		},
+		onNextStep : function(){
+			//QZFL.console.print("onNextStep");
+			if(g_uploadType == "Ax"){
+				AxStatusMonitor.setAxStatus("nextstep",true);
+
+				//直接隐藏，避免控件残影
+				$("container").style.visibility = "hidden";
+				//$("container").style.display = "none";	//这里不能加，加了之后 Wrapper.checkValid() 会返回false，在uninit里面加
+			}
+
+			inner.hideContainer(true);
+			window.onbeforeunload = null;
+			//先恢复跳转上传完成页
+			if(_useNewOpBar){
+				//onunload时不用保存了
+				_needSaveInfoUnload = false;
+
+				//跳走前保存
+				QZONE.FP.showMsgbox("正在提交数据，请稍候...", 6, 10000);
+				inner.saveInfos(null, null, {showMsg:false}, function(){
+					//QZFL.console.print("doNextStep");
+					QZONE.FP.hideMsgbox();
+
+					inner.oldNextStep();
+				});
+			}else{
+				inner.oldNextStep();
+			}
+		},
+		oldNextStep : function(tolist){
+			var sucNum = UploadStats.get(_aid).sucNum;
+			if(!tolist && sucNum >= 1){
+				var data = [];
+				for(var i=0; i<sucNum; i++){
+					data.push(i);
+				}
+
+				if(_isNewWatermark && _watermarkId){
+					UploadStats.tcisdStats('newwatermark.' + _watermarkId + '.' + g_uploadType);
+				}
+				
+				// var params = "a_id="+_aid+"&index="+data.join("|")+"&uptype="+g_uploadType+"&guide="+(_showUserGuide?1:0)+"&viewtype="+_getAlbumViewType(_aid);
+				// go("/qzone/photo/zone/new/upload_complete.htm",_aid,null,params);
+				
+				var params = "a_id="+_aid+"&index=" + data.join("|") + "&uptype=" + g_uploadType + "&guide=0&viewtype=" + (_getAlbumViewType(_aid) || '') + (g_lastBatchId ? "&batchid=" + g_lastBatchId : '');
+				go("/qzone/photo/zone/new/upload_complete.htm",_aid,null,params);
+			}else{
+				QZONE.FP.toApp('/photo/'+_aid+'/'+_getAlbumViewType(_aid));
+			}
+		},
+		onLocalError : function(code, filename){
+			//QZFL.console.print("onLocalError "+code+" "+filename);
+			if(!code){
+				return;
+			}
+			if(g_uploadType == "Ax" && code != 1009){
+				_lastProcessNumber++;
+				_batchUploadNum++;
+				_batchUploadEnd = new Date();
+				g_saveLastError("localerror "+code);
+			}else if(g_uploadType == "Flash" && code <= -10000){
+				_lastProcessNumber++;
+				_batchUploadNum++;
+				_batchUploadEnd = new Date();
+				g_saveLastError("localerror "+code);
+			}
+
+			if(g_uploadType == "Ax"){
+				AxStatusMonitor.setAxStatus("localerror"+code+"_"+_lastProcessNumber+"_"+_lastUploadNumberAll);
+			}
+		},
+		onWatermarkPre : function(preImg){
+			if(inner.watermarker){
+				inner.watermarker.bindInfo(preImg);
+			}
+		},
+		makeWatermark: function(){
+			if(!_settingEnabled){
+				//上传中不能改水印
+				return;
+			}
+
+			if(!inner.checkCanNewWatermark()){
+				var msg = _uploadCfg.canNewWaterMark[g_uploadType]["msg"];
+				if(g_uploadType=="Ax"){
+					Wrapper.showMessageBox("提示", msg);
+				}else if(g_uploadType=="Flash"){
+					QZONE.FP.showMsgbox(msg, 2, 2000);
+				}
+				return;
+			}
+
+			UploadStats.tcisdStats('newwatermark.popup.'+g_uploadType);
+			QZONE.FP.showMsgbox("正在加载水印编辑器", 6);
+			QZONE.FP._t.seajs.use(["photo.v7/module/watermark/index"], function(watmk){
+				inner.hideContainer();
+
+				inner.watermarker = watmk.get("./init");
+				inner.watermarker.popup({
+					watermarkId: _watermarkId,
+					onResult: function(watmk){
+						inner.showContainer();
+
+						if(watmk){
+							Wrapper.setWatermark(watmk);
+
+							_watermarkId = watmk.id;
+
+							$e("#watermark").setHtml("修改水印").setAttr("title", "修改水印").addClass("op-edit");
+							$e("#watermark_cancel").show().unBind("click").bind("click", function(e){
+								QZFL.event.preventDefault();
+								QZFL.event.cancelBubble();
+
+								inner.removeWatermark();
+							});
+
+							$e("#watermark_span_new").addClass('added-watermark');
+						}
+					},
+					onCancel: function(){
+						inner.showContainer();
+					}
+				});
+
+				if(Wrapper.getWatermarkPre){
+					Wrapper.getWatermarkPre(490, 330, function(){
+						inner.watermarker.bindInfo('');
+					});
+				}else{
+					inner.watermarker.bindInfo('');
+				}
+			});
+		},
+		removeWatermark: function(){
+			if(!_settingEnabled){
+				//上传中不能改水印
+				return;
+			}
+
+			Wrapper.setWatermark(null);
+
+			_watermarkId = null;
+
+			$e("#watermark").setHtml("自定义水印").setAttr("title", "自定义水印").removeClass("op-edit");
+			$e("#watermark_cancel").unBind("click").hide();
+
+			$e("#watermark_span_new").removeClass('added-watermark');
+		},
+		saveInfos: function(cb, ecb, opt, waitcb){
+			if(ModifyPhotoInfos){
+				var info = {
+					desc : inner.getInputValue('input_desc')
+				}
+
+				ModifyPhotoInfos.setWaitCb(waitcb);
+				ModifyPhotoInfos.modifyAll(info, cb, ecb, opt);
+			}else{
+				ecb && ecb();
+				waitcb && waitcb();
+			}
+		},
+		clearBatchInfo: function(){
+			//QZFL.console.print("clearBatchInfo");
+
+			//清空批次id
+			Wrapper.clearBatchId && Wrapper.clearBatchId();
+
+			//清空要保存的数据
+			ModifyPhotoInfos && ModifyPhotoInfos.clearAll();
+
+			//清空描述和位置
+			inner.setInputValue('input_desc', '');
+			$('input_desc').blur();
+
+			//清空水印
+			inner.removeWatermark();
+
+			//清空圈人
+			UploadMark && UploadMark.clearList();
+		},
+		defaultStrs : {
+			input_desc : '描述下这批照片吧…'
+		},
+		getInputValue: function(id){
+			var value = trim($e('#'+id).getVal()) || '';
+			if(value == inner.defaultStrs[id]){
+				value = '';
+			}
+			return value;
+		},
+		setInputValue: function(id, value, noDefault){
+			value = trim(value) || '';
+			if(!noDefault){
+				value = value || inner.defaultStrs[id] || '';
+			}
+			$e('#'+id).setVal(value);
+		}
+	};
+})();
+
+//监控控件状态，看是不是崩溃了
+var AxStatusMonitor = (function(){
+	var _db = QZONE.FP._t.QZONE.FP.noShareDb;
+	var _key = "axstatus_" + g_loginQQ;
+	var _countkey = "axcrash_count_" + g_loginQQ;
+	var _initTime = (new Date()).getTime();
+	var inner;
+	return inner = {
+		init : function(){
+		},
+		getLastCrashReport : function(){
+			if(_db){
+				try{
+					var axstatus = _db.get(_key);
+					var axcrash_count = _db.get(_countkey);
+					//QZFL.console.print("last axstatus: "+axstatus);
+					if(axstatus && axstatus.length > 0){
+						var arr = axstatus.split("_") || [];
+						if(arr.length >= 4){
+							if(arr[3] != "uninit" && arr[3] != "initedcb"){
+								return arr;
+							}
+						}
+					}
+					return null;
+				}catch(err){}
+			}
+		},
+		report : function(){
+			if(_db){
+				try{
+					var axstatus = _db.get(_key);
+					var axcrash_count = _db.get(_countkey);
+					//QZFL.console.print("last axstatus: "+axstatus);
+					if(axstatus && axstatus.length > 0){
+						var arr = axstatus.split("_") || [];
+						if(arr.length >= 4){
+							if(arr[3] != "uninit"){
+								//先只上报不处理，看看有多少
+								g_reportText("ax crash:"+axstatus, 1, {
+									version : arr[1]
+								});
+								//统计崩溃时照片张数
+								if(axcrash_count && axcrash_count > 0) {
+									var reportStr = "crash photocount:";
+									var shougui = parseInt(axcrash_count/50);
+									reportStr += shougui + ',';
+									reportStr += arr[3];
+									g_reportText(reportStr, 1, {
+										version : arr[1]
+									});
+								}
+							}
+						}
+					}
+				}catch(err){}
+			}
+			inner.clear();
+		},
+		setAxStatus : function(axstatus, checkax){
+			//QZFL.console.print("setAxStatus: axstatus="+axstatus);
+			if(_db && _initTime){
+				try{
+					if(checkax && !Wrapper.checkValid()){
+						return;
+					}
+					var time = (new Date()).getTime()-_initTime;
+					//QZFL.console.print("do setAxStatus: axstatus="+axstatus);
+					_db.set(_key, _initTime+"_"+g_AxVer+"_"+time+"_"+axstatus);
+				}catch(err){}
+			}
+		},
+		setAxPhotocount : function(count){
+			if(_db) {
+				try{
+					_db.set(_countkey, count);
+				}catch(error){}
+			}
+		},
+		clear : function(){
+			if(_db){
+				try{
+					_db.set(_key, '');
+					_db.set(_countkey, 0);
+				}catch(err){}
+			}
+		}
+	};
+})();
+
+var FixFlashMonitor = (function(){
+	var _db = QZONE.FP._t.QZONE.FP.noShareDb;
+	var _key = "fixflash_" + g_browser + "_" +g_loginQQ;
+	var inner;
+	return inner = {
+		clickFix : function(){
+			if(_db){
+				try{
+					_db.set(_key, (new Date).getTime());
+				}catch(err){}
+			}
+		},
+		setResult : function(errcode){
+			//QZFL.console.print("setResult: errcode="+errcode);
+			if(_db && (errcode != 1)){
+				try{
+					var value = parseInt(_db.get(_key));
+					if(!value){
+						//没点击安装
+						return;
+					}
+					if(errcode == 0){
+						_db.set(_key, 0);
+						g_sendReport(110134,2,18,true);	//安装之后成功
+						g_reportText("initWrapper succ afterfix", 1);
+					}else{
+						g_sendReport(110134,2,19,true);	//安装之后失败
+						g_reportText("initWrapper flasherr afterfix", 1);
+					}
+				}catch(err){}
+			}
+		}
+	};
+})();
+
+window.onunload = document.body.onunload = Page.uninit;
+QPHOTO.util.pageInt(function(){
+	var loginUin = QZONE.FP.getQzoneConfig("loginUin");
+	var cookieUin = QPHOTO.status.inPengyou ? QZONE.FP.checkLogin() : parseInt(QZONE.cookie.get('uin').replace('o',''),10);
+	if (!QZONE.FP.getQzoneConfig("isOwner") || !loginUin || !cookieUin || loginUin != cookieUin){
+		//未登录
+		go("default.html", null, null,"type=upload&last="+encodeURIComponent(location.href));
+		return;
+	}
+	//预加载
+	seajs.use(['photo.v7/lib/jquery', 'photo.v7/lib/photo'], function($, PSY){});
+	function checkAxVersion(v, type){
+		type = type || 'levelup';
+		//记录版本号，后面不用重复获取了
+		g_AxVer = v;
+
+		//非法版本号全量上报
+		if(v > 300){
+			//出错了
+			g_report = true;
+			g_AxVer = 300;	//修正一下
+		}
+
+		g_sendReport(110126,1,v, true);	//这里用v不用g_AxVer，g_AxVer是修正过的
+
+		g_reportKeyStep("getver");
+		g_speed.setTime();
+
+		//上报控件版本
+		UploadStats.tcisdStats("axver."+g_AxVer);
+
+		//内部切来切去只会是这几个innerfrom
+		var innermap = {axup:true,flashup:true,webup:true,retry:true};
+		var outside = !(innermap[g_innerfrom]);
+		var hasFlash = isFlashValid();
+		
+		if(outside && g_AxVer == 0){
+			//从其他页面进来的没装控件的用户，如果有flash就进flash，没有就留在这里提示安装控件
+			if (hasFlash) {
+				g_uploadType = "Flash";
+				g_AxVer = 20;
+
+				Page.init();
+				return;
+			}
+		}
+
+		if(UpdateAx){
+			UpdateAx.checkNeedUpdateAfterGetVer(g_AxVer,
+				//不用升级
+				function(){
+					Page.init();
+				},
+				//需要升级但是取消了
+				function(data){
+					data = data || {};
+					if(data.isForce){
+						_isAxDisabled = 1;
+
+						//强制升级取消之后要用普通上传
+						if (hasFlash) {
+							g_uploadType = "Flash";
+							g_AxVer = 20;
+						} else {
+							g_uploadType = "Web";
+							g_AxVer = 10;
+						}
+						Page.init();
+					}else{
+						Page.init();
+					}
+				},
+				{outside : outside}
+			);
+		}else{
+			//兼容没有UpdateAx的情况，231是各个环境都能用的最低版本
+			var isForce = g_AxVer < 231;
+			if(isForce){
+				//强制升级取消之后要用普通上传
+				if (hasFlash) {
+					g_uploadType = "Flash";
+					g_AxVer = 20;
+				} else {
+					g_uploadType = "Web";
+					g_AxVer = 10;
+				}
+				Page.init();
+			}else{
+				Page.init();
+			}
+		}
+	}
+	var pageInit = function(){
+		g_pageLoadTimes.initStart = new Date();
+		//初始化控件Monitor
+		try{
+			AxStatusMonitor.report();
+			AxStatusMonitor.setAxStatus('startinit');
+		}catch(err){}
+		if (g_uploadType == "Ax") {
+			var v = QPHOTO.media.getDrawExVersion();
+			//QZFL.console.print("get axver first, v="+v);
+			if (v==0 && (ua.firefox || ua.webkit)){
+				setTimeout(function(){
+					v = QPHOTO.media.getDrawExVersion();
+					//QZFL.console.print("get axver again, v="+v);
+					checkAxVersion(v, 'getax');
+				},1000);
+			} else {
+				checkAxVersion(v);
+			}
+		}else{
+			g_sendReport(110126,1,g_AxVer);
+
+			g_reportKeyStep("getver");
+			g_speed.setTime();
+
+			Page.init();
+		}
+	}
+
+	if (g_uploadType == "Ax") {
+		if(UpdateAx){
+			try{
+				var lastCrashVersion = undefined;
+				var arr = AxStatusMonitor.getLastCrashReport();
+				if(arr && arr.length >= 3) {
+					lastCrashVersion = parseInt(arr[1]);
+				}
+				UpdateAx.checkNeedUpdateBeforeGetVer(
+					//不用升级
+					function(){
+						pageInit();
+					},
+					//需要升级但是取消了
+					function(opt){
+                        opt = opt || {};
+                        if(!opt.isForce) {
+                            pageInit();
+                        }else {
+                            var hasFlash = isFlashValid();
+                            //取消强升级
+                            _isAxDisabled = 1;
+                            //强制升级取消之后要用普通上传
+                            if (hasFlash) {
+                                g_uploadType = "Flash";
+                                g_AxVer = 20;
+                            } else {
+                                g_uploadType = "Web";
+                                g_AxVer = 10;
+                            }
+                            Page.init();
+                        }
+					},
+					{lastCrashVersion : lastCrashVersion}
+				);
+			}catch(err){
+				g_saveLastError("checkNeedUpdateBeforeGetVer err");
+				pageInit();
+			}
+		}else{
+			pageInit();
+		}
+	}else {
+		pageInit();
+	}
+});
+</script>
+<script>
+//pv和跳顶
+if (QPHOTO.status.inQzone) {
+	var w = QZONE.FP._t;
+	if (QZONE.FP.getQzoneConfig('version')>=6) {
+		QZONE.FP.setScrollTop(w.QZFL.dom.getPosition('pageApp').top - (ua.ie == 6 ? 0 : w.QZFL.dom.getPosition('QZ_Toolbar_Container').height));
+	}
+} else { //py
+	var tcisd = QZONE.FP._t.TCISD;
+	tcisd.pv.config.webServerInterfaceURL = 'http://pingfore.pengyou.com/pingd';
+	tcisd.pv('xiaoyou.qq.com', '/index/photo/upload.php');
+}
+
+</script>
+</html>

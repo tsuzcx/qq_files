@@ -1,0 +1,286 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>黄钻贵族每日礼包</title>
+<link type="text/css" rel="stylesheet" href="/qzone_v6/farm_pop_libao.css" media="screen" />
+<style type="text/css">
+	html,body{overflow: hidden;}
+</style>
+<script type="text/javascript">
+	var r=new RegExp("(?:^|;+|\\s+)ptisp=([^;]*)");
+	var m = document.cookie.match(r);
+	var ptisp = m ? m[1] : "";
+	var _cdn = ({
+			'ctc' : true,
+			'cnc' : true,
+			'edu' : true,
+			'cm' : true,
+			'cn' : true,
+			'os' : true
+		})[ptisp];
+	var host = _cdn ? (ptisp + ".qzonestyle.gtimg.cn") : "qzonestyle.gtimg.cn";
+	document.write('<link rel="stylesheet" href="http://' + host + '/open_proj/proj_app_store_v2/css/app/popup_for_farm/daygift.css" type="text/css" media="screen">');
+</script>
+</head>
+
+<body>
+<div id="mainDiv" class="">
+</div>
+<script type="text/html" id="giftPageTmpl">
+<div class="hd">
+	<h1>黄钻贵族每日礼包</h1>
+	<p id="ownerInfo">
+		<span class="user"><%=ownerInfo.nickName%></span>
+		<% if (ownerInfo.vip == 1) {%>
+			<i class="qz_vip_icon_s_<%=ownerInfo.level%>"></i>
+			<% if (ownerInfo.isYearVip == 1) { %>
+				<img src="http://ctc.qzonestyle.gtimg.cn/ac/qzone_v5/client/year_vip_icon.png" width="16" height="16" style="vertical-align: text-bottom;" hotclick="yellowIco.year" />
+			<% } %>
+			您是尊贵的黄钻<b>LV<%=ownerInfo.level%></b>贵族
+		<% } else { %>
+			<% if (ownerInfo.level != 0) { %><i class="qz_vip_icon_s_gray_<%=ownerInfo.level%>" id="vip_level_icon"></i><% } else {%>eee<%}%>您不是黄钻贵族。开通黄钻
+		<% } %>，享受<b>超过300项</b>黄钻精彩特权
+		<a href="http://vip.qzone.com/act?id=three&login=qq" target="_blank" class="more">了解更多黄钻特权</a>
+	</p>
+</div>
+<div id='mainContent' class="content">
+	<!-- 普通用户 -->
+	<% if (ownerInfo.vip == 0) { %> 
+		<div class="huangzuan">
+			<h3></h3>
+			<% if (appdata.lv[0].value != "0") { %>
+				<p class="libao libao2">
+				    <span class="num_area"><% for (var i=0;i<appdata.lv[0].value.length;i++) { %><b class="num num<%=appdata.lv[0].value.split("").join(",").replace("+", " plus").split(",")[i]%>"></b><% } %></span>
+				    <span id="upgrade_notice" class="some_text"></span>
+				</p>
+				<div class="libao_img"  style="background-image:url(<%=appdata.lv[0].img%>)"></div>
+				<a id="normal_gift_button" class="lingqu" href="javascript:void(0)">领取</a>
+			<% } else { %>
+				<p class="libao3">成为黄钻才能领取礼包哦</p>
+				<div class="libao_img"  style="background-image:url(<%=appdata.lv[0].img%>)"></div>
+			<% } %>
+		</div>
+		<div class="year_huangzuan">
+			<h3></h3>
+			<p class="libao"><span class="num_area"><% for (var i=0;i<appdata.lv[ownerInfo.level || 1].value.length;i++) { %><b class="num num<%=appdata.lv[ownerInfo.level || 1].value.split("").join(",").replace("+", " plus").split(",")[i]%>"></b><% } %></span></p>
+			<div class="libao_img"  style="background-image:url(<%=appdata.lv[ownerInfo.level || 1].img%>)">
+				<div class="lock"></div>
+			</div>
+			<a class="open_zuan" target="_blank" href="http://pay.qq.com/qzone/index.shtml?aid=<%=ownerInfo.aid%>">开通黄钻</a>
+		</div>
+	<% } else { %>
+	<!-- 黄钻用户 -->
+		<% if (ownerInfo.overday == 0) { %>
+		<!-- 黄钻当天到期用户 -->
+			<div class="inner">
+				<h3>您的黄钻将于今天到期</h3>
+				<div class="tips">
+					<p class="text1">我们非常高兴的曾为您服务，真切希望我们能继续提供服务</p>
+					<!--一种图片的情况-->
+					<div class="img" style="background-image:url(<%=appdata.lv[ownerInfo.level].img%>)"></div>
+					<!--两种图片的情况-->
+					<!--
+					<div class="img1" style="background-image:url(http://qzonestyle.gtimg.cn/qzone_v6/img/app_farm/tips_sample.jpg)"></div>
+					<div class="img2" style="background-image:url(http://qzonestyle.gtimg.cn/qzone_v6/img/app_farm/tips_sample.jpg)"></div>
+					-->
+					<p class="text2">续费让您礼包领不完，特权享不尽</p>
+					<a href="http://pay.qq.com/qzone/index.shtml?aid=<%=ownerInfo.aid%>" target="_blank" class="xufei_zuan2">续费黄钻</a>
+				</div> 
+			</div>
+		<% } else { %>
+		<!-- 黄钻非当天到期用户（有年费栏） -->
+			<% if (ownerInfo.overday <= 7 && ownerInfo.overday > 0) { %>
+			<!-- 黄钻7天内到期用户 -->
+				<div class="huangzuan huangzuan2">
+					<h3>黄钻贵族</h3>
+					<div class="desc">
+						<p>还想继续享受每天价值<b><%=appdata.lv[ownerInfo.level].value%>Q点</b>的礼包吗?</p>
+						<p>还想继续享受超过<b>10项</b>黄钻绝版特权吗?</p>
+						<p id="vip_priv" class="underline">黄钻绝版特权</p>
+					</div>
+					<div class="libao_img" style="background-image:url(<%=appdata.lv[ownerInfo.level].img%>)"></div>
+					<a class="xufei_zuan" target="_blank" href="http://pay.qq.com/qzone/index.shtml?aid=<%=ownerInfo.aid%>">续费黄钻</a>
+				</div>
+			<% } else { %>
+			<!-- 黄钻不催费用户 -->
+				<div class="huangzuan huangzuan1">
+					<h3>黄钻贵族</h3>
+					<div class="desc">
+						<p class="libao">
+						    <span class="num_area"><% for (var i=0;i<appdata.lv[ownerInfo.level].value.length;i++) { %><b class="num num<%=appdata.lv[ownerInfo.level].value.split("").join(",").replace("+", " plus").split(",")[i]%>"></b><% } %></span>
+						    <span id="upgrade_notice" class="some_text"></span>
+						</p>
+					</div>
+					<div class="libao_img" style="background-image:url(<%=appdata.lv[ownerInfo.level].img%>)"></div>
+					<a class="xufei_zuan" target="_blank" href="http://pay.qq.com/qzone/index.shtml?aid=<%=ownerInfo.aid%>">续费黄钻</a>
+				</div>
+			<% } %>
+			
+			<!-- 年费黄钻栏 -->
+			
+			<!-- 年费黄钻不催费 -->
+			<% if (ownerInfo.isYearVip == 1 && ownerInfo.nfoverday > 7) { %>
+				<div class="year_huangzuan year_huangzuan1">
+					<h3>年费黄钻贵族</h3>
+					<div class="desc">
+						<p class="libao"><span class="num_area"><% for (var i=0;i<appdata.annual.value.length;i++) { %><b class="num num<%=appdata.annual.value.split("").join(",").replace("+", " plus").split(",")[i]%>"></b><% } %></span></p>
+					</div>
+					<div class="libao_img" style="background-image:url(<%=appdata.annual.img%>)">
+					</div>
+					<a class="xufei_year_zuan" target="_blank" href="http://pay.qq.com/qzone/index.shtml?aid=<%=ownerInfo.aidn%>&paytime=year">续费年费黄钻</a>
+				</div>
+			
+			<!-- 年费黄钻7天内过期 -->
+			<% } else if (ownerInfo.isYearVip == 1 && ownerInfo.nfoverday <= 7 && ownerInfo.nfoverday > 0) { %>
+				<div class="year_huangzuan year_huangzuan5">
+					<h3>年费黄钻贵族</h3>
+					<div class="desc">
+						<p>还想继续享受每天价值<b><%=appdata.annual.value%>Q点</b>的奖励吗?</p>
+						<p>还想继续享受超过<b>10项</b>超级VIP特权吗?</p>
+						<p id="annual_priv" class="underline">年费黄钻VIP中的VIP</p>
+					</div>
+					<div class="libao_img" style="background-image:url(<%=appdata.annual.img%>)">
+					</div>
+					<a class="xufei_year_zuan" target="_blank" href="http://pay.qq.com/qzone/index.shtml?aid=<%=ownerInfo.aidn%>&paytime=year">续费年费黄钻</a>
+				</div>
+			
+			
+			<!-- 年费黄钻当天过期 -->
+			<% } else if (ownerInfo.isYearVip == 1 && ownerInfo.nfoverday == 0) { %>
+				<div class="year_huangzuan year_huangzuan2">
+					<h3>年费黄钻贵族</h3>
+					<div class="desc">
+						<p><b>我们非常荣幸曾为您提供贵族服务</b></p>
+						<p><b>我们真切期盼您能继续享受我们的服务</b></p>	
+						<p id="annual_priv" class="underline">年费黄钻VIP中的VIP</p>
+					</div>
+					<div class="libao_img" style="background-image:url(<%=appdata.annual.img%>)">
+					</div>
+					<a class="xufei_year_zuan" target="_blank" href="http://pay.qq.com/qzone/index.shtml?aid=<%=ownerInfo.aidn%>&paytime=year">续费年费黄钻</a>
+				</div>
+			
+			
+			<!-- 年费黄钻已过期未满7天 -->
+			<% } else if (ownerInfo.isYearVip == 0 && ownerInfo.nfoverday > -8 && ownerInfo.nfoverday < 0) { %>
+				<div class="year_huangzuan year_huangzuan4">
+					<h3>年费黄钻贵族</h3>
+					<div class="desc">
+						<p>您曾经享受以下<b>道具每日免费特权</b>。</p>
+						<p>您曾经享受<b>超过10项超级VIP特权</b>。</p>
+						<p id="annual_priv" class="underline">年费黄钻VIP中的VIP</p>
+					</div>
+					<div class="libao_img" style="background-image:url(<%=appdata.annual.img%>)">
+						<div class="lock"></div>
+					</div>
+					<a class="xufei_year_zuan" target="_blank" href="http://pay.qq.com/qzone/index.shtml?aid=<%=ownerInfo.aidn%>&paytime=year">续费年费黄钻</a>
+				</div>
+			
+			
+			<!-- 非年费用户 -->
+			<% } else { %>
+				<div class="year_huangzuan year_huangzuan3">
+					<h3>年费黄钻贵族</h3>
+					<div class="desc">
+						<p class="libao"><span class="num_area"><% for (var i=0;i<appdata.annual.value.length;i++) { %><b class="num num<%=appdata.annual.value.split("").join(",").replace("+", " plus").split(",")[i]%>"></b><% } %></span></p>
+					</div>
+					<div class="libao_img" style="background-image:url(<%=appdata.annual.img%>)">
+						<div class="lock"></div>
+					</div>
+					<a class="xufei_year_zuan" target="_blank" href="http://pay.qq.com/qzone/index.shtml?aid=<%=ownerInfo.aidn%>&paytime=year">续费年费黄钻</a>
+				</div>
+			<% } %>
+		<% } %>
+	<% } %>
+	
+	<% if (ownerInfo.vip == 1 && ownerInfo.level != 8) { %><!-- 黄钻未满级用户 -->
+	<div class="more_libao">
+		<p><b><%=ownerInfo.leftday%>天</b>后您将升级到<b>黄钻LV<%=ownerInfo.level+1%></b>，获得更好礼包奖励：</p>
+		<img src="<%=appdata.lv[ownerInfo.level+1].small_img%>" alt="更多礼包"/>
+	</div>
+	<% } else if(ownerInfo.vip == 1){%>
+	<div class="more_libao">
+		<p>您是最高等级黄钻用户，享受最<b>尊贵</b>黄钻特权</p> <img src="/qzone/vas/dialog/mini_portal_v2/img/lv8.png" alt="更多礼包"/>
+	</div>
+	<% } %>
+</div>
+<div class="ft">
+	<% if (ownerInfo.vip != 0) { %> 
+		<p>领取奖励后您将在道具仓库中找到</p>
+		<a href="javascript:void(0)" id="gift_button" class="get_now">立即领取</a>
+	<% } %>
+	<a href="<%=appdata.priv%>" target="_blank" class="current_privilege">当前应用特权</a>
+</div>
+</script>
+
+<script type="text/html" id="limitedPageTmpl">
+	<div class="hd">
+		<h1>黄钻贵族每日礼包</h1>
+		<p id="ownerInfo">
+			<span class="user"><%=ownerInfo.nickName%></span>
+			<% if (ownerInfo.vip == 1) {%>
+			<i class="qz_vip_icon_s_<%=ownerInfo.level%>"></i>
+				<% if (ownerInfo.isYearVip == 1) { %>
+					<span class="year_icon" id="vip_year_icon"></span>
+				<% } %>
+			您是尊贵的黄钻<b>LV<%=ownerInfo.level%></b>贵族<% } else { %><% if (ownerInfo.level != 0) { %><i class="qz_vip_icon_s_gary_<%=ownerInfo.level%>" id="vip_level_icon"></i><% } %>您不是黄钻贵族。开通黄钻<% } %>，享受<b>超过300项</b>黄钻精彩特权
+			<a href="http://vip.qzone.com/act?id=three&login=qq" target="_blank" class="more">了解更多黄钻特权</a>
+		</p>
+	</div>
+	<div id='mainContent' class="content">
+			<div class="huangzuan">
+				<% if (appdata.lv[0].value != "0") { %>
+					<h3></h3>
+					<p class="libao libao2">
+					    <span class="num_area"><% for (var i=0;i<appdata.lv[0].value.length;i++) { %><b class="num num<%=appdata.lv[0].value.split("").join(",").replace("+", " plus").split(",")[i]%>"></b><% } %></span>
+					    <span id="upgrade_notice" class="some_text"></span>
+					</p>
+					<div class="libao_img"  style="background-image:url(<%=appdata.lv[0].img%>)"></div>
+					<a id="normal_gift_button" class="lingqu" href="javascript:void(0)">领取</a>
+				<% } else { %>
+        			<h3 class="user">亲爱的用户：</h3>
+					<p class="libao4">您暂时还不能领取礼包哦</p>
+					<div class="libao_img"  style="background-image:url(<%=appdata.lv[0].img%>)"></div>
+				<% } %>
+			</div>
+			<div class="year_huangzuan">
+				<h3></h3>
+				<p class="libao"><span class="num_area"><% for (var i=0;i<appdata.lv[1].value.length;i++) { %><b class="num num<%=appdata.lv[1].value.split("").join(",").replace("+", " plus").split(",")[i]%>"></b><% } %></span></p>
+				<div class="libao_img"  style="background-image:url(<%=appdata.lv[1].img%>)">
+					<div class="lock"></div>
+				</div>
+				<a class="open_zuan" target="_blank" href="http://pay.qq.com/qzone/index.shtml?cm=qdqb&aid=app.mobileop">开通黄钻</a>
+			</div>
+    </div>
+    <div class="ft">
+         <p>温馨提示：通过预付费方式开通黄钻，可立即领取<b>黄钻每日礼包</b><a href="http://service.qq.com/info/65870.html" target="_blank" class="details">详情</a><a target="_blank" href="http://pay.qq.com/qzone/index.shtml?cm=qdqb&aid=app.mobileop" class="open_now">现在开通</a></p>
+    </div>
+</script>
+
+<script type="text/javascript">
+document.domain = (/qq\.com$/.test(window.location.host)? "qq.com" : "pengyou.com");
+/**
+ * 以下是VAS接口
+ */
+window.V = window.V || {};
+
+/**
+ * 取得url里面的参数
+ * @param {Object} name
+ */
+V.getParam = function(name){
+	var r = new RegExp("(\\?|#|&)"+name+"=([^&#]*)(?:$|&|#)");
+	var m = location.href.match(r);
+	if(!m || m=="") m = top.location.href.match(r);
+	return (!m?"":m[2]);
+};
+	
+document.write('<script src="http://qzonestyle.gtimg.cn/ac/qzfl/release/qzfl_for_qzone.js"><\/script>');
+document.write('<script src="http://qzonestyle.gtimg.cn/ac/qzfl/stat.js"><\/script>');
+if(!window.JSON){document.write('<script src="http://qzonestyle.gtimg.cn/qzone/vas/lib/json2.js" ><\/script>');}
+document.write('<script src="http://qzonestyle.gtimg.cn/qzone/vas/dialog/mini_portal_v2/js/mini_portal.js?v=' + parseInt(V.getParam("v")) + '" ><\/script>');
+document.write('<script src="http://qzonestyle.gtimg.cn/qzone/biz/comm/js/qbs.js" ><\/script>');
+</script>
+
+</body>
+</html><!--[if !IE]>|xGv00|3294fffde011d18917bb70c1f99371c4<![endif]-->

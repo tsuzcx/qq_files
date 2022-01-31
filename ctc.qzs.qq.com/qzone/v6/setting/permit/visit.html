@@ -1,0 +1,213 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-cn" lang="zh-cn">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Language" content="zh-cn" />
+<title>访问设置 - 空间设置</title>
+<script type="text/javascript" src="/qzone/v8/applib/embeded.js"></script>
+<script type="text/javascript">
+//<![CDATA[
+var TOP = QZONE.FP._t,g_StyleID = TOP.g_StyleID || 1,siDomain = "http://" + TOP.siDomain + "/";
+document.write('<link rel="stylesheet" rev="stylesheet" href="' + siDomain + 'qzone_v6/app_setup.css" type="text/css" media="screen" />');
+document.write('<link rel="stylesheet" rev="stylesheet" href="' + siDomain + 'qzone_v6/gb/skin/' + g_StyleID + '.css" type="text/css" media="screen" />');
+QZONE.FP.includeQZFL();
+//]]>
+</script>
+</head>
+<body>
+<div class="bg_mode">
+	<div class="box_ml bor">
+		<div class="mode_gb">
+			<div class="mode_gb_title style_mode_gb_title">
+				<div class="bg_mode_gb_title"><h3>空间设置</h3></div>
+			</div>
+			<div class="mode_gb_cont" id="gb_cont">
+				<div class="app_setup clearfix" id="app_mod">
+				    <!--菜单-->
+					<div class="lay_menu" id="menu_container"></div>
+					<div class="lay_main bg page_padding page_authority_visible_v2">
+                            <h3 class="title"><strong>访问权限设置</strong><span class="extend c_tx3"></span></h3>
+                            <p><span class="right" id="extra_tip"></span>设置哪些人可以访问您的空间。</p>
+                            <!--新的权限设置_S-->
+                        	<div class="hint point none" id="cert_hint"><strong class="icon_hint"><span>提示</span></strong>
+								<span>您好，尊敬的认证空间用户：<br>认证空间作为一个公众媒体产品，暂时取消了空间“部分人可见”功能；如有疑问，请拨打客服电话：0755-83763333或联系客服QQ：800030681。</span>
+								<a href="javascript:;" onclick="QZFL.css.addClassName($('cert_hint'),'none');return false;" title="关闭" class="hint_close">关闭</a>
+							</div>
+							<div class="fn_function_v2">
+                                <ul id="option_list"><!--选中态bg6 bor_bg6-->
+                                    <li class="bor2 bg3 c_tx" id="option_all" data-value="1" data-container="earth_options">
+                                        <div>
+                                            <span class="qzficon">B</span>
+                                            <span class="text">所有人可见</span></div>
+                                        <b class="ui_trig ui_trig_b bor_bg6"></b>
+                                    </li>
+                                    <li class="bor2 bg3 c_tx" id="option_partial" data-value="2" data-container="group_options">
+                                        <div>
+                                            <span class="qzficon">C</span>
+                                            <span class="text">部分人可见</span></div>
+                                        <b class="ui_trig ui_trig_b bor_bg6"></b>
+                                    </li>
+                                    <li class="bor2 bg3 c_tx" id="option_me" data-value="3" data-container="locked_options">
+                                        <div>
+                                            <span class="qzficon">A</span>
+                                            <span class="text">仅自己</span></div>
+                                        <b class="ui_trig ui_trig_b bor_bg6"></b>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="visible_options">
+                                <!-- 选择部分人可见 设置 开始 -->
+                                <div class="group_options none" id="group_options">
+                                    <ul class="mod_input_list">
+                                        <li class="group_list_item mod_input_item">
+                                            <p class="checkline">
+                                                <input type="checkbox" id="friend_qq" class="ui_left_input14" />
+                                                <label for="friend_qq">QQ好友可见</label>
+                                            </p><!-- 选项具有class:checkline，当选中的时候加上bg2 -->
+                                            <div class="group_sub_list none" id="friend_qq_choose">
+                                                <p><input type="radio" name="friend_qq" id="friend_qq_all" checked="checked" class="ui_left_input12"><label for="friend_qq_all">所有好友可见</label></p>
+                                                <p><input type="radio" name="friend_qq" id="friend_qq_group" class="ui_left_input12"><label for="friend_qq_group">分组好友可见</label><span id="friend_qq_num"></span>
+                                                    <a href="javascript:;" id="choose_all" class="tips_txt none">全选</a>
+                                                    <a href="javascript:;" id="convert_all" class="tips_txt none">反选</a>
+                                                </p>
+                                                <!--设定指定分租 开始-->
+                                                <div class="pop_content">
+                                                    <ul class="group_list none" id="group_list"></ul>
+                                                </div>
+                                                <!--设定指定分租 结束-->
+                                            </div><!-- .group_sub_list -->
+                                        </li>
+                                        <li class="mod_input_item">
+                                            <p class="checkline">
+                                                <input type="checkbox" id="special_friend" class="ui_left_input14" />
+                                                <label for="special_friend">指定人可见</label>
+                                                <span id="special_count_span" class="none">（<em class="em_num c_tx4" id="special_count">0</em>/300）</span>
+                                                <a href="javascript:;" id="special_friend_setting" class="btn_setting none"><i class="icon_setting"></i>设置</a>
+                                            </p>
+                                            <div class="selected_list bor bg2 none" id="special_friend_list" style="width:600px;"></div>
+                                        </li>
+                                        <li class="mod_input_item">
+                                            <p class="checkline">
+                                                <input type="checkbox" id="friend_qa" class="ui_left_input14" />
+                                                <label for="friend_qa">回答问题的人可见</label>
+                                                <a href="javascript:;" id="special_qa_demo" class="tips_txt none">示例</a>
+                                            </p>
+                                            <!--回答问题示例 开始-->
+                                            <div id="special_qa_tip" class="setup_pop bor2 bg pop_example none">
+                                                <b class="ui_trigbox ui_trigbox_t">
+                                                    <b class="ui_trig bor2"></b>
+                                                    <b class="ui_trig ui_trig_up bor_bg"></b>
+                                                </b>
+                                                问题：“我的中文名字？”<br>
+                                                答案：“小明”<br><br>
+                                                客人只要回答正确一个即可进入空间，并在2个月内不需再次回答即可访问。（您修改问题或密码后，需要重新回答）<br><br>
+                                                问题最好根据您不同的好友群设置。
+                                            </div>
+                                            <!--回答问题示例 结束-->
+                                            <div id="friend_qa_mod" class="set_problems pop_content none">
+                                                <ul class="problems_list">
+                                                    <li id='problems_li_1'>
+                                                        <label for="friend_q_1">问题1：</label>
+                                                        <div class="input_outter">
+                                                            <input type="text" id="friend_q_1" class="input_text textinput bor_non" />
+                                                            <span class="c_tx3 input_count none" id="wordNumTips_1">
+                                                              <em class="c_tx3" id="warningTips_1">0</em>
+                                                             <em class="c_tx3">/10</em>
+                                                            </span>
+                                                        </div>
+                                                        <label for="friend_a_1">答案1：</label>
+                                                        <div class="input_outter">
+                                                            <input type="text" id="friend_a_1" class="input_text textinput bor_non" />
+                                                            <span class="c_tx3 input_count none" id="wordNumTips_2">
+                                                              <em class="c_tx3" id="warningTips_2">0</em>
+                                                             <em class="c_tx3">/10</em>
+                                                            </span>
+                                                        </div>
+                                                        <a id="delBtn_1">删除问题</a>
+                                                    </li>
+                                                    <li id='problems_li_2'>
+                                                        <label for="friend_q_2">问题2：</label>
+                                                        <div class="input_outter">
+                                                            <input type="text" id="friend_q_2" class="input_text textinput bor_non" />
+                                                            <span class="c_tx3 input_count none" id="wordNumTips_3">
+                                                              <em class="c_tx3" id="warningTips_3">0</em>
+                                                             <em class="c_tx3">/10</em>
+                                                            </span>
+                                                        </div>
+                                                        <label for="friend_a_2">答案2：</label>
+                                                        <div class="input_outter">
+                                                            <input type="text" id="friend_a_2" class="input_text textinput bor_non" />
+                                                            <span class="c_tx3 input_count none" id="wordNumTips_4">
+                                                             <em class="c_tx3" id="warningTips_4">0</em>
+                                                             <em class="c_tx3">/10</em>
+                                                            </span>
+                                                        </div>
+                                                        <a id="delBtn_2">删除问题</a>
+                                                    </li>
+                                                    <li id='problems_li_3'>
+                                                        <label for="friend_q_3">问题3：</label>
+                                                        <div class="input_outter">
+                                                            <input type="text" id="friend_q_3" class="input_text textinput bor_non" />
+                                                            <span class="c_tx3 input_count none" id="wordNumTips_5">
+                                                              <em class="c_tx3" id="warningTips_5">0</em>
+                                                             <em class="c_tx3">/10</em>
+                                                            </span>
+                                                        </div>
+                                                        <label for="friend_a_3">答案3：</label>
+                                                        <div class="input_outter">
+                                                            <input type="text" id="friend_a_3" class="input_text textinput bor_non" />
+                                                            <span class="c_tx3 input_count none" id="wordNumTips_6">
+                                                             <em class="c_tx3" id="warningTips_6">0</em>
+                                                             <em class="c_tx3">/10</em>
+                                                            </span>
+                                                        </div>
+                                                            <a id="delBtn_3">删除问题</a>
+                                                    </li>
+                                                </ul>
+                                                <div class="problems_list">
+                                                    <a id="addBtn">添加问题</a>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                    <!--黑名单-->
+                                    <div id="blacklist_container"></div>
+                                </div>
+                                <!-- 选择部分人可见 设置 结束 -->
+                                <!-- 所有人可见 设置 开始 -->
+                                <div id="earth_options" class="earth_options none">
+                                	所有人都可以访问您的空间。
+                                    <p class="c_tx3">您还可以对一些人进行评论回复限制，<a href="reply.html">点此设置</a></p>
+                                </div>
+                                <!-- 所有人可见 设置 结束 -->
+                                <h5 id="partial_options" class="locked_options none">
+                                    <i class="icon_error"></i>
+                                    <a href="limitlist.html">限制名单</a>成员不能访问你的空间
+                                </h5>                                
+                                <!-- 仅自己可见 设置 开始 -->
+                                <div id="locked_options" class="locked_options none">
+                                	您的空间的仅有您自己可见。
+                                </div>
+                                <!-- 仅自己可见 设置 结束 -->
+                            </div>
+                            <a class="gb_bt2 btn_save" id="visit_save" href="javascript:;" onclick="return false;">保存设置</a>
+                            <div id="adTip"></div>
+                        <!--新的权限设置_E-->
+                    </div>
+                </div>
+			</div>
+		</div>
+	</div>
+</div>
+<!--
+<script type="text/javascript" src="http://ctc.qzonestyle.gtimg.cn/c/=/qzone/v6/setting/scripts/menu.js,/qzone/v6/setting/scripts/blacklist.js,/qzone/v6/setting/scripts/visit.js?max_age=900"></script>
+-->
+<script type="text/javascript">
+    //<![CDATA[
+    document.write('<script type="text/javascript" src="/qzone/v6/setting/scripts/menu.js"><\/script>' +
+    '<script type="text/javascript" src="scripts/visit.js"><\/script>' +
+    '<script type="text/javascript" src="scripts/blacklist.js"><\/script>');
+    //]]>
+</script>
+</body>
+</html><!--[if !IE]>|xGv00|4846bd57ce73652105ef2d7716aef552<![endif]-->

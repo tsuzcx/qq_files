@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>批量转载</title>
+<script>
+	if(/pengyou\.com$/.test(location.hostname)){
+	document.domain = 'pengyou.com';
+}else if(/qzone\.qq\.com$/.test(location.hostname)){
+	document.domain = 'qzone.qq.com';
+}else if(/qzone\.com$/.test(location.hostname)){
+	document.domain = 'qzone.com';
+}else{
+	document.domain = 'qq.com';
+}
+
+</script>
+<script type="text/javascript">
+document.write([
+	'\<link rel="stylesheet" rev="stylesheet" href="/qzone_v6/photo_app_reprint.css" type="text/css" media="screen" \/\>'
+].join(""));
+</script>
+</head>
+<body class="j_reprint_pic" style="overflow:hidden;">
+	<div class="reprint_wrap">
+		<div class="reprint_process">
+			<p class="choose_album" id="choose_album">
+				转载到：
+				<select>
+					<option>请选择您的相册</option>
+				</select>
+				<span class="creat_newalbum">&nbsp;或&nbsp;<a href="javascript:void(0);" title="创建新相册" onclick="multiReprint.toggleChooseStatus('create');">创建新相册</a>
+				</span>
+			</p>
+			<p class="create_album" id="create_album" style="display:none">
+				创建相册：<input type="text" id="albumname" name="albumname" value="" maxlength="30" />
+				<i class="icon album_state"><i></i></i>
+				&nbsp;&nbsp;相册权限为公开
+				<span class="choose_oldalbum">&nbsp;&nbsp;或&nbsp;<a href="javascript:void(0);" title="选择已有相册" onclick="multiReprint.toggleChooseStatus('select');">选择已有相册</a>
+				</span>
+			</p>
+			<div class="reprint_state">
+				<div class="choose_reprint_pic">
+					<input type="checkbox" name="choose_thispage" id="toggleSelAll" />
+					<label for="toggleSelAll">本页全选</label>
+					<span class="choose_pic_num">已选择<span id="photoSelCount">0</span>张</span>
+				</div>
+				<div class="process_state" style="display:none">
+					<p class="process_wait_p">已转载<span id="success_cout">0</span>张<span id="fail_wrap" style="display:none;">，<span id="fail_count">0</span>张转载失败</span>，还有<span id="wait_count">0</span>张等待转载</p>
+				</div>
+			</div>
+			<div class="pic_list" id="photoList">
+			</div>
+		</div>
+		<div class="mod-pop-page j-page-nav" style="display: none;"></div>
+		<div class="reprint_success" id="reprint_success" style="display:none">
+			
+		</div>
+	</div>
+	<div style="height:0px;width:0px;"><div id="reprint_flash_container"></div></div>
+	<div class="reprint_foot">
+		<button class="start_reprint" id="start_reprint">开始转载</button>
+		<p class="reprint_ing" style="display:none" id="reprint_ing">
+			转载中...
+			<a href="javascript:void(0);" class="pause_reprint" id="pause_reprint">暂停转载</a>
+		</p>
+		<button class="retry_reprint" style="display:none" id="abort_reprint">完成</button>
+		<button class="retry_reprint" style="display:none" id="retry_reprint">重试</button>
+		<a href="javascript:void(0);" class="see_rapid" id="close_reprint" style="display:none;">立即查看</a>
+	</div>
+</body>
+
+<script type="text/javascript">
+var g_photoVersion;
+try{
+	g_photoVersion = top.QZONE.FrontPage.getCurrentAppWindow().frameElement.g_photoVersion;
+}catch(err){
+	g_photoVersion = parseInt((new Date()).getTime()/(24*3600*1000));
+}
+document.write([
+	'<script type="text/javascript" src="/ac/qzone/qzfl/qzfl',parent.g_V.qz,'.js"><\/script>',
+	'<script type="text/javascript" src="/qzone/v8/applib/embeded.js"><\/script>',
+	'<script type="text/javascript" src="/ac/lib/seajs/sea-2.1.1.js"><\/script>',
+	'<script type="text/javascript" src="/qzone/photo/v7/js/lib/seajs.config.js"><\/script>',
+	'<script type="text/javascript" src="/qzone/photo/zone/script/AlbumGet.js?v='+g_photoVersion+'"><\/script>',
+	'<script type="text/javascript" src="/qzone/photo/zone/script/reprint.js"><\/script>'
+].join(""));
+</script>
+<script type="text/tmpl" id="pic_sel_tmpl">
+<div class="pic_list_inner" onclick="multiReprint.toggleSelPhoto(this, <%=itemid%>);return false;">
+	<a href="javascript:void(0);" title="转载此图片">
+	<img src="/ac/b.gif" onload="this.onload=null;QPHOTO.img.preLoad(this,&quot;<%=QPHOTO.util.getImgUrl(pre,'a')%>&quot;,75,75);" alt="<%=escHTML(restHTML(name))%>" /
+	></a>
+	<a href="javascript:void(0);" class="img_layer" <%if(!selected){%>style="display:none;"<%}%>>
+		<span class="selected">选择</span>
+	</a>
+</div>
+</script>
+<script type="text/tmpl" id="pic_reprint_tmpl">
+<div class="pic_list_inner">
+	<a href="javascript:void(0);" title="转载此图片">
+	<img src="/ac/b.gif" onload="this.onload=null;QPHOTO.img.preLoad(this,&quot;<%=QPHOTO.util.getImgUrl(pre,'a')%>&quot;,75,75);" alt="<%=escHTML(restHTML(name))%>" /
+	></a>
+	<a href="javascript:void(0);" class="img_layer" style="display:none">
+		<span class="error_tips" style="display:none;">
+			<i class="icon icon_error"><i></i></i>转载失败
+		</span>
+		<span class="progress" style="display:none;">
+			<span class="progress_bg" style="width:0%;">&nbsp;</span>
+			<span class="progress_word">0%</span>
+		</span>
+	</a>
+</div>
+</script>
+<script type="text/tmpl" id="result_tmpl">
+<span class="reprint_success_mark_wrap">
+		<span class="reprint_success_mark"><i></i>
+			<span class="check_in_album">已成功转载<span class="success_reprint_picnum"><%=succnum%></span>张照片到<span class="reprint_album_name"><%=albumname%></span>
+		</span>
+	</span>
+</span>
+</script>
+<script>
+QZONE.FP.showMsgbox("正在读取图片列表,请稍候",6,10000);
+multiReprint.init();
+</script>
+</html><!--[if !IE]>|xGv00|46f3d39b3f938a14e2132593ff32f4bd<![endif]-->

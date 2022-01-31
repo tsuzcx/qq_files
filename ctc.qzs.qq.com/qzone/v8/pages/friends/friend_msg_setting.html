@@ -1,0 +1,226 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>敲门 - 个人中心弹出框 - QQ空间</title>
+<script type="text/javascript" src="//qzonestyle.gtimg.cn/qzone/qzfl/appclientlib.js"></script>
+<script type="text/javascript">
+//<![CDATA[
+document.domain = location.hostname;
+QZONE.FP = top.QZONE.FP;
+var imgcacheDomain,TOP = QZONE.FP._t,siDomain = "//" + TOP.siDomain + "/";
+if(TOP.g_V && typeof(TOP.g_V.qz) == 'string'){
+	imgcacheDomain = TOP.imgcacheDomain;
+	document.write('<script type="text/javascript" src="//' + imgcacheDomain + '/ac/qzone/qzfl/qzfl' + TOP.g_V.qz + '.js" charset="utf-8"><\/script>');
+}else{
+	document.write('<script type="text/javascript" src="//qzonestyle.gtimg.cn/ac/qzone/qzfl/qzfl_2.0.8.2.js" charset="utf-8"><\/script>');
+}
+document.write('<link rel="stylesheet" rev="stylesheet" href="' + siDomain + 'ac/qzone_v5/popup/gb_pop.css?ver=1.css" type="text/css" media="screen" />');
+//]]>
+</script>
+<style type="text/css" media="screen">
+html,
+body{color:#5F5F5F;/*overflow:hidden;*/}
+input{margin:3px 5px 0 0;margin:0\9;}
+.fn_knock{padding:15px 20px;line-height:1.8}
+.target{margin-bottom:7px;}
+.avatar,.radio,.checkbox{float:left;}
+.avatar img{border:0 none;margin-right:10px;}
+.dd,.cont{overflow:hidden;_overflow:visbile;zoom:1;}
+.dd{margin-bottom:7px;}
+.dd select{margin-left:17px;}
+.placeholder{color:#A0A0A0;}
+.reason{position:relative;width:239px;}
+.reason .count{position:absolute;right:0;top:0;}
+.reason .over{color:#D94C05;font-weight:bold;}
+.reason input{width:237px;border:1px solid #AEC1D3;}
+.global_tip_button{position:absolute;bottom:0;left:0;}
+#apply_msg{height:45px;width:300px;font-size:12px;}
+</style>
+</head>
+<body>
+
+ 
+
+<div class="fn_knock">
+	<div id="icon"><img width="50" src="//qzonestyle.gtimg.cn/qzone_v4/client/userinfo_icon/5001.gif" class="none"></div>
+	<div id="nopower" class="cont none">
+		<div class="knock">
+			<div class="target">您将同意 <a id="nopower_nk" target="_blank" ></a> 访问您的空间。<br/>同意后您的权限将改为指定人可见，并将此人添加到指定人中。<br/><br/>温馨提示：<br/>您可以到<a href="//rc.qzone.qq.com/profile/permit" target="_blank">访问权限管理</a>里管理指定人可见的名单。</div>
+			<div class="reason"></div>
+		</div>
+	</div>
+	<div id="reject" class="cont none">
+		<div class="knock">
+			<div class="target">您将拒绝<a id="reject_nk" target="_blank" ></a>的临时访问请求 </div>
+			<div class="reason">
+				理由：<span id="reject_count" class="count"><span>0</span>/30</span><br />
+				<input type="text" id="reject_msg" class="placeholder" />
+			</div>
+			<div class="blacklist">
+				<input type="checkbox" class="checkbox" id="reject_addblist" />
+				<div class="dd"><label for="reject_addblist">不再接受他的访问申请。（可在 空间设置—黑名单设置 中解除黑名单设置）</label></div>
+			</div>
+		</div>
+	</div>
+	<div id="apply" class="cont none">
+		<div class="knock">
+			<div class="target">您将申请<a id="apply_nk" target="_blank" ></a>的空间访问</div>
+			<div class="reason">
+				留言：<span id="apply_count" class="count"><span>0</span>/60</span><br />
+				<textarea id="apply_msg" class="textarea"></textarea>
+			</div>
+		</div>
+	</div>
+	<div id="refuse" class="cont none">
+		<div class="knock">
+			<div class="target">您将拒绝<a id="refuse_nk" target="_blank" ></a>的好友请求 </div>
+			<div class="reason">
+				理由：<span id="refuse_count" class="count"><span>0</span>/30</span><br />
+				<input type="text" id="refuse_msg" class="placeholder" />
+			</div>
+			<div class="blacklist">
+				<input type="checkbox" class="checkbox" id="refuse_addblist" />
+				<div class="dd"><label for="refuse_addblist">将他加入黑名单，不再接受他的好友请求。</label></div>
+			</div>
+		</div>
+	</div>
+	<div id="agree" class="cont none">
+		<div class="knock">
+			<div class="target">您将同意<a id="agree_nk" target="_blank" ></a>的好友请求 </div>
+			<div class="moveToVisible">
+				<label>可以把好友移动到以下分组：</label><br/>
+				<div id="agree_group" class="dd">
+					<select><option>我的好友</option></select>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="pass" class="cont none">
+		<div class="knock">
+			<div class="target"><a id="pass_nk" target="_blank" ></a>已是您的好友 </div>
+			<div class="moveToVisible">
+				<label>可以把好友移动到以下分组：</label><br/>
+				<div id="pass_group" class="dd">
+					<select><option>我的好友</option></select>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div id="pass1" class="cont none">
+		<div class="knock">
+			<div class="target">你已与<a id="pass1_nk" target="_blank" ></a>成为好友 </div>
+			<div class="moveToVisible">
+				<label>你可以设置分组/备注：</label><br/>
+				<div id="pass1_group" class="dd" style="margin-top:8px;">
+					分组：<select><option>我的好友</option></select>
+				</div>
+				<div class="dd">备注：<input type="text" maxlength="32" value="" style="margin-left:17px;padding:0 2px;" size="12" id="remark_name"></div>
+			</div>
+		</div>
+	</div>
+	
+	
+	<div id="special_group" class="cont none">
+		<div class="knock">
+			<div class="target">您将同意<a id="special_group_nk" target="_blank" ></a>访问您的空间。</div>
+			<div class="moveToVisible">
+				<input type="radio" class="radio" value="1" id="special_group_1" name="special_group_radio"/>
+				<div class="dd"><label for="special_group_1">将好友移动到可见分组</label></div>
+				<div id="special_group_group" class="dd">
+					<label for="special_group_1">将好友移动到可见分组</label><br/>
+					<select><option>我的好友</option></select>
+				</div>
+			</div>
+			<div class="moveToSpecial">
+				<label for="special_group_2"><input type="radio" class="radio" value="2" id="special_group_2" id="tmp3" name="special_group_radio"/>将好友添加到指定部分好友可见</label>
+				<div class="dd">您可以到<a href="javascript:;" onclick="QZONE.FP.closePopup();TOP.QZONE.space.toApp('/profile/permit');return false;">访问设置</a>里管理指定部分好友的名单</div>
+			</div>
+		</div>
+	</div>
+	<div id="nofriend" class="cont none">
+		<div class="knock">
+			<div class="target">您将同意<a id="nofriend_nk" target="_blank"></a>访问您的空间。</div>
+			<div class="moveToSpecial">
+				将其添加到指定人可见里。<br /><br />温馨提示：<br />您可以到<a href="//rc.qzone.qq.com/profile/permit" target="_blank">访问权限管理</a>里管理指定人可见的名单。
+			</div>
+		</div>
+	</div>
+	<div id="qq_qa" class="cont none">
+		<div class="knock">
+			<div class="target">您将同意<a id="qq_qa_nk" target="_blank"></a>访问您的空间。</div>
+			<div class="addToFriend">
+				<input type="radio" class="radio" value="1" name="qq_qa_radio" id="qq_qa_1"/>
+				<div class="dd"><label for="qq_qa_1">添加对方为好友</label></div>
+			</div>
+			<div id="qq_qa_qas" class="tellTheAnswer">
+				<input type="radio" class="radio" value="2" name="qq_qa_radio" id="qq_qa_2"/>
+				<div id="qq_qa_question" class="dd">
+					<label for="qq_qa_2">告知对方一个密码问题的答案</label><br />
+					<select><option>这里是问题显示的地方</option></select><br />
+					答案：<strong>这里是答案显示的地方</strong>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="group_qa" class="cont none">
+		<div class="knock">
+			<div class="target">您将同意<a id="group_qa_nk" target="_blank"></a>访问您的空间。</div>
+			<div class="moveToVisible">
+				<input type="radio" class="radio" value="1" id="group_qa_1" name="group_qa_radio" checked="true"/>
+				<div class="dd"><label for="group_qa_1"> 将好友移动到可见分组</label></div>
+				<div id="group_qa_group" class="dd">
+					<label for="group_qa_1"> 将好友移动到可见分组</label><br/>
+					<select><option>我的好友</option></select>
+				</div>
+			</div>
+			<div class="moveToSpecial">
+				<input type="radio" class="radio" id="group_qa_2" value="2" name="group_qa_radio" />
+				<div class="dd"><label for="group_qa_2">将好友添加到指定部分好友</label><br />您可以到<a href="javascript:;" onclick="QZONE.FP.closePopup();TOP.QZONE.space.toApp('/profile/permit');return false;">访问设置</a>里管理指定部分好友的名单</div>
+			</div>
+			<div class="tellTheAnswer">
+				<input type="radio" class="radio" id="group_qa_3" value="3" name="group_qa_radio" />
+				<div id="group_qa_question" class="dd">
+					<label for="group_qa_3">告知对方一个密码问题的答案</label><br />
+					<select><option>这里是问题显示的地方</option></select><br />
+					答案：<strong>这里是答案显示的地方</strong>					
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="nofriend_qa" class="cont none">
+		<div class="knock">
+			<div class="target">您将同意<a id="nofriend_qa_nk" target="_blank"></a>访问您的空间。</div>
+			<div class="moveToSpecial">
+				<input type="radio" class="radio" id="nofriend_qa_1" value="1" name="nofriend_qa_radio"/>
+				<div class="dd"><label for="nofriend_qa_1">将好友添加到指定部分好友</label><br />您可以到<a href="javascript:;" onclick="QZONE.FP.closePopup();TOP.QZONE.space.toApp('/profile/permit');return false;">访问设置</a>里管理指定部分好友的名单</div>
+			</div>
+			<div class="tellTheAnswer">
+				<input type="radio" class="radio" id="nofriend_qa_2" value="2" name="nofriend_qa_radio"/>
+				<div id="nofriend_qa_question" class="dd">
+					<label for="nofriend_qa_2">告知对方一个密码问题的答案</label><br />
+					<select><option>这里是问题显示的地方</option></select><br />
+					答案：<strong>这里是答案显示的地方</strong>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="qa" class="cont none">
+		<div class="knock">
+			<div class="target">您将同意<a id="qa_nk" target="_blank"></a>访问您的空间。</div>
+			<div class="tellTheAnswer">
+				<div id="qa_question" class="dd">
+					<label for="tmp11">告知对方一个密码问题的答案</label><br />
+					<select><option>这里是问题显示的地方</option></select><br />
+					答案：<strong>这里是答案显示的地方</strong>				
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div id="buttons" class="global_tip_button none"><button id="cancel" class="bt_tip_normal" onclick="top&&top.QZONE&&top.QZONE.FrontPage.closePopup()&&void(0);">取消</button><button id="submit" class="bt_tip_hit">确认</button></div>
+<script type="text/javascript" src="//qzonestyle.gtimg.cn/qzone/v5/namecard.js" charset="utf-8"></script>
+<script type="text/javascript" src="//qzonestyle.gtimg.cn/qzone/v8/pages/friends/js/newfriend_msg.js" charset="utf-8"></script>
+</body>
+</html>

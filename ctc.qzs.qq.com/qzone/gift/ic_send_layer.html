@@ -1,0 +1,100 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-cn" lang="zh-cn" style="overflow:hidden;">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta http-equiv="Content-Language" content="zh-cn" />
+	<meta name="robots" content="all" />
+	<meta name="author" content="Tencent-ISRD" />
+	<meta name="Copyright" content="Tencent" />
+	<meta name="Description" content="Qzone精彩由你而来" />
+	<meta name="Keywords" content="Qzone,QQ空间,Blog,博客,网络日志,播客,腾讯,QQ,Tencent" />
+	<title>个人中心礼物_送礼层</title></head>
+<script>
+document.domain=location.hostname;
+var imgcacheDomain=parent.imgcacheDomain || 'qzs.qq.com';
+var siDomain=parent.siDomain || 'qzonestyle.gtimg.cn';
+var g_V=parent.g_V || {qz:'_2.1.29.2', ci:'_20130409'};
+var g_StyleID = parent.g_StyleID && parent.g_StyleID;
+document.write([
+	'<link href="' + location.protocol + '//',siDomain,'/aoi/gift_import_icenter_reset.css" media="screen" type="text/css" rev="stylesheet" rel="stylesheet">',
+	'<link href="' + location.protocol + '//',siDomain,'/aoi/skin/35.css?max_age=19830212&amp;d=20140122" rel="stylesheet">'
+	].join(''));
+</script>
+</head>
+<body class="app_gift_icenter">
+	<div class="gift_list_warp" id="mainDiv">
+	加载中，请稍候...
+	</div>
+<script type="text/javascript">
+//admin_gift_conf.js的缓存
+var dataCache;
+var icSmallLayerConfig;
+/**
+* micro-template模版
+*/
+var tmpl = (function(){
+	var cache = {};
+	return function tmpl(str, data, key) {
+		var strIsKey = !/\W/.test(str);
+		key = key || (strIsKey ? str : null);
+		var fn = key ? cache[key] = cache[key] || tmpl(strIsKey ? document.getElementById(str).innerHTML : str) :
+		new Function("obj", "var p=[],print=function(){p.push.apply(p,arguments);}; with(obj){p.push('" + str
+			.replace(/[\r\t\n]/g, " ")
+			.split("\\'").join("\\\\'")
+			.split("'").join("\\'")
+			.split("<%").join("\t")
+			.replace(/\t=(.*?)%>/g, "',$1,'")
+			.split("\t").join("');")
+			.split("%>").join("p.push('")
+		+ "');}return p.join('');");
+		return data ? fn( data ) : fn;
+	};
+})();
+/**
+* 获取url上的参数
+*/
+var getParameter=function(name){
+    var r = new RegExp("(\\?|#|&)" + name + "=([^&#]*)(&|#|$)");
+    var m = location.href.match(r);
+    return (!m?"":m[2]);
+}
+
+// 先这样实现，呵呵
+var _Callback =function(data){
+	dataCache=data;
+	window._Callback = function(data){
+		icSmallLayerConfig = data;
+		window._Callback = null;
+	};
+}
+
+if(parent.constructQZFL){
+	eval("(" + (parent.constructQZFL._string || (parent.constructQZFL._string = parent.constructQZFL.toString())) + ")();");
+}
+document.write([
+	parent.constructQZFL?'':'<script type="text/javascript" src="//qzonestyle.gtimg.cn/ac/qzone/qzfl/qzfl'+g_V.qz+'.js"><\/script>',
+	'<script type="text/javascript" charset="utf-8" src="//qzonestyle.gtimg.cn/qzone/v6/interface/interface_v6_20130409.js"><\/script>',
+	'<script type="text/javascript" src="' + location.protocol + '//',imgcacheDomain,'/ac/qzfl/appclientlib.js"><\/script>',
+
+	'<script type="text/javascript" charset="gb2312" src="'+location.protocol+'//',(siDomain||'qzonestyle.gtimg.cn').replace('qzonestyle.gtimg.cn','i.gtimg.cn'),'/qzone/app/connect/data/gift/admin_gift_conf.js?random=',Math.random(),'"><\/script>',
+	'<script type="text/javascript" charset="gb2312" src="'+location.protocol+'//',(siDomain||'qzonestyle.gtimg.cn').replace('qzonestyle.gtimg.cn','i.gtimg.cn'),'/qzone/space_item/admin_conf/ic_small_layer.js?random=',Math.random(),'"><\/script>',
+	'<script type="text/javascript" src="'+location.protocol+'//',siDomain.replace('qzonestyle.gtimg.cn','i.gtimg.cn'),'/qzone/space_item/admin_conf/topGifts.js?random=',Math.random(),'"><\/script>',
+	'<script type="text/javascript" src="'+location.protocol+'//',siDomain,'/qzone/gift/script/requestCenter_gift.js"><\/script>',
+	'<script type="text/javascript" src="'+location.protocol+'//',siDomain,'/qzone/gift/script/gift.icSendLayer.js"><\/script>',
+	'<script type="text/javascript" src="'+location.protocol+'//',siDomain,'/qzone/app/mood/chattips/script/monitor.js"><\/script>'
+	].join(''));
+</script>
+<script type="text/javascript">
+(function(){
+	window.QZAPP && window.QZAPP.Monitor && QZAPP.Monitor.setConfig({
+		bid: 102030,
+		reportRate:1,
+		reportPattern: /\/gift\/script\//g
+	});
+})();
+</script>
+<script type="text/javascript">
+GIFT.Control.pageInit();
+</script>
+</body>
+</html>

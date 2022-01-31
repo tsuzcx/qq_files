@@ -1,0 +1,134 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+    <meta charset="UTF-8" />
+    <title>个人中心设置 - Qzone</title>
+    <link rev="stylesheet" rel="stylesheet" type="text/css"  href="//qzonestyle.gtimg.cn/qzone_v6/qz_dialog.css">
+    <link rev="stylesheet" rel="stylesheet" type="text/css" media="screen" href="//qzonestyle.gtimg.cn/aoi/dialog-hide-feed.css">
+    <link rev="stylesheet" rel="stylesheet" type="text/css" media="screen" href="//qzonestyle.gtimg.cn/aoi/ui-dialog.css">
+    <style type="text/css">
+        body {background-color:#fff;padding: 0px;}
+    </style>
+    <script type="text/javascript">
+        document.domain = location.hostname;
+        QZONE = top.QZONE
+    </script>
+    <script type="text/javascript" charset="utf8" src="//qzonestyle.gtimg.cn/qzone/v8/applib/embeded.js"></script>
+    </head>
+    <body class="ui-dialog">
+    <div id="content_div" class="qz_dialog_layer_cont" style="width:517px;zoom:1">
+            <!-- 管理隐藏列表 -->
+            <div class="fn-dialog-hide-feed" style="zoom:1">
+                <div class="dialog-hide-feed-inner qz-scrollbar">
+                <!-- 隐藏好友 -->
+                <div class="qz-box">
+                    <div class="qz-box-hd">
+                        <div class="qz-grid">
+                            <div class="qz-right"><a id="addHideFriends" style="display:none" class="act" href="javascript:void(0);">添加</a></div>
+                            <div class="qz-main">
+                                <h4 class="tit">我隐藏的好友</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="qz-box-bd">
+                        <p id="hideUinTips">
+                            <img title="加载中" alt="加载中" style="vertical-align: middle;" src="//qzonestyle.gtimg.cn/qzone_v6/gb/img/loading_16.gif" /> 加载中...
+                        </p>
+                        <div class="qz-tag-list">
+                            <ul id="hideUinContainer" class="tag-list clearfix hide-friend">
+                            <!--
+                                <li>
+                                    <a href="javascript:void(0);">
+                                        <span class="name">麦时同学麦时同学</span>
+                                        <span class="close" title="取消隐藏">×</span>
+                                    </a>
+                                </li>
+                            -->
+                            </ul>
+                        </div>
+
+                    </div>
+                </div>
+                <!-- 隐藏好友 结束-->
+                <!-- 我隐藏的认证空间 -->
+                 <!--
+                <div class="qz-box">
+                    <div class="qz-box-hd">
+                        <div class="qz-grid">
+                            <div class="qz-right"><a class="act" href="#">全部隐藏</a></div>
+                            <div class="qz-main">
+                                <h4 class="tit">我隐藏的认证空间</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="qz-box-bd">
+                        <div class="qz-tag-list">
+                            <ul id="hideAuthSpaceContainer" class="tag-list clearfix">
+                           
+                                <li>
+                                    <a href="javascript:void(0);">
+                                        <span class="name">麦时同学麦时同学</span>
+                                        <span class="close" title="取消隐藏">×</span>
+                                    </a>
+                                </li>
+                            
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                -->
+                <!-- 我隐藏的认证空间 结束-->
+                <!-- 我隐藏的应用 -->
+                <div class="qz-box" id="hideAppWrapper">
+                    <div class="qz-box-hd">
+                        <div class="qz-grid">
+                            <div class="qz-main">
+                                <h4 class="tit">我隐藏的应用</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="qz-box-bd">
+                        <p id="hideAppTips">
+                            <img title="加载中" alt="加载中" style="vertical-align: middle;" src="//qzonestyle.gtimg.cn/qzone_v6/gb/img/loading_16.gif" /> 加载中...
+                        </p>
+                        <div class="qz-tag-list">
+                            <ul id="hideAppContainer" class="tag-list clearfix">
+                                <!--
+                                    <li>
+                                        <a href="javascript:void(0);">
+                                            <span class="name">麦时同学麦时同学</span>
+                                            <span class="close" title="取消隐藏">×</span>
+                                        </a>
+                                    </li>
+                                -->
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                </div>
+                <!-- 我隐藏的应用 结束-->
+            </div>
+            <!-- 管理隐藏列表 结束-->
+        </div>
+    </div>
+    <div i="footer" class="ui-dl-ft">
+        <div class="qz-grid">
+            <div i="button" class="qz-right actions">
+                <a href="javascript:;" class="qz-button qz-dark-button qz_dialog_layer_sub" style="width:" data-id="ok" autofocus=""><span class="txt">确定</span></a>
+                <a href="javascript:;" class="qz-button qz_dialog_layer_nor" style="width:" data-id="cancel"><span class="txt">取消</span></a>
+            </div>
+            <div i="statusbar" class="qz-main" style="display: none;"></div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        var jsBegin = '<script type="text/javascript" charset="utf8" src="' + location.protocol,
+            jsEnd = '.js"><\/script>',
+            ary = [
+                jsBegin,'//',top.QZONE.FP._t.siDomain,'/ac/qzone/qzfl/qzfl',top.QZONE.FP._t.g_V.qz,jsEnd,
+                jsBegin,'//',top.QZONE.FP._t.siDomain,'/ac/lib/seajs/sea-2.0.0',jsEnd,
+                jsBegin,'//',top.QZONE.FP._t.siDomain,'/qzone/v8/ic/hide/seajs_config',jsEnd
+            ].join('');
+        document.write(ary);
+    </script>
+    </body>
+</html>

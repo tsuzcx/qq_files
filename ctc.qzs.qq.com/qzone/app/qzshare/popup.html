@@ -1,0 +1,127 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-cn" style="overflow:hidden;">
+<head>
+<meta charset="utf-8" />
+<title></title>
+<script type="text/javascript">
+/*
+  Qzone Project By Qzone Web Group.
+  Copyright 1998 - 2011
+*/
+
+﻿
+(function(window){var timers=[];var getTCISD=function(callback){if(QZONE.FP){callback(QZONE.FP.getStatPackage());}else if(window.TCISD){callback(window.TCISD);}else{QZFL.imports('//'+(parent&&parent.siDomain||'qzonestyle.gtimg.cn')+'/ac/qzfl/stat.js',function(){callback(window.TCISD);})}}
+window.Timer={timing:function(){timers.push(new Date());},reportTiming:function(statName,flagArr){getTCISD(function(TCISD){var timeStat=TCISD.createTimeStat(statName,flagArr);timeStat.zero=timers[0]||new Date();timeStat.timeStamps=timers.slice(1,timers.length);timeStat.report();});},reportPerformance:function(flags){QZFL.imports('//'+(parent.siDomain||'qzonestyle.gtimg.cn')+'/qzone/app/timing/timing.js?max_age=81600',function(){new Timing(flags);})}}})(this);Timer.timing('zero');function getRootDomain(){return isQZONE()?'qq.com':'pengyou.com';}
+function isQZONE(){return window.location.host.indexOf('qq.com')>0;}
+function getDomain(){return isQZONE()?'sns.qzone.qq.com':'ishare.pengyou.com';}
+function getParamter(name){var r=new RegExp("(\\?|#|&)"+name+"=([^&#]*)(&|#|$)");var m=location.href.match(r);return(!m?"":m[2]);}
+function escHTML(str){return(str+'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\x27/g,'&#039;').replace(/\x22/g,'&quot;');}
+var tmpl=(function(){var cache={};return function tmpl(str,data,key){var strIsKey=!/\W/.test(str);key=key||(strIsKey?str:null);var fn=key?cache[key]=cache[key]||tmpl(strIsKey?document.getElementById(str).innerHTML:str):new Function("obj","var p=[],print=function(){p.push.apply(p,arguments);}; with(obj){p.push('"+str.replace(/[\r\t\n]/g," ").split("\\'").join("\\\\'").split("'").join("\\'").split("<%").join("\t").replace(/\t=(.*?)%>/g,"',$1,'").split("\t").join("');").split("%>").join("p.push('")
++"');}return p.join('');");return data?fn(data):fn;};})();
+document.domain=location.hostname;
+var g_imgcacheDomain=parent.imgcacheDomain||'imgcache.'+getRootDomain();var g_siDomain=parent.siDomain||'qzonestyle.gtimg.cn';var g_StyleID=parent.g_StyleID||1;var g_V=parent.g_V||{qz:'_2.0.9.6'};var pageStartTime=new Date();Timer.timing('beforeEvalQzfl');if(parent.constructQZFL){eval("("+(parent.constructQZFL._string||(parent.constructQZFL._string=parent.constructQZFL.toString()))+")();");}
+Timer.timing('afterEvalQzfl');
+QZONE=window.QZONE||{};
+QZONE.FP = {};
+QZONE.FP.getQzoneConfig = function(param){
+    return parent.QZONE.FrontPage.getQzoneConfig(param);
+};
+QZONE.FP=top.QZONE.FP;
+
+document.write([
+			'<link rel="stylesheet" rev="stylesheet" href="//',g_siDomain,'/qzone_v6/share_app_pop.css" type="text/css" media="screen" \/>'
+].join(''))
+</script>
+</head>
+<body>
+<script type="text/javascript">
+(function(window){
+	var itemid = encodeURIComponent(escHTML(getParamter("itemid"))), 
+	      uin = encodeURIComponent(escHTML(getParamter("uin"))), 
+	      url = '';
+	if(uin&&itemid){
+    		url = '//'+getDomain()+'/cgi-bin/qzshare/cgi_qzshareget_description?fupdate=1&uin='+uin+'&itemid='+itemid+(window.QZFL?('&g_tk='+QZFL.pluginsDefine.getACSRFToken()):'');
+	}
+	window._Callback = function(responseData){
+		window._Callback=null;
+		if(!!responseData && !!responseData.data){
+			window._gDescData = responseData.data;
+		}
+	}
+	if(url){
+		document.write('<script id="DescriptionMemo" type="text/javascript" src="'+url+'" charset="utf-8"><\/script>')
+	}
+})(window);
+</script>
+<div id="main_container">
+<div class="mod_share_popup">
+	<div class="hd visual-none" id='tip_cont'>
+		<span class="ui-text-i">
+			<span class="ui-text-i-i"><i class="img i_correct_32"></i></span>
+			<span class="ui-text-i-text">分享成功</span>
+		</span>
+	</div>
+    	<div class="bd">
+        	<div class="mod_issue">
+            	<div id="desc_content" style="" tabindex="0" class="textarea dis_none input_focus" cols="100" rows="2" >正在加载中...</div>           
+				<div class="mod_inform">
+					<div id="desc_lengthCounter" class="count_txt mod_layout_m">
+						<strong id="curLen">0</strong>/
+						<span id="maxLen">2000</span>
+					</div>
+					<p id="unactiveUserPanel" style="display:none;"></p>
+				</div>
+            	<div id="warning" class="secure_tip none">
+                	<p>QQ空间温馨提示：如果发表或上传的内容有不符合互联网相关安全规范（如：色情、反动等非法信息），我们将锁定其IP及个人资料，并申报公安机关备案追查。</p>
+            	</div>
+       		 </div>
+       		<div id="directional_share_panel" class="friends_select_warp dis-none">
+			</div>
+	</div>
+</div>
+<div class="global_tip_button">
+	<span class="side_left dis-none" id="btn_to_send" style="display:none;"><i class="img i_share"><span class="visual_none">分享icon</span></i><a href="javascript:void(0);" class="btn_share_friends" clickHandler="toggleDirectionalShare" >分享给指定好友</a></span>
+	<a class="bt_tip_hit" id="postButton" title="确定" href="javascript:void(0);" clickHandler="clickPostButton">发送</a>
+	<label id="share_to_weibo_panel" style="display:none" class="form-checkbox form-weibo-checkbox"  for="share2weibo_chk"><input clickHandler="toggleWeiboSyncCheckState" type="checkbox" id="share2weibo_chk"/> <span title="同步到腾讯微博">同步微博</span></label>
+	<label id="share_and_comment_panel" style="display:none" class="form-checkbox" clickHandler="toggleCheckState" for="comment_chk"><input type="checkbox" id="comment_chk"/> <span title="没有理由时不评论">同时评论</span></label>
+			<p class="func_tips" style="display:none">*按↓↑箭头选择好友</p>
+	
+</div>
+</div>
+<script type="text/javascript">
+var g_bNeedDescAt = true;//指示分享理由是否会支持@
+var g_StyleID = parent.g_StyleID || 1;
+var g_V = parent.g_V || { qz: '_2.0.6.1' };
+var _itemid = encodeURIComponent(getParamter("itemid")), _uin = encodeURIComponent(getParamter("uin")), _url = '';
+if(_uin&&_itemid){
+    _url = '//'+getDomain()+'/cgi-bin/qzshare/cgi_qzshareget_description?fupdate=1&uin='+_uin+'&itemid='+_itemid;
+}
+function _Callback(d){
+	if(!!d && !!d.data){
+		window._gDescData = d.data;
+	}
+}
+//parent.g_bStaneAlone4F4A指示是否需要F4A 的standAlone 加件
+document.write([
+'<script type="text/javascript" src="//', g_siDomain ,'/ac/qzfl/appclientlib.js"><\/script>',
+'<script type="text/javascript" src="//', g_siDomain ,'/qzone/app/jSolution/jSolution_1.0_qzone.js"><\/script>',
+'<script type="text/javascript" src="//',g_siDomain,'/qzone/app/requests/shareRequest/shareRequest_3.0.js"><\/script>',
+'<script type="text/javascript" src="//',g_siDomain,'/qzone/app/qzshare/script/common.js?max_age=20110919&d=20120920"><\/script>',
+'<script type="text/javascript" src="//',g_siDomain,'/qzone/app/qzshare/script/qzshare.popup.js?max_age=20121106&d=20130329-2"><\/script>',
+'<script type="text/javascript" src="//',g_siDomain,'/qzone/app/f4a/lite/lite_1.3.js"><\/script>',
+(!!parent.g_bStaneAlone4F4A)?'<script type="text/javascript" src="//'+g_siDomain+'/qzone/app/f4a/F4A_'+(parent.F4A_version||'1.2')+'.FP.standAlone.js"><\/script>':'',
+'<script type="text/javascript" src="//',g_siDomain,'/qzone/app/controls/sensibleEditor/sensibleEditor_2.1.js"><\/script>'    
+].join(''));
+</script>
+<script type="text/javascript">
+document.domain=location.hostname;
+var fileOkTime = new Date();
+var queryHash = splitHttpParamString(location.hash.slice(1));
+if (parent.location.host == 'blog.qq.com' || queryHash.platform == 'standalone') {
+	QZONE.FP = window.QZONE.FP || parent.QZONE.FrontPage;
+}
+QZFL.pageEvents.pageBaseInit();
+QZFL.pageEvents.onloadRegister(controller.popup.init);
+</script>
+</body>
+</html>

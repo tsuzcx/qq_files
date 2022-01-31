@@ -1,0 +1,652 @@
+<!doctype html>
+<html class="os_win7">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<script type="text/javascript">
+	//这里根据外面的os塞html的class
+</script>
+<script type="text/javascript">
+if(/pengyou\.com$/.test(location.hostname)){
+	document.domain = 'pengyou.com';
+}else if(/qzone\.qq\.com$/.test(location.hostname)){
+	document.domain = 'qzone.qq.com';
+}else if(/qzone\.com$/.test(location.hostname)){
+	document.domain = 'qzone.com';
+}else{
+	document.domain = 'qq.com';
+}
+var timeseq2 = [(new Date()).getTime()/1000]; //continue to mark!  step_5 load albumList.html
+
+if(frameElement.g_isAlbumListV8 && frameElement.albumListUrl){
+	if(location.pathname+location.search+location.hash != frameElement.albumListUrl){
+		try{
+			if(top.document.body.className.indexOf('mode-page-app-widescreen') === -1){
+				top.document.body.className += ' mode-page-app-widescreen';
+			}
+		}catch(err){}
+		location.href = frameElement.albumListUrl;
+	}
+
+}
+
+//版本号管理，请加在业务js后面。
+var g_version = "photo20121011";
+
+var g_startTime = new Date();
+
+//PSY
+var PSY = {
+	loadTimes :{startLoad:+new Date()},
+	_domains:{},
+	_photoVersionV7: top.g_photoVersionV7 || frameElement.g_photoVersionV7,
+	_photoVersionMap: top.g_photoVersionMap || frameElement.g_photoVersionMap
+};
+if(top.QZONE){
+	PSY._domains.imgcache = top.QZONE.FP._t.siDomain;
+	PSY._domains.main = 'user.qzone.qq.com';
+	PSY._domains.qzfl = top.QZONE.FP._t.imgcacheDomain;
+	PSY._qzflVersion = top.QZONE.FP._t.g_V.qz || '_2.1.34';
+	PSY._interfaceVersion = top.QZONE.FP._t.g_V.ci;
+	window.imgcacheDomain = PSY._domains.qzfl;
+	window.siDomain = PSY._domains.imgcache;
+	window.qlogoDomain = 'store.qq.com';
+}else{
+	PSY._domains.imgcache = 'qzonestyle.gtimg.cn';
+	PSY._domains.main = 'user.qzone.qq.com';
+	PSY._domains.qzfl = 'qzs.qq.com';
+	PSY._qzflVersion = '_2.1.34';
+	PSY._interfaceVersion = '_20131113';
+	window.imgcacheDomain = PSY._domains.qzfl;
+	window.siDomain = PSY._domains.imgcache;
+	window.qlogoDomain = 'store.qq.com';	
+}
+
+</script>
+<title>相册 | 相册列表</title>
+<style>
+	.author-display {display:none;}
+	.visitor-display {display:none;}
+	.qzone-display {display:none;}
+	.none{display:none;}
+</style>
+
+<!--S 小诊所-->
+<script type="text/javascript">
+var _timeoutid = 0;
+function startClinicTimeout(){
+	if(!_timeoutid){
+		//window.console && console.log('startClinicTimeout');
+		_timeoutid = setTimeout(function(){
+			_timeoutid = 0;
+			try{
+				//window.console && console.log('timeout');
+				document.getElementById('clinicLink').style.display = "";
+			}catch(e){
+				//window.console && console.log('show clinicLink error');
+			}
+		},5000);
+	}
+}
+function stopClinicTimeout(){
+	if(_timeoutid){
+		//window.console && console.log('stopClinicTimeout');
+		clearTimeout(_timeoutid);
+		_timeoutid = 0;
+	}
+}
+function statClinic(){
+	//小诊所统计 
+	try{
+		var domain = "photoclick.qzone.qq.com";
+		var path = "ablumlist_new";
+		if(QPHOTO.status.isOwner()){
+			QZONE.FP._t.TCISD.hotClick("ablumlist_new.xiaozhushou.host", domain, path);
+		}else{
+			QZONE.FP._t.TCISD.hotClick("ablumlist_new.xiaozhushou.guest", domain, path);
+		}
+	}catch(e){}
+}
+startClinicTimeout();
+</script>
+<!--E 小诊所-->
+
+<!--S 加载样式-->
+<script>
+//mark! step_6 before css d.w
+timeseq2[1] = (new Date()).getTime()/1000;
+
+document.write([
+(frameElement.g_pyStyleUrl ?  //pengyou modify
+	'\<link rel="stylesheet" rev="stylesheet" href="'+frameElement.g_pyStyleUrl+'" type="text/css" media="screen" id="g_style" \/\>' :
+	'\<link rel="stylesheet" rev="stylesheet" href="'+frameElement.g_styleUrl+'" type="text/css" media="screen" id="g_style" \/\>'),
+	'\<link rel="stylesheet" rev="stylesheet" href="'+frameElement.g_photoCssV3Url+'" type="text/css" media="screen" \/\>'
+].join(""));
+
+//mark! step_7 css d.w
+timeseq2[2] = (new Date()).getTime()/1000;
+
+</script>
+<!--E 加载样式-->
+<!--[if IE 6]>
+<script type="text/javascript">
+// <![CDATA[
+        try{
+	      document.execCommand("BackgroundImageCache", false, true);
+	    }
+	   catch(e){}
+// ]]>
+</script>
+<![endif]-->
+</head>
+<!--<body class="mod_v6">-->
+<!--朋友类名photo_mod_py，空间类名photo_mod_qz-->
+<!--mod-v6 为了能在V6下使用V8结构-->
+<body class="photo_mod_qz mod-v6 os_win7">
+<script>
+if (parent.QZONE.FrontPage.isInPengyou && parent.QZONE.FrontPage.isInPengyou()) {
+	document.write([
+		'\<div style="font-size:14px; line-height:20px; margin:1px 0 7px 25px; position:relative;"\>',
+			'\<a href="http://profile.pengyou.com/index.php?mod=profile&u=' + parent.g_iUin + '" class="c_tx" target="_parent"\>' + parent.QZONE.FP.getNickname() + '\<\/a\>\<span style="margin:0 5px;"\>-\<\/span\>\<span\>相册\<\/span\>',
+		'\<\/div\>'
+	].join(''));
+}
+</script>
+<div class="mod_wrap">
+    <div class="mod_wrap_inner">
+        <div class="bg2 bor3 qz_tab_v2">
+            <div class="bd">
+                <div id="tab_nav" class="qz_tab_v2_nav">
+                    <ul>
+                        <li id="nav_album" class="">
+                            <a id="nav_a_album" href="#mod=album" onclick="Page.tcisdStats('mine');Page.init('album');" title="我的相册" class="bg bor3 c_tx2 tcisd_home" tcisdkey="mine">我的相册</a>
+                        </li>
+                        <li id="nav_friend" class="author-display qzone-display">
+                            <a id="nav_a_friend" href="#mod=friend" onclick="Page.tcisdStats('friends');Page.init('friend');" title="好友照片" class="c_tx2">好友照片&nbsp;<span class="photo_nav_num_new js-friendphoto-num" style="display:none"></span></a>
+							
+                        </li>
+						<li id="nav_new" class="qzone-display">
+                            <a id="nav_a_new" href="#mod=new" onclick="Page.tcisdStats('lasted');Page.init('new');" title="最新照片" class="c_tx2">最新照片</a>
+                        </li>
+						<li id="nav_facemark" class="qzone-display" style="display:none;">
+							<a id="nav_a_facemark" href="#mod=facemark" onclick="Page.tcisdStats('facemark');Page.init('facemark');" title="面孔" class="c_tx2">面孔墙&nbsp;<i class="icon_m icon-dot js-facemark-dot" style="display: none;"></i><span class="photo_nav_num_new js-facemark-num" title="未知面孔" style="display:none"></span></a>
+						</li>
+						<li id="nav_marked" class="qzone-display">
+                            <a id="nav_a_marked" href="#mod=marked" onclick="Page.tcisdStats('quanquan');Page.init('marked');" title="被圈照片" class="c_tx2">被圈照片</a>
+                        </li>
+						<li id="nav_aboutme" class="js_unbind_hideinpy" style="display:none">
+                            <a id="nav_a_aboutme" href="#mod=aboutme" onclick="Page.tcisdStats('aboutme');Page.init('aboutme');" title="关于我的照片" class="c_tx2">关于我的照片</a>
+                        </li>
+						<li id="nav_video" class="qzone-display">
+                            <a id="nav_a_video" href="javascript:void(0);" onclick="Page.tcisdStats('video');Page.init('video');return false;" title="我的视频" class="c_tx2">我的视频</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="qz_tab_v2_op qzone-display">
+                    <div class="page_albumlist_tab_op">
+						<div class="c_tx3 page_albumlist_tab_op_r">
+							<span id="js-to-v8-album-wrapper" style="display:none">
+							<a href="javascript:" id="js-to-v8-album">升级到新版相册</a>
+							<span class="c_tx3 photo_spr author-display">|</span>
+							</span>
+							<a href="javascript:void(0)" onclick="QZONE.FP.toApp('/photo/recyclebin');return false;" title="回收站" class="c_tx3 tcisd_home  author-display" tcisdkey="huishouzhan"><i class="icon icon_del_2"><i></i></i>回收站</a>
+							<span class="c_tx3 photo_spr author-display">|</span>
+							<a href="http://support.qq.com/discuss/375_1.shtml?SSTAG=Qzone_albumlist"
+								onclick="window.uploadTips&amp;&amp;uploadTips.reportToUs('albumlist');return false;"
+							 	title="反馈问题" class="c_tx3 tcisd_home" tcisdkey="tijianyi"><i class="icon icon_suggest"><i></i></i>反馈问题</a>
+						</div>
+                    </div>
+                </div>
+            </div>
+        </div> 
+		
+        <div class="mod_wrap_bd">
+            <!-- 相册V6 | 相册列表-->
+            <div class="photo_v3 page_albumlist" id="app_mod">
+                
+                <div class="clear photo_layout">
+                    <div class="photo_layout_section" id="contianer_div">
+						
+						<div id="photo_banner" class="photo_banner_new" style="display:none;">
+							<div class="ban_img">
+							</div>
+							<a href="#" class="btn_close" title="关闭提示广告">关闭</a>
+						</div>
+						
+						<!-- 工具条 相册列表的 -->
+                        <div class="clear photo_toolbar js_unbind_hideinpy" id="album_toolbar_div" style="display:none">
+							<div class="photo_toolbar_l author-display">
+								<div class="clear photo_toolbar_wrap">
+									<ul>
+										<li><a id="toolbar_upload" href="javascript:void(0);" onkeydown="this.setAttribute('data-goweb',true);" onclick="QPHOTO.album.ToolBar.tcisdStats('upload',true); QPHOTO.album.ToolBar.upload&amp;&amp;QPHOTO.album.ToolBar.upload(this.getAttribute('data-goweb')); return false;" class="gb_bt2" title="上传照片"><i class="icon icon_upload"><i></i></i>上传照片</a></li>
+									
+										<li><a id="toolbar_add_album" href="javascript:void(0);" class="js_bindclick c_tx photo_toolbar_createalbum tcisd_toolbar" tcisdkey="createalbum" tcisdhostonly="1" title="创建相册">创建相册</a></li>
+										<li class="photo_set photo_toolbar_droplist_link qzone-display">
+											<a id="toolbar_display_setting" href="javascript:void(0);" class="js_bindclick c_tx bg bor3 photo_toolbar_set" title="设置相册展示方式">展示设置<span class="c_tx photo_arrow"></span></a>
+											<div id="toolbar_display_bubble" class="bg bor3 photo_set_pop photo_toolbar_droplist_list">
+												<!--<p class=" close"><a href="#"class="bg2 bor">X</a></p>-->
+												<ul class="photo_set_pop_item">
+													<li id="toolbar_display_setting_view" class="pop_item bor3">
+														<h3 class="c_tx">视图</h3>
+														<ul class="item_detail">
+															<li><a href="javascript:void(0);" class="js_bindclick tcisd_toolbar" tcisdkey="view.common" _type="0" title="普通视图">普通视图<i class="p-ficon icon-check" style="display:none;">√</i></a></li>
+															<li><a href="javascript:void(0);" class="js_bindclick tcisd_toolbar" tcisdkey="view.class" _type="1" title="分类视图">分类视图<i class="p-ficon icon-check" style="display:none;">√</i></a></li>
+														</ul>
+													</li>
+													<li id="toolbar_display_setting_sort" class="pop_item bor3">
+														<h3 class="c_tx">排序</h3>
+														<ul class="item_detail">
+															<li><a href="javascript:void(0);" class="js_bindclick tcisd_toolbar" tcisdkey="sort.zjsczq" _type="1" title="最近上传在前">最近上传在前<i class="p-ficon icon-check" style="display:none;">√</i></a></li>
+															<li><a href="javascript:void(0);" class="js_bindclick tcisd_toolbar" tcisdkey="sort.zxcjzq" _type="3" title="最新创建在前">最新创建在前<i class="p-ficon icon-check" style="display:none;">√</i></a></li>
+															<li><a href="javascript:void(0);" class="js_bindclick tcisd_toolbar" tcisdkey="sort.zxcjzh" _type="2" title="最新创建在后">最新创建在后<i class="p-ficon icon-check" style="display:none;">√</i></a></li>
+															<li><a href="javascript:void(0);" class="js_bindclick tcisd_toolbar" tcisdkey="sort.zdy" _type="4" title="自定义排序">自定义排序<i class="p-ficon icon-check" style="display:none;">√</i></a></li>
+														</ul>
+													</li>
+													<li id="toolbar_display_setting_cover" class="pop_item">
+														<h3 class="c_tx">封面</h3>
+														<ul class="item_detail">
+															<li><a href="javascript:void(0);" class="js_bindclick tcisd_toolbar" tcisdkey="cover.big" _type="0" title="大封面">大封面<i class="p-ficon icon-check" style="display:none;">√</i></a></li>
+															<li><a href="javascript:void(0);" class="js_bindclick tcisd_toolbar" tcisdkey="cover.small" _type="1" title="小封面">小封面<i class="p-ficon icon-check" style="display:none;">√</i></a></li>
+														</ul>
+													</li>	
+												</ul>
+												<span class="close"></span>
+											</div>
+										</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+						
+						<!-- 相册列表 -->
+						<div id="album_list_div">
+							<p class="album_list_loading">
+								正在获取相册列表，请稍候...<a class="c_tx4" id="clinicLink" href="http://user.qzone.qq.com/20050606/clinic/?business=photo" onclick="statClinic();" target="_blank" style="display:none">打开相册慢？点这里试试</a>
+							</p>
+						</div>
+					</div>
+					<!--客人态加类名photo_layout_aside_guest-->
+                    <div class="photo_layout_aside photo_layout_aside_guest">
+                        <!-- 广告 -->
+                        <div class="bor3 panel panel_gg qzone-display">
+                            <div class="hd">
+                                <h4>公告栏</h4>
+                            </div>
+                            <div id="ads_content" class="bd">
+                            	<p style="width:170px;height:90px">
+									<a id="ads_img" class="tcisd_home" tcisdkey="rightsidebar.picads1" href="javascript:void(0)" style="display:none;"></a>
+									<a id="ads_title" class="tcisd_home" tcisdkey="rightsidebar.ads1" href="javascript:void(0)" style="display:none;"></a>
+								</p>
+								<p id="ads_desc"></p>
+								<p id="ads_title_2" class="tcisd_home" tcisdkey="rightsidebar.ads2"></p>
+                            </div>
+							<div id="ads_yellow_li" class="panel_qzvip" style="display:none">
+								<a class="tcisd_home" tcisdkey="rightsidebar.kaitongvip" href="http://pay.qq.com/qzone/index.shtml?aid=photo.yymk" title="开通黄钻" target="_blank"><i class="icon_openvip"><i>开通黄钻</i></i></a><span>尊享相册特权</span>
+							</div>
+							<div id="ads_yellow_li2" class="panel_qzvip" style="display:none">
+								<a class="tcisd_home" tcisdkey="rightsidebar.xufeivip" href="http://pay.qq.com/qzone/index.shtml?aid=photo.yymk" title="续费黄钻" target="_blank"><i class="icon_renewvip"><i>续费黄钻</i></i></a><span>尊享相册特权</span>
+							</div>
+                        </div>
+						
+						<!--被挡访客 -->
+                        <div class="bor3 panel panel_tab photo_panel_blockedvisitor js_unbind_hideinpy qzone-display" style="display:none">
+                            <div class="hd">
+                                <h4 class="j-cmt-title" style="display:none"><a href="##" title="最新评论" class="c_tx" onclick="Page.showRecentCmt();return false;">最新评论</a></h4>
+								<span class="c_tx3 photo_spr j-cmt-title" style="display:none">|</span>
+								<h4><a href="##" title="最近访客" class="c_tx" onclick="Page.showRecentVisitor();return false;">最近访客</a></h4>
+								<span class="c_tx3 photo_spr">|</span>
+								<h4><a title="被挡访客" class="c_tx2">被挡访客</a></h4>
+                            </div>
+                            <div id="blocked_visitor" class="bd">
+                            	<div class="blocked_tip">
+                            		<h2>看看谁是你的相册被挡访客</h2>
+                            		<a class="blocked_btn" href="javascript:void(0)" onclick="Page.showBlockedVisitorClick();return false;"></a>
+                            	</div>
+                            </div>
+                        </div>
+						
+                        <!-- 最新评论 -->
+                        <div class="bor3 panel panel_tab photo_panel_recentcomments js_unbind_hideinpy qzone-display">
+                            <div class="hd" id="title_recent_cmt">
+                                <h4 class="j-cmt-title" style="display:none"><a title="最新评论" class="c_tx2">最新评论</a></h4>
+								<span class="c_tx3 photo_spr j-cmt-title" style="display:none">|</span>
+								<h4><a href="##" title="最近访客" class="c_tx" onclick="Page.showRecentVisitor();return false;">最近访客</a></h4>
+								<span class="c_tx3 photo_spr" style="display:none">|</span>
+								<h4 style="display:none"><a href="##" title="被挡访客" class="c_tx" onclick="Page.showBlockedVisitor();return false;">被挡访客</a></h4>
+                            </div>
+                            <div class="bd">
+                                <ul id="news_container"> 
+									<!--模板填充-->
+                                </ul>
+                                <div id="recentcmt_page_turner" class="page_nav" style="display:none;"></div>
+                            </div>
+                      
+							<!--S auditCmt.js -->
+                            <div class="ft examine author-display qzone-display">
+                                <p id="audit_info_p"></p>
+                            </div>
+							<!--E auditCmt.js -->
+                        </div>
+
+                        <!-- 最近访客 -->
+                        <div class="bor3 panel panel_tab photo_panel_recentvisitor js_unbind_hideinpy" style="display:none">
+                            <div class="hd">
+                                <h4 class="j-cmt-title" style="display:none"><a href="##" title="最新评论" class="c_tx" onclick="Page.showRecentCmt();return false;">最新评论</a></h4>
+								<span class="c_tx3 photo_spr j-cmt-title" style="display:none">|</span>
+								<h4><a title="最近访客" class="c_tx2">最近访客</a></h4>
+								<span class="c_tx3 photo_spr" style="display:none">|</span>
+								<h4 style="display:none"><a href="##" title="被挡访客" class="c_tx" onclick="Page.showBlockedVisitor();return false;">被挡访客</a></h4>
+                            </div>
+                            <div id="visitor_list" class="bd">
+                            	<ul id="visitor_new">
+                                </ul>
+                                <div id="recentvisitor_page_turner" class="page_nav" style="display:none;"></div>
+                            </div>
+                        </div>
+						
+						
+                        <!-- 照片应用 -->
+                        <div class="bor3 panel photo_panel_photoapp qzone-display">
+                            <div class="hd">
+                                <h4 id="app_title">照片应用</h4>
+                            </div>
+                            <div class="bd">
+                                <div class="clear photo_panel_photoapp_list">
+                                    <ul id="app_list">
+                                    </ul>
+                                    <div id="app_page_turner" class="page_nav" style="display:none;"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 相册容量 -->
+						<div id="disk_info" class="bor3 panel rongliang author-display qzone-display">
+							<!-- 移至QPHOTO.album.diskInfoTpl -->
+						</div>
+
+						<!-- 照片搜索 -->
+						<div class="panel photo_panel_search qzone-display" style="margin-bottom:50px;display:none;">
+							<div class="bd">
+                                <p><input type="text" name="SearchPhoto" id="search_input" value="输入照片关键词" class="bor3 c_tx3 textinput photo_panel_search_int" /><button id="search_btn" type="button" class="photo_panel_search_sub">搜索</button></p>
+                            </div>
+        				</div>
+                   </div>
+                </div>
+
+            </div>
+			<div id="photo_setting" class="photo_setting" style="display:none">	
+			</div>
+        </div>
+    </div>
+</div>
+
+<!-- 引导浮层 Str -->
+<div class="photo_popularize_pop js-popup" style="height:10000px;display:none;">
+	<div class="mask-cover"></div>
+	<!-- 显示遮罩下面的部分页面元素 Str -->
+	<div class="guide-elm-copy js-popup-btn">
+	</div>
+	<!-- 显示遮罩下面的部分页面元素 End -->
+	<div class="guide-content">
+		<div class="guide-content-inner"></div>
+		<h2 class="invisible js-popup-title"></h2>
+		<p class="invisible js-popup-text"></p>
+		<div class="set-cont js-popup-content"></div>
+		<a href="javascript:void(0)" class="btn-close"></a>
+		<a href="javascript:void(0)" class="btn-go"></a>
+	</div>
+</div>
+<!-- 引导浮层 End -->
+
+</body>
+<!--S 引入必要的js-->
+<script>
+//mark! step_8 before js d.w
+timeseq2[3] = (new Date()).getTime()/1000;
+
+document.write([
+'\<script type="text/javascript" src="'+frameElement.g_qzflUrl+'"\>\<\/script\>',
+'\<script type="text/javascript" src="http://'+ PSY._domains.imgcache +'/qzone/v8/applib/embeded.js"\>\<\/script\>',
+'\<script type="text/javascript" src="http://'+ PSY._domains.imgcache +'/ac/lib/seajs/sea-2.1.1.js" \/><\/script>',
+'\<script type="text/javascript" src="http://'+ PSY._domains.imgcache +'/qzone/photo/zone/script/AlbumGet.js?max_age=2592000&v='+frameElement.g_photoVersion+'"\>\<\/script\>',
+'\<script type="text/javascript" src="http://'+ PSY._domains.imgcache +'/qzone/photo/zone/new/script/albumView.js?max_age=2592000&v='+frameElement.g_photoVersion+'"\>\<\/script\>'
+].join(""));
+
+//mark! step_9 js d.w
+timeseq2[4] = (new Date()).getTime()/1000;
+</script>
+<!--E 引入必要的js-->
+
+<script type="text/javascript">
+seajs.config({
+	base: 'http://' + PSY._domains.imgcache +'/',
+	charset:'utf-8',
+	timeout:5*60*1000,
+	debug:0,
+	alias:{
+		'jquery' : 'http://' + PSY._domains.imgcache +'/qzone/photo/v7/js/lib/jquery.js',
+		'migrate-plugin': 'http://' + PSY._domains.imgcache + '/qzone/v8/engine/migrate-plugin.js'
+	},
+	paths:{
+		'photo.v7' : 'http://' + PSY._domains.imgcache +'/qzone/photo/v7/js',
+		'cssBase' : 'http://' + PSY._domains.imgcache,
+		'v8': 'http://' + PSY._domains.imgcache + '/qzone/v8',
+		'app' : 'http://' + PSY._domains.imgcache +'/qzone/app'
+	},
+	map:[
+		[/^.+\/lib\/qzfl\.js$/i,'http://' + PSY._domains.qzfl +'/ac/qzone/qzfl/qzfl'+(PSY._qzflVersion)+'.js'],
+		[/^.+\/jquery\.js$/,'http://' + PSY._domains.imgcache + '/ac/lib/jquery/1.8.3/jquery.js'],
+		//[/^.+\/tcisd.js/$/,'http://' + PSY._domains.imgcache + '/qzone/v8/core/stat.js'],
+		[/^(.+\/qzone\/photo\/v7\/js\/.+\.js)$/i,'$1?ver=' + PSY._photoVersionV7],
+		[/^(.+\/qzone_v6\/[^\/]+\.css)$/i,'$1?max_age=2592000&ver=' + PSY._photoVersionMap.css]
+	]
+});
+</script>
+
+<!--S 启动主逻辑-->
+<script type="text/javascript">
+if (QZONE.FP.getQzoneConfig("isOwner")){
+	if (Math.random() < 0.001){
+		QZONE.FP._t.TCISD.valueStat(110115, 1, 11, {reportRate: 1});
+	}
+}
+
+if (QPHOTO.status.inPengyou) {
+	$e('body').removeClass("photo_mod_qz");
+	$e('body').addClass("photo_mod_py");
+	$e('.old_ver').setStyle("top", "30px");
+}
+
+//mark! step_10 before load page
+timeseq2[5] = (new Date()).getTime()/1000;
+//get timeseq back
+window.timeseq = [] 
+if (QZONE.FP._t.window.__appid4_Stats && QZONE.FP._t.window.__appid4_Stats.normal){
+	for (var i = 0; i < QZONE.FP._t.window.__appid4_Stats.normal.length; i++){
+		timeseq.push(QZONE.FP._t.window.__appid4_Stats.normal[i]);
+	}
+	QZONE.FP._t.window.__appid4_Stats.normal = null;
+	QZONE.FP._t.window.__appid4_Stats = null;
+
+}else{
+	timeseq = [];
+}
+timeseq = timeseq.concat(timeseq2);
+
+if(Page.needCheckUnbind && QPHOTO.status.inPengyou){
+	QPHOTO.status.checkUnbindPY && QPHOTO.status.checkUnbindPY(function(v){
+		//是否与朋友网解绑
+		if(v){
+			$e('.js_unbind_hideinpy').remove();
+		}
+	});
+}
+
+QPHOTO.util.pageInt(Page.init,Page.showErr);
+(function(){
+	try{
+		var t = document.createElement("<input style='width:0px; height:0px'/>");
+		$('nav_album').appendChild(t);
+		t.focus();
+		$('nav_album').removeChild(t);
+		document.removeChild(t);
+	}catch(e){}
+})()
+</script>
+<!--E 启动主逻辑-->
+
+
+<!--S 上传反馈  引导用户上传-->
+<script type="text/javascript">
+
+//seajs版本
+(function(){
+	var uploadTips = window.uploadTips || {};
+	window.uploadTips = uploadTips;
+	//打开反馈对话框
+	uploadTips.reportToUs = function(from){
+		var clickReportTime = new Date();
+		seajs.use(['photo.v7/lib/jquery', 'photo.v7/common/reportBox/index'], function($, reportBox) {
+			//没有加载到cdn文件问题
+			if(!$ || !reportBox) {
+				//上报文本
+				var _loginQQ = parseInt(QZONE.FP._t.QZFL.cookie.get("uin").replace(/\D/ig,'') || 0,10);
+				
+				var urlLengthLimit = 2083,
+					str	= 'report js load fail',
+					url = "http://s.isdspeed.qq.com/cgi-bin/s.fcg";
+				params = params || {};
+				var errType = 'albumlist_report';
+				var arrstr = [
+					"dataId=1000101",
+					"uin=" + _loginQQ,
+					"ua=" + encodeURIComponent(navigator.userAgent),
+					"type=" + errType,
+					"str=" + encodeURIComponent(str)
+				].join('&');
+
+				url += ("?" + arrstr);
+				url = url.substring(0,urlLengthLimit); //就算被截断了也不管
+
+				//上报
+				QZFL.pingSender(url, 100);
+				return;
+			}
+			reportBox.open(from, {
+				'pageStartTime' : g_startTime,
+				'clickReportTime' : clickReportTime
+			});
+			$('#reportQuestion').attr('href', '#');
+		});
+	};
+}());
+
+
+</script>
+<!--E 上传反馈 引导用户上传-->
+
+<!--S 公告栏-->
+<script type="text/javascript" src="http://qzonestyle.gtimg.cn/qzone/biz/comm/js/qbs.js"></script>
+<!--E 公告栏-->
+
+<!--S 临时活动 -->
+<script type="text/javascript">
+	(function(){
+		var startup = QZFL.FP.getParameter(window.location.href, "startup");
+
+		if(!startup){
+			return;
+		}
+
+		switch(startup){
+			case "tuya":
+				QZONE.FP._t.QZONE.dialog.create("", {
+					src:"/qzone/photo/v7/page/photo.html#init=photo.v7/module/tuya/index&useqzfl=1"
+				}, {
+					noBorder:true, 
+					width: 900, 
+					height: 950,
+					noShadow:true,
+					showMask:true
+				});
+				break;
+			default:
+				break;
+		}
+	})();
+</script>
+<!--E 临时活动 -->
+
+<!--S pv统计 -->
+<script>
+if (QPHOTO.status.inQzone) {
+	//这个上报可以去掉了
+	//document.write('\<script language="javascript" src="http://qzonestyle.gtimg.cn/qzone/ping.js"\>\<\/script\>');
+	if(Math.random() < 0.05){
+		var tc = QZONE.FP.getStatPackage();  
+		tc.pv('photoclick.qzone.qq.com','PV.new_albumlist.' + (QPHOTO.status.isOwner() ? 'host' : 'guest'));  
+	}
+} else { //py
+	var tcisd = QZONE.FP._t.TCISD;
+	tcisd.pv.config.webServerInterfaceURL = 'http://pingfore.pengyou.com/pingd';
+	tcisd.pv('xiaoyou.qq.com', '/index/photo.php');
+}
+</script>
+<!--E pv统计 -->
+<!--进入新版相册-->
+<script>
+(function(){
+	seajs.use(['photo.v7/lib/jquery','photo.v7/lib/photo'],function($,PSY){
+		//不是空间v8就一定不是相册v8
+		var qzoneVersion = parseInt(QZONE.FP.getQzoneConfig("version"));
+		var isV8 = qzoneVersion>=8;
+		var loginUin = PSY.user.getLoginUin();
+		var ownerUin = PSY.user.getOwnerUin();
+		var whiteList = [1020120125,2575414328,224515755,370542303,18958069];
+		var isWhiteListUser = false;
+		for(var i =whiteList.length;i>=0;i--){
+			if(whiteList[i] === ownerUin){
+				isWhiteListUser = true;
+				break;
+			}
+		}
+		
+		var isOppUse =  ownerUin % 10 === 6 || ownerUin % 10 === 2 || !QZONE.FP.getVipStatus(); //标志位是否去取反的
+
+		if(isV8 && loginUin === ownerUin && (QZONE.FP.isAlphaUser() ||isOppUse || isWhiteListUser || QZONE.FP.getVipStatus())){
+			$("#js-to-v8-album-wrapper").show();
+		}
+
+		$("#js-to-v8-album").on('click',function(e){
+			e.preventDefault();
+			PSY.tooltip.loading("正在为你切换到新版相册");
+			PSY.ajax.request({
+				type:'post',
+				url:'http://w.qzone.qq.com/cgi-bin/user/cgi_v8_album_flag',
+				data:{
+					uin : loginUin,
+					hostUin: ownerUin,
+					type:(isOppUse ? 1 : 2),//1表示取消,2表示开通,尾号为6,这个标志位要设反的
+					appid:4,
+					inCharset: 'utf8',
+					outCharset: 'utf8',
+					refer: 'qzone',
+					source: 'qzone'
+				},
+				requestType : 'formSender',
+				success:function(d){
+					setTimeout(function(){
+						top.location.href = 'http://rc.qzone.qq.com/photo/popup/v8intro';
+					},5000);
+				},
+				error:function(d){
+					PSY.tooltip.fail(d.message);
+				}
+			});
+			PSY.oz.hotClickV2('2014.navbar.to_v8_album','photoclick.qzone.qq.com');
+		});
+	});
+})();
+</script>
+<!---->
+</html>

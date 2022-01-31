@@ -1,0 +1,296 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>日志中转页面</title>
+	<base href="//qzs.qq.com/">
+</head>
+<body>
+<script>
+	document.domain = location.hostname;
+
+	var _bJs = function(src, c){return '<script type="text/javascript" charset="'+(c || 'utf-8')+'" src="'+src+'"><\/script>';};
+	var _bCss = function(href){return '<link rel="stylesheet" rev="stylesheet" href="//qzonestyle.gtimg.cn'+href+'" media="screen"/>';};
+	var _dw = function(h){return document.write(h)};
+	_dw(_bJs('//qzonestyle.gtimg.cn/qzone/v8/applib/embeded.js'));
+</script>
+<script>
+	window.siDomain = parent.siDomain;
+
+	_dw(_bJs('//'+siDomain+'/ac/qzone/qzfl/qzfl'+parent.g_V.qz+'.js'));
+	QZONE.FP = top.QZONE.FP
+	_dw(_bJs('//'+siDomain+'/qzone/newblog/v5/script/common.js'));
+
+	frameElement.id = "tblog";
+</script>
+<script type="text/javascript">
+if(!QZONE.FP._t.g_BLOG_LOCATION_PREFIX){
+	var spaceuin = QZONE.FP.getQzoneConfig().ownerUin;
+	var loginuin = QZONE.FP.getQzoneConfig().loginUin;
+	var _router_st = new Date().getTime();
+	var _Callback = function(data){	//地址请求回调函数
+		if(data.code == 0){
+			var LOCATION_DATA = data.data;
+			if(LOCATION_DATA[spaceuin]){
+				QZBlog.CGI_URL.setLocatePrefix(LOCATION_DATA[spaceuin]);
+				QZBlog.CGI_URL.setLoginLocatePrefix(LOCATION_DATA[loginuin] || 'b1');
+			}
+		}
+
+		QZBlog.Util.Statistic.sendRetCodeStatic({
+			domain: CGI_BLOG_R_DOMAIN,
+			cgiName: '/cgi-bin/blognew/blog_get_route',
+			code: data.code,
+			time: (new Date().getTime() - _router_st)
+		});
+	}
+	document.write('<script type="text/javascript" src="'+QZBlog.CGI_URL.getRouterCgiUrl([loginuin, spaceuin])+'"><\/script>');
+}
+</script>
+<script type="text/javascript">
+QZONE.pageEvents.initHttpParams();
+var objParam = QZFL.object.extend({canvastype:'',params:''}, ENV.get('queryHash'),ENV.get('queryString'));
+
+var getProxyURL = function(originUrl){
+	return originUrl.replace('qzs.qq.com', location.hostname + '/proxy/domain/qzs.qq.com')
+}
+
+
+var URL_COLLECTION = {
+	list: QZBlog.Util.getNewBlogListUrl(location.search+location.hash),
+	addBlog: QZBlog.Util.getEditBlogUrl(),
+	addPhotoblog: QZBlog.Util.getEditPhotoBlogUrl(),
+	addGridBlog: QZBlog.Util.getEditGridBlogUrl(),
+	notepad: '//'+IMGCACHE_DOMAIN+'/snsapp/memo/notepad/notepad.html',
+	blogTitleTopPage: ([QZBlog.CGI_URL.get('readzone_get_titletoppage'),'?uin=',objParam.uin,'&imgdm=',IMGCACHE_DOMAIN,'&bdm=',CGI_BLOG_DOMAIN,'&styledm=',STYLE_DOMAIN,'&start=0&num=10&titlesize=20&spacemode=',QZBlog.Util.getSpaceMode(),'&r=',Math.random(),'&g_tk=',QZBlog.Util.getToken()]).join(''),
+
+	/**
+	 * 获取页面url
+	 * @param {String} baseUrl
+	 * @param {Object} params
+	 * @return {String}
+	 */
+	get: function(baseUrl, params){
+		params = params || {};
+		var str = [];
+		for(var p in params){
+			if(p == 'canvastype'){
+				continue;
+			} else if(p == 'params'){
+				var _tmpps = params[p].split(',');
+				for(var i=1; i<_tmpps.length;i+=2){
+					if(_tmpps[i] && typeof(_tmpps[i+1]) !== 'undefined'){
+						str.push(_tmpps[i] + '=' + _tmpps[i+1]);
+					}
+				}
+			} else {
+				str.push(''+p+'='+params[p]);
+			}
+		}
+		str = str.join('&');
+		return baseUrl+'#'+str;
+	}
+}
+
+// 支持 /blog/addnewblog(?paperdialog=1), /blog/add, /blog/****(blogid)
+function procFirstPageParams(){
+	var jumpUrl = URL_COLLECTION.list;
+
+	//记事本应用
+	if (objParam.canvastype == 'notepad') {
+		parent.g_bFromInfoCenter = true;
+		jumpUrl = URL_COLLECTION.notepad;
+	}
+
+	//其他形式URL
+	else if(objParam.params || objParam.pos) {
+		objParam.params = objParam.pos || objParam.params;
+
+		var arrParam = decodeURIComponent(objParam.params).split(',');
+		if (arrParam && arrParam.length > 0) {
+			var key = arrParam[0].toLowerCase(),
+				bid = parseInt(arrParam[0], 10);
+			//日志详情页
+			if (!isNaN(bid)) {
+				jumpUrl = QZBlog.Util.getContentCGIUrl(QZBlog.Logic.SpaceHostInfo.getUin(), bid, Math.random());
+				jumpUrl = applyBlogContentParam(jumpUrl, objParam);
+				if(typeof arrParam[1] === 'string'){
+					jumpUrl += '&viewmode=' + arrParam[1].toLowerCase();	//展示模式
+				}
+			}
+
+			//写日志
+			else if ((key == 'add' || key == 'addnewblog') && QZBlog.Logic.SpaceHostInfo.isOwnerMode()) {
+				jumpUrl = URL_COLLECTION.get(URL_COLLECTION.addBlog, objParam);
+			}
+
+			//写图志
+			else if(key == 'addphotoblog' && QZBlog.Logic.SpaceHostInfo.isOwnerMode()){
+				jumpUrl = URL_COLLECTION.get(URL_COLLECTION.addPhotoblog, objParam);
+			}
+
+			//写模板日志
+			else if(key == 'addtemplateblog' && QZBlog.Logic.SpaceHostInfo.isOwnerMode()) {
+				objParam.directJumpIn = 1; //表明是通过链接直接进入
+				jumpUrl = QZBlog.Util.getEditTemplateBlogUrl(objParam);
+			}
+
+			//写魔方日志
+			else if((key == 'addgrid' || key == 'editgrid') && QZBlog.Logic.SpaceHostInfo.isOwnerMode()) {
+				jumpUrl = URL_COLLECTION.get(URL_COLLECTION.addGridBlog, objParam);
+			}
+
+			//记事本
+			else if (key == 'notepad' && QZBlog.Logic.SpaceHostInfo.isOwnerMode()) {
+				jumpUrl = URL_COLLECTION.notepad;
+			}
+
+			else if (key == 'url') {
+				jumpUrl = location.search;
+			}
+
+			else if (objParam.url) {
+				jumpUrl = '//'+IMGCACHE_DOMAIN+decodeURIComponent(objParam.url);
+			}
+		}
+	}
+
+	if (jumpUrl == URL_COLLECTION.list) {
+		parent.blSpeedBasePoint = new Date().getTime();
+	}
+
+	location.replace(getProxyURL(jumpUrl));
+}
+
+function checkLoginState(){
+	if (!QZBlog.Logic.SpaceHostInfo.isOwnerMode()) {
+		parent.QZONE.widget.msgbox.show('您不是空间主人, 无法进入相关页面', 1, QZBlog.Util.MSG_LIFTTIME.HIGH);
+		setTimeout(function(){
+			location.replace(URL_COLLECTION.list);
+		}, 1000);
+		return false;
+	}
+	return true;
+}
+
+function applyBlogContentParam(url, objParam){
+	var ps = [];
+	var PASS_KEY_REG = /^appcanvas|canvastype|params|pfid|qz_style|qz_ver|uin$/i;
+	for(var i in objParam){
+		if(!PASS_KEY_REG.test(i) && objParam[i] !== null){
+			ps.push(i+'='+objParam[i]);
+		}
+	}
+	if(ps.length){
+		url += (url.indexOf('?') > 0 ? '&' : '?') + ps.join('&');
+	}
+	return url;
+}
+
+function procSecondaryPageParams(){
+	if (objParam.canvastype == 'home') {
+		parent.g_bFromInfoCenter = true;
+	}
+
+	var jumpUrl = URL_COLLECTION.list;
+	var bid = parseInt(getParameter('bid'), 10);
+	if (isNaN(bid)) {
+		bid = -1;
+	}
+
+	var eid = parseInt(getParameter('eid'), 10);
+	if (isNaN(eid)) {
+		eid = -1;
+	}
+
+	// 列表 cate=1, catemgr=1, draftlist=1, list=1
+	if (!!getParameter('list') || !!getParameter('cate') || !!getParameter('catemgr') || !!getParameter('draftlist')) {
+		if (getParameter('catemgr') || getParameter('draftlist')) {
+			if (checkLoginState()) {
+				jumpUrl = URL_COLLECTION.get('/qzone/newblog/v5/list.html', objParam);
+			}
+		} else {
+			if (!!getParameter('cate')) {
+				var cate = decodeURIComponent(getParameter('cate'));
+				cate = cate.toInnerHTML();
+				jumpUrl = URL_COLLECTION.get('/qzone/newblog/v5/list.html', {'cate': encodeURIComponent(cate)});
+			} else {
+				jumpUrl = '/qzone/newblog/v5/list.html'+location.search+location.hash;
+			}
+		}
+	}
+
+	// 内容  bid=**(blogid), draftid=**
+	else if (bid > -1) {
+		parent.bcSpeedBasePoint = new Date().getTime();
+		jumpUrl = QZBlog.Util.getContentCGIUrl(QZBlog.Logic.SpaceHostInfo.getUin(), bid, Math.random());
+		jumpUrl = applyBlogContentParam(jumpUrl, objParam);
+
+		/* 追加的二级页面的访问模式 */
+		var viewmode = getParameter('viewmode');
+		if(typeof viewmode === 'string'){
+			jumpUrl += '&viewmode=' + viewmode.toLowerCase();
+		}
+	}
+
+	else if (!!getParameter('draftid')) {
+		jumpUrl = QZBlog.Util.getDraftContentCGIUrl(QZBlog.Logic.SpaceHostInfo.getUin(), getParameter('draftid'));
+	}
+
+	else if (!!getParameter('privatelist')) {
+		jumpUrl = '/qzone/newblog/v5/private/list.html' + location.search + location.hash;
+	}
+
+	else if (!!getParameter('recycle')) {
+		jumpUrl = QZBlog.Util.getRecycleUrl();
+	}
+
+	else if(!!getParameter('auditing')) {
+		var type = getParameter('auditing');
+		switch(type)
+		{
+			case 'msgb':
+				jumpUrl = '//qzs.qq.com/qzone/msgboard/auditing.html';
+				break;
+			case 'chat':
+			case 'photo':
+			case 'blog':
+				jumpUrl = '//qzs.qq.com/qzone/newblog/v5/auditcanvas.html#type=' + type;
+				break;
+			default:
+				jumpUrl = '//qzs.qq.com/qzone/newblog/v5/auditcanvas.html#type=blog';
+		}
+		//jumpUrl = '/qzone/newblog/v5/auditcanvas.html#type=blog';
+	}
+
+	else {
+		jumpUrl = URL_COLLECTION.addBlog + location.search+(eid > -1 ? ('&bid=' + eid) : '')+location.hash;
+	}
+
+	if (jumpUrl == URL_COLLECTION.list) {
+		parent.blSpeedBasePoint = new Date().getTime();
+	}
+
+	
+
+	location.replace(getProxyURL(jumpUrl));
+}
+
+
+(function(){
+	parent.g_bFromInfoCenter = false;
+	try {
+		if (!!getParameter('secondary')) {
+			procSecondaryPageParams();
+		} else {
+			procFirstPageParams();
+		}
+	} catch (err) {
+		location.replace(URL_COLLECTION.list);
+		//先兜底，再抛出异常
+		throw err
+	}
+})();
+</script>
+</body>
+</html>

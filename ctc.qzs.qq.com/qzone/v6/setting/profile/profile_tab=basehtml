@@ -1,0 +1,1527 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-cn" lang="zh-cn">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Language" content="zh-cn" />
+<title>基本资料 - 空间设置</title>
+<script type="text/javascript" src="//qzonestyle.gtimg.cn/qzone/v8/applib/embeded.js"></script>
+<script type="text/javascript">
+//<![CDATA[
+if(location.href.indexOf('g_iframeUser=1') > -1) {
+	document.domain = 'user.qzone.qq.com';
+	var obj = {};
+    for (var attrname in QZONE.FP) { obj[attrname] = QZONE.FP[attrname]; }
+    for (var attrname in top.QZONE.FP) { obj[attrname] = top.QZONE.FP[attrname]; }
+	QZONE.FP = obj;
+}
+
+var TOP = QZONE.FP._t, _siDomain = "//" + TOP.siDomain + "/", siDomain = TOP.siDomain, g_StyleID = TOP.g_StyleID || 1;
+document.write('<link rel="stylesheet" rev="stylesheet" href="' + _siDomain + 'qzone_v6/app_setup.css" type="text/css" media="screen" />');
+document.write('<link rel="stylesheet" rev="stylesheet" href="' + _siDomain + 'qzone_v6/gb/skin/' + g_StyleID + '.css" type="text/css" media="screen" />');
+QZONE.FP.includeQZFL();
+//]]>
+</script>
+</head>
+<body>
+<div class="bg_mode">
+	<div class="box_ml bor">
+		<div class="mode_gb">
+			<div class="mode_gb_title style_mode_gb_title">
+				<div class="bg_mode_gb_title"><h3>空间设置</h3></div>
+			</div>
+			<div class="mode_gb_cont">
+				<div class="app_setup clearfix" id="app_mod">
+					<div class="lay_menu" id="menu_container"></div>
+					<div class="lay_main bg page_padding">
+						<!--基本资料_S-->
+						<div id="base_info" class="base_material_v3 none">
+							<div class="setup_title bor"><h4>基本资料<a style="font-size:12px;font-weight:normal;margin-left:10px;" href="//user.qzone.qq.com/proxy/domain/qzs.qq.com/qzone/profile/index.html?tab=info" title="点击预览" class="c_tx">预览</a></h4></div>
+							<div class="fn_basicinfo">
+								<table>
+									<tr>
+										<td class="basicinfo_title">昵称：</td>
+										<td>
+										    <div class="basicinfo_box box_nickname">
+                                                <div class="nickname_vip" id="nick_name"></div>
+                                            </div>
+										</td>
+									</tr>
+									<tr id="cert_hint" class="none">
+										<td></td>
+										<td>
+											<div class="hint" style="width:440px;">
+												<strong class="icon_hint"><span>提示</span></strong>
+												<span>您好，尊敬的认证空间用户：认证空间昵称是经过我们唯一认证的标识，不可修改；如有疑问，请拨打客服电话：0755-83763333或联系客服QQ：800030681。</span>
+											</div>
+										</td>
+									</tr>
+									<tr id="campus_hint" class="none">
+										<td></td>
+										<td>
+											<div class="hint" style="width:440px;">
+												<strong class="icon_hint"><span>提示</span></strong>
+												<span>您好，尊敬的校园空间用户：校园空间昵称是经过我们唯一认证的标识，不可修改；如有疑问，请拨打客服电话：0755-83763333或联系客服QQ：800030681。</span>
+											</div>
+										</td>
+									</tr>
+									<tr>
+										<td class="td_crossline bor3 basicinfo_title">性别：</td>
+										<td class="td_crossline bor3">
+											<div class="basicinfo_box" id="sex_con">
+												<select id="sex_select" class="select_small">
+													<option value="1">男</option>
+													<option value="2">女</option>
+												</select>
+											</div>
+										</td>
+									</tr>
+									<tr>
+										<td class="td_crossline bor3 basicinfo_title">生日：</td>
+										<td class="td_crossline bor3">
+											<div class="basicinfo_box" id="birth_con">
+												<select id="birth_type_select" class="select_small">
+													<option value="0">公历</option>
+													<option value="1">农历</option>
+												</select>
+												<input id="birthday_txt" type="text" class="textinput calinput none" />
+												<span id="lunar-year-span" class="none">
+													<select id="lunar-year" class="select_medium">
+													    <option selected="selected">--</option>
+													</select>  
+											    </span>
+										  		<span id="lunar-month-span" class="none">
+													<select id="lunar-month" class="select_small">
+													    <option selected="selected">--</option>
+													</select>
+												</span>
+										  		<span id="lunar-date-span" class="none">
+													<select id="lunar-date" class="select_small">
+													    <option selected="selected">--</option>
+													</select>
+												</span>
+											</div>
+										</td>
+									</tr>
+									<tr>
+										<td class="td_crossline bor3 basicinfo_title">星座：</td>
+										<td class="td_crossline bor3">
+											<span id="constells">填写您的生日后将会自动计算出您的星座。</span>
+										</td>
+									</tr>
+									<tr>
+										<td class="td_crossline bor3 basicinfo_title"><label for="">血型：</label></td>
+										<td class="td_crossline bor3">
+											<div class="basicinfo_box">
+												<select id="blood_select" class="select_medium">
+													<option value="1"> A </option>
+													<option value="2"> B </option>
+													<option value="3"> O </option>
+													<option value="4"> AB </option>
+													<option value="5">其它</option>
+												</select>
+											</div>
+										</td>
+									</tr>
+									<tr>
+										<td class="td_crossline bor3 basicinfo_title"><label for="">感情状况：</label></td>
+										<td class="td_crossline bor3">
+											<div class="basicinfo_box">
+												<select id="sense_select" class="select_medium">
+												    <option value="0">----</option>
+													<option value="1">单身</option>
+													<option value="4">恋爱中</option>
+													<option value="5">已订婚</option>
+													<option value="2">已婚</option>
+													<option value="6">分居</option>
+													<option value="7">离异</option>
+													<option value="3">保密</option>
+												</select>
+											</div>
+										</td>
+									</tr>
+									<tr id="love_pat_tr" class="none">
+										<td class="basicinfo_title"><label for="">对象：</label></td>
+										<td>
+											<div class="basicinfo_box">
+												<div class="basicinfo_lovebox">
+													<div class="lover_ava">
+														<a id="lover_a" target="_blank"><img id="lover_img" src="//qzonestyle.gtimg.cn/ac/qzone_v5/avatar/50/5001.jpg" alt="" /></a>
+													</div>
+													<div class="lover_info">
+														<div id="love_edit" class="lover_info_name_box none">
+															<input type="text" class="textinput" id="love_uin" value="请输入QQ号码或昵称" title="请输入QQ号码或昵称"/>
+														</div>
+														<div id="love_show" class="lover_info_name_box">
+															<a id="love_name" class="lover_info_name c_tx" target="_blank"></a>(<a id="love_edit_link" href="javascript:;" onclick="return false;" class="c_tx lover_info_edit">修改</a>)
+														</div>
+														<p class="lover_info_hint">您的对象仅自己可见</p>
+													</div>
+												</div>
+											</div>
+										</td>
+									</tr>
+									<tr id="love_day_tr" class="none">
+										<td class="basicinfo_title"><label for="">周年纪念日：</label></td>
+										<td>
+											<div class="basicinfo_box">
+												<input type="text" id="love_day_i" class="textinput calinput" />
+											</div>
+										</td>
+									</tr>
+									<tr>
+										<td class="td_crossline bor3 basicinfo_title">现居地：</td>
+										<td class="td_crossline bor3">
+											<div class="basicinfo_box" id="live_address"></div>
+										</td>
+									</tr>
+									<tr>
+										<td class="basicinfo_title">故乡：</td>
+										<td>
+											<div class="basicinfo_box" id="hometown_address"> </div>
+										</td>
+									</tr>
+									<tr>
+										<td class="basicinfo_title">职业：</td>
+										<td><input id="career_txt" type="text" class="textinput" onfocus="this.className='textinput input_focus'" onblur="this.className='textinput'" /><span class="point" id="career_txt_count"></span></td>
+									</tr>
+									<tr>
+										<td class="basicinfo_title">公司名称：</td>
+										<td><input type="text" id="company_txt" class="textinput" onfocus="this.className='textinput input_focus'" onblur="this.className='textinput'" /><span class="point" id="company_txt_count"></span></td>
+									</tr>
+									<tr>
+										<td class="basicinfo_title">公司所在地：</td>
+										<td>
+											<div class="basicinfo_box" id="company_address"> </div>
+										</td>
+									</tr>
+									<tr>
+										<td class="basicinfo_title">详细地址：</td>
+										<td><input id="cpy_address" type="text" class="textinput" onfocus="this.className='textinput input_focus'" onblur="this.className='textinput'" /><span class="point" id="cpy_address_count"></span></td>
+									</tr>
+								</table>
+								<p class="base_submit">
+									<button id="base_save" class="bt_tx2">保存</button>
+									<input type="checkbox" id="tmp" class="input_chek">
+									<label for="tmp">不通知我的好友（仅对本次设置有效）</label>
+								</p>
+							</div>
+						</div>
+						<!--基本资料_E-->
+						
+						<!--我的爱好_S-->
+						<div id="like_info" class="my_interest_v2 none">
+							<div class="setup_title bor"><h4>我的爱好<a href="//user.qzone.qq.com/proxy/domain/qzs.qq.com/qzone/profile/index.html?tab=like" title="点击预览" class="c_tx">预览</a> <a id="guide_set" href="javascript:;" onclick="changeGuideMode();return false;" title="点击关闭向导模式" class="c_tx close_guide">关闭向导模式</a></h4></div>
+							<!--单个选项 S-->
+							<div class="interest_item">								
+								<div class="interest_list">
+									<ul>
+										<li id="0_li">
+											<div id="0_guide" class="mod_quide_wrap none">
+												<p class="mod_quide_info">先从你喜欢的东西开始，让别人了解你。</p>
+												<div class="mod_quide_main">
+													<p>通过单击以下标签进行选择：<a href="javascript:;" onclick="loadLikeData(0,true);return false;" title="换一组标签" class="c_tx">换一下</a></p>
+													<div class="mod_quide_cont" id="0_guidecont"></div>
+													<p>在下面输入并添加新标签：</p>
+												</div>
+											</div>
+											<label id="0_label">喜欢：</label>
+											<div class="interest_option">
+												<input id="0_input" type="text" onfocus="return holdPlace(0);" onkeyup = "search(event,0);" class="textinput" value="先从你喜欢的东西开始，让别人了解你。" title="先从你喜欢的东西开始，让别人了解你。"/>
+												<div id="0_search" class="other_search textarea none">
+													<ul class="other_search_list none" id="0_ul"></ul>
+												</div>
+												<div class="show_more textarea none" id="0_area">
+													<div class="show_content c_tx2 none" id="0_show"></div>
+													<p id="0_opt" class="show_switch"><span class="hide_tip none" id="0_htip">点击右侧操作隐藏该爱好</span><a href="javascript:;" onclick="toggleExpand(0);" class="c_tx"><span id="0_a" class="none">查看更多</span><span id="0_b" class="none">收起</span></a></p>
+													<div class="drag_area bor3 c_tx2 none" id="0_hide"></div>
+												</div>
+											</div>
+											<div id="0_detail" class="interest_detail none">
+												<div class="logo_shaw">
+													<img id="0_logo" src="/qzonestyle/qzone_app/userinfo_v2/default_user_avatar.png" />
+												</div>
+												<div class="about_this_logo" id="0_about"></div>
+												<p class="delete c_tx" id="0_option"></p>
+											</div>
+										</li>
+										<li id="1_li">
+											<div id="1_guide" class="mod_quide_wrap none">
+												<p class="mod_quide_info">明星：凉粉，玉米粉？你哈哪些星？</p>
+												<div class="mod_quide_main">
+													<p>通过单击以下标签进行选择：<a href="javascript:;" onclick="loadLikeData(1,true);return false;" title="换一组标签" class="c_tx">换一下</a></p>
+													<div class="mod_quide_cont" id="1_guidecont"></div>
+													<p>在下面输入并添加新标签：</p>
+												</div>
+											</div>
+											<label id="1_label">明星：</label>
+											<div class="interest_option">
+												<input id="1_input" type="text" onfocus="return holdPlace(1);" onkeyup = "search(event,1);" class="textinput" value="凉粉，玉米粉？你哈哪些星？" title="凉粉，玉米粉？你哈哪些星？"/>
+												<div id="1_search" class="other_search textarea none">
+													<ul class="other_search_list none" id="1_ul"></ul>
+												</div>
+												<div class="show_more textarea none" id="1_area">
+													<div class="show_content c_tx2 none" id="1_show"></div>
+													<p id="1_opt" class="show_switch"><span class="hide_tip none" id="1_htip">点击右侧操作隐藏该爱好</span><a href="javascript:;" onclick="toggleExpand(1);" class="c_tx"><span id="1_a" class="none">查看更多</span><span id="1_b" class="none">收起</span></a></p>
+													<div class="drag_area bor3 c_tx2 none" id="1_hide"></div>
+												</div>
+											</div>
+											<div id="1_detail" class="interest_detail none">
+												<div class="logo_shaw">
+													<img id="1_logo" src="/qzonestyle/qzone_app/userinfo_v2/default_user_avatar.png" />
+												</div>
+												<div class="about_this_logo" id="1_about"></div>
+												<p class="delete c_tx" id="1_option"></p>
+											</div>
+										</li>
+										<li id="2_li">
+											<div id="2_guide" class="mod_quide_wrap none">
+												<p class="mod_quide_info">音乐：Hipop还是古典，流行还是经典，你喜欢哪些音乐？</p>
+												<div class="mod_quide_main">
+													<p>通过单击以下标签进行选择：<a href="javascript:;" onclick="loadLikeData(2,true);return false;" title="换一组标签" class="c_tx">换一下</a></p>
+													<div class="mod_quide_cont" id="2_guidecont"></div>
+													<p>在下面输入并添加新标签：</p>
+												</div>
+											</div>
+											<label id="2_label">音乐：</label>
+											<div class="interest_option">
+												<input id="2_input" type="text" onfocus="return holdPlace(2);" onkeyup = "search(event,2);" class="textinput" value="Hipop还是古典，流行还是经典，你喜欢哪些音乐？" title="Hipop还是古典，流行还是经典，你喜欢哪些音乐？"/>
+												<div id="2_search" class="other_search textarea none">
+													<ul class="other_search_list none" id="2_ul"></ul>
+												</div>
+												<div class="show_more textarea none" id="2_area">
+													<div class="show_content c_tx2 none" id="2_show"></div>
+													<p id="2_opt" class="show_switch"><span class="hide_tip none" id="2_htip">点击右侧操作隐藏该爱好</span><a href="javascript:;" onclick="toggleExpand(2);" class="c_tx"><span id="2_a" class="none">查看更多</span><span id="2_b" class="none">收起</span></a></p>
+													<div class="drag_area bor3 c_tx2 none" id="2_hide"></div>
+												</div>
+											</div>
+											<div id="2_detail" class="interest_detail none">
+												<div class="logo_shaw">
+													<img id="2_logo" src="/qzonestyle/qzone_app/userinfo_v2/default_user_avatar.png" />
+												</div>
+												<div class="about_this_logo" id="2_about"></div>
+												<p class="delete c_tx" id="2_option"></p>
+											</div>
+										</li>
+										<li id="3_li">
+											<div id="3_guide" class="mod_quide_wrap none">
+												<p class="mod_quide_info">影视：大片很劲爆，剧集也精彩。你喜欢看什么大片和剧集？</p>
+												<div class="mod_quide_main">
+													<p>通过单击以下标签进行选择：<a href="javascript:;" onclick="loadLikeData(3,true);return false;" title="换一组标签" class="c_tx">换一下</a></p>
+													<div class="mod_quide_cont" id="3_guidecont"></div>
+													<p>在下面输入并添加新标签：</p>
+												</div>
+											</div>
+											<label id="3_label">影视：</label>
+											<div class="interest_option">
+												<input id="3_input" type="text" onfocus="return holdPlace(3);" onkeyup = "search(event,3);" class="textinput" value="大片很劲爆，剧集也精彩。你喜欢看什么大片和剧集？" title="大片很劲爆，剧集也精彩。你喜欢看什么大片和剧集？"/>
+												<div id="3_search" class="other_search textarea none">
+													<ul class="other_search_list none" id="3_ul"></ul>
+												</div>
+												<div class="show_more textarea none" id="3_area">
+													<div class="show_content c_tx2 none" id="3_show"></div>
+													<p id="3_opt" class="show_switch"><span class="hide_tip none" id="3_htip">点击右侧操作隐藏该爱好</span><a href="javascript:;" onclick="toggleExpand(3);" class="c_tx"><span id="3_a" class="none">查看更多</span><span id="3_b" class="none">收起</span></a></p>
+													<div class="drag_area bor3 c_tx2 none" id="3_hide"></div>
+												</div>
+											</div>
+											<div id="3_detail" class="interest_detail none">
+												<div class="logo_shaw">
+													<img id="3_logo" src="/qzonestyle/qzone_app/userinfo_v2/default_user_avatar.png" />
+												</div>
+												<div class="about_this_logo" id="3_about"></div>
+												<p class="delete c_tx" id="3_option"></p>
+											</div>
+										</li>
+										<li id="4_li">
+											<div id="4_guide" class="mod_quide_wrap none">
+												<p class="mod_quide_info">运动：不要宅在家，多多去运动，你喜欢做哪些运动？</p>
+												<div class="mod_quide_main">
+													<p>通过单击以下标签进行选择：<a href="javascript:;" onclick="loadLikeData(4,true);return false;" title="换一组标签" class="c_tx">换一下</a></p>
+													<div class="mod_quide_cont" id="4_guidecont"></div>
+													<p>在下面输入并添加新标签：</p>
+												</div>
+											</div>
+											<label id="4_label">运动：</label>
+											<div class="interest_option">
+												<input id="4_input" type="text" onfocus="return holdPlace(4);" onkeyup = "search(event,4);" class="textinput" value="不要宅在家，多多去运动，你喜欢做哪些运动？" title="不要宅在家，多多去运动，你喜欢做哪些运动？"/>
+												<div id="4_search" class="other_search textarea none">
+													<ul class="other_search_list none" id="4_ul"></ul>
+												</div>
+												<div class="show_more textarea none" id="4_area">
+													<div class="show_content c_tx2 none" id="4_show"></div>
+													<p id="4_opt" class="show_switch"><span class="hide_tip none" id="4_htip">点击右侧操作隐藏该爱好</span><a href="javascript:;" onclick="toggleExpand(4);" class="c_tx"><span id="4_a" class="none">查看更多</span><span id="4_b" class="none">收起</span></a></p>
+													<div class="drag_area bor3 c_tx2 none" id="4_hide"></div>
+												</div>
+											</div>
+											<div id="4_detail" class="interest_detail none">
+												<div class="logo_shaw">
+													<img id="4_logo" src="/qzonestyle/qzone_app/userinfo_v2/default_user_avatar.png" />
+												</div>
+												<div class="about_this_logo" id="4_about"></div>
+												<p class="delete c_tx" id="4_option"></p>
+											</div>
+										</li>
+										<li id="5_li">
+											<div id="5_guide" class="mod_quide_wrap none">
+												<p class="mod_quide_info">游戏：最近在玩什么？单机还是网游？</p>
+												<div class="mod_quide_main">
+													<p>通过单击以下标签进行选择：<a href="javascript:;" onclick="loadLikeData(5,true);return false;" title="换一组标签" class="c_tx">换一下</a></p>
+													<div class="mod_quide_cont" id="5_guidecont"></div>
+													<p>在下面输入并添加新标签：</p>
+												</div>
+											</div>
+											<label id="5_label">游戏：</label>
+											<div class="interest_option">
+												<input id="5_input" type="text" onfocus="return holdPlace(5);" onkeyup = "search(event,5);" class="textinput" value="最近在玩什么？单机还是网游？" title="最近在玩什么？单机还是网游？"/>
+												<div id="5_search" class="other_search textarea none">
+													<ul class="other_search_list none" id="5_ul"></ul>
+												</div>
+												<div class="show_more textarea none" id="5_area">
+													<div class="show_content c_tx2 none" id="5_show"></div>
+													<p id="5_opt" class="show_switch"><span class="hide_tip none" id="5_htip">点击右侧操作隐藏该爱好</span><a href="javascript:;" onclick="toggleExpand(5);" class="c_tx"><span id="5_a" class="none">查看更多</span><span id="5_b" class="none">收起</span></a></p>
+													<div class="drag_area bor3 c_tx2 none" id="5_hide"></div>
+												</div>
+											</div>
+											<div id="5_detail" class="interest_detail none">
+												<div class="logo_shaw">
+													<img id="5_logo" src="/qzonestyle/qzone_app/userinfo_v2/default_user_avatar.png" />
+												</div>
+												<div class="about_this_logo" id="5_about"></div>
+												<p class="delete c_tx" id="5_option"></p>
+											</div>
+										</li>
+										<li id="6_li">
+											<div id="6_guide" class="mod_quide_wrap none">
+												<p class="mod_quide_info">数码：你是什么控？你有哪些数码装备？</p>
+												<div class="mod_quide_main">
+													<p>通过单击以下标签进行选择：<a href="javascript:;" onclick="loadLikeData(6,true);return false;" title="换一组标签" class="c_tx">换一下</a></p>
+													<div class="mod_quide_cont" id="6_guidecont"></div>
+													<p>在下面输入并添加新标签：</p>
+												</div>
+											</div>
+											<label id="6_label">数码：</label>
+											<div class="interest_option">
+												<input id="6_input" type="text" onfocus="return holdPlace(6);" onkeyup = "search(event,6);" class="textinput" value="你是什么控？你有哪些数码装备？" title="你是什么控？你有哪些数码装备？"/>
+												<div id="6_search" class="other_search textarea none">
+													<ul class="other_search_list none" id="6_ul"></ul>
+												</div>
+												<div class="show_more textarea none" id="6_area">
+													<div class="show_content c_tx2 none" id="6_show"></div>
+													<p id="6_opt" class="show_switch"><span class="hide_tip none" id="6_htip">点击右侧操作隐藏该爱好</span><a href="javascript:;" onclick="toggleExpand(6);" class="c_tx"><span id="6_a" class="none">查看更多</span><span id="6_b" class="none">收起</span></a></p>
+													<div class="drag_area bor3 c_tx2 none" id="6_hide"></div>
+												</div>
+											</div>
+											<div id="6_detail" class="interest_detail none">
+												<div class="logo_shaw">
+													<img id="6_logo" src="/qzonestyle/qzone_app/userinfo_v2/default_user_avatar.png" />
+												</div>
+												<div class="about_this_logo" id="6_about"></div>
+												<p class="delete c_tx" id="6_option"></p>
+											</div>
+										</li>										
+										<li id="7_li">
+											<div id="7_guide" class="mod_quide_wrap none">
+												<p class="mod_quide_info">美食：哪里有好吃的？哪里有特色菜？告诉我下。</p>
+												<div class="mod_quide_main">
+													<p>通过单击以下标签进行选择：<a href="javascript:;" onclick="loadLikeData(7,true);return false;" title="换一组标签" class="c_tx">换一下</a></p>
+													<div class="mod_quide_cont" id="7_guidecont"></div>
+													<p>在下面输入并添加新标签：</p>
+												</div>
+											</div>
+											<label id="7_label">美食：</label>
+											<div class="interest_option">
+												<input id="7_input" type="text" onfocus="return holdPlace(7);" onkeyup = "search(event,7);" class="textinput" value="哪里有好吃的？哪里有特色菜？告诉我下。" title="哪里有好吃的？哪里有特色菜？告诉我下。"/>
+												<div id="7_search" class="other_search textarea none">
+													<ul class="other_search_list none" id="7_ul"></ul>
+												</div>
+												<div class="show_more textarea none" id="7_area">
+													<div class="show_content c_tx2 none" id="7_show"></div>
+													<p id="7_opt" class="show_switch"><span class="hide_tip none" id="7_htip">点击右侧操作隐藏该爱好</span><a href="javascript:;" onclick="toggleExpand(7);" class="c_tx"><span id="7_a" class="none">查看更多</span><span id="7_b" class="none">收起</span></a></p>
+													<div class="drag_area bor3 c_tx2 none" id="7_hide"></div>
+												</div>
+											</div>
+											<div id="7_detail" class="interest_detail none">
+												<div class="logo_shaw">
+													<img id="7_logo" src="/qzonestyle/qzone_app/userinfo_v2/default_user_avatar.png" />
+												</div>
+												<div class="about_this_logo" id="7_about"></div>
+												<p class="delete c_tx" id="7_option"></p>
+											</div>
+										</li>
+										<li id="8_li">
+											<div id="8_guide" class="mod_quide_wrap none">
+												<p class="mod_quide_info">旅游：上山下海，走遍世界，你到过哪些地方？</p>
+												<div class="mod_quide_main">
+													<p>通过单击以下标签进行选择：<a href="javascript:;" onclick="loadLikeData(8,true);return false;" title="换一组标签" class="c_tx">换一下</a></p>
+													<div class="mod_quide_cont" id="8_guidecont"></div>
+													<p>在下面输入并添加新标签：</p>
+												</div>
+											</div>
+											<label id="8_label">旅游：</label>
+											<div class="interest_option">
+												<input id="8_input" type="text" onfocus="return holdPlace(8);" onkeyup = "search(event,8);" class="textinput" value="上山下海，走遍世界，你到过哪些地方？" title="上山下海，走遍世界，你到过哪些地方？"/>
+												<div id="8_search" class="other_search textarea none">
+													<ul class="other_search_list none" id="8_ul"></ul>
+												</div>
+												<div class="show_more textarea none" id="8_area">
+													<div class="show_content c_tx2 none" id="8_show"></div>
+													<p id="8_opt" class="show_switch"><span class="hide_tip none" id="8_htip">点击右侧操作隐藏该爱好</span><a href="javascript:;" onclick="toggleExpand(8);" class="c_tx"><span id="8_a" class="none">查看更多</span><span id="8_b" class="none">收起</span></a></p>
+													<div class="drag_area bor3 c_tx2 none" id="8_hide"></div>
+												</div>
+											</div>
+											<div id="8_detail" class="interest_detail none">
+												<div class="logo_shaw">
+													<img id="8_logo" src="/qzonestyle/qzone_app/userinfo_v2/default_user_avatar.png" />
+												</div>
+												<div class="about_this_logo" id="8_about"></div>
+												<p class="delete c_tx" id="8_option"></p>
+											</div>
+										</li>
+										<li id="9_li">
+											<div id="9_guide" class="mod_quide_wrap none">
+												<p class="mod_quide_info">书籍：清茶一杯，静心阅读。你正在看什么书？</p>
+												<div class="mod_quide_main">
+													<p>通过单击以下标签进行选择：<a href="javascript:;" onclick="loadLikeData(9,true);return false;" title="换一组标签" class="c_tx">换一下</a></p>
+													<div class="mod_quide_cont" id="9_guidecont"></div>
+													<p>在下面输入并添加新标签：</p>
+												</div>
+											</div>
+											<label id="9_label">书籍：</label>
+											<div class="interest_option">
+												<input id="9_input" type="text" onfocus="return holdPlace(9);" onkeyup = "search(event,9);" class="textinput" value="清茶一杯，静心阅读。你正在看什么书？" title="清茶一杯，静心阅读。你正在看什么书？" />
+												<div id="9_search" class="other_search textarea none">
+													<ul class="other_search_list none" id="9_ul"></ul>
+												</div>
+												<div class="show_more textarea none" id="9_area">
+													<div class="show_content c_tx2 none" id="9_show"></div>
+													<p id="9_opt" class="show_switch"><span class="hide_tip none" id="9_htip">点击右侧操作隐藏该爱好</span><a href="javascript:;" onclick="toggleExpand(9);" class="c_tx"><span id="9_a" class="none">查看更多</span><span id="9_b" class="none">收起</span></a></p>
+													<div class="drag_area bor3 c_tx2 none" id="9_hide"></div>
+												</div>
+											</div>
+											<div id="9_detail" class="interest_detail none">
+												<div class="logo_shaw">
+													<img id="9_logo" src="/qzonestyle/qzone_app/userinfo_v2/default_user_avatar.png" />
+												</div>
+												<div class="about_this_logo" id="9_about"></div>
+												<p class="delete c_tx" id="9_option"></p>
+											</div>
+										</li>
+										<li id="10_li">
+											<label>其它：</label>
+											<div class="interest_option">
+												<input id="10_input" type="text" onfocus="return holdPlace(10);" onkeyup = "search(event,10);" class="textinput" value="你总有不为人知的一面，说说你其他古灵精怪的爱好。" title="你总有不为人知的一面，说说你其他古灵精怪的爱好。" />
+												<div id="10_search" class="other_search textarea none">
+													<ul class="other_search_list none" id="10_ul"></ul>
+												</div>
+												<div class="show_more textarea none" id="10_area">
+													<div class="show_content c_tx2 none" id="10_show"></div>
+													<p id="10_opt" class="show_switch"><span class="hide_tip none" id="10_htip">点击右侧操作隐藏该爱好</span><a href="javascript:;" onclick="toggleExpand(10);" class="c_tx"><span id="10_a" class="none">查看更多</span><span id="10_b" class="none">收起</span></a></p>
+													<div class="drag_area bor3 c_tx2 none" id="10_hide"></div>
+												</div>
+											</div>
+											<div id="10_detail" class="interest_detail none">
+												<div class="logo_shaw">
+													<img id="10_logo" src="/qzonestyle/qzone_app/userinfo_v2/default_user_avatar.png" />
+												</div>
+												<div class="about_this_logo" id="10_about"></div>
+												<p class="delete c_tx" id="10_option"></p>
+											</div>
+										</li>
+									</ul>
+								</div>
+							</div>
+							<!--单个选项 E-->
+							<div class="operate"><button id="like_save" class="bt_tx2" type="button">保存</button></div>
+						</div>
+						<!--我的爱好_E-->
+
+						
+						<!--我的爱好_S-->
+						<div id="favor_info" class="my_interest none">
+							<div class="setup_title bor"><h4>我的爱好</h4></div>
+							<!--单个选项 S-->
+							<div class="interest_item bor2">
+								<div class="interest_title" id="chkt_0">
+									<h5>明星娱乐/音乐</h5>
+									<div class="interest_op"><strong class="show_bt" id="chk_0"><span>展开</span></strong></div>
+								</div>
+								<div id="itemlist_0" class="interest_list none">
+									<ul>
+										<li>
+											<label>我的偶像：</label>
+											<div class="interest_option">
+												<input id="txt_0" type="text" class="bor" />
+												<span class="point" id="t_0"></span>
+											</div>
+										</li>
+										<li>
+											<label>喜欢他/她的原因：</label>
+											<div class="interest_option">
+												<input id="txt_1" type="text" class="bor" />
+												<span class="point" id="t_1"></span>
+											</div>
+										</li>
+										<li>
+											<label>喜欢的歌：</label>
+											<div class="interest_option">
+												<input id="txt_2" type="text" class="bor" />
+												<span class="point" id="t_2"></span>
+											</div>
+										</li>
+										<li>
+											<label>擅长的乐器：</label>
+											<div class="interest_option">
+												<input id="txt_3" type="text" class="bor" />
+												<span class="point" id="t_3"></span>
+											</div>
+										</li>
+									</ul>
+								</div>
+							</div>
+							<!--单个选项 E-->
+							<!--单个选项 S-->
+							<div class="interest_item bor2">
+								<div class="interest_title" id="chkt_1">
+									<h5>电影/电视剧</h5>
+									<div class="interest_op"><strong class="show_bt" id="chk_1"><span>展开</span></strong></div>
+								</div>
+								<div id="itemlist_1" class="interest_list none">
+									<h6>电影</h6>
+									<ul>
+										<li>
+											<label>我强力推荐的电影：</label>
+											<div class="interest_option">
+												<input id="txt_4" type="text" class="bor" />
+												<span class="point" id="t_4"></span>
+											</div>
+										</li>
+										<li>
+											<label>最期待的电影：</label>
+											<div class="interest_option">
+												<input id="txt_5" type="text" class="bor" />
+												<span class="point" id="t_5"></span>
+											</div>
+										</li>
+										<li>
+											<label>喜欢的电影类型：</label>
+											<div id="io_6" class="interest_option">
+												<input id="txt_6" type="text" class="bor" /><strong class="option_select bor bg3" id="showbtn_6"><span class="c_tx3">&#9660;</span></strong><span class="point" id="t_6"></span>
+												<!--选择框_S-->
+												<div class="option_select_frame">
+													<strong class="option_select bor bg3" id="hidebtn_6"><span class="c_tx3">&#9660;</span></strong>
+													<div class="option_select_main bor bg3"><p id="list_6"></p></div>
+												</div>
+												<!--选择框_E-->
+											</div>
+										</li>
+									</ul>
+									<h6>电视剧</h6>
+									<ul>
+										<li>
+											<label>正在看的电视剧：</label>
+											<div class="interest_option">
+												<input id="txt_7" type="text" class="bor" />
+												<span class="point" id="t_7"></span>
+											</div>
+										</li>
+										<li>
+											<label>喜欢的电视剧类型：</label>
+											<div id="io_8" class="interest_option">
+												<input id="txt_8" type="text" class="bor" /><strong class="option_select bor bg3" id="showbtn_8"><span class="c_tx3">&#9660;</span></strong><span class="point" id="t_8"></span>
+												<!--选择框_S-->
+												<div class="option_select_frame">
+													<strong class="option_select bor bg3" id="hidebtn_8"><span class="c_tx3">&#9660;</span></strong>
+													<div class="option_select_main bor bg3"><p id="list_8"></p></div>
+												</div>
+												<!--选择框_E-->
+											</div>
+										</li>
+									</ul>
+								</div>
+							</div>
+							<!--单个选项 E-->
+							<!--单个选项 S-->
+							<div class="interest_item bor2">
+								<div class="interest_title" id="chkt_2">
+									<h5>交友</h5>
+									<div class="interest_op"><strong class="show_bt" id="chk_2"><span>展开</span></strong></div>
+								</div>
+								<div id="itemlist_2" class="interest_list none">
+									<h6>喜欢异性的条件</h6>
+									<ul>
+										<li>
+											<label>体型：</label>
+											<div class="interest_option">
+												<select id="txt_9">
+													<option value="" selected="selected">请选择</option>
+												</select>
+												<span class="point" id="t_9"></span>
+											</div>
+										</li>
+										<li>
+											<label>身体部位：</label>
+											<div class="interest_option">
+												<select id="txt_10">
+													<option value="" selected="selected">请选择</option>
+												</select>
+												<span class="point" id="t_10"></span>
+											</div>
+										</li>
+										<li>
+											<label>性格：</label>
+											<div class="interest_option">
+												<select id="txt_11">
+													<option value="" selected="selected">请选择</option>
+												</select>
+												<span class="point" id="t_11"></span>
+											</div>
+										</li>
+										<li>
+											<label>业余爱好：</label>
+											<div class="interest_option">
+												<select id="txt_12">
+													<option value="" selected="selected">请选择</option>
+												</select>
+												<span class="point" id="t_12"></span>
+											</div>
+										</li>
+									</ul>
+								</div>
+							</div>
+							<!--单个选项 E-->
+							<!--单个选项 S-->
+							<div class="interest_item bor2">
+								<div class="interest_title" id="chkt_3">
+									<h5>手机/数码产品</h5>
+									<div class="interest_op"><strong class="show_bt" id="chk_3"><span>展开</span></strong></div>
+								</div>
+								<div id="itemlist_3" class="interest_list none">
+									<h6>手机</h6>
+									<ul>
+										<li>
+											<label>目前拥有的手机：</label>
+											<div class="interest_option">
+												<select id="txt_13">
+													<option value="" selected="selected">请选择</option>
+												</select>
+												型号是：<input id="model_13" type="text" class="bor" />
+												<span class="point" id="t_13"></span>
+											</div>
+										</li>
+										<li>
+											<label>最喜欢的手机：</label>
+											<div class="interest_option">
+												<select id="txt_14">
+													<option value="" selected="selected">请选择</option>
+												</select>
+												型号是：<input id="model_14" type="text" class="bor" />
+												<span class="point" id="t_14"></span>
+											</div>
+										</li>
+									</ul>
+									<h6>笔记本</h6>
+									<ul>
+										<li>
+											<label>目前拥有的笔记本：</label>
+											<div class="interest_option">
+												<select id="txt_15">
+													<option value="" selected="selected">请选择</option>
+												</select>
+												型号是：<input id="model_15" type="text" class="bor" />
+												<span class="point" id="t_15"></span>
+											</div>
+										</li>
+										<li>
+											<label>最希望拥有的笔记本：</label>
+											<div class="interest_option">
+												<select id="txt_16">
+													<option value="" selected="selected">请选择</option>
+												</select>
+												型号是：<input id="model_16" type="text" class="bor" />
+												<span class="point" id="t_16"></span>
+											</div>
+										</li>
+									</ul>
+									<h6>MP3</h6>
+									<ul>
+										<li>
+											<label>目前使用的MP3：</label>
+											<div class="interest_option">
+												<select id="txt_17">
+													<option value="" selected="selected">请选择</option>
+												</select>
+												型号是：<input id="model_17" type="text" class="bor" />
+												<span class="point" id="t_17"></span>
+											</div>
+										</li>
+									</ul>
+									<h6>相机</h6>
+									<ul>
+										<li>
+											<label>目前拥有的相机：</label>
+											<div class="interest_option">
+												<select id="txt_18">
+													<option value="" selected="selected">请选择</option>
+												</select>
+												型号是：<input id="model_18" type="text" class="bor" />
+												<span class="point" id="t_18"></span>
+											</div>
+										</li>
+									</ul>
+								</div>
+							</div>
+							<!--单个选项 E-->
+							<!--单个选项 S-->
+							<div class="interest_item bor2">
+								<div class="interest_title" id="chkt_4">
+									<h5>汽车</h5>
+									<div class="interest_op"><strong class="show_bt" id="chk_4"><span>展开</span></strong></div>
+								</div>
+								<div id="itemlist_4" class="interest_list none">
+									<ul>
+										<li>
+											<label>目前拥有的车：</label>
+											<div class="interest_option">
+												<select id="txt_19">
+													<option value="" selected="selected">请选择</option>
+												</select>
+												型号是：<input id="model_19" type="text" class="bor" />
+												<span class="point" id="t_19"></span>
+											</div>
+										</li>
+										<li>
+											<label>计划购买的车：</label>
+											<div class="interest_option">
+												<select id="txt_20">
+													<option value="" selected="selected">请选择</option>
+												</select>
+												型号是：<input id="model_20" type="text" class="bor" />
+												<span class="point" id="t_20"></span>
+											</div>
+										</li>
+										<li>
+											<label>最喜欢的车：</label>
+											<div class="interest_option">
+												<select id="txt_21">
+													<option value="" selected="selected">请选择</option>
+												</select>
+												型号是：<input id="model_21" type="text" class="bor" />
+												<span class="point" id="t_21"></span>
+											</div>
+										</li>
+									</ul>
+								</div>
+							</div>
+							<!--单个选项 E-->
+							<!--单个选项 S-->
+							<div class="interest_item bor2">
+								<div class="interest_title" id="chkt_5">
+									<h5>时尚服饰/化妆品</h5>
+									<div class="interest_op"><strong class="show_bt" id="chk_5"><span>展开</span></strong></div>
+								</div>
+								<div id="itemlist_5" class="interest_list none">
+									<ul>
+										<li>
+											<label>最感兴趣的时尚内容：</label>
+											<div id="io_22" class="interest_option">
+												<input id="txt_22" type="text" class="bor" /><strong class="option_select bor bg3" id="showbtn_22"><span class="c_tx3">&#9660;</span></strong><span class="point" id="t_22"></span>
+												<!--选择框_S-->
+												<div class="option_select_frame">
+													<strong class="option_select bor bg3" id="hidebtn_22"><span class="c_tx3">&#9660;</span></strong>
+													<div class="option_select_main bor bg3"><p id="list_22"></p></div>
+												</div>
+												<!--选择框_E-->
+											</div>
+										</li>
+									</ul>
+									<h6>服饰</h6>
+									<ul>
+										<li>
+											<label>常穿的服装：</label>
+											<div id="io_23" class="interest_option">
+												<input id="txt_23" type="text" class="bor" /><strong class="option_select bor bg3" id="showbtn_23"><span class="c_tx3">&#9660;</span></strong><span class="point" id="t_23"></span>
+												<!--选择框_S-->
+												<div class="option_select_frame">
+													<strong class="option_select bor bg3" id="hidebtn_23"><span class="c_tx3">&#9660;</span></strong>
+													<div class="option_select_main bor bg3"><p id="list_23"></p></div>
+												</div>
+												<!--选择框_E-->
+											</div>
+										</li>
+										<li>
+											<label>常用的包/箱：</label>
+											<div id="io_24" class="interest_option">
+												<input id="txt_24" type="text" class="bor" /><strong class="option_select bor bg3" id="showbtn_24"><span class="c_tx3">&#9660;</span></strong><span class="point" id="t_24"></span>
+												<!--选择框_S-->
+												<div class="option_select_frame">
+													<strong class="option_select bor bg3" id="hidebtn_24"><span class="c_tx3">&#9660;</span></strong>
+													<div class="option_select_main bor bg3"><p id="list_24"></p></div>
+												</div>
+												<!--选择框_E-->
+											</div>
+										</li>
+										<li>
+											<label>常带的饰品：</label>
+											<div id="io_25" class="interest_option">
+												<input id="txt_25" type="text" class="bor" /><strong class="option_select bor bg3" id="showbtn_25"><span class="c_tx3">&#9660;</span></strong><span class="point" id="t_25"></span>
+												<!--选择框_S-->
+												<div class="option_select_frame">
+													<strong class="option_select bor bg3" id="hidebtn_25"><span class="c_tx3">&#9660;</span></strong>
+													<div class="option_select_main bor bg3"><p id="list_25"></p></div>
+												</div>
+												<!--选择框_E-->
+											</div>
+										</li>
+										<li>
+											<label>常穿的鞋子：</label>
+											<div id="io_26" class="interest_option">
+												<input id="txt_26" type="text" class="bor" /><strong class="option_select bor bg3" id="showbtn_26"><span class="c_tx3">&#9660;</span></strong><span class="point" id="t_26"></span>
+												<!--选择框_S-->
+												<div class="option_select_frame">
+													<strong class="option_select bor bg3" id="hidebtn_26"><span class="c_tx3">&#9660;</span></strong>
+													<div class="option_select_main bor bg3"><p id="list_26"></p></div>
+												</div>
+												<!--选择框_E-->
+											</div>
+										</li>
+									</ul>
+									<h6>化妆品</h6>
+									<ul>
+										<li>
+											<label>用过且喜欢的护肤品：</label>
+											<div id="io_27" class="interest_option">
+												<input id="txt_27" type="text" class="bor" /><strong class="option_select bor bg3" id="showbtn_27"><span class="c_tx3">&#9660;</span></strong><span class="point" id="t_27"></span>
+												<!--选择框_S-->
+												<div class="option_select_frame">
+													<strong class="option_select bor bg3" id="hidebtn_27"><span class="c_tx3">&#9660;</span></strong>
+													<div class="option_select_main bor bg3"><p id="list_27"></p></div>
+												</div>
+												<!--选择框_E-->
+											</div>
+										</li>
+										<li>
+											<label>用过且喜欢的彩妆：</label>
+											<div id="io_28" class="interest_option">
+												<input id="txt_28" type="text" class="bor" /><strong class="option_select bor bg3" id="showbtn_28"><span class="c_tx3">&#9660;</span></strong><span class="point" id="t_28"></span>
+												<!--选择框_S-->
+												<div class="option_select_frame">
+													<strong class="option_select bor bg3" id="hidebtn_28"><span class="c_tx3">&#9660;</span></strong>
+													<div class="option_select_main bor bg3"><p id="list_28"></p></div>
+												</div>
+												<!--选择框_E-->
+											</div>
+										</li>
+										<li>
+											<label>用过且喜欢纤体产品：</label>
+											<div id="io_29" class="interest_option">
+												<input id="txt_29" type="text" class="bor" /><strong class="option_select bor bg3" id="showbtn_29"><span class="c_tx3">&#9660;</span></strong><span class="point" id="t_29"></span>
+												<!--选择框_S-->
+												<div class="option_select_frame">
+													<strong class="option_select bor bg3" id="hidebtn_29"><span class="c_tx3">&#9660;</span></strong>
+													<div class="option_select_main bor bg3"><p id="list_29"></p></div>
+												</div>
+												<!--选择框_E-->
+											</div>
+										</li>
+										<li>
+											<label>用过且喜欢的香水：</label>
+											<div id="io_30" class="interest_option">
+												<input id="txt_30" type="text" class="bor" /><strong class="option_select bor bg3" id="showbtn_30"><span class="c_tx3">&#9660;</span></strong><span class="point" id="t_30"></span>
+												<!--选择框_S-->
+												<div class="option_select_frame">
+													<strong class="option_select bor bg3" id="hidebtn_30"><span class="c_tx3">&#9660;</span></strong>
+													<div class="option_select_main bor bg3"><p id="list_30"></p></div>
+												</div>
+												<!--选择框_E-->
+											</div>
+										</li>
+									</ul>
+								</div>
+							</div>
+							<!--单个选项 E-->
+							<!--单个选项 S-->
+							<div class="interest_item bor2">
+								<div class="interest_title" id="chkt_6">
+									<h5>旅游/度假</h5>
+									<div class="interest_op"><strong class="show_bt" id="chk_6"><span>展开</span></strong></div>
+								</div>
+								<div id="itemlist_6" class="interest_list none">
+									<ul>
+										<li>
+											<label>去过且喜欢的地方：</label>
+											<div id="io_31" class="interest_option">
+												<input id="txt_31" type="text" class="bor" /><strong class="option_select bor bg3" id="showbtn_31"><span class="c_tx3">&#9660;</span></strong><span class="point" id="t_31"></span>
+												<!--选择框_S-->
+												<div class="option_select_frame">
+													<strong class="option_select bor bg3" id="hidebtn_31"><span class="c_tx3">&#9660;</span></strong>
+													<div class="option_select_main bor bg3"><p id="list_31"></p></div>
+												</div>
+												<!--选择框_E-->
+											</div>
+										</li>
+										<li>
+											<label>想要去的地方：</label>
+											<div id="io_32" class="interest_option">
+												<input id="txt_32" type="text" class="bor" /><strong class="option_select bor bg3" id="showbtn_32"><span class="c_tx3">&#9660;</span></strong><span class="point" id="t_32"></span>
+												<!--选择框_S-->
+												<div class="option_select_frame">
+													<strong class="option_select bor bg3" id="hidebtn_32"><span class="c_tx3">&#9660;</span></strong>
+													<div class="option_select_main bor bg3"><p id="list_32"></p></div>
+												</div>
+												<!--选择框_E-->
+											</div>
+										</li>
+										<li>
+											<label>理想中的度假胜地：</label>
+											<div id="io_33" class="interest_option">
+												<input id="txt_33" type="text" class="bor" /><strong class="option_select bor bg3" id="showbtn_33"><span class="c_tx3">&#9660;</span></strong><span class="point" id="t_33"></span>
+												<!--选择框_S-->
+												<div class="option_select_frame">
+													<strong class="option_select bor bg3" id="hidebtn_33"><span class="c_tx3">&#9660;</span></strong>
+													<div class="option_select_main bor bg3"><p id="list_33"></p></div>
+												</div>
+												<!--选择框_E-->
+											</div>
+										</li>
+									</ul>
+								</div>
+							</div>
+							<!--单个选项 E-->
+							<!--单个选项 S-->
+							<div class="interest_item bor2">
+								<div class="interest_title" id="chkt_7">
+									<h5>电子游戏/网游</h5>
+									<div class="interest_op"><strong class="show_bt" id="chk_7"><span>展开</span></strong></div>
+								</div>
+								<div id="itemlist_7" class="interest_list none">
+									<ul>
+										<li>
+											<label>最喜欢的游戏类型：</label>
+											<div id="io_34" class="interest_option">
+												<input id="txt_34" type="text" class="bor" /><strong class="option_select bor bg3" id="showbtn_34"><span class="c_tx3">&#9660;</span></strong><span class="point" id="t_34"></span>
+												<!--选择框_S-->
+												<div class="option_select_frame">
+													<strong class="option_select bor bg3" id="hidebtn_34"><span class="c_tx3">&#9660;</span></strong>
+													<div class="option_select_main bor bg3"><p id="list_34"></p></div>
+												</div>
+												<!--选择框_E-->
+											</div>
+										</li>
+										<li>
+											<label>正在玩的游戏：</label>
+											<div id="io_35" class="interest_option">
+												<input id="txt_35" type="text" class="bor" /><strong class="option_select bor bg3" id="showbtn_35"><span class="c_tx3">&#9660;</span></strong><span class="point" id="t_35"></span>
+												<!--选择框_S-->
+												<div class="option_select_frame">
+													<strong class="option_select bor bg3" id="hidebtn_35"><span class="c_tx3">&#9660;</span></strong>
+													<div class="option_select_main bor bg3"><p id="list_35"></p></div>
+												</div>
+												<!--选择框_E-->
+											</div>
+										</li>
+										<li>
+											<label>玩过且喜欢的游戏：</label>
+											<div id="io_36" class="interest_option">
+												<input id="txt_36" type="text" class="bor" /><strong class="option_select bor bg3" id="showbtn_36"><span class="c_tx3">&#9660;</span></strong><span class="point" id="t_36"></span>
+												<!--选择框_S-->
+												<div class="option_select_frame">
+													<strong class="option_select bor bg3" id="hidebtn_36"><span class="c_tx3">&#9660;</span></strong>
+													<div class="option_select_main bor bg3"><p id="list_36"></p></div>
+												</div>
+												<!--选择框_E-->
+											</div>
+										</li>
+									</ul>
+								</div>
+							</div>
+							<!--单个选项 E-->
+							<!--单个选项 S-->
+							<div class="interest_item bor2">
+								<div class="interest_title" id="chkt_8">
+									<h5> 美食/快餐/饮品</h5>
+									<div class="interest_op"><strong class="show_bt" id="chk_8"><span>展开</span></strong></div>
+								</div>
+								<div id="itemlist_8" class="interest_list none">
+									<h6>美食</h6>
+									<ul>
+										<li>
+											<label>喜欢的菜系：</label>
+											<div id="io_37" class="interest_option">
+												<input id="txt_37" type="text" class="bor" /><strong class="option_select bor bg3" id="showbtn_37"><span class="c_tx3">&#9660;</span></strong><span class="point" id="t_37"></span>
+												<!--选择框_S-->
+												<div class="option_select_frame">
+													<strong class="option_select bor bg3" id="hidebtn_37"><span class="c_tx3">&#9660;</span></strong>
+													<div class="option_select_main bor bg3"><p id="list_37"></p></div>
+												</div>
+												<!--选择框_E-->
+											</div>
+										</li>
+										<li>
+											<label>喜欢吃的菜：</label>
+											<div id="io_38" class="interest_option">
+												<input id="txt_38" type="text" class="bor" /><span class="point" id="t_38"></span>
+											</div>
+										</li>
+										<li>
+											<label>最拿手的菜：</label>
+											<div id="io_39" class="interest_option">
+												<input id="txt_39" type="text" class="bor" /><span class="point" id="t_39"></span>
+											</div>
+										</li>
+										<li>
+											<label>去过且喜欢的餐馆：</label>
+											<div id="io_40" class="interest_option">
+												<input id="txt_40" type="text" class="bor" /><span class="point" id="t_40"></span>
+											</div>
+										</li>
+									</ul>
+									<h6>快餐</h6>
+									<ul>
+										<li>
+											<label>喜欢吃的快餐：</label>
+											<div id="io_41" class="interest_option">
+												<input id="txt_41" type="text" class="bor" /><span class="point" id="t_41"></span>
+											</div>
+										</li>
+									</ul>
+									<h6>快餐</h6>
+									<ul>
+										<li>
+											<label>喜欢喝的饮品：</label>
+											<div id="io_42" class="interest_option">
+												<input id="txt_42" type="text" class="bor" /><strong class="option_select bor bg3" id="showbtn_42"><span class="c_tx3">&#9660;</span></strong><span class="point" id="t_42"></span>
+												<!--选择框_S-->
+												<div class="option_select_frame">
+													<strong class="option_select bor bg3" id="hidebtn_42"><span class="c_tx3">&#9660;</span></strong>
+													<div class="option_select_main bor bg3"><p id="list_42"></p></div>
+												</div>
+												<!--选择框_E-->
+											</div>
+										</li>
+									</ul>
+								</div>
+							</div>
+							<!--单个选项 E-->
+							<!--单个选项 S-->
+							<div class="interest_item bor2">
+								<div class="interest_title" id="chkt_9">
+									<h5>情感生活/书籍</h5>
+									<div class="interest_op"><strong class="show_bt" id="chk_9"><span>展开</span></strong></div>
+								</div>
+								<div id="itemlist_9" class="interest_list none">
+									<h6>情感</h6>
+									<ul>
+										<li>
+											<label>目前的情感状态：</label>
+											<div class="interest_option">
+												<select id="txt_43">
+													<option value="" selected="selected">请选择</option>
+												</select>
+												<span class="point none" ><strong>0</strong>/12</span>
+											</div>
+										</li>
+									</ul>
+									<h6>书籍</h6>
+									<ul>
+										<li>
+											<label>喜欢的文章类型：</label>
+											<div id="io_44" class="interest_option">
+												<input id="txt_44" type="text" class="bor" /><strong class="option_select bor bg3" id="showbtn_44"><span class="c_tx3">&#9660;</span></strong><span class="point" id="t_44"></span>
+												<!--选择框_S-->
+												<div class="option_select_frame">
+													<strong class="option_select bor bg3" id="hidebtn_44"><span class="c_tx3">&#9660;</span></strong>
+													<div class="option_select_main bor bg3"><p id="list_44"></p></div>
+												</div>
+												<!--选择框_E-->
+											</div>
+										</li>
+										<li>
+											<label>读过且喜欢的书：</label>
+											<div id="io_45" class="interest_option">
+												<input id="txt_45" type="text" class="bor" /><span class="point" id="t_45"></span>
+											</div>
+										</li>
+										<li>
+											<label> 喜欢的作家：</label>
+											<div id="io_46" class="interest_option">
+												<input id="txt_46" type="text" class="bor" /><span class="point" id="t_46"></span>
+											</div>
+										</li>
+									</ul>
+									<h6>杂志</h6>
+									<ul>
+										<li>
+											<label>常读的杂志：</label>
+											<div id="io_47" class="interest_option">
+												<input id="txt_47" type="text" class="bor" /><strong class="option_select bor bg3" id="showbtn_47"><span class="c_tx3">&#9660;</span></strong><span class="point" id="t_47"></span>
+												<!--选择框_S-->
+												<div class="option_select_frame">
+													<strong class="option_select bor bg3" id="hidebtn_47"><span class="c_tx3">&#9660;</span></strong>
+													<div class="option_select_main bor bg3"><p id="list_47"></p></div>
+												</div>
+												<!--选择框_E-->
+											</div>
+										</li>
+									</ul>
+								</div>
+							</div>
+							<!--单个选项 E-->	
+							<!--单个选项 S-->
+							<div class="interest_item bor2">
+								<div class="interest_title" id="chkt_10">
+									<h5>宠物/亲子</h5>
+									<div class="interest_op"><strong class="show_bt" id="chk_10"><span>展开</span></strong></div>
+								</div>
+								<div id="itemlist_10" class="interest_list none">
+									<h6>宠物</h6>
+									<ul>
+										<li>
+											<label>养的宠物品种：</label>
+											<div id="io_48" class="interest_option">
+												<input id="txt_48" type="text" class="bor" /><span class="point" id="t_48"></span>
+											</div>
+										</li>
+									</ul>
+									<h6>亲子</h6>
+									<ul>
+										<li>
+											<label>喜欢的奶粉品牌：</label>
+											<div id="io_49" class="interest_option">
+												<input id="txt_49" type="text" class="bor" /><strong class="option_select bor bg3" id="showbtn_49"><span class="c_tx3">&#9660;</span></strong><span class="point" id="t_49"></span>
+												<!--选择框_S-->
+												<div class="option_select_frame">
+													<strong class="option_select bor bg3" id="hidebtn_49"><span class="c_tx3">&#9660;</span></strong>
+													<div class="option_select_main bor bg3"><p id="list_49"></p></div>
+												</div>
+												<!--选择框_E-->
+											</div>
+										</li>
+										<li>
+											<label>喜欢的婴儿用品品牌：</label>
+											<div id="io_50" class="interest_option">
+												<input id="txt_50" type="text" class="bor" /><strong class="option_select bor bg3" id="showbtn_50"><span class="c_tx3">&#9660;</span></strong><span class="point" id="t_50"></span>
+												<!--选择框_S-->
+												<div class="option_select_frame">
+													<strong class="option_select bor bg3" id="hidebtn_50"><span class="c_tx3">&#9660;</span></strong>
+													<div class="option_select_main bor bg3"><p id="list_50"></p></div>
+												</div>
+												<!--选择框_E-->
+											</div>
+										</li>
+									</ul>
+								</div>
+							</div>
+							<!--单个选项 E-->		
+							<!--单个选项 S-->
+							<div class="interest_item bor2">
+								<div class="interest_title" id="chkt_11">
+									<h5>体育/户外/健身</h5>
+									<div class="interest_op"><strong class="show_bt" id="chk_11"><span>展开</span></strong></div>
+								</div>
+								<div id="itemlist_11" class="interest_list none">
+									<ul>
+										<li>
+											<label>喜欢的运动项目：</label>
+											<div id="io_51" class="interest_option">
+												<input id="txt_51" type="text" class="bor" /><strong class="option_select bor bg3" id="showbtn_51"><span class="c_tx3">&#9660;</span></strong><span class="point" id="t_51"></span>
+												<!--选择框_S-->
+												<div class="option_select_frame">
+													<strong class="option_select bor bg3" id="hidebtn_51"><span class="c_tx3">&#9660;</span></strong>
+													<div class="option_select_main bor bg3"><p id="list_51"></p></div>
+												</div>
+												<!--选择框_E-->
+											</div>
+										</li>
+										<li>
+											<label>擅长的运动项目：</label>
+											<div id="io_52" class="interest_option">
+												<input id="txt_52" type="text" class="bor" /><strong class="option_select bor bg3" id="showbtn_52"><span class="c_tx3">&#9660;</span></strong><span class="point" id="t_52"></span>
+												<!--选择框_S-->
+												<div class="option_select_frame">
+													<strong class="option_select bor bg3" id="hidebtn_52"><span class="c_tx3">&#9660;</span></strong>
+													<div class="option_select_main bor bg3"><p id="list_52"></p></div>
+												</div>
+												<!--选择框_E-->
+											</div>
+										</li>
+										<li>
+											<label>常用的运动品品牌：</label>
+											<div id="io_53" class="interest_option">
+												<input id="txt_53" type="text" class="bor" /><strong class="option_select bor bg3" id="showbtn_53"><span class="c_tx3">&#9660;</span></strong><span class="point" id="t_53"></span>
+												<!--选择框_S-->
+												<div class="option_select_frame">
+													<strong class="option_select bor bg3" id="hidebtn_53"><span class="c_tx3">&#9660;</span></strong>
+													<div class="option_select_main bor bg3"><p id="list_53"></p></div>
+												</div>
+												<!--选择框_E-->
+											</div>
+										</li>
+										<li>
+											<label>喜欢的体育明星：</label>
+											<div id="io_54" class="interest_option">
+												<input id="txt_54" type="text" class="bor" /><span class="point" id="t_54"></span>
+											</div>
+										</li>
+									</ul>
+								</div>
+							</div>
+							<!--单个选项 E-->									
+							<div class="operate"><button class="bt_tx2" id="favor_save">保存</button></div>
+						</div>
+						<!--我的爱好_E-->
+						
+						
+						<!--空间资料_S-->
+						<div id="space_info" class="qzone_material none">
+							<div class="setup_title bor"><h4>空间资料</h4></div>
+							<h5>空间名称：</h5>
+							<p><input type="text" id="space_name_txt" class="textinput" onfocus="this.className='textinput input_focus'" onblur="this.className='textinput'" /><span class="point" id="space_name_txt_count"></span></p>								
+											<div class="hint" style="width:440px;display:none" id="cert_hint_2">
+												<strong class="icon_hint"><span>提示</span></strong>
+												<span>您好，尊敬的认证空间用户：认证空间统一使用“<a href="//user.qzone.qq.com/proxy/domain/qzs.qq.com/qzone/v6/setting/profile/profile.html?tab=base">基本资料</a>”中的“昵称”作为空间名称；如有疑问，请拨打客服电话：0755-83763333或联系客服QQ：800030681。</span>
+											</div>
+							
+							<h5>空间说明：</h5>
+							<p><textarea class="textinput" id="space_desc_txt" onfocus="this.className='textinput input_focus'" onblur="this.className='textinput'"></textarea><span class="point" id="space_desc_txt_count"></span></p>
+							<!-- <h5>签名档：<span id="showNewSignEntry"><a href="javascript:void(0);" class="c_tx" onclick="jumpToNewSignPage();return false;">全新动态签名档，抢先体验</a><i class="ico_hot"></i></span></h5> -->
+							<div id="action-hint" class="hint none">
+								<strong class="icon_hint"><span>提示</span></strong>
+								<span>很抱歉，您签名档暂不支持添加图片或超链接，建议您多丰富空间内容与资料!</span>
+							</div>
+							<div class="editor_frame" id="editorContainer">
+								<p id="loading-tips">编辑器初始化中...</p>
+							</div>
+							<div class="operate"><button id="space_save" class="bt_tx2">保存</button></div>
+						</div>
+						<!--空间资料_E-->
+						
+						<!--头像形象_S-->
+						<!--new-->
+						<div id="icon_info" class="page_padding page_profile none">
+							<div class="setup_main edit_avatar">
+								<!-- 顶部tab -->
+								<div class="mod_tab icon_area" id="mod_tab_nav">
+									<div class="mode_menu_tag2">
+										<ul>
+											<li class="nowtag"><a href="javascript:;"><strong>修改头像</strong></a></li>
+<!--											<li><a href="javascript:" onclick="TOP.TCISD&&TOP.TCISD.hotClick('xingxiang.tab','uinfo.qzone.qq.com');switchEditTab(7);return false;">修改形象</a></li>-->
+										</ul>
+									</div>
+								</div>
+								<div class="mod_breadcrumb none icon_hat_area" style="margin-bottom:10px;">
+									<a href="javascript:;" onclick="TOP.TCISD&&TOP.TCISD.hotClick('goback_to_protrait','uinfo.qzone.qq.com');switchIconTab(1);return false;">修改头像</a> &gt; <span>编辑头像装饰</span>
+								</div>
+								<!-- 头像/形象预览 -->
+								<div class="profile_preview">
+									<div class="bg2 profile_preview_inner">
+										<div class="avatar_big has_hat"><!-- 无帽子时，去掉has_hat -->
+											<a href="javascript:;" title="" class="avatar bor2"><img src="/qzone_v4/client/userinfo_icon/5001.gif" id="user_icon" alt=""></a>
+											<a class="hat" href="javascript:;" onclick="TOP.TCISD&&TOP.TCISD.hotClick('edit.deroation2','uinfo.qzone.qq.com');switchIconTab(4);return false;"><img id="user_deco" alt="" style="display:none;"></a>
+											<span class="c_tx3 icon_area">大头像</span>
+											<span class="c_tx3 icon_hat_area">头像预览</span>
+										</div>
+										<div class="avatar_medium icon_area">
+											<a href="javascript:;" title="中头像" class="avatar"><img id="user_icon_m" alt=""></a>
+											<span class="c_tx3">中头像</span>
+										</div><!-- .avatar_medium -->
+										<div class="avatar_mini icon_area">
+											<a href="javascript:;" title="小头像" class="avatar"><img id="user_icon_s" alt="小头像"></a>
+											<span class="c_tx3">小头像</span>
+										</div><!-- .avatar_mini -->
+									</div><!-- .bg2 -->
+								</div><!-- .profile_preview -->
+								<!--帽子装饰页面-->
+								<div class="profile_iframe none icon_hat_area">
+										<iframe id="avatar_hat_frame" style="width:100%;height:560px;border:0 none;overflow:hidden;" allowTransparency="true" frameborder="0" scrolling="no"></iframe>
+								</div>
+								<!--帽子装饰页面end-->
+								<!-- 修改头像、形象 -->
+								<div class="profile_modify icon_area">
+									<div class="upload_image">
+										<p class="p_btn"><a id="edit_icon_btn" href="javascript:;" class="btn_huge bg6 c_tx6">选择照片</a></p>
+										<p class="c_tx3">仅支持JPG、JPEG、PNG格式（2M以下）</p>
+										<p><i class="ico_vip"></i><span class="c_tx4">黄钻</span>支持GIF格式（100x100像素以内，25KB以下），<a id="aGIFIconOpenVIP" target="_blank" class="none" href="http://pay.qq.com/qzone/index.shtml?ch=self&aid=img.pf">开通黄钻&gt;&gt;</a><a id="aUploadGIFIcon" class="none" href="javascript:;">上传gif头像</a></p>
+									</div>
+
+									<div class="choose_image" style="display:none;">
+										<p><strong>你还可以使用：</strong></p>
+										<ul>
+											<li style="display:none">
+												<a href="javascript:;" title="" class="avatar bor3"><img  id="aQQAvatar" alt=""></a>
+												<span>QQ头像</span>
+											</li>
+											<li style="display:none">
+												<a href="javascript:;" title="" class="avatar bor3"><img id="aCampusAvatar" alt=""></a>
+												<span>朋友头像</span>
+											</li>
+											<li style="display:none">
+												<a href="javascript:;" title="" class="avatar bor3"><img id="aMblogheadAvatar" alt=""></a>
+												<span>微博头像</span>
+											</li>
+											<li>
+												<a href="javascript:;" title="" class="avatar bor3"><img id="user_avatar_qqshow_little" alt=""></a>
+												<span>QQ真脸秀</span>
+											</li>
+											<li>
+												<a href="javascript:;" title="" class="avatar bor3"><img id="user_avatar_little" alt=""></a>
+												<span>当前形象</span>
+											</li>
+										</ul>
+									</div><!-- .choose_image -->
+									<!--<div class="avatar_history">
+										<p><a href="">收起历史头像</a></p>
+										<ul>
+											<li><a href="##" title="" class="avatar"><img src="http://getimg.in/30x30" alt=""></a></li>
+											<li><a href="##" title="" class="avatar"><img src="http://getimg.in/30x30" alt=""></a></li>
+											<li><a href="##" title="" class="avatar"><img src="http://getimg.in/30x30" alt=""></a></li>
+											<li><a href="##" title="" class="avatar"><img src="http://getimg.in/30x30" alt=""></a></li>
+										</ul>
+									</div>--><!-- .avatar_history -->
+								</div><!-- .profile_modify -->
+							</div><!-- .setup_main  -->
+							<!--修改形象-->
+							<div class="setup_main edit_image none">
+								<!-- 顶部tab -->
+								<div class="mod_tab">
+									<div class="mode_menu_tag2">
+										<ul>
+											<li><a href="javascript:;" onclick="TOP.TCISD&&TOP.TCISD.hotClick('protrait.tab','uinfo.qzone.qq.com');switchEditTab(6);return false;"><strong>修改头像</strong></a></li>
+<!--											<li class="nowtag"><a href="javascript:;">修改形象</a></li>-->
+										</ul>
+									</div>
+								</div>
+
+								<!-- 头像/形象预览 -->
+								<div class="profile_preview">
+									<div class="bg2 profile_preview_inner">
+										<div class="figure">
+											<a href="javascript:;" title=""><img id="user_avatar" src="//qzonestyle.gtimg.cn/qzonestyle/qzone_client_v5/img/index_figure_owner.jpg" alt=""></a>
+										</div><!-- .figure -->
+										<div id="qqshow_viewer" style="width:144px;height:226px;" class="figure none"></div>
+									</div><!-- .bg2 -->
+								</div><!-- .profile_preview -->
+
+								<!-- 修改头像、形象 -->
+								<div class="profile_modify">
+									<div class="upload_image">
+										<p class="p_btn"><a id="edit_avatar_btn" href="javascript:;" class="btn_huge bg6 c_tx6">选择照片</a></p>
+										<p class="c_tx3">仅支持JPG、JPEG、PNG格式（2M以下）</p>
+									</div>
+
+									<div class="choose_image" style="display:none;">
+										<p><strong>你还可以使用：</strong></p>
+										<ul>
+											<li style="display:none;">
+												<a href="javascript:;" title="" class="avatar bor3"><img id="img_cur_icon_little" alt=""></a>
+												<span>当前头像</span>
+											</li>
+											<li>
+												<a href="javascript:;" title="" class="avatar bor3"><img id="img_qqshow_little"alt=""></a>
+												<span>QQ秀形象</span>
+											</li>
+										</ul>
+									</div><!-- .choose_image -->
+
+								</div><!-- .profile_modify -->
+							</div>
+							<!--修改形象end-->
+						</div>
+						<div id="icon_info_backup" class="none">
+						    <div class="profile_avatar"><!--制作头像-->
+                                <div class="setup_title bbor icon_area"><h4>制作头像</h4></div>
+                                <div class="setup_title bbor none icon_hat_area"><h4>添加头像装饰<sub class="c_tx3">点击以下装饰可预览效果</sub></h4><a href="javascript:;" class="right" onclick="switchIconTab(1);return false;">&lt;&lt; 返回制作头像</a></div>
+                                <div class="setup_main">
+                                    <div class="avatar_op icon_area">
+                                        <ul>
+                                            <li class="bbor2">
+                                                <h5>照片头像</h5>
+                                                <p class="c_tx3">选择本地的照片作为真实头像，进行丰富的个性编辑</p>
+                                                <div class="op_button">
+                                                    <a id="edit_icon_btn1" href="javascript:;" class="bg6 c_tx6">选择照片</a>
+                                                </div>
+                                            </li>
+                                            <li class="bbor2">
+                                                <h5>QQ秀头像</h5>
+                                                <p class="c_tx3">制作QQ真脸秀，定制专属个性真实头像</p>
+                                                <div class="op_button">
+                                                    <a id="qii_btn" href="javascript:;" class="bg6 c_tx6">开始制作</a>
+                                                </div>
+                                            </li>
+                                            <li class="bbor2">
+                                                <h5>动态头像<sup><b class="ico_vip"></b><span class="c_tx3">黄钻特权</span></sup></h5>
+                                                <p class="c_tx3">黄钻贵族更享有上传动态头像的特权，让你更炫更闪耀</p>
+                                                <div class="op_button">
+                                                    <a id="make_gifavatar" href="javascript:;" class="bg6 c_tx6">选择动态图片</a>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="avatar_op none icon_hat_area">
+                                        <div class="avatar_hat_wrapper" style="z-index:1;overflow:hidden;">
+                                            <iframe id="avatar_hat_frame" style="width:100%;height:560px;border:0 none;overflow:hidden;" allowTransparency="true" frameborder="0" scrolling="no"></iframe>
+                                        </div>
+                                        <div class="operate">
+                                            <a href="javascript:;" id="p_hat_save" class="bg6 c_tx6" onclick="Profile.Icon.Hat.save();return false;">保存</a>
+                                            <a href="javascript:;" onclick="Profile.Icon.Hat.reset();return false;" class="bg6 c_tx6">取消</a>
+                                        </div>
+                                    </div>
+                                    <div class="avatar_show">
+                                        <div class="avatar_holder">
+                                            <img id="user_icon1" src="/qzone_v4/client/userinfo_icon/5001.gif" alt="我的头像" />
+                                            <a class="hat" href="javascript:;"><img id="user_deco1" alt="" style="display:none;" /></a>
+                                        </div>
+                                        <div class="icon_area">
+                                            <p class="c_tx3 pic_size">100x100像素大小</p>
+                                            <p class="button"><a href="javascript:;" class="bg6 c_tx6" onclick="switchIconTab(4);return false;">添加头像装饰</a></p>
+                                        </div>
+                                        <p class="show_hat_txt c_tx3 none icon_hat_area">头像预览</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="profile_avatar icon_area"><!--制作形象-->
+                                <div class="setup_title bbor"><h4>制作形象</h4></div>
+                                <div class="setup_main">
+                                    <div class="avatar_op">
+                                        <ul>
+                                            <li class="bbor2">
+                                                <h5>照片形象</h5>
+                                                <p class="c_tx3">选择本地的照片作为真实形像</p>
+                                                <div class="op_button">
+                                                    <a id="edit_avatar_btn1" href="javascript:;" class="bg6 c_tx6">选择照片</a>
+                                                </div>
+                                            </li>
+                                            <li class="bbor2">
+                                                <h5>QQ秀形象<sup><a target="_blank" href="http://show.qq.com" title="QQ秀商城">去QQ秀商城换新装</a></sup></h5>
+                                                <p class="c_tx3">通过QQ秀虚拟形象功能定制专属你自己的个性形像</p>
+                                                <div class="op_button">
+                                                    <a id="qqshow_btn" href="javascript:;" class="bg6 c_tx6">使用QQ秀形象</a>
+                                                </div>
+                                            </li>
+                                            <li class="bbor2">
+                                                <h5>大头贴形象<sup><b class="ico_vip"></b><span class="c_tx3">黄钻特权</span></sup></h5>
+                                                <p class="c_tx3">拥有大头贴一般的头像闪亮效果</p>
+                                                <div class="op_button">
+                                                    <a id="make_bighead1" href="javascript:;" class="bg6 c_tx6">制作大头贴</a>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="avatar_show">
+                                        <img id="user_avatar1" src="//qzonestyle.gtimg.cn/qzonestyle/qzone_client_v5/img/index_figure_owner.jpg" alt="我的形象" />
+                                        <div id="qqshow_viewer1" class="none"></div>
+                                        <p class="c_tx3 pic_size">144x226像素大小</p>
+                                    </div>
+                                </div>
+                            </div>
+						</div>
+						<!--new-->
+						<!--头像形象_E-->
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript" src="//qzonestyle.gtimg.cn/qzone/v6/setting/scripts/menu.js"></script>
+<script type="text/javascript" src="//qzonestyle.gtimg.cn/qzone/v6/setting/profile/scripts/profile.js"></script>
+</body>
+</html>

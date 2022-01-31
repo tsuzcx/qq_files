@@ -1,0 +1,172 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>搜索 - QQ空间</title>
+<script type="text/javascript">
+    document.domain = "qq.com";
+    g_sid = parent.siDomain || parent.parent.siDomain || "qzonestyle.gtimg.cn";
+    g_imgd = parent.imgcacheDomain || parent.parent.siDomain || "imgcache.qq.com";
+    var _jsBegin = '<script type="text/javascript" charset="utf-8" src="',
+            _jsEnd = '"></sc' + 'ript>',
+            cssBegin = '<link rel="stylesheet" rev="stylesheet" href="',
+            cssEnd = '" type="text/css" media="screen"/>';
+    var ver = top.g_V || {};
+    window.g_V = {};
+    g_V.qz = "_2.1.40";
+    g_V.sea = "2.1.1";
+    ver.qz = ver.qz || "_2.1.40";
+    ver.sea = ver.sea || "2.3.0";
+    var QZONE = {};
+
+    document.write([
+        '<link rel="stylesheet" rev="stylesheet" href="//' + g_sid + '/aoi/skin/35.css"  type="text/css" media="screen" />',
+        '<link rel="stylesheet" rev="stylesheet" href="//' + g_sid + '/aoi/search-v4.css"  type="text/css" media="screen" />',
+        _jsBegin, '//' + g_sid + '/ac/qzone/qzfl/qzfl', ver.qz, ".js", _jsEnd,
+        _jsBegin, '//' + g_sid + '/ac/lib/seajs/sea-', ver.sea, ".js", _jsEnd,
+        _jsBegin, '//' + g_sid + '/qzone/v8/core/seajs_config.js', _jsEnd
+    ].join(""));
+</script>
+</head>
+<body>
+    <div class='search-v4'>
+        <div class='search-wrap'>
+            <div class='search-area'>
+                <div class='search-operate'>
+                    <input type='text' class='search-input'>
+                    <a class='search-btn' href='javascript:;'>搜索</a>
+                </div>
+            </div>
+            <div class='search-detail'>
+                <div class='main-content'>
+                    <div class='search-nav'>
+                        <ul class='search-type-list'>
+                            <li class='search-type-li tab-user'>
+                                <a href='javascript:;' class='search-type'>用户</a>
+                            </li>
+                            <li class='search-type-li tab-feed'>
+                                <a href='javascript:;' class='search-type'>动态</a>
+                            </li>
+                            <li class="search-only-fri" style="display:none">
+                                <input type="checkbox" id="check-only-fri">
+                                <label for="check-only-fri">仅好友</label>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class='search-condition' style="display:none">
+                        <!--ul class='search-condition-list'>
+                            <li class='search-condition-item'>
+                                <a href='javascript:;' class='cur-condition sex'>
+                                    <span class='text'>性别不限</span><i class='icon icon-triangle'></i>
+                                </a>
+                                <div class='condition-select' style="display:none">
+                                    <ul class='condition-select-list'>
+                                        <li class='condition-select-item'>
+                                            <a href='javascript:;' class='condition-select-href'>性别不限</a>
+                                        </li>
+                                        <li class='condition-select-item'>
+                                            <a href='javascript:;' class='condition-select-href'>男</a>
+                                        </li>
+                                        <li class='condition-select-item'>
+                                            <a href='javascript:;' class='condition-select-href'>女</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li class='search-condition-item'>
+                                <a href='javascript:;' class='cur-condition age'>
+                                    <span class='text'>年龄不限</span><i class='icon icon-triangle'></i>
+                                </a>
+                                <div class='condition-select' style="display:none">
+                                    <ul class='condition-select-list'>
+                                        <li class='condition-select-item'>
+                                            <a href='javascript:;' class='condition-select-href'>年龄不限</a>
+                                        </li>
+                                        <li class='condition-select-item'>
+                                            <a href='javascript:;' class='condition-select-href'>12岁以下</a>
+                                        </li>
+                                        <li class='condition-select-item'>
+                                            <a href='javascript:;' class='condition-select-href'>12～17岁</a>
+                                        </li>
+                                        <li class='condition-select-item'>
+                                            <a href='javascript:;' class='condition-select-href'>18～22岁</a>
+                                        </li>
+                                        <li class='condition-select-item'>
+                                            <a href='javascript:;' class='condition-select-href'>23～27岁</a>
+                                        </li>
+                                        <li class='condition-select-item'>
+                                            <a href='javascript:;' class='condition-select-href'>28～35岁</a>
+                                        </li>
+                                        <li class='condition-select-item'>
+                                            <a href='javascript:;' class='condition-select-href'>36～45岁</a>
+                                        </li>
+                                        <li class='condition-select-item'>
+                                            <a href='javascript:;' class='condition-select-href'>45岁以上</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li class='search-condition-item'>
+                                <a href='javascript:;' class='cur-condition province'>
+                                    <span class='text'>省份不限</span><i class='icon icon-triangle'></i>
+                                </a>
+                                <div class='condition-select' style="display:none">
+                                    <ul class='condition-select-list province'>
+                                        <li class='condition-select-item'>
+                                            <a href='javascript:;' class='condition-select-href'>省份不限</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li class='search-condition-item'>
+                                <a href='javascript:;' class='cur-condition city cur-condition-disabled'>
+                                    <span class='text'>城市不限</span><i class='icon icon-triangle'></i>
+                                </a>
+                                <div class='condition-select' style="display:none">
+                                    <ul class='condition-select-list city'>
+                                        <li class='condition-select-item'>
+                                            <a href='javascript:;' class='condition-select-href'>城市不限</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                        </ul-->
+                    </div>
+                    <div class='search-detail-wrap'>
+                        <div id='user_container' class='search-users'>
+                            <ul class="search-user-list"></ul>
+                            <div class="search-error" style="display:none">
+                                <div class="search-no">
+                                    <img src="../../../aoi/img/search/search-no.png">
+                                    <p>抱歉，未搜到与“<span class="search-words"></span>”匹配的结果，</p>
+                                    <p>建议您简化输入词语 或 使用其他相关词语。</p>
+                                </div>
+                            </div>
+                            <div class="search-detail-tips">
+                                <p class="search-detail-p data_is_loading" style="display:none">数据加载中，请稍候...</p>
+                                <p class="search-detail-p data_no_more" style="display:none">没有更多用户</p>
+                            </div>
+                        </div>
+                        <div id='feed_container' class='search-feed'>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="slide-content">
+                    <div class="qbox-wrap" style="display:none">
+                        <a class="qbox-href" target="_blank" href="#">
+                            <img src="#">
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript">
+    seajs.use('v8/qzonesoso/search.js', function(search){
+        search.bootstrap();
+    });
+</script>
+</html>

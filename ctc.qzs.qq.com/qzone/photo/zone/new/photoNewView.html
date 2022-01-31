@@ -1,0 +1,667 @@
+<!doctype html>
+<html class="os_win7">
+<!--[if IE 6]>
+	<html class="os_win7" xmlns:v="urn:schemas-microsoft-com:vml">
+<![endif]-->
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<script>if(/pengyou\.com$/.test(location.hostname)){
+	document.domain = 'pengyou.com';
+}else if(/qzone\.qq\.com$/.test(location.hostname)){
+	document.domain = 'qzone.qq.com';
+}else if(/qzone\.com$/.test(location.hostname)){
+	document.domain = 'qzone.com';
+}else{
+	document.domain = 'qq.com';
+}</script>
+<script>
+//PSY
+var PSY = {
+	loadTimes :{startLoad:+new Date()},
+	_domains:{},
+	_photoVersionV7: top.g_photoVersionV7 || frameElement.g_photoVersionV7,
+	_photoVersionMap: top.g_photoVersionMap || frameElement.g_photoVersionMap
+};
+if(top.QZONE){
+	PSY._domains.imgcache = top.QZONE.FP._t.siDomain;
+	PSY._domains.main = 'user.qzone.qq.com';
+	PSY._domains.qzfl = top.QZONE.FP._t.imgcacheDomain;
+	PSY._qzflVersion = top.QZONE.FP._t.g_V.qz || '_2.1.34';
+	PSY._interfaceVersion = top.QZONE.FP._t.g_V.ci;
+	window.imgcacheDomain = PSY._domains.qzfl;
+	window.siDomain = PSY._domains.imgcache;
+	window.qlogoDomain = 'store.qq.com';
+}else{
+	PSY._domains.imgcache = 'qzonestyle.gtimg.cn';
+	PSY._domains.main = 'user.qzone.qq.com';
+	PSY._domains.qzfl = 'qzs.qq.com';
+	PSY._qzflVersion = '_2.1.34';
+	PSY._interfaceVersion = '_20131113';
+	window.imgcacheDomain = PSY._domains.qzfl;
+	window.siDomain = PSY._domains.imgcache;
+	window.qlogoDomain = 'store.qq.com';	
+}
+</script>
+<script>
+if (frameElement.g_isDetailNew){
+	location.href = '/qzone/photo/zone/new/photoDetail.html' + location.hash;
+}
+</script>
+<title>相册 | 查看大图页</title>
+<style>
+	.author-display {display:none !important;}
+	.visitor-display {display:none !important;}
+	.qzone-display {display:none;}
+	.left-img{
+		cursor : url(/qzone/client/photo/cursor/pre.cur?max_age=20111010),auto;
+	}
+	.right-img{
+		cursor : url(/qzone/client/photo/cursor/next.cur?max_age=20111010),auto;
+	}
+	.gb_friend_selector {width:200px;}
+	.abs_none{ display:none;}
+
+	/*滚动条*/
+	.js-scrolling-inner{
+		background-color:#c9c9c9;
+	}
+	a:hover .js-scrolling-inner,a:active .js-scrolling-inner{
+		background-color:#a8a8a8;
+	}
+</style>
+<!--<link rel="stylesheet" rev="stylesheet" href="../css/v6/photo_v3.source.css" type="text/css" media="screen" />
+<link rel="stylesheet" rev="stylesheet" href="http://qzonestyle.gtimg.cn/qzone_v6/gb/skin/50.css" type="text/css" media="screen" />
+<link rel="stylesheet" rev="stylesheet" href="/qzonestyle/qzone_client_v5/css/gb_app_v2.css?ver=2.css" type="text/css" media="screen" />-->
+<script>
+document.write([
+	'\<link rel="stylesheet" rev="stylesheet" href="' + frameElement.g_photoCssV3Url + '" type="text/css" media="screen" \/\>',
+	'\<link rel="stylesheet" rev="stylesheet" href="http://' + parent.siDomain + '/qzone_v6/photo_pop_copylink.css" type="text/css" media="screen" \/\>',
+	(frameElement.g_pyStyleUrl ? //pengyou modify
+		'\<link rel="stylesheet" rev="stylesheet" href="' + frameElement.g_pyStyleUrl + '" type="text/css" media="screen" id="g_style" \/\>' :
+		('\<link rel="stylesheet" rev="stylesheet" href="http://' + parent.siDomain + '/qzone_v6/photo_pop_photolink.css" type="text/css" media="screen" \/\>' + '\<link rel="stylesheet" rev="stylesheet" href="' + frameElement.g_styleUrl + '" type="text/css" media="screen" id="g_style" \/\>' ))
+].join(""));
+</script>
+<!--[if IE 6]>
+<script type="text/javascript">
+// <![CDATA[
+        try{
+	      document.execCommand("BackgroundImageCache", false, true);
+	    }
+	   catch(e){}
+// ]]>
+</script>
+<![endif]-->
+</head>
+<body onclick="myView.callExt('hideMak');">
+<script>
+if (parent.QZONE.FrontPage.isInPengyou && parent.QZONE.FrontPage.isInPengyou()) {
+	document.write([
+		'\<div style="font-size:14px; line-height:20px; margin:1px 0 7px 25px; position:relative;"\>',
+			'\<a href="http://profile.pengyou.com/index.php?mod=profile&u=' + parent.g_iUin + '" class="c_tx" target="_parent"\>' + parent.QZONE.FP.getNickname() + '\<\/a\>\<span style="margin:0 5px;"\>-\<\/span\>\<span\>相册\<\/span\>',
+		'\<\/div\>'
+	].join(''));
+}
+</script>
+<div class="mod_wrap">
+	<div class="mod_wrap_inner">
+		<div class="mod_wrap_hd">
+			<div class="clear photo_header">
+                <p class="l">
+                    <a id="album_link" onclick="myView.tcisdStats('goto_myablum');go('albumList.html');return false;" href="/qzone/photo/zone/new/albumList.html" class="c_tx js_unbind_hideinpy">我的相册</a><span class="line js_unbind_hideinpy">&gt;</span><a id="album_name" onclick="myView.tcisdStats('goto_ablum');myView.goPhotoList();return false;" class="c_tx js_unbind_hideinpy" href="javascript:void(0);">...</a><span class="line js_unbind_hideinpy">&gt;</span><strong id="photo_name">...</strong>
+                    <span class="line" id="pageIndexInfo">(<span class="c_tx4">.</span>/.)</span>
+                </p>
+                <!--
+                <p class="r qzone-display" id="view_photo_type">
+                    查看方式： <span class="current">普通</span> <a class="c_tx" id="wall_view_href" href="javascript:void(0);" onclick="myView.tcisdStats('photowall_view');myView.photoWall();return false;" title="照片墙模式">照片墙</a> <a class="c_tx" id="slide" href="javascript:void(0);" onclick="myView.tcisdStats('slide_view');myView.slide();return false;" title="幻灯片模式">幻灯片</a> <a onclick="myView.tcisdStats('personality_view');myView.callExt('enterPerAlbum');return false;" id="personal_album" title="个性相册模式" class="c_tx" href="javascript:void(0);" title="个性相册">个性相册</a>
+                </p>
+                -->
+            </div>
+		</div>
+		<div class="mod_wrap_bd">
+            <!--相册 S-->
+            <div class="photo_v3 page_single" id="app_mod">
+
+               <!-- 缩略图导航 -->
+                <div class="clear photo_thumbnailist" id="pre_view_loop">
+                </div>
+				
+				
+				<div id="rota_tips" class="photo_notice js_unbind_hideinpy" style="display:none" onclick="QZFL.event.cancelBubble();">
+					<div class="clear bd">
+						<p class="txt">提示：旋转后请点击“保存”。</p>
+						<p class="op">
+							<input style="display:none" type="checkbox" id="SaveAndDelThePhoto" name="SaveAndDelThePhoto" class="g_intcheckbox" checked="checked" />
+							<label style="display:none" for="SaveAndDelThePhoto">保存时删除原始照片、评论及圈人信息</label>
+							<label style="display:none" id="SaveAndDelThePhotoTips" >旋转后，圈人信息将不能保留</label> 
+							<button type="button" class="bg_img sub" onclick="myView.callExt('rotateSave');">保存</button>
+							<button type="button" class="bg_img" onclick="myView.callExt('rotateCancel');">取消</button>
+						</p>
+					</div>
+				</div>
+				<div id="rotate_flash" style="width:1px;height:1px;position:absolute;top:1;left:1;" class="js_unbind_hideinpy"></div>
+
+                <div class="clear photo_layout">
+                    <div class="photo_layout_section">
+						
+                        <div class="photo_single" id="photo_container">
+                            <p id="photo_view" class="bor3 bg3 photo_single_img" ></p>
+							
+                            <p class="photo_single_op photo_single_op_current js_unbind_hideinpy">
+                                <a class="author-display" href="javascript:void(0);" onclick="myView.tcisdStats('operationbar.left_rotate',true);myView.callExt('rotatePhotoWithFlash',['left']);return false;" title="左旋">左旋</a> <a class="author-display" href="javascript:void(0);" onclick="myView.tcisdStats('operationbar.right_rotate',true);myView.callExt('rotatePhotoWithFlash',['right']);return false;" title="右旋">右旋</a> <span id="origin_line" class="line qzone-display author-display">|</span> <a id="origin_url" class="qzone-display" onclick="QPHOTO.report.pv(2,4);" title="高清图">高清图</a>
+                            </p>		
+                        	<p id="smartTip" class="photo_single_hd" style="display:none;"><i class="icon icon-prompt"></i>提醒：当前图片可能比较模糊,请<a id="smartTip_btn" href="javascript:void(0);" title="">点此查看清晰图片</a>，或使用<a id="qq_browser_btn" href="javascript:void(0);">QQ浏览器</a>查看</p>
+                        </div>
+                        
+                        <div class="photo_comment" id="photo_comment" style="display:none">
+                           <!--div class="bor3 hd" >
+                                <h3>照片评论</h3> <span id="cmt_total"></span>
+                                
+                            </div-->
+                            <div class="bor3 hd js_unbind_hideinpy" id="ops_bar">
+							</div>
+							<div class="mod_like" id="like_tip"></div>
+							<div id="mod_comment" style="width:80%;"></div>
+                        </div>
+						
+
+                        <div class="photo_postcomment js_unbind_hideinpy" id="photo_postcomment" style="display:none">
+                            
+                        </div>
+
+                    </div>
+                    <!--强势插入s-->
+                   	<div class="photo_layout_aside" id="photo_layout_aside_new" style="display:none">
+	                    <div class="photo_aside photo_layer">
+							<div class="figure_side js-scrollbox js-slideview-scrollbox" style="overflow:hidden;height:100%;">
+								<div class="js-scrollbar" style=" height:100%;position:absolute;right:-5px;top:0;width:15px;z-index:9;display:none;">
+									<a class="js-scrolling" style="height:135px;margin-top:0;top:0;display:block;" href="javascript:void(0)">
+										<span class="js-scrolling-inner"  style="border-radius:4px 4px 4px 4px;display:block;height:100%;width:6px;"></span>
+									</a>
+								</div>
+								<div class="figure_side_inner js-scrollcont" style="height:100%;overflow-x:hidden;overflow-y:scroll;padding-right:60px;position:relative;width: 100%;">
+									<!--照片所属信息区S-->
+									<div  id="panel_photoinfo_new">
+									</div>
+									<!--照片所属信息区e-->
+									<!--按钮操作区S-->
+									<div class="handle_tab">
+										<div class="handle_tab_inner">
+											<p class="praise gb_bt" title="赞"><span id="ugc_like_2"></span></p>
+											<p class="comment gb_bt" id="cmt_btn" title="我也评一句"><a href="javascript:void(0)"><i class="icon icon_comment"><i></i></i>&nbsp;评论&nbsp;</a></p>
+											<p class="morelinks"><a class="js_loginunbind_hideinpy" href="javascript:void(0)" title="转载该照片" onclick="myView.tcisdStats('copytome'+g_pvReportType);myView.callExt('reprint');return false;">转载</a>
+												<a  href="javascript:void(0);" onclick="myView.tcisdStats('operationbar.rightshare'+g_pvReportType);myView.callExt('share');return false;" title="分享" >分享</a><a onclick="myView.copyNormalUrl();return false;" href="javascript:void(0);" title="复制地址">复制地址</a><a href="javascript:void(0);" onclick="return myView.callExt('alarm')" id="alarm" title="举报">举报</a></p>
+										</div>
+									</div>
+									<!--按钮操作e-->
+									<p class="separator bor3 mbcontro"></p>
+									<!--<p class="figure_praise_num">我和&nbsp;<a href="javascript:void(0);">全力不</a>&nbsp;等9999+人赞</p>-->
+									<p class="figure_praise_num" id="ugc_like_tip_2"><i class="ui_ico icon_hand ui_ico_f qz_like_hand hand"></i><span>&nbsp;</span></p>
+									<!--评论区展示S-->
+									<div class="handle_main">
+										<div class="mod_comments" id="mod_comment_new">
+											
+										</div>
+									</div>
+									<!--评论区展示e-->
+									<!--我评论区s-->
+									<div class="goto_comment" id="photo_postcomment_new">
+				
+									</div>
+									<!--我评论区E-->
+								</div>
+							</div>
+						</div>
+					</div>
+                    <!--强势插入e-->
+
+
+                    <div class="photo_layout_aside" id="photo_layout_aside" style="display:none">
+                    	 <div class="photo_aside">
+                            <div class="panel panel_btn js_unbind_hideinpy">
+                                <p class="panel_btn_container" id="panel_btn_old" style="display:none;">
+                                	<a href="javascript:void(0);" title="评论" class="gb_bt" id="cmt_btn">评论</a> 
+                                	<a id="guest_tuya" href="javascript:void(0);" onclick="myView.callExt('editByTuya');return false;" title="涂鸦" class="gb_bt" style="display:none;">涂鸦</a>
+                                </p>
+                                <p class="panel_btn_container" id="panel_btn_new" style="display:none;">
+                                	<a href="javascript:void(0);" onclick="myView.callExt('editByTexiaoMeihua');return false;" title="美化" class="gb_bt">美化</a>
+                                	<a href="javascript:void(0);" onclick="myView.callExt('editByTuya');return false;" title="涂鸦" class="gb_bt">涂鸦</a>
+                                </p>
+                            </div>
+	                        <div class="bor3 panel js_unbind_hideinpy" >
+	                            <p id="ugc_like" class="qzone-display" onclick="myView.tcisdStats('operationbar.rightzan');">
+	                            	<div class="mod_like bg2" id="ugc_like_tip"></div>
+	                            </p>
+	                        </div>
+							
+							<div id="quan_container_old" class="bor3 panel panel_quanquan js_unbind_hideinpy" style="display:none;">
+								<p id="do_mark" style="display:none"><a href="javascript:void(0)" title="圈人" onclick="myView.tcisdStats('quanren'); myView.callExt('addMak'); return false;" ><i class="icon icon_quanquan"><i></i></i> 圈人</a></p>
+								<p id="tagging_list" style="display:none" class="c_tx3"></p>
+							</div>
+							<div id="quan_container" class="bor3 panel panel_quanquan js_unbind_hideinpy" style="display:none;"></div>
+							
+							<div class="bor3 panel author-display js_unbind_hideinpy">
+                                <div class="clear photo_oplist photo_oplist_2rows">
+                                    <ul>
+                                        <li class="photo_oplist_li" id="moveTo">
+                                            <a href="javascript:void(0);" title="移动到" class="bg photo_oplist_link">移动到<span class="line">▼</span></a>
+                                            <div class="none photo_oplist_droplist photo_oplist_droplist_list photo_oplist_droplist_scroll">
+	                                            <ul id="move_ul" class="bor2 bg">
+	                                            	
+	                                            </ul>
+                                            	<a href="javascript:void(0);" title="新建相册" onclick="myView.tcisdStats('addAlbum'); myView.callExt('addAlbum'); return false;"  class="bg3 c_tx bor photo_oplist_op">新建相册</a>
+                                        	</div>
+                                        </li>
+                                        <li class="photo_oplist_li" id="use_photo">
+                                            <a href="javascript:void(0);" title="使用照片" class="bg photo_oplist_link">使用照片<span class="line">▼</span></a>
+                                            <ul class="bor2 bg none photo_oplist_droplist photo_oplist_droplist_list" style="left:0; width:92px;">
+                                                <li><a id="statistic_setcover" href="javascript:void(0);" onclick="myView.tcisdStats('operationbar.setcover',true);myView.callExt('setAlbumCover');return false;" title="设封面">设封面</a></li>
+                                                <li class="qzone-display"><a id="statistic_setQzoneCover" href="javascript:void(0);" onclick="myView.tcisdStats('operationbar.showonhostpage',true);myView.callExt('setQzoneCover');return false;" title="主页展示">主页展示</a></li>
+                                                <li class="qzone-display"><a id="statistic_writeblog" href="javascript:void(0);" onclick="myView.tcisdStats('operationbar.writeblog',true);myView.callExt('writeDiary');return false;" title="发表到日志">发表到日志</a></li>
+                                                <li class="qzone-display"><a id="statistic_gift_owner" target="_blank" href="javascript:void(0);" title="制作照片礼物">制作照片礼物</a></li>
+                                            </ul>
+                                        </li>
+        								
+										<li class="photo_oplist_li" id="copyTo1">
+                                            <a href="javascript:void(0);" title="复制地址" class="bg photo_oplist_link">复制地址<span class="line">▼</span></a>
+											<ul class="bor2 bg none photo_oplist_droplist photo_oplist_droplist_list" style="left:0; width:92px;">
+												<li><a href="javascript:void(0);" onclick="myView.copyNormalUrl();return false;" title="普通地址">普通地址</a></li>
+												<li class="qzone-display"><a href="javascript:void(0);" onclick="myView.callExt('copyExternalUrl');return false;" title="外链地址">外链地址</a></li>
+											</ul>
+                                        </li>
+										
+                                        <li class="photo_oplist_li qzone-display" id="beauty_photo">
+											<a href="javascript:void(0);" title="美化照片" class="bg photo_oplist_link">美化照片<span class="line">▼</span></a>
+											<!--<i class="icon icon_new" style="right:-5px;"><i></i></i>-->
+											<ul class="bor2 bg none photo_oplist_droplist photo_oplist_droplist_list" style="left:0; width:92px;">
+												<li><a href="javascript:void(0);" onclick="myView.tcisdStatsV6('photo_editor.meitu',true);myView.callExt('editPhotoWithMeitu');return false;" title="美图秀秀">美图秀秀</a></li>
+												<!--<li><a id="statistic_edit" href="javascript:void(0);" onclick="myView.tcisdStatsV6('photo_editor.kongjian',true);myView.callExt('editPhotoWithFlash');return false;" title="空间编辑器">空间编辑器</a></li>-->
+											</ul>
+										</li>
+                                        <li class="photo_oplist_li">
+                                            <a id="statistic_delete" href="javascript:void(0);" onclick="myView.tcisdStats('operationbar.delete',true);myView.callExt('delPhoto');return false;" title="删除照片" class="bg photo_oplist_normal">删除照片</a>
+                                        </li>
+										
+										<li class="photo_oplist_li qzone-display" id="photo_shop">
+											<a href="javascript:void(0);" title="照片商店" class="bg photo_oplist_link">照片商店<span class="line">▼</span></a>
+											<ul class="bor2 bg none photo_oplist_droplist photo_oplist_droplist_list" style="left:0; width:92px;">
+												<li><a href="javascript:void(0);" onclick="myView.tcisdStatsV6('rightside.photostore.kadang'); myView.openUrl('http://app.photo.qq.com/cgi-bin/app/cgi_redict_kadang?from=qzone.owner.photoview&g_tk=' + QZONE.FP.getACSRFToken());return false;" title="卡当礼物">卡当礼物</a></li>
+												<li><a href="javascript:void(0);" onclick="myView.tcisdStatsV6('rightside.photostore.yinxiangpai'); myView.openUrl('http://app.photo.qq.com/cgi-bin/app/cgi_redirect_partner_v2?partner=163&source=hd-store&inCharset=utf-8&outCharset=utf-8&uin='+QZONE.FP.getQzoneConfig('loginUin')+'&g_tk=' + QZONE.FP.getACSRFToken());return false;" title="网易印像派">网易印像派</a></li>
+												<li><a href="javascript:void(0);" onclick="myView.tcisdStatsV6('rightside.photostore.aichongyin'); myView.openUrl('http://app.photo.qq.com/cgi-bin/app/cgi_redirect_partner?partner=189&g_tk=' + QZONE.FP.getACSRFToken());return false;" title="爱冲印">爱冲印</a></li>
+												<li><a href="javascript:void(0);" onclick="myView.tcisdStatsV6('rightside.photostore.91leyin'); myView.openUrl('http://app.photo.qq.com/cgi-bin/app/cgi_redirect_partner?partner=91ly&g_tk=' + QZONE.FP.getACSRFToken());return false;" title="91乐印">91乐印</a></li>
+												<!--<li><a href="javascript:void(0);" onclick="myView.tcisdStatsV6('rightside.photostore.memo'); myView.openUrl('http://app.photo.qq.com/cgi-bin/app/cgi_redict_kadang?from=qzone.albumlist&targetid=10067&g_tk=' + QZONE.FP.getACSRFToken());return false;" title="memo照片书">memo照片书</a></li>-->
+											</ul>
+										</li>
+										<li class="photo_oplist_li" id="statistic_download" style="display:none;">
+                                            <a href="javascript:void(0);" onclick="myView.tcisdStats('operationbar.downloadraw',true);myView.downloadRaw(this);" title="下载原图" class="bg photo_oplist_normal" target="_blank">下载原图</a>
+                                        </li>
+										<li class="photo_oplist_li">
+											<a href="javascript:void(0);" title="申诉" id="btn_appeal" onclick="myView.callExt('appeal');return false;" style="display:none" class="bg photo_oplist_link">申诉</a>
+                                    	</li>
+                                    </ul>
+                                </div>
+                            </div>
+							
+							<div class="bor3 panel visitor-display js_unbind_hideinpy">
+                                <div class="clear photo_oplist">
+                                    <ul>
+                                        <li class="photo_oplist_li">
+                                            <a id="reprint" href="javascript:void(0);" onclick="myView.tcisdStats('copytome');myView.callExt('reprint');return false;" title="转载" class="bg photo_oplist_normal visitor-display js_loginunbind_hideinpy">转载</a>
+                                        </li>
+                                        <li class="photo_oplist_li">
+                                            <a href="javascript:void(0);" onclick="return myView.callExt('alarm')" id="alarm" title="举报" class="bg photo_oplist_normal visitor-display">举报</a>
+                                        </li>
+                                        <li class="photo_oplist_li" id="copyTo">
+                                            <a onclick="myView.copyNormalUrl();return false;" href="javascript:void(0);" title="复制地址" class="bg photo_oplist_link">复制地址</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+
+							<div class="bor3 panel panel_photoinfo" id="panel_photoinfo">
+                                
+                            </div>
+							<div class="bor3 panel" id="sp_new_own_album" style="display:none;">
+								<p>所属相册：<a href="javascript:void(0);" class="c_tx" title=""></a></p>
+							</div>
+
+							<div class="bor3 panel panel_photodetail" id="panel_photodetail" style="display:none;">
+								<p class="photo_exif c_tx3"></p>
+								<div id="j-exif-wrap" style="display:none"></div>
+                            </div>
+							
+							<div class="mod-ad-spread" id="j-side-ad">
+							</div>
+						</div>
+                    </div>
+                </div>
+
+            </div>
+            <!--相册 E-->
+        </div>
+	</div>
+	<div style="overflow:hidden;height: 50px;"></div>
+</div>
+<script>
+document.write([
+'\<script type="text/javascript" src="'+frameElement.g_qzflUrl+'"\>\<\/script\>',
+'\<script type="text/javascript" src="http://'+ PSY._domains.imgcache +'/qzone/v8/applib/embeded.js"\>\<\/script\>',
+'\<script type="text/javascript" src="http://'+ PSY._domains.imgcache +'/ac/lib/seajs/sea-2.1.1.js" \/><\/script>',
+'\<script type="text/javascript" src="http://'+ PSY._domains.imgcache +'/qzone/photo/zone/script/AlbumGet.js?max_age=2592000&v='+frameElement.g_photoVersion+'"\>\<\/script\>',
+'\<script type="text/javascript" src="http://'+ PSY._domains.imgcache +'/qzone/photo/zone/new/script/new_photo_show.js?max_age=2592000&v='+frameElement.g_photoVersion+'"\>\<\/script\>',
+'\<script type="text/javascript" src="http://'+ PSY._domains.imgcache +'/qzone/photo/zone/new/script/photoDetailView.js?max_age=2592000&v='+frameElement.g_photoVersion+'"\>\<\/script\>',
+'\<script type="text/javascript" src="http://'+ PSY._domains.imgcache +'/qzone/photo/zone/new/script/comment.js"\>\<\/script\>',
+'\<script type="text/javascript" src="http://'+ PSY._domains.imgcache +'/qzone/app/f4a/F4A_1.2.lite.js?'+frameElement.g_photoVersion+'.js"\>\<\/script\>',
+//'\<script type="text/javascript" src="http://'+ PSY._domains.imgcache +'/qzone/app/controls/pager/pager.js"\>\<\/script\>',
+'\<script type="text/javascript" src="http://'+ PSY._domains.imgcache +'/qzone/app/controls/sensibleEditor/sensibleEditor_2.1.js"\>\<\/script\>'
+].join(""));
+</script>
+
+<script type="text/javascript">
+seajs.config({
+	base: 'http://' + PSY._domains.imgcache +'/',
+	charset:'utf-8',
+	timeout:5*60*1000,
+	debug:0,
+	alias:{
+		'jquery' : 'http://' + PSY._domains.imgcache +'/qzone/photo/v7/js/lib/jquery.js',
+		'migrate-plugin': 'http://' + PSY._domains.imgcache + '/qzone/v8/engine/migrate-plugin.js'
+	},
+	paths:{
+		'photo.v7' : 'http://' + PSY._domains.imgcache +'/qzone/photo/v7/js',
+		'cssBase' : 'http://' + PSY._domains.imgcache,
+		'v8': 'http://' + PSY._domains.imgcache + '/qzone/v8',
+		'app' : 'http://' + PSY._domains.imgcache +'/qzone/app'
+	},
+	map:[
+		[/^.+\/lib\/qzfl\.js$/i,'http://' + PSY._domains.qzfl +'/ac/qzone/qzfl/qzfl'+(PSY._qzflVersion)+'.js'],
+		[/^.+\/jquery\.js$/,'http://' + PSY._domains.imgcache + '/ac/lib/jquery/1.8.3/jquery.js'],
+		//[/^.+\/tcisd.js/$/,'http://' + PSY._domains.imgcache + '/qzone/v8/core/stat.js'],
+		[/^(.+\/qzone\/photo\/v7\/js\/.+\.js)$/i,'$1?ver=' + PSY._photoVersionV7],
+		[/^(.+\/qzone_v6\/[^\/]+\.css)$/i,'$1?max_age=2592000&ver=' + PSY._photoVersionMap.css]
+	]
+});
+</script>
+
+<script type="text/javascript">
+//直接在这里hack
+(function(){
+	if(QPHOTO && QPHOTO.util && QPHOTO.util.getAlbumsV3 && QPHOTO.util.getAlbumV3){
+		QPHOTO.util.getAlbums = QPHOTO.util.getAlbumsV3;
+		QPHOTO.util.getAlbum = QPHOTO.util.getAlbumV3;
+		if(QPHOTO.album.getInfoV3){
+			QPHOTO.album.getInfo = QPHOTO.album.getInfoV3
+		}
+	}
+})();
+</script>
+
+<script>
+(function(){
+	//1. 这里是客人态侧边栏逻辑, 这样就不用拆两套逻辑，直接使用对应id
+	//2. 评论组件用新id
+	//3. 圈人干掉 
+	if (frameElement.g_isGuestDetailNew){
+		try{
+			$e('#photo_layout_aside_new').show();
+			$e('#photo_layout_aside_new').addClass('js-aside');
+			//debugger
+			//$('photo_layout_aside').parentNode.removeChild($('photo_layout_aside'));
+		}catch(e){}
+		try{
+			//不干掉 初始化评论组件时设置对应id
+			$e('#photo_postcomment').hide();  
+			$e('#mod_comment').hide();        
+			$e('#photo_comment').hide();        
+		}catch(e){}
+
+		//try{
+		//	$('app_mod').style.paddingBottom="20px"
+		//}catch(e){}
+	}else{
+		try{
+			$e('#photo_layout_aside').show();
+			$e('#photo_layout_aside').addClass('js-aside');
+			//debugger
+			$('photo_layout_aside_new').parentNode.removeChild($('photo_layout_aside_new'));
+		}catch(e){}
+		try{
+			$e('#photo_postcomment').show();
+			$e('#mod_comment').show();
+			$e('#photo_comment').show();
+			$e('#photo_comment').addClass('js-bottom');
+		}catch(e){}
+	
+	}
+
+	if(!(/.*\d[0-3]$/.test(QZONE.FP.getQzoneConfig('ownerUin')) && false)){
+		$e('#wall_view_href').hide();
+	}
+})();
+
+(function(){
+	String.prototype.trueEntityReplace=function(){
+		return this.replace(/&#(\d+);?/g,function(a,b){return String.fromCharCode(b)});
+	}
+
+	this.photoComment = {
+		/**
+		 * 
+		 * @param {Object} info
+		 * uin 
+		 * aid
+		 * name
+		 * lloc
+		 * sloc
+		 * forum
+		 * priv
+		 * origin
+		 * albumname
+		 */
+		"init" : function(info){
+			setTimeout(function(){
+				var remarkData = [];
+				commentBox && commentBox.depose();
+				initComment(info,remarkData);
+			},0);
+		},
+		"depose" : function(){
+			commentBox && commentBox.depose();
+		},
+		"focus" : function(){
+			commentBox && commentBox.focus();
+		}
+	}
+	//var npp = frameElement.g_isGuestDetailNew?50:10;
+	var npp = 10;
+	var Q = QPHOTO;
+	var randomsSeed = new Date().getTime();
+	var _p;
+	var commentBox;
+
+	function initComment(info){
+		info.picname = info.name;
+		info.priv = info.privacy;
+		info.forumindex = info.forum;
+		info.albumid = info.aid;
+		info.zz = info.origin ? 1 : 0;
+		if(QPHOTO.status.inPengyou){
+			info.nick = top.CUSER.get('name');
+		}
+		info.op_src = QPHOTO.status.inPengyou ? 1004 : 100;
+		$e('#photo_postcomment_new').hide();
+		Q.comment.getCommentBox({
+			"uin" : QZFL.FP.getQzoneConfig("loginUin"),
+			"hostUin" : info.uin,
+			"type" : Q.comment.type.PHOTO,
+			"target" : frameElement.g_isGuestDetailNew?"mod_comment_new":"mod_comment",
+			"albumid" : info.aid,
+			"lloc" : info.lloc,
+			"cmtNum" : info.forum || 0,
+			"data" : info,
+			"success" : function(box){
+				commentBox = box;
+				$e('#photo_postcomment_new').show();
+				if (frameElement.g_isGuestDetailNew){
+					setTimeout(function(){
+						try{
+							myView.updateScroll();
+						}catch(e){}
+					},100)
+					setTimeout(function(){
+						try{
+							myView.updateScroll();
+						}catch(e){}
+					},1000)
+				}
+			},
+			"coverPageSize" : frameElement.g_isGuestDetailNew?3:5,
+			"pageNum" : frameElement.g_isGuestDetailNew?0:1,
+			"pageSize" : frameElement.g_isGuestDetailNew?50:5,
+			"listeners" : {
+				"onTotalChanged" : function(origin, total){
+					if(myView._start == undefined){
+						//预防js没生效
+						myView._start = 0;
+					}
+					var d=myView._d[myView._idx-myView._start];
+					if(!d){
+						return;
+					}
+					d.forum = total;
+					if (frameElement.g_isGuestDetailNew){
+						setTimeout(function(){
+							try{
+								myView.updateScroll();
+							}catch(e){}
+						},100)
+						setTimeout(function(){
+							try{
+								myView.updateScroll();
+							}catch(e){}
+						},1000)
+					}
+				},
+				"onArrayChanged" : function(param){
+					if (frameElement.g_isGuestDetailNew){
+						setTimeout(function(){
+							try{
+								//console.log("updateScroll_100");
+								myView.updateScroll();
+							}catch(e){}
+						},100)
+						setTimeout(function(){
+							try{
+								//console.log("updateScroll_1000");
+								myView.updateScroll();
+							}catch(e){}
+						},1000)
+					}
+				},
+				"onPostComment" : function(){
+					var visitorType = 'other';
+					if (QZONE.FP.getQzoneConfig("loginUin")){
+						if (QZONE.FP.getQzoneConfig("isOwner")){
+							visitorType = "host";
+						}else{
+							visitorType = "guest";
+						}
+					}
+					//if (frameElement.g_isGuestDetailNew){
+						QZONE.FP._t.TCISD.hotClick("photodetail.operationbar.submitcomment." + visitorType + g_pvReportType, "photoclick.qzone.qq.com", "photoNewView.html");
+					//}else{
+					//	QZONE.FP._t.TCISD.hotClick("photodetail.operationbar.submitcomment." + visitorType + ".old", "photoclick.qzone.qq.com", "photoNewView.html");
+					//}
+					
+				},
+				"onPostReply" : function(){
+					var visitorType = 'other';
+					if (QZONE.FP.getQzoneConfig("loginUin")){
+						if (QZONE.FP.getQzoneConfig("isOwner")){
+							visitorType = "host";
+						}else{
+							visitorType = "guest";
+						}
+					}
+					//if (frameElement.g_isGuestDetailNew){
+						QZONE.FP._t.TCISD.hotClick("photodetail.operationbar.submitreply." + visitorType + g_pvReportType, "photoclick.qzone.qq.com", "photoNewView.html");
+					//}else{
+					//	QZONE.FP._t.TCISD.hotClick("photodetail.operationbar.submitreply." + visitorType + ".old", "photoclick.qzone.qq.com", "photoNewView.html");
+					//}
+					
+				}
+			}
+		});
+	}
+})();
+</script>
+
+<script>
+var g_uinPercent = 10;
+var g_pvReportType = '.old';
+//尾号
+/*if ((!QPHOTO.status.inPengyou) && (!QZONE.FP.getQzoneConfig("isOwner")) && QZONE.FP.getQzoneConfig('loginUin') && (QZONE.FP.getQzoneConfig('loginUin')%10==6 || !!QZONE.FP._t.window.g_isAlpha_iLoginUin)){
+	g_pvReportType = '.new';
+}else if ((!QPHOTO.status.inPengyou) && (!QZONE.FP.getQzoneConfig("isOwner")) && QZONE.FP.getQzoneConfig('loginUin') && (QZONE.FP.getQzoneConfig('loginUin')%10==7)){
+	g_pvReportType = '.new7';
+}*/
+
+if(Page.needCheckUnbind && QPHOTO.status.inPengyou){
+	QPHOTO.status.checkUnbindPY && QPHOTO.status.checkUnbindPY(function(v){
+		//是否与朋友网解绑，已解绑的不显示
+		if(v){
+			$e('.js_unbind_hideinpy').remove();
+		}
+	});
+	QPHOTO.status.checkUnbindPY && QPHOTO.status.checkUnbindPY(function(v){
+		//是否与朋友网解绑，已解绑的不显示
+		if(v){
+			$e('.js_loginunbind_hideinpy').remove();
+		}
+	}, true);
+}
+
+window.g_sortOrder = QPHOTO.util.getParameter('sortOrder'); 
+QPHOTO.util.pageInit(Page.init);
+</script>
+
+<script>
+if (QPHOTO.status.inQzone) {
+	//document.write('\<script language="javascript" src="/qzone/ping.js"\>\<\/script\>');
+	//区分主客人态上报
+	if (QZONE.FP.getQzoneConfig("isOwner")){
+		QZONE.FP._t.TCISD.pv('photo.qzone.qq.com', '/qzone/photo/zone/new/photonewview.html.host');
+	}else{
+		//if (frameElement.g_isGuestDetailNew){
+		QZONE.FP._t.TCISD.pv('photo.qzone.qq.com', '/qzone/photo/zone/new/photonewview.html.guest'+g_pvReportType);
+		//}else{
+		//	QZONE.FP._t.TCISD.pv('photo.qzone.qq.com', '/qzone/photo/zone/new/photonewview.html.guest'+g_pvReportType);
+		//}
+	}
+} else { //py
+	var tcisd = QZONE.FP._t.TCISD;
+	tcisd.pv.config.webServerInterfaceURL = 'http://pingfore.pengyou.com/pingd';
+	tcisd.pv('xiaoyou.qq.com', '/index/photo/photo.php');
+}
+!QPHOTO.status.inPengyou && (function() {
+var w = QZONE.FP._t;
+if (w.g_version!=6) return;
+//QZONE.FP.setScrollTop(w.QZFL.dom.getPosition('pageApp').top - (ua.ie == 6 ? 0 : w.QZFL.dom.getPosition('QZ_Toolbar_Container').height));
+
+setTimeout(function(){
+			try{
+				QZONE.FP.setScrollTop(QZONE.FP._t.QZFL.dom.getPosition(frameElement.parentNode).top - (ua.ie==6?0:34));
+			}catch(e){}
+		},(ua.ie?200:10));
+}) ();
+//补上来的主客人态pv上报！
+if (QPHOTO.status.inQzone) {
+	setTimeout(function(){
+		var tc = QZONE.FP.getStatPackage();
+		var url = location.pathname + (QPHOTO.status.isOwner() ? '.host' : '.guest');
+		tc.pv('photoclick.qzone.qq.com',url);
+	},0);
+}
+</script>
+</body>
+</html>

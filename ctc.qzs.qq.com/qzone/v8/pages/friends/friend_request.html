@@ -1,0 +1,120 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>好友请求 - Qzone</title>
+		<script src="//qzonestyle.gtimg.cn/qzone/v8/applib/embeded.js" ></script>
+		<script>
+			document.write('<link rel="stylesheet" href="//' + top.siDomain + '/aoi/skin/' + top.g_StyleID + '.css" />');
+			document.write('<link rel="stylesheet" href="//' + top.siDomain + '/aoi/friends-request.css" />');
+			//var QZONE = top.QZONE;
+				//好友首页放量策略
+				document.write('<style>#friend_index{display:block !important}</style>');
+
+
+		</script>
+
+
+
+	</head>
+	<body class="os-win7 layout-body-friend">
+
+		<div class="layout-app">
+			<!--寻找好友-->
+			<div class="layout-body-friends">
+				<div class="layout-page-friends clearfix">
+					<!--layout-nav-->
+					<div class="layout-nav-friends">
+						<!--tab切换-->
+						<div class="qz-tab fn-friend-tab">
+							<ul class="tab-list clearfix">
+								<li class="item none" id="friend_index" >
+									<a class="item-con" href="javascript:" onclick="top.QZONE.FP.toApp('myhome/friends');
+											return false;">好友首页</a>
+								</li>
+								
+								<li class="item item-current">
+									<span class="item-con">好友请求</span>
+								</li>
+							</ul>
+						</div>
+						<!--tab切换 结束-->
+					</div>
+					<!--layout-nav 结束-->
+
+					<div class="qz-grid layout-wrapper-friends fr-grid">
+						<div class="qz-right fr-right">
+							<div class="fr-mod-maykonw" id="fr-mod-maykonw">
+								<div class="inner">
+									<div class="hd">
+										<h3>可能认识的人</h3>
+									</div>
+									<div class="bd">
+										<ul class="fr-maykonw-list" id="fr-maykonw-list"></ul>
+									</div>
+									<div class="ft" id="fr-mayknow-footer" style="display:none">
+										<div class="fr-pager">
+											<a href="javascript:" class="disabled prev"><i class="ui-icon sp-fr-prev"></i></a><a href="javascript:" class="disabled next"><i class="ui-icon sp-fr-next"></i></a><a href="javascript:"><i class="ui-icon sp-fr-more"></i></a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="qz-main fr-main">
+							<div class="fr-mod-request fr-mod-request-latest none" id="id_recentMod">
+								<div class="inner">
+									<div class="hd">
+										<h3 id="id_recentAddFrdNum"></h3>
+									</div>
+									<div class="bd">
+										<ul class="fr-list" id="recent_ul"></ul>
+									</div>
+								</div>
+							</div>
+
+							<div class="fr-mod-request" >
+								<div class="inner">
+									<div class="hd">
+										<h3 id="id_requestFriendTitle" class="none">好友请求</h3>
+									</div>
+									<div class="bd">
+										<ul class="fr-list" id="result_ul"></ul>
+									</div>
+									<div class="ft">
+										<div class="qz-pager">
+											<div class="qz-pager-num" id="pager">
+											</div>
+											<!--											<div class="qz-pager-jump">
+																							<span class="txt">跳转至</span><input type="text" class="textinput jump">
+																						</div>-->
+
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--寻找好友 结束-->
+		</div>
+
+		<script>
+			top.g_OSClass && (document.body.className += " " + top.g_OSClass);
+			window.isIframe = 1;
+			document.write('<script src="//qzonestyle.gtimg.cn/ac/qzone/qzfl/qzfl' + top.g_V.qz + '.js"><\/script>');
+			document.write('<script src="//qzonestyle.gtimg.cn/ac/lib/seajs/sea-' + top.g_V.sea + '.js"><\/script>');
+		</script>
+		<script src="//qzonestyle.gtimg.cn/qzone/v8/core/seajs_config.js" ></script>
+		<script>
+		top.TCISD && top.TCISD.pv("v8friends.qzone.qq.com","friendsrequest");
+		seajs.use("v8/pages/friends/js/friend_request.js",function(e){
+			if(e.bootstrap){
+				e.bootstrap();
+			}
+		});
+
+		</script>
+	</body>
+</html>

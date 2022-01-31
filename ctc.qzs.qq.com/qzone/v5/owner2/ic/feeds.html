@@ -1,0 +1,387 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-cn" lang="zh-cn" xmlns:qz="http://qzone.qq.com/">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Language" content="zh-cn" />
+<title>个人中心feeds</title>
+	<!--[if IE]><base href="//qzs.qq.com/"></base><![endif]-->
+	<!--[if !(IE)]><!--><base href="//qzs.qq.com/" /><!--<![endif]-->
+
+
+
+
+<!--[if IE]>
+<script type="text/javascript">
+    function toAbsURL(s) { 
+     var l = location, h, p, f, i; 
+     if (/^\w+:/.test(s)) { 
+       return s; 
+     } 
+     h = l.protocol + '//' + l.host + (l.port!=''?(':' + l.port):''); 
+     if (s.indexOf('/') == 0) { 
+       return h + s; 
+     } 
+     p = l.pathname.replace(/\/[^\/]*$/, ''); 
+     f = s.match(/\.\.\//g); 
+     if (f) { 
+       s = s.substring(f.length * 3); 
+       for (i = f.length; i--;) { 
+         p = p.substring(0, p.lastIndexOf('/')); 
+       } 
+     } 
+     return h + p + '/' + s; 
+   }
+
+
+    var base = document.getElementsByTagName('base')[0];
+    base.href = toAbsURL(base.href);
+</script>
+<![endif]-->
+
+<script type="text/javascript">
+//<![CDATA[
+	//document.domain="qq.com";
+	//	siDomain = G_Param.siDomain || "qzonestyle.gtimg.cn";
+	var _s_=new Date();
+	var _re = document.referrer,
+	    exp = /^https?:\/\/([\d\w-]+)(?:\.s\d\d?)?\.(qzone|pengyou)\.qq\.com/i,
+		exp2 =  /^https?:\/\/([a-zA-Z0-9\-]+)?\.?qzs\.qq\.com[\/]*#?/i;
+
+	var G_Param,
+		g_sid,
+		g_imgd,
+		g_wd,
+		g_rd,
+		g_V;
+	if(exp.test(_re)||exp2.test(_re)){
+		document.domain=location.hostname;
+		g_sid = parent.siDomain || parent.parent.siDomain || "qzonestyle.gtimg.cn";
+		g_sid = g_sid.replace("http://","");
+		g_imgd = parent.imgcacheDomain || parent.parent.siDomain || "imgcache.qq.com";
+
+		g_DPrefix = parent.g_DPrefix || parent.parent.g_DPrefix || "";
+		g_rd = "r."+g_DPrefix+"qzone.qq.com";
+		g_wd = "w."+g_DPrefix+"qzone.qq.com";
+		g_imgd = g_imgd.replace("http://","");
+		g_V = parent.g_V || parent.parent.g_V || {
+			"qz":"_2.0.7.8"
+		};
+	}else{
+		window.OUTSIDE_DOMAIN = true;
+		g_sid = "qzonestyle.gtimg.cn";
+		g_imgd = "imgcache.qq.com";
+		g_rd = "r.qzone.qq.com";
+		g_wd = "w.qzone.qq.com";
+		g_V = {
+			"qz":"_2.0.7.8"
+		};
+	}
+
+	var filterXSS = function(cont){
+        		cont = cont.replace(/&/g, '&amp;'); 
+        		cont = cont.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        		cont = cont.replace(/\'/g, '&#39;').replace(/\"/g, '&quot;');
+        		return cont;
+    	};
+
+	function commonDictionarySplit(s, esp, vq, eq) {
+			var res = {};
+			if(!s || typeof(s) != "string"){
+				return res;
+			}
+			if (typeof(esp) != 'string') {
+				esp = "&";
+			}
+			if (typeof(vq) != 'string') {
+				vq = "";
+			}
+			if (typeof(eq) != 'string') {
+				eq = "=";
+			}
+
+			var l = s.split(vq + esp),
+				len = l.length,
+				tmp,
+				t = eq + vq,
+				p;
+
+			if(vq){
+				tmp = l[len - 1].split(vq);
+				l[len - 1] = tmp.slice(0, tmp.length - 1).join(vq);
+			}
+
+			for (var i = 0, len; i < len; i++) {
+				if(eq){
+					tmp = l[i].split(t);
+					if (tmp.length > 1) {
+						res[tmp[0]] = tmp.slice(1).join(t);
+						continue;
+					}
+				}
+				res[l[i]] = true;
+			}
+			return res;
+		}
+
+		var _jsBegin='<script type="text/javascript" charset="utf-8" src="',
+			_jsEnd='"></sc' + 'ript>',
+			cssBegin = '<link rel="stylesheet" rev="stylesheet" href="',
+			cssEnd = '" type="text/css" media="screen"/>';
+
+		G_Param = commonDictionarySplit(location.hash.substring(1),"&");
+		G_Param.scope =  0;
+		if(!G_Param){
+			G_Param = frameElement.G_Param || {};
+		}
+		var G_Param_map = {
+			hideExtend: true,
+			style: 100,
+			DEFAULT_FEEDS_CGI: "//ic2.qzone.qq.com/cgi-bin/feeds/feeds_html_act_all",
+			i_uin: window.OUTSIDE_DOMAIN?0:(parent.g_iUin||parent.parent.g_iUin||0),
+			i_login_uin: window.OUTSIDE_DOMAIN?0:(parent.g_iLoginUin||parent.parent.g_iLoginUin||0),
+			mode: 3,
+			noOpr: true,
+			view: 1,
+			scope: 0,
+			filter: "all",
+			max: -1,
+			heightHack: parseInt(G_Param.heightHack,10),
+			errmsg: "主人最近比较忙，没有公开的空间更新。",
+			PV_ACT_DOMAIN: "ic2act",
+			PV_DOMAIN: "ic2",
+			showbbor:false,//是否显示分割线条
+			showcount:10,//每次显示条数
+			showmore:false,//是否显示更多按钮
+			version:6//默认是v6
+		};
+		//这里跑一遍默认值
+		for(var k in G_Param_map){
+			if(typeof(G_Param[k])=="undefined"){
+				G_Param[k] = G_Param_map[k];
+			}
+		}
+		if ((G_Param.style + "").indexOf("v6/") == 0){
+			G_Param.version = 6;
+			G_Param.style = (G_Param.style + "").replace("v6/", "");
+		}
+		if(G_Param.MORE_FEEDS_CGI){
+			G_Param.MORE_FEEDS_CGI = decodeURIComponent(G_Param.MORE_FEEDS_CGI);
+		}
+
+		//这里特殊默认值的判断
+		if(typeof(G_Param.hideExtend)=="string"){
+			G_Param.hideExtend = (G_Param.hideExtend != "false");
+		}
+
+		if(typeof(G_Param.mode)=="undefined"||isNaN(parseInt(G_Param.mode,10))){
+			G_Param.mode = 1;
+		}
+
+		if(typeof(G_Param.style)=="undefined"||!/^\d+$/.test(G_Param.style)){
+			G_Param.style = 100;
+		}
+
+		if (top.g_version) G_Param.version = top.g_version;
+
+		G_Param.CSSQueue = [];
+		var G_sExp = /[\<|\>|!|-|\(|\)]/ig;
+		if (typeof(G_Param.specialCSS)!="undefined"&&!G_sExp.test(G_Param.specialCSS)){
+			G_Param.CSSQueue.push(([cssBegin,decodeURIComponent(G_Param.specialCSS),cssEnd]).join(""));
+		} else {
+
+			if(G_Param.version == 8){
+				if (top.window.g_isGrayRelease) {
+					G_Param.CSSQueue.push([
+						cssBegin,'//', g_sid, '/aoi/skin/', G_Param.style,'.css',cssEnd,
+						cssBegin,"//", g_sid, '/aoi/old-feed-v9.css', cssEnd,
+						cssBegin,"//", g_sid, '/aoi/feed-home-v9.css', cssEnd
+					].join(""));
+				} else {
+					G_Param.CSSQueue.push([
+						cssBegin,'//', g_sid, '/aoi/skin/', G_Param.style,'.css',cssEnd,
+						cssBegin,"//", g_sid, '/aoi/feed-home.css', cssEnd,
+						cssBegin,"//", g_sid, '/aoi/old-feed.css', cssEnd
+					].join(""));
+				}
+			} else if (G_Param.version == 6){
+				G_Param.CSSQueue.push([
+					cssBegin,'//', g_sid, '/qzone_v6/gb/skin/', G_Param.style,'.css',cssEnd,
+					cssBegin,"//", g_sid, '/qzone_v6/feed.css', cssEnd
+				].join(""));
+			}
+		}
+
+		if(typeof(G_Param.needDelOpr)=="string"){
+			G_Param.needDelOpr = (G_Param.needDelOpr != "false");
+		}
+		var tmp_begin = '<li class="f_single imgBlock bor2"><div class="f_aside imgBlock_img"><qz:user param=\'<%userHome%>|<%logimg%>|<%namecardLink%>|<%info_user_name%>||<%vip%>|<%type%>|<%uin%>|<%ouin%>|<%otherflag%>\' nick=\'<%nickname%>\'></qz:user></div><div class="f_wrap imgBlock_ct">',
+			tmp_end = '</div></li>',
+			host_tmp = '<div class="f_item" link="0" id="feed_<%uin%>_<%appid%>_<%typeid%>_<%abstime%>_<%feedno%>_<%scope%>_<%ver%>" ><div class="f_info"><a target="_blank" href="//user.qzone.qq.com/<%uin%>/profile" class="nickname q_namecard c_tx q_des ui_mr5" link="nameCard_<%uin%> des_<%uin%>"><%nickname%></a><%famouslogo%><%title%></div><div class="qz_summary" id="hex_<%appid%>_<%abstime%>_<%uin%>_<%scope%>"><%summary%></div><div class="f_op" id="opr_<%uin%>_<%appid%>_<%typeid%>_<%abstime%>_<%feedno%>"><qz:fo class="<%foldFeed%>" title="<%foldFeedTitle%>" param="<%appid%>|<%abstime%>|<%ouin%>|<%typeid%>|<%feedno%>|<%feedstime%>|<%showEbtn%>|<%scope%>|<%oprType%>|<%key%>|<%otherflag%>|<%rightflag%>|<%ver%>"></qz:fo></div></div>',
+			friend_tmp = '<div class="f_item" link="1" id="feed_<%uin%>_<%appid%>_<%typeid%>_<%abstime%>_<%feedno%>_<%scope%>_<%ver%>" ><div class="f_info"><a target="_blank" href="//user.qzone.qq.com/<%uin%>/profile" class="nickname q_namecard c_tx q_des ui_mr5" link="nameCard_<%uin%> des_<%uin%>"><%nickname%></a><%famouslogo%><%title%></div><div class="qz_summary" id="hex_<%appid%>_<%abstime%>_<%uin%>_<%scope%>"><%summary%></div><div class="f_op"  '+(G_Param.hideExtend?'style="display:none"':'')+' id="opr_<%uin%>_<%appid%>_<%typeid%>_<%abstime%>_<%feedno%>"><qz:fo class="<%foldFeed%>" title="<%foldFeedTitle%>" param="<%appid%>|<%abstime%>|<%uin%>|<%typeid%>|<%feedno%>|<%feedstime%>|<%showEbtn%>|<%scope%>|<%oprType%>|<%key%>|<%otherflag%>|<%rightflag%>|<%ver%>"></qz:fo></div></div>';
+
+
+		var coreCSSQueue = [cssBegin,"//", g_sid, '/qzone_v5/app/app_icon.css',cssEnd];
+		for (var i = 0; i < G_Param.CSSQueue.length; i++) {
+		    coreCSSQueue.push(filterXSS(G_Param.CSSQueue[i]));
+		}
+		document.write(coreCSSQueue.join(''));
+
+
+ //]]>
+</script>
+</head>
+<body class="ifeeds_body" style="overflow: hidden;">
+<div id="GRZOPTParserContainer" style="display:none"></div>
+<div class="ifeeds feed mode_bg_opacity0" id="ifeedsContainer">
+
+<script type="text/javascript">
+	if(G_Param.version == 6) {
+		document.write('<div class="feed_avaIcon_' + filterXSS(G_Param.mode) + ' feed_inner feeds_style_' +
+				filterXSS(G_Param.mode)+ (G_Param.noOperate?" no_operate":"") + '"><ul id="_hostFeedsLayout"></ul></div>');
+	} else {
+		var feed_class="";
+		if (top.window.g_isGrayRelease) {
+			feed_class = " feed-v9";
+		}
+		var _feeds_containter_html = '<div class="ifeeds feed'+ feed_class + '" id="ifeedsContainer"> \
+				<div id="ifeedsMode" class="feed_avaIcon_4 feed-inner feeds_style_4">\
+					<ul id="famous_feeds"></ul>\
+				</div>\
+			</div>'
+		document.write(_feeds_containter_html);
+	}
+	</script>
+	<div class="check_more c_tx bor bg2 none check-more" id="ICFeedsTipFetchDataBTN">
+		<p>查看更多动态&#8595;</p>
+	</div>
+	<div class="check_more bor bg2 check-more" id="ICFeedsTipMsg" style="cursor:default">
+		<p>数据加载中，请稍候...</p>
+	</div>
+	<div id="emptyBlock" style="height:100px;display:none"></div>
+	<div id="goProfileFeedsLink" style="display:none;padding-top:10px"><a href="javascript:;" class="c_tx" onclick="QZONE.FP.toApp('/profile/feeds');return false;">更多动态信息</a></div>
+	<div style="height:5px;"></div>
+</div>
+
+<script type="text/javascript" id="icFeedsDataLoader"></script>
+
+<script type="text/javascript">
+//<![CDATA[
+	//look up qzone framework frame, begin
+	var fw = window,
+		qz = window.QZONE || {};
+
+	qz.FP = qz.FP || {};
+
+	do{
+		fw = fw.parent;
+	}while(fw != top);
+
+	qz.FP.includeQZFL = function(s){
+		var v = '', tsl;
+
+		if(fw.constructQZFL){
+			eval("(" + (fw.constructQZFL._string || (fw.constructQZFL._string = fw.constructQZFL.toString())) + ")();");
+		}else{
+			tsl = fw.document.getElementsByTagName("script");
+			if(tsl){
+				for(var i = 0, len = tsl.length; i < len; ++i){
+					if(tsl[i] && tsl[i].src && (tsl[i].src.toLowerCase().indexOf('/qzfl/qzfl') > -1)){
+						v = tsl[i].src;
+						break;
+					}
+				}
+				document.write('<script type="text/javascript" charset="utf-8" src=' +
+							(v || ('//' + (fw.siDomain || 'qzonestyle.gtimg.cn') + '/ac/qzfl/release/qzfl_for_qzone.js')) + '></sc' + 'ript>');
+			}
+		}
+	};
+	if(G_Param.version == 6) qz.FP.includeQZFL();
+//]]>
+</script>
+<script type="text/javascript">
+if (G_Param.version == 6){
+	if (G_Param.DEFAULT_FEEDS_CGI.indexOf("feeds_ic_unaided_xml") > -1) {
+		G_Param.DEFAULT_FEEDS_CGI = "//ic2.qzone.qq.com/cgi-bin/feeds/feeds_html_act_all";
+	}
+	if (G_Param.DEFAULT_FEEDS_CGI.indexOf("feeds_ic_interactive_xml") > -1) {
+		G_Param.DEFAULT_FEEDS_CGI = "//" + g_rd + "/cgi-bin/feeds/feeds_html_interactive";
+	}
+	if(G_Param.hasGoProfileFeedsLink){
+		var d = document.getElementById("goProfileFeedsLink");
+		if(d){
+			d.style.display = "";
+		}
+	}
+	document.write(([
+	_jsBegin,'//'+ g_sid +'/qzone/v6/applib/embeded.js',_jsEnd,
+	_jsBegin,'//'+ g_sid +'/qzone/v5/namecardv2.js',_jsEnd
+	]).join(""));
+}
+</script>
+<script type="text/javascript">
+
+if (G_Param.version == 6){
+	document.write([_jsBegin + "//"+ filterXSS(g_sid) + "/c/="+'/qzone/v6/newic/ic_config4rz.js'
+		,'/qzone/v6/newic/ic_lazy_loader.js'
+		,'/qzone/v6/newic/ic_core_v3.0.js'
+		,"/qzone/v6/newic/ic_controller.js"
+		,"/qzone/v6/newic/ic_feed_tip.js"
+		,'/qzone/v6/ic_personal/ic_patch.js'
+		,"/qzone/v6/newic/ic_feeds_monitor.js"
+		,"/qzone/v6/newic/ic_trigger_v3.0.js"
+		,"/qzone/v6/newic/ic_feeds_protocol.js?" + QZONE.FP._t.g_V.ic + _jsEnd
+	].join(","));
+} else {
+	var ver = top.g_V || {};
+	ver.qz = ver.qz || "_2.1.31";
+	ver.sea = ver.sea || "2.0.0";
+	ver.jq = ver.jq || "2.0.0";
+	document.write([
+		_jsBegin,'//'+ g_sid + '/ac/qzone/qzfl/qzfl', ver.qz, ".js", _jsEnd,
+		_jsBegin,'//'+ g_sid + '/ac/lib/seajs/sea-', ver.sea, ".js", _jsEnd,
+		_jsBegin,'//'+ g_sid + '/qzone/v8/core/seajs_config.js', _jsEnd
+	].join(""));
+}
+</script>
+
+<script type="text/javascript">
+if (G_Param.version == 8){
+
+	function onClientLibOK(){
+		seajs.use(['v8/engine/cpu', 'v8/ic/feeds', 'v8/ic/famous_space_feeds'],
+		function(cpujs, Feeds, FamousFeeds){
+			cpujs.bootstrap();
+			this.cpujs = cpujs;/*暴露全局接口*/
+			/*初始化feeds*/
+			/*interface clientlib映射interface完成*/
+			Feeds.bootstrap({
+				sence:"famous_feeds",
+				feedsData:{}
+			});
+			/*启动拉取更多feeds的逻辑*/
+			FamousFeeds.bootstrap();
+		});
+	}
+	
+	function waitClientLib(){
+		if (top.QZONE && top.QZONE.FrontPage){
+			seajs.use('//' + g_sid + '/ac/qzfl/appclientlib.js', onClientLibOK);
+		} else {
+			setTimeout(waitClientLib, 200);
+		}
+	}
+	waitClientLib();
+
+	
+}
+
+try{
+	var t = top.TCISD;
+	if(t){
+		t.markTime(21, "guestFrontPage");
+	}
+}catch(e){}
+
+</script>
+</body>
+</html>

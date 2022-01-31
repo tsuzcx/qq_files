@@ -1,0 +1,1051 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-cn" lang="zh-cn">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+<meta http-equiv="Content-Language" content="gb2312" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="robots" content="all" />
+<meta name="author" content="Tencent-ISRD" />
+<meta name="Copyright" content="Tencent" />
+<meta name="Description" content="Qzone精彩由您而来" />
+<meta name="Keywords" content="Qzone,QQ空间,Blog,博客,网络日志,播客,腾讯,QQ,Tencent" />
+<title>花藤</title>
+<link rel="stylesheet" rev="stylesheet" href="http://imgcache.qq.com/qzone_v5/gb_d3f_out.css" type="text/css" media="screen"/>
+<link rel="stylesheet" rev="stylesheet" href="http://imgcache.qq.com/qzone_v5/app/app_flower_bine/app_flower_bine.css" type="text/css" media="screen"/>
+<link rel="Shortcut Icon" href="/favicon.ico" type="image/x-icon" />
+
+<script type="text/javascript" charset="utf-8" src="/qzone/v6/applib/embeded.js"></script>
+<script type="text/javascript">
+//<![CDATA[
+	QZONE.FP.includeQZFL();
+//]]>
+</script>    
+<script type="text/javascript" charset="utf-8" src="http://imgcache.qq.com/qzone/qzfl/appclientlib.js" charset="utf-8"></script>	
+<script type="text/javascript" src="http://imgcache.qq.com/qzone/mall/v5/comm/js/FillDiv_Ex.js" charset="gb2312"></script>
+<script type="text/javascript" src="http://imgcache.qq.com/qzone/flower/util.js" charset="gb2312"></script>
+<script type="text/javascript" src="http://imgcache.qq.com/qzone/v5/namecard.js" charset="utf-8"></script>
+<script type="text/javascript">
+	document.domain = 'qq.com';
+	var qzoneInfo = QZONE.FP.getQzoneConfig();
+	document.write('<link rel="stylesheet" rev="stylesheet" href="http://imgcache.qq.com/qzonestyle/qzone_client_v5/css/'+qzoneInfo.styleId+'/color_out.css" type="text/css" media="screen"/>');
+	var topWin = QZONE.FP._t;
+
+	var pWin = document.parentWindow ? document.parentWindow.parent : parent;
+	var _store = [];
+
+	var uin = qzoneInfo.ownerUin;
+	QZONE.pageEvents.pageBaseInit();
+	QZONE.pageEvents.onloadRegister(function(){
+		initMasterInfo();
+		initAffiche();		
+		//setTimeout(function(){
+			//menuShow(0);
+		//},2000);
+
+		//setTimeout(function(){
+			//initFriendList();
+			//initNeedLove();
+		//},3000);
+		iframeHeight();
+	});
+
+	function onFeedShow(){
+		$('FeedLinkDiv').style.display ='none';
+		$('loadFeed').style.display = 'block';
+		menuShow(0);
+	}
+
+	var flashObjId, flashShowFlog = true;
+	function pageFlashUpdate(){
+		setTimeout(function(){
+			initMasterInfo();
+		}, 4000);		
+	}
+
+	//初始化花藤信息
+	function initMasterInfo(){
+		QZONE.FP.getPortraitList([uin], initMyFlower);
+		//QuickFunc.loadJson('http://users.qzone.qq.com/fcg-bin/cgi_get_portrait.fcg?get_nick=1&uins='+uin, initMyFlower, "portraitCallBack");
+	}
+	function initMyFlower(data){
+		if(data) _store["masterInfo"] = data;
+		QuickFunc.loadJson('http://flower.qzone.qq.com/fcg-bin/fcg_get_user_flowerinfo?uin='+uin, postInitMyFlower, "fcg_get_user_flowerinfo");
+	}
+	function postInitMyFlower(data) {
+		if(!data.unique || data.unique.result != 0 || !data.flower || data.flower.iBirth == 0){//		
+			if(data && data.unique && data.unique.result == '-99'){
+				QZONE.FP.showLoginBox();
+			} else if(data && data.flower && data.flower.iBirth == 0) {
+				$('myFlowerNonDiv').style.display='block';
+				$('feedNon').style.display='none';
+				if(!topWin.window.flower) topWin.window.flower = {};
+				if(topWin.window.flower['non'] != 1){
+					var interval = setInterval(function(){
+						if(QZONE.FP.popupDialog._cpp){
+							return;
+						}		
+						//<br>温馨提示：如果您的旧花藤有人参果还未采摘，请先采摘人参果后再领养新花藤。（采摘人参果后，您在新花藤中的四项指数不会因为采摘人参果而减少）
+						QZONE.FP.popupDialog("温馨提示", {src:'http://imgcache.qq.com/qzone/flower/msg_new.html?msg='+data.flower.iGardener}, 432, 210);
+						QZONE.FP.appendPopupFn(function(){
+							if(topWin.window.flower && topWin.window.flower['isNew'] == 1){
+								changeFlower(4);
+								window.location = 'http://'+ (topWin.imgcacheDomain||'qzs.qq.com') +'/qzone/flower/flower_shop.html';
+							}
+							topWin.window.flower['non'] = 1;
+						});		
+						clearInterval(interval);
+					}, 500);
+				}
+			} else {
+				QZONE.FP.showMsgbox('服务器繁忙，请您稍后重试', 0, 2000);
+			}
+			
+			iframeHeight();
+			return;
+		} else {			
+			var newFlower = exclusiveItems(23);
+			if(newFlower){
+				if(!pWin.leaveToMall) {
+					_addFlower(newFlower.itemno, topWin);
+				}
+				pWin.setFlowerInfo(newFlower);
+			} else {
+				var intervalIndex = 8;
+				var intervalId = setInterval(function(){
+					newFlower = exclusiveItems(23);
+					if(newFlower){					
+						_addFlower(newFlower.itemno, topWin);
+						pWin.setFlowerInfo(newFlower);
+						clearInterval(intervalId);
+					}
+					if(intervalIndex == 0){clearInterval(intervalId);}
+					intervalIndex --;
+				}, 1000);	
+			}
+		}
+		
+		
+		var flower = data.flower;
+		//  line:667 调用. 初始化upGrate区域
+		window.renderUpGrate(flower);
+
+		//检测花藤app版本，跳到对应的花藤
+		if(appVersion == 3 && flower.iFlowerID > 40000) {
+			pWin.location.href = "/qzone/flower/mainV3.html";
+			return;
+		}
+		_store['myflower'] = {
+			fid   : flower.iFlowerID,
+			fname : flower.sName,
+			fdesc : flower.sDesc
+		};
+
+		var masterInfo = _store["masterInfo"];
+		var vip   = masterInfo[uin][5];
+		flower.vip   = masterInfo[uin][5];
+		var level = masterInfo[uin][3];
+		flower.level = masterInfo[uin][3];
+		if(vip == 1){			
+			flower.masterMsg = '<a href="javascript:;" class="yellow_lv" onclick="topWin.guide(15);" title="点击查看黄钻特权详情"><span>'+level+'</span></a>&nbsp;免费给自己或好友浇水、修剪、日照、施肥';
+		}else{
+			flower.masterMsg = '免费给自己或好友浇水、修剪、日照';
+		}
+
+		//if(flower.iRain ==0 && flower.iLove ==0 && flower.iSun ==0 && flower.iNutri ==0){
+			//QZONE.FP.popupDialog("温馨提示", {src:'http://imgcache.qq.com/qzone/flower/msg_opt.html?homemsg=-1'}, 432, 180);
+			//return;
+		//}
+
+		flower.iRainDayMax =(vip==1)?(level==8?30:(level*2+10)):8;
+		flower.iLoveDayMax =(vip==1)?(level==8?30:(level*2+10)):8;
+		flower.iSunDayMax = (vip==1)?(level==8?30:(level*2+10)):8;
+
+		flower.iRainDayValue = flower.iRainDayMax < flower.iRainDayValue ? flower.iRainDayMax : flower.iRainDayValue;
+		flower.iLoveDayValue = flower.iLoveDayMax < flower.iLoveDayValue ? flower.iLoveDayMax : flower.iLoveDayValue;
+		flower.iSunDayValue  = flower.iSunDayMax  < flower.iSunDayValue  ? flower.iSunDayMax  : flower.iSunDayValue;
+
+		flower.miBirth = new Date(flower.iBirth.toInt()*1000).format('yyyy-MM-dd');
+		flower.miRainDayValue  = flower.iRainDayValue ==0? 0:((flower.iRainDayValue  / flower.iRainDayMax)  * 100).floor();
+		flower.miLoveDayValue  = flower.iLoveDayValue ==0? 0:((flower.iLoveDayValue  / flower.iLoveDayMax)  * 100).floor();
+		flower.miSunDayValue   = flower.iSunDayValue  ==0? 0:((flower.iSunDayValue   / flower.iSunDayMax)   * 100).floor();
+		if(flower.iNutriDayValue < flower.iRainDayMax){
+			flower.miNutriDayValue = flower.iNutriDayValue==0? 0:((flower.iNutriDayValue  / flower.iRainDayMax)  * 100).floor();
+		}else{
+			flower.miNutriDayValue = 95;
+		}
+
+		flower.mMtime  = (vip==1 && level >= 3) ? ((level < 8) ? '<a href="http://pay.qq.com/qzone/index.shtml?aid=pay.index.qzone&ADTAG=PAY.INDEX.OPENSERVICE.QZONE" target="_blank" class="c_tx">升级到LV'+(level+1)+'上限达到'+((level+1)*2+10)+'</a>' :'') : '<a href="http://pay.qq.com/qzone/index.shtml?aid=pay.index.qzone&ADTAG=PAY.INDEX.OPENSERVICE.QZONE" target="_blank" class="c_tx">升级到LV'+(level+1)+'上限达到'+((level+1)*2+10)+'</a>'; //直通车升级上限到16
+
+		flashVip = vip;
+		flashLevel = level;
+		flashTips = { //提供连接给Flash
+			't': (vip==1 && level >= 1) ? ((level < 8) ? ( level==7?'升级到黄钻LV8上限达到30': ('升级到黄钻LV'+(level+1)+'上限达到'+((level+1)*2+10)+'') ) :'黄钻LV8上限已达最高值30') : '开通黄钻后LV'+((level==0)?1:level)+'上限达到'+(((level==0)?1:level)*2+10),
+			'url': 'http://pay.qq.com/qzone/index.shtml?aid=pay.index.qzone&ADTAG=PAY.INDEX.OPENSERVICE.QZONE'
+		}
+
+		flower.miNutriMtime = (vip==1)?'<a href="http://qzone.qq.com/helpcenter/announcement.html?url=http://qzone.qq.com/helpcenter/announcement_info.htm?18" target="_blank" class="c_tx">查看规则</a>':' <a href="http://pay.qq.com/qzone/index.shtml?aid=pay.index.qzone&ADTAG=PAY.INDEX.OPENSERVICE.QZONE" target="_blank" class="c_tx">开通黄钻</a>'
+
+
+
+		flower.miNutriMax = '黄钻用户每月获赠营养值';
+		flower.iconName = iconName[flower.iFlowerID];
+
+		//flash
+		flashObjId = flower.iFlowerID;
+		flower.flashURI = 'http://imgcache.qq.com/qzone/space_item/orig/'+(flower.iFlowerID%16)+'/'+flower.iFlowerID+'_s.swf';
+		flower.flashUin = qzoneInfo.ownerUin;
+		flower.flashLoginUin = qzoneInfo.loginUin;
+		flower.uinLevel = level;
+		
+		FillDiv_Ex("myFlowerDiv", {'data': [flower]});
+		if(flashShowFlog){
+			//FillDiv_Ex("flashDiv", {'data': [flower]});
+			flashShowFlog = false;
+		}
+		iframeHeight();
+	}
+
+	var flashTips, flashVip, flashLevel;//提供连接给Flash
+	function getFlashTips(){
+		return flashTips;
+	}
+
+
+	//修改花信息对话框
+	function showModify(fid){
+		var form = _store['myflower'];
+		QZONE.FP.popupDialog("管理", {src: '/qzone/flower/msg_modify.html?'+QuickFunc.toParamString(form)}, 432, 148);
+		QZONE.FP.appendPopupFn(function(){
+			initMyFlower();
+			if(pWin.flowerInfo && topWin.window.flower){
+				pWin.flowerInfo.fsize = topWin.window.flower['fsize'];
+			}
+			//menuShow(0);
+		});
+	}
+
+	//显示菜单
+	function menuShow(ind, but){
+		var id = 'f' + ind;
+		switch(ind){
+			case 1:
+				initFriendFeed();
+				break;
+			default:
+				initMyFeed();
+				break;
+		}
+		var list = $('menuDiv').childNodes;
+		for(var i=0, l=list.length; i<l; i++){
+			if(id == list[i].id){
+				list[i].className='nowtag';
+			}else{
+				list[i].className='';
+			}
+		}
+	}
+
+	//我的花藤动态
+	function initMyFeed(){
+		QuickFunc.loadJson('http://flower.qzone.qq.com/fcg-bin/fcg_get_user_feed?uin='+uin, postUserMyFeed, "fcg_get_user_feed");
+	}
+	function postUserMyFeed(data){
+		$('loadFeed').style.display = 'none';
+		if(!data || !data.feed || !data.unique && !data.unique.result!='0'){
+			if(data && data.unique && data.unique.result == '-99'){
+				QZONE.FP.showLoginBox();
+				return;
+			}	
+			return;
+		}		
+		_store['initMyFeed'] = data;
+		subsectionFeed();
+	}
+
+	var subinds=0, subinde=0;
+	function subsectionFeed(){
+		var data = _store['initMyFeed'];
+		var arr = [];
+		for(var i=0; subinds<data.feed.length && i<15; subinds++,i++){
+			if(data.feed[subinds].iFuin != 0)arr.push(data.feed[subinds].iFuin);
+		}
+		if(arr.length == 0){
+			return ;
+		}
+		QZONE.FP.getPortraitList(arr, postInitMyFeed);
+		//QuickFunc.loadJson('http://users.qzone.qq.com/fcg-bin/cgi_get_portrait.fcg?get_nick=1&uins='+arr.join(","), postInitMyFeed, "portraitCallBack");
+	}
+	function postInitMyFeed(uins){
+		var tempDate = new Date();		
+		var now = new Date(tempDate.getFullYear(), tempDate.getMonth(), tempDate.getDate(), 23, 59, 59);
+		var data = _store['initMyFeed'];
+		var list = [];
+		for(var l=data.feed.length; subinde < subinds; subinde++){
+			var feed = data.feed[subinde];
+			feed.iFicon = uins[feed.iFuin][0];
+			feed.level  = uins[feed.iFuin][3];
+			feed.vip    = uins[feed.iFuin][5];
+			feed.iFnick = uins[feed.iFuin][6];//.leftString(8,'..');	
+			feed.iFnickAlt =  uins[feed.iFuin][6];
+			feed.indexId = 'div'+subinde;
+
+			feed.lookFlower =  (feed.iFuin == qzoneInfo.ownerUin)?'':'<a href="http://user.qzone.qq.com/'+feed.iFuin+'/flower" target="_blank" class="c_tx"><span style="text-decoration:underline">去看看</span></a>&nbsp;';
+		
+			if(subinde==(l-1)){
+				feed.lastStyle = 'last_list';
+			}			
+			for(var j=0, jl=feed.sec.length; j<jl; j++){
+				feed.sec[j].indexId = feed.indexId + '_' + j;
+				feed.sec[j].iFuin = feed.iFuin;
+				feed.sec[j].but = '&nbsp;';
+				if(j==0 && jl > 0){
+					if(jl>1)feed.sec[j].but = '<button title="展开" class="bt_blog_show" onclick="switch_onclick('+subinde+', this)"><span class="none">展开</span></button>';
+
+					feed.sec[j].lastStyle = 'last_list';//'icenter_list bor last_list'; 
+					feed.sec[j].display = 'block';
+				}else{
+					feed.sec[j].butHide = 'feed'+subinde;
+					feed.sec[j].display = 'none';
+				}
+				if(j==(jl-1)){
+					feed.sec[j].lastStyle = 'last_list';
+				}	
+
+				feed.sec[j].miOptime  = (now.getTime() - feed.sec[j].iOptime  * 1000).intervalDay(feed.sec[j].iOptime  * 1000);					
+				//var from = uin==feed.iFuin?'我':'<a href="http://user.qzone.qq.com/'+feed.iFuin+'" target="_blank" class="c_tx">'+feed.iFnick+'</a>';
+				var to = (uin==feed.iFuin)?'自已':'我';
+				feed.sec[j].operate = msgs[feed.sec[j].iOpId];
+				//var value = (feed.vip==1)? (feed.level+1)*2 : 2;
+				var value = feed.sec[j].sMsg;
+				feed.sec[j].operate = feed.sec[j].operate ? feed.sec[j].operate.format(to, value):'';		
+				var switchCondition = feed.sec[j].iOpId;
+				if(feed.sec[j].iOpId.substring(0, 1) == '1'){
+					switchCondition = feed.sec[j].iOpId.substring(0, 3);
+				}
+				switch(switchCondition){
+					case '101': //浇水
+						feed.sec[j].icon = '1.gif';
+						feed.sec[j].iconName = iconName['1'];
+						break; 
+					case '102': //日照
+						feed.sec[j].icon = '2.gif';
+						feed.sec[j].iconName = iconName['2'];
+						break; 
+					case '103': //除草
+						feed.sec[j].icon = '3.gif';
+						feed.sec[j].iconName = iconName['3'];
+						break; 
+					case '104':  //施肥
+						feed.sec[j].icon = '4.gif';
+						feed.sec[j].iconName = iconName['4'];
+						break;
+					case '3001':  //留言
+						feed.sec[j].icon = '5.gif';
+						feed.sec[j].iconName = iconName['5'];
+						feed.sec[j].operate = '留言：' + feed.sec[j].sMsg;
+						break;
+					case '4001':
+						feed.sec[j].icon = feed.sec[j].sMsg.trim() + '.gif';
+						feed.sec[j].iconName = iconName[feed.sec[j].sMsg.trim()];
+						feed.sec[j].operate = msgs['4001'].format(iconName[feed.sec[j].sMsg.trim()]);
+						break;
+					case '4002':
+						feed.sec[j].icon = feed.sec[j].sMsg.trim() + '.gif';
+						feed.sec[j].iconName = iconName[feed.sec[j].sMsg.trim()];
+						feed.sec[j].operate = msgs['4002'].format(iconName[feed.sec[j].sMsg.trim()]);
+						break;
+				}
+				
+
+			}
+			if(feed.vip == 1){ //.leftString(5,'..')
+				feed.iFnick = uins[feed.iFuin][6] + '</a><a target="_blank" href="http://user.qzone.qq.com/'+feed.iFuin+'/yellowgrade/"><img src="http://imgcache.qq.com/ac/b.gif" alt="点击查看黄钻特权详情" class="icon_vip_yl'+feed.level+' f_icon_vip"/>';
+				feed.vipclz = 'yesvip';
+			}
+			list.push(feed);
+		}
+
+		FillDiv_Append("myFeedList", {'data': list});
+		$('friendFeedList').style.display='none';
+		setTimeout(function(){try{QZONE.namecard.init($('myFeedList'));iframeHeight();}catch(err){}}, 0);
+		
+		if(subinds < data.feed.length){
+			$('feedMoreDiv').style.display='block';		
+		}else{
+			$('feedMoreDiv').style.display='none';
+		}
+		iframeHeight();
+	}
+	
+	//删除Feed   cgi_del_flowerfeed
+	function onBut_delFeed_ex(iFuin, iOptime, iOpId, indexId){
+		var form = {
+			'iFuin':iFuin,
+			'iOptime':iOptime,
+			'iOpId':iOpId
+		};
+		
+		QuickFunc.sendForm('http://flower.qzone.qq.com/cgi-bin/cgi_del_flowerfeed', form, function(rs){
+			switch(rs.result){
+			case '0':				
+				var data = _store['initMyFeed'];
+				for(var i=0, il=data.feed.length; i<il; i++){
+					if(data.feed[i].iFuin == iFuin){
+						for(j=0, jl=data.feed[i].sec.length; j<jl; j++){
+							if(data.feed[i].sec[j].iOptime == iOptime && data.feed[i].sec[j].iOpId==iOpId){
+								if(jl == 1){
+									data.feed.splice(i,1);
+									j = jl;
+									i = il;
+								} else {
+									data.feed[i].sec.splice(j,1);
+									j = jl;
+									i = il;
+								}
+							}
+						}
+					}
+				}
+				subinds=0, subinde=0;
+				$('myFeedList').innerHTML = '';
+				iframeHeight();
+				postUserMyFeed(data);
+
+				/*
+				if(indexId.split('_')[1] == '0'){
+					$(indexId.split('_')[0]).style.display='none';
+				}else{
+					$(indexId).style.display='none';
+				}
+				*/
+				break;
+			default:
+				QZONE.FP.showMsgbox(rs.msg, 0, 3000);
+			}
+		});
+	}
+
+
+
+	//好友的花藤动态
+	function initFriendFeed(){
+		QuickFunc.loadJson('http://imgcache.qq.com/qzone/mall/develop/flower/friendsfeed_demo.json', postInitFriendFeed, "fcg_get_friends_feed");
+	}
+	function postInitFriendFeed(data){
+		var list = [];
+		for(var i=0, l=data.feed.length; i<l; i++){
+			var feed = data.feed[i];
+			if(i==(l-1)){
+				feed.lastStyle = 'last_list';
+			}			
+			for(var j=0, jl=feed.sec.length; j<jl; j++){
+				if(j==0){
+					feed.sec[j].lastStyle = 'last_list';
+				}	
+			}
+			list.push(feed);
+		}
+		FillDiv_Ex("friendFeedList", {'data': list});		
+		$('myFeedList').style.display='none';
+		iframeHeight();
+	}
+
+	//显示花藤动态内容
+	function switch_onclick(nameId, but){
+		var display;
+		if(but.className == 'bt_blog_side'){
+			but.className = 'bt_blog_show';
+			but.title = '展开';
+			display = 'none';
+		}else{
+			but.className = 'bt_blog_side';
+			but.title = '收缩';
+			display = 'block';
+		}
+
+		var bool = false;
+		var list = but.parentNode.parentNode.parentNode.parentNode.getElementsByTagName('li');
+		for(var i=0, l=list.length; i<l; i++){
+			if(list[i].tagName == 'LI' || list[i].tagName == 'li'){
+				if(bool==true){
+					list[i].style.display = display;
+				}else{
+					bool = true;
+					display == 'none'?list[i].className='icenter_list bor last_list':list[i].className='icenter_list'
+				}
+			}
+		}
+		iframeHeight();
+	}
+
+	//公告
+	function initAffiche(){
+		for(var i=0, l=afficheList.length; i<l; i++){
+			afficheList[i].title = afficheList[i].title.leftString(26, '...');
+		}		
+		FillDiv_Ex("afficheDiv", {'data': afficheList});
+	}
+
+	//好友的花
+	var initFriendListflag=false;
+	function initFriendList(){
+		if(initFriendListflag) return;
+		initFriendListflag = true;
+		$('friendMoreOpen').style.display = 'none';
+		$('friendListNon').innerHTML = '加载中...';
+		QuickFunc.loadJson('http://flower.qzone.qq.com/fcg-bin/fcg_get_friends_flower', postFriendList, "fcg_get_friends_flower");
+		
+	}
+	function postFriendList(data){
+		$('friendListNon').style.display ='none';
+		if(!data || !data.flower || data.flower.length == 0 || !data.unique || data.unique.result!='0'){
+			if(data && data.unique && data.unique.result == '-99'){
+				QZONE.FP.showLoginBox();
+			}	
+			$('friendListNon').innerHTML = '您的好友还没有领养花藤';
+			$('friendListNon').style.display = 'block';
+			iframeHeight();
+			return;
+		}
+		$('friendMore').style.display='block';
+		_store['initFriendList'] = data;
+		var arr = [];
+		for(var i=0, l=data.flower.length; i<l && i<10; i++){
+			if(data.flower[i].iUin != 0)arr.push(data.flower[i].iUin);
+		}
+		if(arr.length == 0){
+			return ;
+		}
+		QZONE.FP.getPortraitList(arr, postInitFriendList);
+		//QuickFunc.loadJson('http://users.qzone.qq.com/fcg-bin/cgi_get_portrait.fcg?get_nick=1&uins='+arr.join(","), postInitFriendList, "portraitCallBack");
+	}
+	function postInitFriendList(uins){
+		var data = _store['initFriendList'];
+		var list = [];
+		for(var i=0, l=data.flower.length; i<l && i<10; i++){
+			var flower = data.flower[i];
+			flower.iNick = '<a href="http://user.qzone.qq.com/'+flower.iUin+'/flower" target="_blank" class="c_tx username" title="'+uins[data.flower[i].iUin][6]+'">'+uins[data.flower[i].iUin][6]+'</a>';
+			if(uins[flower.iUin][5]==1){
+				flower.iNick = flower.iNick + '<a target="_blank" href="http://user.qzone.qq.com/'+flower.iUin+'/yellowgrade/"><img src="http://imgcache.qq.com/ac/b.gif" alt="点击查看黄钻特权详情" class="icon_vip_yl'+uins[flower.iUin][3]+'"/></a>';
+			}
+			flower.sNameAlt = flower.sName;
+			flower.iconUrl = "/qzone/flower/flash/flowers/" + flower.iFlowerID + "/icon.png";
+			flower.iconName = iconName[flower.iFlowerID];
+			list.push(flower);
+		}
+		FillDiv_Ex("friendList", {'data': list});
+		iframeHeight();
+	}
+
+	//需要爱心的花
+	var initNeedLoveflag=false;
+	function initNeedLove(){
+		if(initNeedLoveflag)return;
+		initNeedLoveflag = true;
+		$('loveMoreOpen').style.display = 'none';
+		$('loveListNon').innerHTML = '加载中...';
+		QuickFunc.loadJson('http://flower.qzone.qq.com/fcg-bin/fcg_get_friends_flower?type=1', postNeedLove, "fcg_get_friends_flower");
+	}
+	function postNeedLove(data){
+		$('loveListNon').style.display ='none';
+		if(!data || !data.flower || data.flower.length == 0 || !data.unique || data.unique.result!='0'){
+			if(data && data.unique && data.unique.result == '-99'){
+				QZONE.FP.showLoginBox();
+			}			
+			$('loveListNon').innerHTML = '时刻关注这里，给需要的朋友奉献爱心';
+			$('loveListNon').style.display = 'block';
+			iframeHeight();
+			return;
+		}
+		$('loveMore').style.display='block';
+		_store['initNeedLove'] = data;
+		var arr = [];
+		for(var i=0, l=data.flower.length; i<l && i<10; i++){
+			if(data.flower[i].iUin != 0)arr.push(data.flower[i].iUin);
+		}
+		if(arr.length == 0){
+			return ;
+		}
+		QZONE.FP.getPortraitList(arr, postInitNeedLove);
+		//QuickFunc.loadJson('http://users.qzone.qq.com/fcg-bin/cgi_get_portrait.fcg?get_nick=1&uins='+arr.join(","), postInitNeedLove, "portraitCallBack");
+	}
+	function postInitNeedLove(uins){
+		var data = _store['initNeedLove'];
+		var list = [];
+		for(var i=0, l=data.flower.length; i<l && i<10; i++){
+			var flower = data.flower[i];
+			flower.iNick = '<a href="http://user.qzone.qq.com/'+flower.iUin+'/flower" target="_blank" class="c_tx username"title="'+uins[data.flower[i].iUin][6]+'">'+uins[data.flower[i].iUin][6]+'</a>';
+			if(uins[flower.iUin][5]==1){
+				flower.iNick = flower.iNick + '<a target="_blank" href="http://user.qzone.qq.com/'+flower.iUin+'/yellowgrade/"><img src="http://imgcache.qq.com/ac/b.gif" alt="点击查看黄钻特权详情" class="icon_vip_yl'+uins[flower.iUin][3]+'"/></a>'
+			}
+			flower.sNameAlt = flower.sName;
+			flower.sName = flower.sName.leftString(6, '...');
+			var mixValue = parseInt(flower.iRain); //雨露=浇水
+			flower.icon = '1.gif';
+			flower.optTo = iconName['1'];
+			if(mixValue >= parseInt(flower.iSun)){//阳光=日照 
+				flower.icon = '2.gif';
+				flower.optTo = iconName['2'];
+				mixValue=flower.iRain;
+			}
+			if(mixValue >= parseInt(flower.iLove)){//爱心=除草
+				flower.icon = '3.gif';
+				flower.optTo = iconName['3'];
+				mixValue=flower.iLove;
+			}
+			if(mixValue >= parseInt(flower.iNutri)){//营养=施肥
+				flower.icon = '4.gif';
+				flower.optTo = iconName['4'];
+				mixValue=flower.iNutri;
+			}
+			flower.iconName = iconName[flower.iFlowerID];
+			list.push(flower);
+		}
+		FillDiv_Ex("loveList", {'data': list});
+		iframeHeight();
+	}
+
+	//换花
+	function changeFlower(ind){
+		QZONE.FP.setScrollTop(0);
+		pWin.showMenu(ind);
+	}
+
+	//跳转好友花藤页面
+	function goFlowInfo(fid, aTag){
+		QZONE.FP.setScrollTop(0);
+		aTag.href = 'friend_flower.html?fid=' + fid;
+		return true;
+	}
+	
+	function sendPingHot(hottag, host){
+		parent.window.____pgv_img____ = new Image();
+		parent.window.____pgv_img____.src = 'http://pinghot.qq.com/pingd?dm=' + host + '.hot&url=' + location.pathname + '&hottag=' + hottag + '&hotx=9999&hoty=9999&rand=' + Math.round(Math.random() * 100000);
+	}
+	
+	function on_winunload(){
+		var oldFlower = exclusiveItems(23);
+		var flowerInfo=parent.flowerInfo;
+		if(!oldFlower && flowerInfo){
+			if(!(flowerInfo.fsize))
+			flowerInfo.fsize = (flowerInfo.width == 230) ? '1' : (flowerInfo.width == 180) ? '2' : '3';
+			_addFlower(flowerInfo.itemno, topWin, flowerInfo.posx, flowerInfo.posy, false, flowerInfo.fsize);
+		}
+	}
+</script>
+</head>
+<body onunload="on_winunload()">
+<div class="bg_mode" style="margin-bottom:0px;"><div class="mode_gb">
+  <div class="flower_main">
+  <!--S 右栏-->
+	<div class="flower_main_side">
+	<div class="placard">
+		<div class="flower_upgrade">
+			<div class="upgrade_inner">
+				<p>3月21日升级新花藤！一起来玩！</p>
+				<a onclick="QZONE.FP.getCurrentAppWindow().location.href = 'mainV3.html';return false;" href="" class="btn_upgrade">立即升级</a>
+				<div class="upgrade_ft"><a href="" onclick="QZONE.FP.getCurrentAppWindow().location.href = 'introduce.html';return false;">查看新版详情》</a></div>
+			</div>
+		</div>
+	</div>		
+	<div id="v3Promote_1" style="display:none" class="placard">
+		<div class="flower_upgrade">
+			<div class="upgrade_inner">
+				<p>恭喜您！您是空间黄钻用户，</p>
+				<p>升级新花藤，营养值新玩法！</p>
+				<a href="javascript:void(0)" onclick="QZONE.FP.getStatPackage().hotClick('oldflower.flowermain.vipupgreateimmedia');QZONE.FP.getCurrentAppWindow().location.href = 'mainV3.html';return false;" class="btn_upgrade">立即升级</a>
+			</div>
+		</div>
+	</div>
+	<div class="placard" id="v3Promote_2" style="display:none">
+			<div class="flower_upgrade">
+				<div class="upgrade_inner">
+					<p>升级新花藤，营养值新玩法！</p>
+					<a href="javascript:void(0)" onclick="QZONE.FP.getStatPackage().hotClick('oldflower.flowermain.upgreateimmedia');QZONE.FP.getCurrentAppWindow().location.href = 'mainV3.html';return false;" class="btn_upgrade">立即升级</a>
+					<div class="upgrade_ft"><a href="http://qzs.qq.com/qzone/flower/introduce.html" target="_blank" >查看新版详情》</a></div>
+				</div>
+			</div>
+		</div>
+	<div class="placard" id="v3Promote_3" style="display:none" >
+		<div class="flower_upgrade no_honor"> 
+			<div class="upgrade_inner">
+				<p>您暂时没有新花藤体验资格，需通过以下方式获取：</p>
+				<p>1.<a onclick="QZONE.FP.getStatPackage().hotClick('oldflower.flowermain.open_vip');return true;" href="http://pay.qq.com/qzone/index.shtml?cm=tenpay&aid=ratt.tgsx" target="_blank" class="btn_vip_open">开通黄钻</a></p>
+				<p>2.向黄钻好友索要。</p>
+				<div class="upgrade_ft"><a href="http://qzs.qq.com/qzone/flower/introduce.html" target="_blank" >查看新版详情》</a></div>
+			</div>
+		</div>
+	</div>
+	  <script type="text/javascript">
+		// 升级提示
+		function renderUpGrate(flower){
+			//$("v3Promote_2").style.display = "";
+			/*
+			if(appVersion == 3) {
+				$("v3Promote_1").style.display = "";
+			}else{
+				if(flower.iQualification == "1"){ 
+					$("v3Promote_2").style.display = "";
+				}else{
+					$("v3Promote_3").style.display = "";
+				}
+			}*/
+		}
+
+	  </script>
+	  <!-- 公告 -->
+	  <div class="bor2 placard" style="margin-top:10px">
+		<h4 class="bg2">公告</h4>
+		<div class="placard_cont">
+		<ul id="afficheDiv" style="display:none">
+		   <textarea class="template">
+		   [%repeat_0 match="data"%]
+		     <li> - <a href="[%=@link%]" target="[%=@target%]" class="unline">[%=@title%]</a></li>
+           [%_repeat_0%]
+		   </textarea>
+		</ul>
+		</div>	   
+	  </div>
+
+	  <!-- 好友的花 friendList-->
+	  <div class="bor2 flowers_list" onclick="initFriendList()">
+		<h4 class="bg2" onclick="initFriendList(); this.style.cursor='auto'" style="cursor:pointer">好友花藤排行榜</h4>
+		<a id="friendMoreOpen" class="extend_more c_tx"><button title="展开" class="bt_blog_show" onclick="initFriendList()"></button></a>
+		<a id="friendMore" href="friend_list.html" onclick="changeFlower(1)" class="extend_more c_tx" style="display:none">更多&gt;&gt;</a>
+		<div class="flowers_list_cont">
+		  <div id="friendListNon"></div>
+		  <ol id="friendList" style="display:none">
+		    <textarea class="template">
+		    [%repeat_0 match="data" repeat_num="10"%]
+			<li class="bbor2">
+			  <span class="name">[%=@iNick%]</span>
+			  <span class="icon_flower_info"><img src="[%=@iconUrl%]" title="[%=@iconName%]"/></span>
+			  <span class="flower_num"><span class="c_tx">[%=@iGardener%]</span> 级</span>
+			</li>
+		   [%_repeat_0%]
+		   </textarea>
+          </ol>
+        </div>
+      </div>
+
+
+	  <!-- 需要爱心的花 loveList  [%=@icon%]-->
+	  <div class="bor2 flowers_list">
+	    <h4 class="bg2" onclick="initNeedLove(); this.style.cursor='auto'" style="cursor:pointer">需要照顾的花藤</h4>
+		<a id="loveMoreOpen" class="extend_more c_tx"><button title="展开" class="bt_blog_show" onclick="initNeedLove()"></button></a>
+		<a id="loveMore" href="friend_list.html?t=need" onclick="changeFlower(1)" class="extend_more c_tx" style="display:none">更多&gt;&gt;</a>
+		<div class="flowers_list_cont">
+		  <div id="loveListNon"></div>
+		  <ol id="loveList" style="display:none">
+		    <textarea class="template">
+		    [%repeat_0 match="data" repeat_num="10"%]
+			<li class="bbor2">
+			  <span class="name">[%=@iNick%]</span>
+			  <span class="icon_flower_info2"></span>
+			  <span class="need_help_link">急需 <a href="http://user.qzone.qq.com/[%=@iUin%]/flower" class="c_tx unline" target="_blank">[%=@optTo%]</a></span>
+			</li>
+
+		    [%_repeat_0%]
+		    </textarea>	
+		  </ol>
+		</div>
+	  </div>
+	  
+	  <script type="text/javascript">
+	  if(QZONE.FP.getVipStatus()) {
+		document.write('<div>您当前是黄钻贵族，每月可额外获赠营养值，花藤操作上限不断增加，还可以给好友施肥哦~</div>');
+	  }
+	  </script>
+
+	</div>
+	<div class="flower_main_frame">
+	  <div class="flower_iframe">
+
+		<!-- 我无花藤情况 -->
+		<!--div class="flower_info" id="myFlowerNonDiv" style="display:none">
+		  <div class="flower_info_cont_none">
+		    <img src="http://imgcache.qq.com/ac/b.gif" class="icon_hint_warn" alt="" /> 您还没有领养自己的花藤，赶紧来 <a href="flower_shop.html" onclick="changeFlower(4)" class="c_tx unline">领养</a> 吧！
+		  </div>
+		</div-->
+
+		<div class="flower_get2" id="myFlowerNonDiv" style="display:none">
+			<p class="flower_get_ps1">您当前还没有领养任何花藤，我们特意为您倾情推荐几种名贵花藤。</p>
+			<div class="item1">
+				<h4>最新推出的花藤</h4>
+				<img alt="太阳花" class="item_flower" src="/qzone/flower/images/shop/38542.gif" />
+				<img alt="" class="bor_flower" src="http://imgcache.qq.com/qzone_v5/app/app_flower_bine/bor_f.png" />
+				<a href="flower_shop.html" onclick="changeFlower(4)" class="bt_get"><span class="none">去领取</span></a>
+			</div>
+			<div class="item2">
+				<h4>本月最受欢迎的花藤</h4>
+				<img alt="矢车菊" class="item_flower" src="/qzone/flower/images/shop/38540.gif" />
+				<img alt="" class="bor_flower" src="http://imgcache.qq.com/qzone_v5/app/app_flower_bine/bor_f.png" />
+				<a href="flower_shop.html" onclick="changeFlower(4)" class="bt_get"><span class="none">去领取</span></a>
+			</div>
+			<div class="item3">
+				<h4>今天领养最多的花藤</h4>
+				<img alt="康奈馨" class="item_flower" src="/qzone/flower/images/shop/38538.gif" />
+				<img alt="" class="bor_flower" src="http://imgcache.qq.com/qzone_v5/app/app_flower_bine/bor_f.png" />
+				<a href="flower_shop.html" onclick="changeFlower(4)" class="bt_get"><span class="none">去领取</span></a>
+			</div>
+		</div>
+
+
+		<!-- 我的花藤情况 -->
+		<div class="flower_info" id="myFlowerDiv" style="display:none">
+		  <textarea class="template">
+		  [%repeat_0 match="data"%]
+		  <div class="myflower_point bbor">
+			<div class="flower_point_cont"><span>我的 <img src="/qzone/flower/images/icon/[%=@iFlowerID%].gif" title="[%=@iconName%]"/> [%=@sName%]</span> <span>领养于[%=@miBirth%]</span> <span>等级：<strong class="c_tx">[%=@iGardener%]</strong> 级</span></div>
+			<div class="flower_point_op" id="optDiv">
+			  <a href="javascript:;" onclick="initMasterInfo()" class="c_tx unline" title="点击刷新查看最新指数">刷新</a><a href="javascript:;" onclick="showModify([%=@iFlowerID%])" class="c_tx unline">管理</a> <a href="flower_shop.html" onclick="changeFlower(4)" class="c_tx unline">换花</a>
+			  <a href="javascript:;" onclick="pickupClick()" class="c_tx unline" title="点击采摘人参果">摘果</a>
+			</div>
+		  </div>
+
+		  <div class="flash" id="flashDiv">
+			<OBJECT id="item_[%=@iFlowerID%]" codeBase="http://fpdownload.macromedia.com/get/flashplayer/current/swflash.cab#version=8,0,0,0" height="355" width="483" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" menu="false" flashVars="mode=1" scale="showAll" wmode="transparent" allowFullScreen="true" allownetworking="all" allowScriptAccess="always" src="http://imgcache.qq.com/qzone/app/flower/Flower2.swf"><!--[%=@flashURI%]-->
+			<PARAM value="http://imgcache.qq.com/qzone/app/flower/Flower2.swf" name="movie" />
+			<PARAM value="always" name="allowScriptAccess" />
+			<PARAM value="all" name="allownetworking" />
+			<PARAM value="true" name="allowFullScreen" />
+			<PARAM value="transparent" name="wmode" />
+			<PARAM value="showAll" name="scale" />			
+			<PARAM value="mode=1&uin=[%=@flashUin%]&level=[%=@level%]&vip=[%=@vip%]&flowerID=[%=@iFlowerID%]" name="flashVars" />
+			<PARAM value="false" name="menu" />
+			<embed width="483" height="355" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" codebase="http://fpdownload.macromedia.com/get/flashplayer/current/swflash.cab#version=8,0,0,0" menu="false" flashvars="mode=1&uin=[%=@flashUin%]&level=[%=@level%]&vip=[%=@vip%]&flowerID=[%=@iFlowerID%]" scale="showAll" wmode="transparent" allowfullscreen="true" id="itemembed_[%=@iFlowerID%]" name="itemembed_[%=@iFlowerID%]" allownetworking="all" allowscriptaccess="always" src="http://imgcache.qq.com/qzone/app/flower/Flower2.swf"/>
+			</OBJECT>
+		</div>
+<!--
+		  <div class="flower_info_cont">
+			<div class="flash_box bor3" style="height:300px;">
+            </div>
+			<div class="flower_op_lists">
+			  <p class="flower_op_list_ps bbor2">[%=@masterMsg%]</p>
+	   		    <div class="flower_op_list2 bbor2">
+				<div class="flower_op_detail2" >
+					<div class="progress_bar">
+						<span>今天新增雨露值</span>
+						<div class="capacity_rate" style="margin-top:3px;">
+						  <div style="width:[%=@miRainDayValue%]%; height:10px;"></div>
+					    </div>
+					    <span style="position:relative; left:-50px; color:#000000">[%=@iRainDayValue%]/[%=@iRainDayMax%]</span>
+						<a href="javascript:;" class="c_tx unline"><span onmouseover="$('tipRainDiv').style.display='block'" onmouseout="$('tipRainDiv').style.display='none'" style="margin-left:-20px;cursor:pointer;">如何增加</span></a>						
+					</div>
+					<div class="flower_op_txt1">全部雨露值：<span class="c_tx">[%=@iRain%]</span></div>
+					<div class="flower_op_txt2">每天上限：<span class="c_tx">[%=@iRainDayMax%]</span></div>
+					<div class="flower_op_link">[%=@mMtime%]</div>
+				</div>
+			  </div>
+			  <div class="flower_op_list2 bbor2">
+				<div class="flower_op_detail2" >
+					<div class="progress_bar">
+						<span>今天新增爱心值</span>
+						<div class="capacity_rate" style="margin-top:3px;">
+						  <div style="width:[%=@miLoveDayValue%]%; height:10px;"></div>
+					    </div>
+					    <span style="position:relative; left:-50px; color:#000000">[%=@iLoveDayValue%]/[%=@iLoveDayMax%]</span>
+						<a href="javascript:;" class="c_tx unline"><span onmouseover="$('tipLoveDiv').style.display='block'" onmouseout="$('tipLoveDiv').style.display='none'" style="margin-left:-20px;cursor:pointer;">如何增加</span></a>						
+					</div>
+					<div class="flower_op_txt1">全部爱心值：<span class="c_tx">[%=@iLove%]</span></div>
+					<div class="flower_op_txt2">每天上限：<span class="c_tx">[%=@iLoveDayMax%]</span></div>
+					<div class="flower_op_link">[%=@mMtime%]</div>
+				</div>
+			  </div>
+			  <div class="flower_op_list2 bbor2">
+				<div class="flower_op_detail2" >
+					<div class="progress_bar">
+						<span>今天新增阳光值</span>
+						<div class="capacity_rate" style="margin-top:3px;">
+						  <div style="width:[%=@miSunDayValue%]%; height:10px;"></div>
+					    </div>
+					    <span style="position:relative; left:-50px; color:#000000">[%=@iSunDayValue%]/[%=@iSunDayMax%]</span>
+						<a href="javascript:;" class="c_tx unline"><span onmouseover="$('tipSunDiv').style.display='block'" onmouseout="$('tipSunDiv').style.display='none'" style="margin-left:-20px;cursor:pointer;">如何增加</span></a>						
+					</div>
+					<div class="flower_op_txt1">全部阳光值：<span class="c_tx">[%=@iSun%]</span></div>
+					<div class="flower_op_txt2">每天上限：<span class="c_tx">[%=@iSunDayMax%]</span></div>
+					<div class="flower_op_link">[%=@mMtime%]</div>
+				</div>
+			  </div>
+			  <div class="flower_op_list2 bbor2 last_list">
+				<div class="flower_op_detail2">
+				  <div class="progress_bar"><span>营养值无上限　</span>
+				    <a href="javascript:;" class="c_tx unline" onmouseover="$('tipNutriDiv').style.display='block'" onmouseout="$('tipNutriDiv').style.display='none'">如何增加</a>
+				  </div>
+				  <div class="flower_op_txt1">全部营养值：<span class="c_tx">[%=@iNutri%]</span></div>
+				  <div class="flower_op_txt2">[%=@miNutriMax%]</div>
+				  <div class="flower_op_link">[%=@miNutriMtime%]</div>
+			    </div>
+			  </div>
+
+			</div>
+          </div>
+-->		 
+		  [%_repeat_0%]
+		  </textarea>	
+		</div>
+		<!--E 花藤情况结束-->
+
+		<div class="flower_feed" id="feedNon">
+		  <!-- 菜单 menuDiv -->
+		  <div class="mode_menu_tag2">
+			<ul id="menuDiv">
+			  <li id="f0" class="nowtag"><a href="javascript:;" onclick="menuShow(0, this)">我的花藤动态</a></li>
+			  <li id="f1" style="display:none"><a href="javascript:;" onclick="menuShow(1, this)">好友的花藤动态</a></li>
+			</ul>
+		  </div>
+
+		  
+		  <div class="flower_feed_list" id="FeedLinkDiv" style="margin-top:10px; margin-left:20px;">
+			<a href="javascript:;" onclick="onFeedShow();return false;" class="unline">点击查看</a>
+          </div>
+
+		  <!-- 我的花藤动态 -->
+		  <div class="flower_feed_list" id="loadFeed" style="display:none">
+			<center>正在读取中，请稍候......</center>
+          </div>
+
+		  <div class="flower_feed_list" id="myFeedList" style="display:none">
+			<textarea class="template">
+		    [%repeat_0 match="data"%]
+			<div class="list bbor2 [%=@lastStyle%]" id="[%=@indexId%]">
+			  <div class="info_user"> <a class="info_user_head bor2" href="http://user.qzone.qq.com/[%=@iFuin%]/flower" target="_blank" ><img width="64" height="64" src="[%=@iFicon%]" link="nameCard_[%=@iFuin%]" class="q_namecard"/></a>
+				<div class="info_user_app"><a class="info_user_name [%=@vipclz%]" href="http://user.qzone.qq.com/[%=@iFuin%]/flower" target="_blank" title="[%=@iFnickAlt%]">[%=@iFnick%]</a></div>
+			  </div>
+			  <ol>
+			    [%repeat_1 match="sec"%]
+				<li class="icenter_list bor [%=@lastStyle%]" name="[%=@butHide%]" style="display:[%=@display%]" id="[%=@indexId%]">
+				  <div class="icenter_list_summary">
+					<div class="icenter_list_operate">
+					  <span class="c_tx3">[%=@miOptime%]</span>
+					  [%=@but%] <br>
+					  <div style="text-align:right;margin-right:15px;"><a href="javascript:;" onclick="onBut_delFeed_ex('[%=@iFuin%]','[%=@iOptime%]','[%=@iOpId%]', '[%=@indexId%]');return false;" class="c_tx unline">删除</a></div>
+					</div>
+					<div class="icenter_list_item"><img src="/qzone/flower/images/icon/[%=@icon%]" title="{%=@iconName%]"/>
+					  <div class="icenter_list_item_text">[%=@operate%]</div>
+					</div>
+				  </div>
+				  <div style="display: none;" class="icenter_list_extend"> </div>
+				</li>
+				[%_repeat_1%]
+			  </ol>	
+			  <p class="item_post">[%=@lookFlower%]</p>
+			</div>
+		    [%_repeat_0%]	
+		    </textarea>	
+		  </div>
+		  <div class="flower_feed_list" style="display:none" id="feedMoreDiv">
+		    <a href="javascript:;" onclick="subsectionFeed()">查看更多</a>
+		  </div>
+
+		  <!-- 好友的花藤动态 -->
+          <div class="flower_feed_list" id="friendFeedList" style="display:none">
+			<textarea class="template">
+		    [%repeat_0 match="data"%]
+			<div class="list bbor2 [%=@lastStyle%]">
+			  <div class="info_user"> <a class="info_user_head bor2" href="http://user.qzone.qq.com/[%=@iFuin%]" target="_blank"><img src="[%=@iFicon%]"/></a>
+				<div class="info_user_app"><a class="info_user_name" href="http://user.qzone.qq.com/[%=@iFuin%]" target="_blank">[%=@iFnick%]</a></div>
+			  </div>
+			  <ol>
+			    [%repeat_1 match="sec" repeat_num="1"%]
+				<li class="icenter_list bor [%=@lastStyle%]">
+				  <div class="icenter_list_summary">
+					<div class="icenter_list_operate">
+					  <span class="c_tx3">昨天 10:10 </span>
+					  <button title="收缩" class="bt_blog_side" onclick="switch_onclick(this)"><span class="none">收缩</span></button>
+					</div>
+					<div class="icenter_list_item"><img alt="" class="icon_flower" src="http://imgcache.qq.com/ac/b.gif"/>
+					  <div class="icenter_list_item_text"><a class="c_tx unline nickname" href="#">[%=@iFnick%]</a>扛起肥料给它施肥 <span class="c_tx">10</span> 次<p>并留言：[%=@sMsg%]</p><p><a href="javascript:;" onclick="changeFlower(1);goFlowInfo([%=@iFlowerID%], this)" class="c_tx">看TA的花藤</a> <a href="#" class="c_tx">给她留言</a></p></div>
+					</div>
+				  </div>
+				  <div style="display: none;" class="icenter_list_extend"> </div>
+				</li>
+				[%_repeat_1%]
+			  </ol>
+			</div>			
+		    [%_repeat_0%]
+		    </textarea>	
+		  </div>
+		</div>
+	  </div>
+	</div>
+  </div>
+</div></div>
+
+<div id="tipRainDiv" class="global_client_tip" style="left:235px;top:92px; display:none;">
+	<div class="client_tip_up" style="margin-left:115px;"></div>
+	<div class="client_tip">
+		<div class="client_tip_main" style="PADDING-BOTTOM: 2px; PADDING-TOP: 2px">
+			<p>给自己或者好友浇水，可以增加自己或者好友雨露值<br>
+			   每人每天只能给自己浇水一次，给好友浇水一次<br>
+			   日志、心情和留言板每增加一个非自己的回复增加2分，收到一个新小纸条增加1分。每篇网络日志每被转载一次原创作者增加3分。
+            </p>
+		</div>
+	</div>
+	<div class="client_tip_down" style="margin-left:115px;display:none"></div>
+</div>
+
+<div id="tipLoveDiv" class="global_client_tip" style="left:235px;top:165px; display:none;">
+	<div class="client_tip_up" style="margin-left:115px;"></div>
+	<div class="client_tip">
+		<div class="client_tip_main" style="PADDING-BOTTOM: 2px; PADDING-TOP: 2px">
+			<p>给自己或者好友修剪，可以增加自己或者好友爱心值<br>
+			   每人每天只能给自己修剪一次，给好友修剪一次<br>
+			   发表一篇日志增加5分，新增一个非QQ个性签名的心情增加3分，添加一首音乐增加1分，添加一个偶像增加3分，删除操作扣除相应分数
+            </p>
+		</div>
+	</div>
+	<div class="client_tip_down" style="margin-left:80px;display:none"></div>
+</div>
+
+<div id="tipSunDiv" class="global_client_tip" style="left:235px;top:240px; display:none;">
+	<div class="client_tip_up" style="margin-left:115px;"></div>
+	<div class="client_tip">
+		<div class="client_tip_main" style="PADDING-BOTTOM: 2px; PADDING-TOP: 2px">
+			<p>给自己或者好友日照，可以增加自己或者好友阳光值<br>
+			   每人每天只能给自己日照一次，给好友日照一次<br>
+			   每1个访客（不包括未登录的访客）增加1分阳光值
+            </p>
+		</div>
+	</div>
+	<div class="client_tip_down" style="margin-left:115px;display:none"></div>
+</div>
+
+<div id="tipNutriDiv" class="global_client_tip" style="left:173px;top:314px; display:none;">
+	<div class="client_tip_up" style="margin-left:100px;"></div>
+	<div class="client_tip">
+		<div class="client_tip_main" style="PADDING-BOTTOM: 2px; PADDING-TOP: 2px">
+			<p>给自己或者好友施肥，可以增加自己或者好友营养值<br>
+			   黄钻用户每天可以给自己或者好友施肥一次，普通用户不可以施肥<br>
+			   每在个人空间商城花费1元钱，增加8分营养值
+            </p>
+		</div>
+	</div>
+	<div class="client_tip_down" style="margin-left:115px;display:none"></div>
+</div>
+
+<!--
+<div id="flashDiv" style="position:absolute;top:45px;left:5px;width:150px;height:298px;display:none;">
+  <textarea class="template">
+  [%repeat_0 match="data"%]
+  <div style="background-image:url(/qzone/flower/images/big/[%=@iFlowerID%]_bg.gif);">
+	<OBJECT id="item_[%=@iFlowerID%]" codeBase="http://fpdownload.macromedia.com/get/flashplayer/current/swflash.cab#version=8,0,0,0" height="298" width="150" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" menu="false" flashVars="uin=[%=@flashUin%]&loginUin=[%=@flashLoginUin%]&eventHandle=newFlowerPageEventHandler&baseDomain=mall2.qzone.qq.com" scale="showAll" wmode="transparent" allowFullScreen="true" allownetworking="all" allowScriptAccess="always" src="[%=@flashURI%]">
+	<PARAM value="[%=@flashURI%]" name="movie" />
+	<PARAM value="always" name="allowScriptAccess" />
+	<PARAM value="all" name="allownetworking" />
+	<PARAM value="true" name="allowFullScreen" />
+	<PARAM value="transparent" name="wmode" />
+	<PARAM value="showAll" name="scale" />			
+	<PARAM value="uin=[%=@flashUin%]&loginUin=[%=@flashLoginUin%]&eventHandle=newFlowerPageEventHandler&baseDomain=mall2.qzone.qq.com&mode=1" name="flashVars" />
+	<PARAM value="false" name="menu" />
+	<embed width="150" height="298" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" codebase="http://fpdownload.macromedia.com/get/flashplayer/current/swflash.cab#version=8,0,0,0" menu="false" flashvars="uin=[%=@flashUin%]&loginUin=[%=@flashLoginUin%]&eventHandle=newFlowerPageEventHandler&baseDomain=mall2.qzone.qq.com" scale="showAll" wmode="transparent" allowfullscreen="true" id="itemembed_[%=@iFlowerID%]" name="itemembed_[%=@iFlowerID%]" allownetworking="all" allowscriptaccess="always" src="http://imgcache.qq.com/qzone/app/flower/Flower2.swf"/>
+	</OBJECT>
+  </div>
+  [%_repeat_0%]
+  </textarea>	
+</div>
+-->
+<script language="javascript" src="http://imgcache.qq.com/qzone/ping.js"></script>
+</body>
+</html>
+<!--[if !IE]>|xGv00|162282e2e2b26cb01c14e4c0bfaafd4d<![endif]-->

@@ -1,0 +1,451 @@
+<!doctype html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+        <title>最近访客</title>
+        <style type="text/css">.none{display:none}</style>
+        <base href="//qzs.qq.com/"/>
+    </head>
+    <body>
+        <script type="text/javascript" src="/qzone/v6/applib/embeded.js"></script>
+        <script type="text/javascript">
+            document.domain = location.hostname;
+            if(location.href.indexOf('g_iframeUser=1') > -1) {
+                var obj = {};
+                for (var attrname in QZONE.FP) { obj[attrname] = QZONE.FP[attrname]; }
+                for (var attrname in top.QZONE.FP) { obj[attrname] = top.QZONE.FP[attrname]; }
+                QZONE.FP = obj;
+            }
+
+            var imgcacheDomain,
+                g_StyleID = 1,
+                TOP = QZONE.FP._t,
+                siDomain = "//" + TOP.siDomain + "/";
+            if(typeof(TOP.g_StyleID) != "undefined"){
+                g_StyleID = TOP.g_StyleID;
+            }
+            document.write('<link rel="stylesheet" href="' + siDomain + '/aoi/skin/' + g_StyleID + '.css" media="screen" />');
+            document.write('<link rel="stylesheet" href="' + siDomain + '/aoi/app-setup.css" media="screen" />');
+            document.write('<link rel="stylesheet" href="' + siDomain + 'qzone_v6/gb/skin/' + g_StyleID + '.css" type="text/css" media="screen" />');
+            document.write('<link rel="stylesheet" href="' + siDomain + 'qzone_v6/friends_recent_visitors_v4.css" type="text/css" media="screen" />');
+            
+            try {
+              QZONE.FP.includeQZFL();
+              QZONE.FP.includeNamecard();
+            } catch (error) {
+              console.warn(error);
+            }
+        </script>
+        <div class="bg_mode" style="width:960px;">
+            <div class="box_ml bor3">
+                <div class="mode_gb">
+                    <div class="mode_gb_title style_mode_gb_title" style="height:auto">
+                        <div class="bg_mode_gb_title">
+                            <h3>访客</h3>
+                        </div>
+                    </div>
+                    <div class="mode_gb_cont">
+                        <div class="app_friend">
+                            <div class="mode_menu_tag2" id="menu"></div>
+                            <div id="visitor">
+                                <div class="recent_visitors">
+                                    <div class="info">
+                                        <p class="ileft" id="visit-num" style="display:none;">
+                                            总浏览量：<strong id="history-visit-num" class="c_tx4">0</strong><span class="ui_mlr10">|</span>今日浏览量：<strong class="c_tx4" id="today-visit-num">0</strong>
+                                            <span id="blocked-visit" style="display:none;"><span class="ui_mlr10">|</span>被挡访问总量：<strong class="c_tx4" id="history-blocked-visit">0</strong><span class="ui_mlr10">|</span>今日被挡：<strong class="c_tx4" id="today-blocked-visit">0</strong></span>
+                                        </p>
+                                    </div>
+                                    <p class="fn_visitors_tips" id="visitors_tips">以下是详细访问内容（仅您自己可见，客人不能看到具体访问内容）。</p>
+                                    <div id="visitors_list"></div><!-- .fn_visitors_list -->
+                                    <div id="showmore" class="check_more c_tx bor bg2 none"><p>加载数据中...</p></div>
+                                </div>
+
+                                <div class="recent_visitors_side" id="recent_visitors_side">
+                                    <!-- 顶部推广    -->
+                                    <div class="tips bg2 bor2">
+                                        <p id="recent_visitors_side_text">用户开通黄钻后，可查看自开通日起最新的1000条访客记录</p>
+                                        <p><a id="recent_visitors_side_logo" href="http://pay.qq.com/qzone/index.shtml?aid=zone.fangke&paytime=year" class="btn_renew_vip" target="_blank" data-click="side_vipbtn_click"></a></p>
+                                    </div><!-- .tips -->
+
+                                    <!-- 被挡访客 -->
+                                    <div class="ban_visitor_list" id="div_ban_visitor_list">
+                                        <h3>被挡访客</h3>
+                                        <ul id="refuse_list" class="none"></ul>
+                                        <p id="refuse_list_null" class="none">还没有人被拒哦~</p>
+                                        <p id="refuse_page" class="none"></p>
+                                        <!--
+                                        <p class="tips none" id="normal_user_tip">黄钻用户可优先体验查看被权限阻挡在外的访客。想要更多优先体验，赶快 <a href="http://pay.qq.com/qzone/index.shtml?aid=zone.bdfk&paytime=year" class="btn_open_year" target="_blank"></a></p>
+                                        -->
+                                    </div><!-- .ban_visitor_list -->
+                                 </div>
+                            </div>
+                            <div class="hide_visit layout-setup-body none" id="setting">
+                                <div class="layout-setup-main">
+                                    <div class="vip-info-bar continue-vip" style="display:none;">
+                                        <i class="ui-icon icon-diamond-vip"></i>您是尊贵的黄钻用户，专享隐身访问、隐身访问记录特权！<a href="http://pay.qq.com/qzone/index.shtml" target="_blank" class="btn btn-goon-vip"></a>
+                                    </div>
+
+                                    <div class="vip-info-bar open-vip" style="display:none;">
+                                        <i class="ui-icon icon-diamond-vip"></i>黄钻用户专享隐身访问、隐藏访问记录特权，开通立即体验！<a href="http://pay.qq.com/qzone/index.shtml" target="_blank" class="btn btn-open-vip"></a>
+                                    </div>
+
+                                    <div class="setup-main-mod set-visitors">
+                                        <div class="main-hd">
+                                            <h3 class="title">谁能看我的访客</h3>
+                                        </div>
+                                        <div class="main-bd">
+                                            <div class="setup-access-item" id="entry_type_list">
+                                                <p class="item set-audience-drop" data-type="1"><i class="ui-icon icon-author-all"></i><span class="icon-txt">所有人</span></p>
+                                                <p class="item item set-audience-drop" data-type="2"><i class="ui-icon icon-author-qq"></i><span class="icon-txt">QQ好友</span>
+                                                </p>
+                                                <p class="item item set-audience-drop" data-type="3"><i class="ui-icon icon-author-self"></i><span class="icon-txt">仅自己</span>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="setup-main-mod hide-visit">
+                                        <div class="main-hd">
+                                            <h3 class="title">隐身访问他的空间</h3>
+                                            <span class="vip-tag status"><i class="ui-icon icon-diamond-vip"></i>黄钻特权</span>
+                                        </div>
+                                        <div class="main-bd clearfix">
+                                            <div class="section">
+                                                <p class="set-msg-box">设置后，您的访问不会留下任何记录。
+                                                    <a href="javascript:void(0);" class="act-btn j-set-hide-visit">设置</a></p>
+                                                <p class="case-img" style="display:none;">
+                                                    <script type="text/javascript">
+                                                        if(window.ActiveXObject && !window.XMLHttpRequest) {//ie6
+                                                            document.write('<img src="//ctc.qzonestyle.gtimg.cn/aoi/img/app-setup/visitor-case-1.ie6.png">');
+                                                        } else {
+                                                            document.write('<img src="//ctc.qzonestyle.gtimg.cn/aoi/img/app-setup/visitor-case-1.png">');
+                                                        }
+                                                    </script>
+                                                </p>
+                                                <!-- 点设置后 -->
+                                                <div class="setup-access-detail" style="display:none;">
+                                                    <div class="custom-option">
+                                                        <div class="friends-single">
+                                                            <div class="friends-detail qz-scrollbar">
+                                                                <div class="friends-detail-inner">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="section time-set-section">
+                                                <div class="no-set-hide-visit-time" style="display:none;">
+                                                    <p class="set-msg-box">您还可以设置某段时间对所有人都隐身访问。
+                                                        <a href="javascript:void(0);" class="act-btn j-set-hide-visit-time">开启</a>
+                                                    </p>
+                                                    <!-- 开启时间设置后 -->
+                                                    <div class="time-picker time-picker-disable"><!-- 开启后去掉 time-picker-disable -->
+                                                        <b class="time-picker-mask"></b><!-- 开启后隐藏 -->
+                                                        <div class="time-picker-box">
+                                                            <div class="picker-item">
+                                                                <span class="txt status title">开始时间：</span>
+                                                                <b class="qz-input">
+                                                                    <b class="qz-input-inner">
+                                                                        <input type="text" id="j-start-day" class="text placeholder" value="2014年08月20日" readonly="readonly" />
+                                                                    </b>
+                                                                </b>
+                                                                <div class="qz-option-detail start-hour">
+                                                                    <div class="detail-inner">
+                                                                        <a class="op-arrow" href="javascript:void(0)">
+                                                                            <span>00</span>
+                                                                            <b class="ui-trig ui-trig-b"></b>
+                                                                        </a>
+                                                                        <div class="op-list qz-scrollbar">
+                                                                            <ul>
+                                                                                <li><a href="javascript:void(0);">00</a></li>
+                                                                                <li><a href="javascript:void(0);">01</a></li>
+                                                                                <li><a href="javascript:void(0);">02</a></li>
+                                                                                <li><a href="javascript:void(0);">03</a></li>
+                                                                                <li><a href="javascript:void(0);">04</a></li>
+                                                                                <li><a href="javascript:void(0);">05</a></li>
+                                                                                <li><a href="javascript:void(0);">06</a></li>
+                                                                                <li><a href="javascript:void(0);">07</a></li>
+                                                                                <li><a href="javascript:void(0);">08</a></li>
+                                                                                <li><a href="javascript:void(0);">09</a></li>
+                                                                                <li><a href="javascript:void(0);">10</a></li>
+                                                                                <li><a href="javascript:void(0);">11</a></li>
+                                                                                <li><a href="javascript:void(0);">12</a></li>
+                                                                                <li><a href="javascript:void(0);">13</a></li>
+                                                                                <li><a href="javascript:void(0);">14</a></li>
+                                                                                <li><a href="javascript:void(0);">15</a></li>
+                                                                                <li><a href="javascript:void(0);">16</a></li>
+                                                                                <li><a href="javascript:void(0);">17</a></li>
+                                                                                <li><a href="javascript:void(0);">18</a></li>
+                                                                                <li><a href="javascript:void(0);">19</a></li>
+                                                                                <li><a href="javascript:void(0);">20</a></li>
+                                                                                <li><a href="javascript:void(0);">21</a></li>
+                                                                                <li><a href="javascript:void(0);">22</a></li>
+                                                                                <li><a href="javascript:void(0);">23</a></li>
+                                                                            </ul>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <span class="txt status split">时</span>
+                                                                <div class="qz-option-detail start-minute">
+                                                                    <div class="detail-inner">
+                                                                        <a class="op-arrow" href="javascript:void(0);">
+                                                                            <span>00</span>
+                                                                            <b class="ui-trig ui-trig-b"></b>
+                                                                        </a>
+                                                                        <div class="op-list qz-scrollbar">
+                                                                            <ul>
+                                                                                <li><a href="javascript:void(0);">00</a></li>
+                                                                                <li><a href="javascript:void(0);">01</a></li>
+                                                                                <li><a href="javascript:void(0);">02</a></li>
+                                                                                <li><a href="javascript:void(0);">03</a></li>
+                                                                                <li><a href="javascript:void(0);">04</a></li>
+                                                                                <li><a href="javascript:void(0);">05</a></li>
+                                                                                <li><a href="javascript:void(0);">06</a></li>
+                                                                                <li><a href="javascript:void(0);">07</a></li>
+                                                                                <li><a href="javascript:void(0);">08</a></li>
+                                                                                <li><a href="javascript:void(0);">09</a></li>
+                                                                                <li><a href="javascript:void(0);">10</a></li>
+                                                                                <li><a href="javascript:void(0);">11</a></li>
+                                                                                <li><a href="javascript:void(0);">12</a></li>
+                                                                                <li><a href="javascript:void(0);">13</a></li>
+                                                                                <li><a href="javascript:void(0);">14</a></li>
+                                                                                <li><a href="javascript:void(0);">15</a></li>
+                                                                                <li><a href="javascript:void(0);">16</a></li>
+                                                                                <li><a href="javascript:void(0);">17</a></li>
+                                                                                <li><a href="javascript:void(0);">18</a></li>
+                                                                                <li><a href="javascript:void(0);">19</a></li>
+                                                                                <li><a href="javascript:void(0);">20</a></li>
+                                                                                <li><a href="javascript:void(0);">21</a></li>
+                                                                                <li><a href="javascript:void(0);">22</a></li>
+                                                                                <li><a href="javascript:void(0);">23</a></li>
+                                                                                <li><a href="javascript:void(0);">24</a></li>
+                                                                                <li><a href="javascript:void(0);">25</a></li>
+                                                                                <li><a href="javascript:void(0);">26</a></li>
+                                                                                <li><a href="javascript:void(0);">27</a></li>
+                                                                                <li><a href="javascript:void(0);">28</a></li>
+                                                                                <li><a href="javascript:void(0);">29</a></li>
+                                                                                <li><a href="javascript:void(0);">30</a></li>
+                                                                                <li><a href="javascript:void(0);">31</a></li>
+                                                                                <li><a href="javascript:void(0);">32</a></li>
+                                                                                <li><a href="javascript:void(0);">33</a></li>
+                                                                                <li><a href="javascript:void(0);">34</a></li>
+                                                                                <li><a href="javascript:void(0);">35</a></li>
+                                                                                <li><a href="javascript:void(0);">36</a></li>
+                                                                                <li><a href="javascript:void(0);">37</a></li>
+                                                                                <li><a href="javascript:void(0);">38</a></li>
+                                                                                <li><a href="javascript:void(0);">39</a></li>
+                                                                                <li><a href="javascript:void(0);">40</a></li>
+                                                                                <li><a href="javascript:void(0);">41</a></li>
+                                                                                <li><a href="javascript:void(0);">42</a></li>
+                                                                                <li><a href="javascript:void(0);">43</a></li>
+                                                                                <li><a href="javascript:void(0);">44</a></li>
+                                                                                <li><a href="javascript:void(0);">45</a></li>
+                                                                                <li><a href="javascript:void(0);">46</a></li>
+                                                                                <li><a href="javascript:void(0);">47</a></li>
+                                                                                <li><a href="javascript:void(0);">48</a></li>
+                                                                                <li><a href="javascript:void(0);">49</a></li>
+                                                                                <li><a href="javascript:void(0);">50</a></li>
+                                                                                <li><a href="javascript:void(0);">51</a></li>
+                                                                                <li><a href="javascript:void(0);">52</a></li>
+                                                                                <li><a href="javascript:void(0);">53</a></li>
+                                                                                <li><a href="javascript:void(0);">54</a></li>
+                                                                                <li><a href="javascript:void(0);">55</a></li>
+                                                                                <li><a href="javascript:void(0);">56</a></li>
+                                                                                <li><a href="javascript:void(0);">57</a></li>
+                                                                                <li><a href="javascript:void(0);">58</a></li>
+                                                                                <li><a href="javascript:void(0);">59</a></li>
+                                                                            </ul>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <span class="txt status split">分</span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="time-picker-box">
+                                                            <div class="picker-item">
+                                                                <span class="txt status title">结束时间：</span>
+                                                                <b class="qz-input"><b class="qz-input-inner"><input id="j-end-day" type="text" class="text placeholder" value="2014年08月20日" readonly="readonly" /></b></b>
+                                                                <div class="qz-option-detail end-hour">
+                                                                    <div class="detail-inner">
+                                                                        <a class="op-arrow" href="javascript:void(0);">
+                                                                            <span>00</span>
+                                                                            <b class="ui-trig ui-trig-b"></b>
+                                                                        </a>
+                                                                        <div class="op-list qz-scrollbar">
+                                                                            <ul>
+                                                                                <li><a href="javascript:void(0);">00</a></li>
+                                                                                <li><a href="javascript:void(0);">01</a></li>
+                                                                                <li><a href="javascript:void(0);">02</a></li>
+                                                                                <li><a href="javascript:void(0);">03</a></li>
+                                                                                <li><a href="javascript:void(0);">04</a></li>
+                                                                                <li><a href="javascript:void(0);">05</a></li>
+                                                                                <li><a href="javascript:void(0);">06</a></li>
+                                                                                <li><a href="javascript:void(0);">07</a></li>
+                                                                                <li><a href="javascript:void(0);">08</a></li>
+                                                                                <li><a href="javascript:void(0);">09</a></li>
+                                                                                <li><a href="javascript:void(0);">10</a></li>
+                                                                                <li><a href="javascript:void(0);">11</a></li>
+                                                                                <li><a href="javascript:void(0);">12</a></li>
+                                                                                <li><a href="javascript:void(0);">13</a></li>
+                                                                                <li><a href="javascript:void(0);">14</a></li>
+                                                                                <li><a href="javascript:void(0);">15</a></li>
+                                                                                <li><a href="javascript:void(0);">16</a></li>
+                                                                                <li><a href="javascript:void(0);">17</a></li>
+                                                                                <li><a href="javascript:void(0);">18</a></li>
+                                                                                <li><a href="javascript:void(0);">19</a></li>
+                                                                                <li><a href="javascript:void(0);">20</a></li>
+                                                                                <li><a href="javascript:void(0);">21</a></li>
+                                                                                <li><a href="javascript:void(0);">22</a></li>
+                                                                                <li><a href="javascript:void(0);">23</a></li>
+                                                                            </ul>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <span class="txt status split">时</span>
+                                                                <div class="qz-option-detail end-minute">
+                                                                    <div class="detail-inner">
+                                                                        <a class="op-arrow" href="javascript:void(0);">
+                                                                            <span>00</span>
+                                                                            <b class="ui-trig ui-trig-b"></b>
+                                                                        </a>
+                                                                        <div class="op-list qz-scrollbar">
+                                                                            <ul>
+                                                                                <li><a href="javascript:void(0);">00</a></li>
+                                                                                <li><a href="javascript:void(0);">01</a></li>
+                                                                                <li><a href="javascript:void(0);">02</a></li>
+                                                                                <li><a href="javascript:void(0);">03</a></li>
+                                                                                <li><a href="javascript:void(0);">04</a></li>
+                                                                                <li><a href="javascript:void(0);">05</a></li>
+                                                                                <li><a href="javascript:void(0);">06</a></li>
+                                                                                <li><a href="javascript:void(0);">07</a></li>
+                                                                                <li><a href="javascript:void(0);">08</a></li>
+                                                                                <li><a href="javascript:void(0);">09</a></li>
+                                                                                <li><a href="javascript:void(0);">10</a></li>
+                                                                                <li><a href="javascript:void(0);">11</a></li>
+                                                                                <li><a href="javascript:void(0);">12</a></li>
+                                                                                <li><a href="javascript:void(0);">13</a></li>
+                                                                                <li><a href="javascript:void(0);">14</a></li>
+                                                                                <li><a href="javascript:void(0);">15</a></li>
+                                                                                <li><a href="javascript:void(0);">16</a></li>
+                                                                                <li><a href="javascript:void(0);">17</a></li>
+                                                                                <li><a href="javascript:void(0);">18</a></li>
+                                                                                <li><a href="javascript:void(0);">19</a></li>
+                                                                                <li><a href="javascript:void(0);">20</a></li>
+                                                                                <li><a href="javascript:void(0);">21</a></li>
+                                                                                <li><a href="javascript:void(0);">22</a></li>
+                                                                                <li><a href="javascript:void(0);">23</a></li>
+                                                                                <li><a href="javascript:void(0);">24</a></li>
+                                                                                <li><a href="javascript:void(0);">25</a></li>
+                                                                                <li><a href="javascript:void(0);">26</a></li>
+                                                                                <li><a href="javascript:void(0);">27</a></li>
+                                                                                <li><a href="javascript:void(0);">28</a></li>
+                                                                                <li><a href="javascript:void(0);">29</a></li>
+                                                                                <li><a href="javascript:void(0);">30</a></li>
+                                                                                <li><a href="javascript:void(0);">31</a></li>
+                                                                                <li><a href="javascript:void(0);">32</a></li>
+                                                                                <li><a href="javascript:void(0);">33</a></li>
+                                                                                <li><a href="javascript:void(0);">34</a></li>
+                                                                                <li><a href="javascript:void(0);">35</a></li>
+                                                                                <li><a href="javascript:void(0);">36</a></li>
+                                                                                <li><a href="javascript:void(0);">37</a></li>
+                                                                                <li><a href="javascript:void(0);">38</a></li>
+                                                                                <li><a href="javascript:void(0);">39</a></li>
+                                                                                <li><a href="javascript:void(0);">40</a></li>
+                                                                                <li><a href="javascript:void(0);">41</a></li>
+                                                                                <li><a href="javascript:void(0);">42</a></li>
+                                                                                <li><a href="javascript:void(0);">43</a></li>
+                                                                                <li><a href="javascript:void(0);">44</a></li>
+                                                                                <li><a href="javascript:void(0);">45</a></li>
+                                                                                <li><a href="javascript:void(0);">46</a></li>
+                                                                                <li><a href="javascript:void(0);">47</a></li>
+                                                                                <li><a href="javascript:void(0);">48</a></li>
+                                                                                <li><a href="javascript:void(0);">49</a></li>
+                                                                                <li><a href="javascript:void(0);">50</a></li>
+                                                                                <li><a href="javascript:void(0);">51</a></li>
+                                                                                <li><a href="javascript:void(0);">52</a></li>
+                                                                                <li><a href="javascript:void(0);">53</a></li>
+                                                                                <li><a href="javascript:void(0);">54</a></li>
+                                                                                <li><a href="javascript:void(0);">55</a></li>
+                                                                                <li><a href="javascript:void(0);">56</a></li>
+                                                                                <li><a href="javascript:void(0);">57</a></li>
+                                                                                <li><a href="javascript:void(0);">58</a></li>
+                                                                                <li><a href="javascript:void(0);">59</a></li>
+                                                                            </ul>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <span class="txt status split">分</span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="action-bar" style="display:none;">
+                                                            <a class="qz-button qz-dark-button j-save-hide-visit-time" href="javascript:void(0)"><span class="txt">保存</span></a>
+                                                            <a class="qz-button j-cancel-hide-visit-time" href="javascript:void(0)"><span class="txt">取消</span></a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="has-set-hide-visit-time" style="display:none;">
+                                                    <!-- 时间选择结果显示 -->
+                                                    <p class="set-msg-box">您已设置在以下时间段对所有人隐身访问</p>
+                                                    <div class="time-show">
+                                                        <p class="time-show-item">
+                                                            <span class="status title">开始时间：</span><span class="start-time">2014年08月08日 23时59分</span>
+                                                        </p>
+                                                        <p class="time-show-item">
+                                                            <span class="status title">结束时间：</span><span class="end-time">2014年08月08日 23时59分</span>
+                                                        </p>
+                                                        <div class="act-box">
+                                                            <a href="javascript:void(0);" class="act-btn j-modify-visit-time">修改</a>
+                                                            <a href="javascript:void(0);" class="act-btn j-del-visit-time">删除</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="setup-main-mod hide-from">
+                                        <div class="main-hd">
+                                            <h3 class="title">隐藏他的访问记录</h3>
+                                            <span class="vip-tag status"><i class="ui-icon icon-diamond-vip"></i>黄钻特权</span>
+                                        </div>
+                                        <div class="main-bd">
+                                            <p class="set-msg-box">设置后，其他人将看不到他的访问记录。
+                                                <a href="javascript:void(0);" class="act-btn j-set-hide-from">设置</a></p>
+                                            <p class="case-img" style="display:none;">
+                                                <script type="text/javascript">
+                                                    if(window.ActiveXObject && !window.XMLHttpRequest) {//ie6
+                                                        document.write('<img src="//ctc.qzonestyle.gtimg.cn/aoi/img/app-setup/visitor-case-2.ie6.png">');
+                                                    } else {
+                                                        document.write('<img src="//ctc.qzonestyle.gtimg.cn/aoi/img/app-setup/visitor-case-2.png">');
+                                                    }
+                                                </script>
+                                            <!-- 点设置后 -->
+                                            <div class="setup-access-detail" style="display:none;">
+                                                <div class="custom-option">
+                                                    <div class="friends-single">
+                                                        <div class="friends-detail qz-scrollbar">
+                                                            <div class="friends-detail-inner">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+							<div id="giftforvisitor" class="none">
+							</div>
+                            <div id="refusevisitor" class="none">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="/ac/qzfl/release/widget/calendar.js"></script>
+        <script src="/qzone/v6/friend_manage/scripts/visitors.js" type="text/javascript" defer="defer"></script>
+    </body>
+</html>

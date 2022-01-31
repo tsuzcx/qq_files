@@ -1,0 +1,131 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-cn" lang="zh-cn">
+<head>
+<script type="text/javascript">document.domain = "qq.com";</script>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Language" content="zh_cn" />
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+<meta name="robots" content="all" />
+<meta name="author" content="Tencent-ISRD" />
+<meta name="Copyright" content="Tencent" />
+<meta name="Description" content="Qzone精彩由你而来" />
+<meta name="Keywords" content="Qzone,QQ空间,Blog,博客,网络日志,播客,腾讯,QQ,Tencent" />
+<title>Qzone精彩由你而来</title>
+<script type="text/javascript" src="/qzone/qzfl/appclientlib.js"></script>
+<script type="text/javascript">
+//<![CDATA[
+	if(top && top.g_V && typeof(top.g_V.qz)=='string'){
+		document.write('<script type="text/javascript" src="http://'+top.imgcacheDomain+'/ac/qzone/qzfl/qzfl'+top.g_V.qz+'.js" charset="utf-8"><\/script>');
+	}else{
+		document.write('<script type="text/javascript" src="http://qzonestyle.gtimg.cn/ac/qzfl/release/qzfl_for_qzone.js" charset="utf-8"><\/script>');
+	}
+	var g_StyleID = 1;
+	var TOP = QZONE.FP._t;
+	var siDomain = "http://" + TOP.siDomain + "/";
+//]]>
+</script>
+<link rel="stylesheet" rev="stylesheet" href="http://imgcache.qq.com/qzonestyle/qzone_app/app_friend_v1/app_add_v1.css" type="text/css" media="screen" />
+<link rel="shortcut icon" href="http://qzone.qq.com/favicon.ico" type="image/x-icon" />
+</head>
+<body>
+
+<div id="add-friend-qa" class="main none">
+	<img id="icon-friend-qa" src="http://imgcache.qq.com/qzone_v4/client/userinfo_icon/5001.gif" alt="用户昵称" class="pic" />
+	<div class="content">
+		您将添加<a id="nick-friend-qa" target="_blank"></a>为好友<br />
+		<strong>对方需要您回答一个验证问题才能加为好友</strong><br />
+		问题：<span id="question-friend-qa">这是一个问题请你解答？</span><br />
+		答案：<input id="answer-friend-qa" name="" type="text" class="inp_txt" />
+		<div class="opsion">
+			<div class="shao"><strong>其他选项</strong></div>
+			<div id="group-friend-qa" class="duo"></div>
+		</div>
+	</div>
+	<div class="global_tip_button">
+		<button id="button-friend-qa" type="button" class="bt_tip_hit">发送请求</button>&nbsp;<button onclick="closePopup();" type="button" class="bt_tip_normal">取消</button>
+	</div>
+</div>
+
+<div id="add-friend-direct" class="main none">
+	<img id="icon-friend-direct" src="http://imgcache.qq.com/qzone_v4/client/userinfo_icon/5001.gif" alt="用户昵称" class="pic" />
+	<div class="content">
+		您将添加 <a id="nick-friend-direct" target="_blank"></a> 为好友<br /><br />
+		<strong>可以直接加为好友</strong><br />
+		<div class="opsion">
+			<div class="shao"><strong>其他选项</strong></div>
+			<div id="group-friend-direct" class="duo"></div>
+		</div>
+	</div>
+	<div class="global_tip_button">
+		<button type="button" id="button-friend-direct" class="bt_tip_hit">添加</button>&nbsp;<button type="button" onclick="closePopup();" class="bt_tip_normal">取消</button>
+	</div>
+</div>
+
+<div id="add-friend-verify" class="main none">
+	<img id="icon-friend-verify" src="http://imgcache.qq.com/qzone_v4/client/userinfo_icon/5001.gif" alt="用户昵称" class="pic" />
+	<div class="content">
+		您将添加 <a id="nick-friend-verify" target="_blank"></a> 为好友<br />
+		<strong>需要验证才能加为好友</strong><br />
+		<textarea class="textarea" id="textarea-friend-verify">请输入验证信息</textarea>
+		<div class="opsion">
+			<div class="shao"><strong>其他选项</strong></div>
+			<div id="group-friend-verify" class="duo"></div>
+		</div>
+	</div>
+	<div class="global_tip_button">
+		<button type="button" id="button-friend-verify" class="bt_tip_hit">发送请求</button>&nbsp;<button type="button" onclick="closePopup();" class="bt_tip_normal">取消</button>
+	</div>
+</div>
+
+<div id="add-care-forbid" class="main none">
+	<img id="icon-care-forbid" src="http://imgcache.qq.com/qzone_v4/client/userinfo_icon/5001.gif" alt="用户昵称" class="pic" />
+	<div class="content">
+		抱歉，<a id="nick-care-forbid"  target="_blank"></a>设置了权限，<br />您不能添加为好友。<br /><br />
+	</div>
+	<div class="global_tip_button" style="width:370px;">
+		<button type="button" onclick="closePopup(0);" class="bt_tip_normal">取消</button>
+	</div>
+</div>
+
+<div id="mask" class="mask none">
+	<iframe class="mask_iframe" frameborder="0"></iframe>
+	<div class="bg"></div>
+	<div class="tips">
+		<div class="tipsbor">
+			<img src="http://imgcache.qq.com/ac/b.gif" alt="" class="icon_hint_warn" />
+			<div class="txt1">请输入验证码后继续</div>
+			<div class="txt2">验证码：</div>
+			<input id="mask-input" name="" type="text" class="txt3" />
+			<div class="txt4">输入下图中的字符，不区分大小写</div>
+			<img id="verify-img" src="http://imgcache.qq.com/ac/b.gif" alt="" class="txt5" />
+			<a href="javascript:;" onclick="getVerifyKey($('verify-img'));return false;" class="txt6">看不清楚？换一张</a>
+			<div class="btttt" >
+				<button type="button" onclick="addFriend();" class="bt_tip_hit">确定</button>&nbsp;<button type="button" onclick="closeMask();" class="bt_tip_normal">取消</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="mask-add" class="mask none">
+	<iframe class="mask_iframe" frameborder="0"></iframe>
+	<div class="bg"></div>
+	<div class="tips">
+		<div class="tipsbor">
+			<img src="http://imgcache.qq.com/ac/b.gif" alt="" class="icon_hint_warn" />
+			<div class="txt1">请输入验证码后继续</div>
+			<div class="txt2">验证码：</div>
+			<input id="mask-input-add" name="" type="text" class="txt3" />
+			<div class="txt4">输入下图中的字符，不区分大小写</div>
+			<img id="verify-img-add" onclick="changeVerifyAdd();" src="http://imgcache.qq.com/ac/b.gif" alt="" class="txt5" />
+			<a href="javascript:;" onclick="changeVerifyAdd();return false;" class="txt6">看不清楚？换一张</a>
+			<div class="btttt" >
+				<button onclick="addFriend();" type="button" class="bt_tip_hit">确定</button>&nbsp;<button type="button" onclick="closeMask();" class="bt_tip_normal">取消</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript" src="scripts/newfriend_add.js"></script>
+<script type="text/javascript" src="/qzone/ping.js"></script>
+</body>
+</html><!--[if !IE]>|xGv00|9ab29c4e21926ba9de1bcdc173ad4bde<![endif]-->

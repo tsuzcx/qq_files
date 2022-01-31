@@ -1,0 +1,282 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>登录成功</title>
+<script type="text/javascript">
+//<![CDATA[
+try{
+	if(location.hostname == 'user.qzone.qq.com') {
+		document.domain = "user.qzone.qq.com";
+	} else {
+		document.domain = "qq.com";
+	}
+}catch (err) {
+	throw new Error("For qq.com domain only!");
+}
+function getCookie(name){
+	var r = new RegExp("(\\b)" + name + "=([^;]*)(;|$)"), m = document.cookie.match(r);
+	return (!m ? "" : m[2]);
+}
+function getParameter(name){
+	var r = new RegExp("(\\?|#|&)" + name + "=([^&#]*)(&|#|$)"), m = location.href.match(r);
+	return (!m ? "" : m[2]);
+}
+function showMsg(html){
+	var t = QZONE.FP._t;
+	t.QZFL.widget.msgbox.show(html, 0, 3000);
+}
+function closePopup(){
+	var t = QZONE.FP._t,_self = t.QZONE.FrontPage.showLoginBox;
+	if (_self == undefined) {
+		t.closePopup();
+	} else {
+		if (_self._ppml) {
+			t.QZONE.maskLayout.remove(_self._ppml);
+			_self._ppml = null;
+		}
+		if (_self._dialog) {
+			_self._dialog.unload();
+			_self._dialog = null;
+		}
+	}
+}
+function setLoginStatus(n){
+	var t = QZONE.FP._t;
+	if (typeof(t.g_OFPLite) != "undefined" || typeof(t.g_Izone) != "undefined") {
+		return;//独立版不需要这个逻辑
+	}
+	try{
+		var uc = t.QZONE.space.updateCSS, om = t.ownermode = t.g_iUin == t.g_iLoginUin;
+		uc(".ownerMode", "display", om ? "" : 'none');
+		uc(".clientMode", "display", om ? "none" : '');
+		t.initButton();
+	}catch (ex){}
+}
+function spaceURL2uid(s){
+	s = s || QZONE.FP._t.location.href;
+	var re1 = /http:\/\/user\.qzone\.qq\.com\/(\d{5,10})/i, 
+		re2 = /http:\/\/(\d{5,10})\.qzone\.qq\.com/i, 
+		re3 = /http:\/\/([\w\-\d]+)\.qzone\.qq\.com/i, 
+		re4 = /http:\/\/(?:[a-z]{1,3}\.)?(?:qzs|imgcache)\.qq\.com\/[^\d]+(\d{5,10})/i, 
+		re5 = /http:\/\/qzone\.qq\.com\/blog\/(\d{5,10})-(\d+)/i;
+	
+	if (re1.test(s)) {
+		return (re1.exec(s))[1];
+	} else if (re2.test(s)) {
+		return (re2.exec(s))[1];
+	} else if (re3.test(s)) {
+		var tmp = (re3.exec(s))[1];
+		if (tmp == "new") {
+			return QZONE.FP._t.g_iUin;
+		} else {
+			return tmp;
+		}
+	} else if (re4.test(s)) {
+		return (re4.exec(s))[1];
+	} else if (re5.exec(s)) {
+		return (re5.exec(s))[1];
+	} else {
+		return QZONE.FP._t.g_iUin;
+	}
+}
+
+function loginInit(){
+	var t = QZONE.FP._t, s = getParameter("para"), r = getParameter("refresh"), h = getParameter("home"), appid = getParameter("appid"),oldLoginUin = t.g_iLoginUin,uin = parseInt(getCookie("uin").replace(/^o0*(\d{5,10})$/, "$1"), 10);
+	t.g_iLoginUin = isNaN(uin) ? 0 : uin;
+	if(oldLoginUin != parent.g_iLoginUin) {
+		t.document.cookie = 'fnc=2; path=/; domain=qzone.qq.com; expires=' + new Date(+new Date() + 300000).toGMTString() + ';';
+	}
+	var isOwnerMode = t.g_iLoginUin == t.g_iUin;
+	setLoginStatus();
+	if (h == "1" && !isNaN(appid)) {
+		QZONE.FP.getCurrentAppWindow().src = QZONE.FP.toApp(s);
+		closePopup();
+		return;
+	} else if (r == "1") {
+		QZONE.FP.getCurrentAppWindow().location.reload();
+		closePopup();
+		return;
+	}
+	if (s == "interact") {
+		t.location = "http://rc.qzone.qq.com/interact";
+		return;
+	} else if (s == 'izone') {
+		t.location = "http://user.qzone.qq.com/" + uin;
+	} else if (s == 'reload') {
+		t.location.reload(true);
+		return;
+	} else if (s == "mall") {
+		closePopup();
+	} else if (s == "toolbar" && isOwnerMode) {//在工具条登录的时候，如果是自己的空间，就刷新该空间，让用户可以去到个人中心
+		if (t.QZFL.userAgent.firefox){
+			t.setTimeout(function(){
+				t.location.href = t.location.href;
+			},100);
+		}else{
+			t.location.reload(true);
+		}
+		return;
+	} else if (s == "BBS") {
+		var f = t.document.getElementById("tbbs");
+		if (!!f && f.contentWindow) f.contentWindow.verify();
+		closePopup();
+	} else if (s == "club") {
+		var f = t.document.getElementById("ic");
+		if (!!f && f.contentWindow) f.contentWindow.loginCallback();
+		closePopup();
+	} else if (s == "blogComment" || s == "moodComment") {
+		var f = !!t.isStatic ? top : t.document.getElementById("tblog");
+		if (!t.isStatic && !!f && f.contentWindow) 
+			f.contentWindow.loginCallback();
+		else if (!!t.isStatic) {
+			f.loginCallback();
+		}
+		showMsg("登录成功");
+		closePopup();
+	} else if (s == "mgbComment") {
+		var f = t.document.getElementById("tgb");
+		try {
+			if (!!f && f.contentWindow) {
+				f.contentWindow.loginCallback();
+			}
+		}catch(err){}
+		showMsg("登录成功");
+		closePopup();
+	} else if (s == "photo") {
+		var f = t.document.getElementById("tphoto");
+		if(!!f && f.contentWindow){
+			f.contentWindow.LoginBack();
+		}
+		showMsg("登录成功");
+		closePopup();
+	} else if(s == "qzvideo"){
+		var f = t.document.getElementById("tvideo");
+		if(!!f && f.contentWindow){
+			f.contentWindow.LoginBack();
+		}
+		showMsg("登录成功");
+		closePopup();
+	} else if (s == "act") {
+		var f = t.document.getElementById("act");
+		if (!!f && f.contentWindow) f.contentWindow.loginCallback();
+		showMsg("登录成功");
+		closePopup();
+	} else if (s == "ownerOperation") { //在进行主人态操作时候，如果用户登录超时，弹出登陆框的时候使用
+		showMsg("登录成功");
+		closePopup();
+		if (t.g_iUin != t.g_iLoginUin) {
+		debugger;
+			t.location.href = "http://user.qzone.qq.com/" + spaceURL2uid();
+			return;
+		}
+	} else if (s == "driftbottle") {
+		showMsg("登录成功");
+		closePopup();
+		if (!!t.dbLoginCallback){
+			t.dbLoginCallback();
+		}
+		t.dbLoginCallback = null;
+	} else if (s == "soren") {
+		showMsg("登录成功");
+		closePopup();
+		if (!!t.sorenLoginback){
+			t.sorenLoginback();
+		}
+		return;
+	} else if (s == "music") {
+		showMsg("登录成功");
+		closePopup();
+		var f = t.document.getElementById("tmusic");
+		if (!!f && f.contentWindow){
+			f.contentWindow.loginCallback();
+		}
+		return;
+	} else if (s == "zhen") {
+		closePopup();
+		if (t.loginCallback) t.loginCallback();
+		return;
+	} else if (s == "app") {
+		var l2Win = t.QZONE.space.getL2Window();
+		if (l2Win.loginCallback){
+			l2Win.loginCallback();
+		}
+		try {
+			t.toolbarRefresh();
+		} catch (err){}
+		closePopup();
+		return;
+	} else {
+		if (t.QZONE && t.QZFL && t.QZONE.space && t.imgcacheDomain) {
+			showMsg("登录成功");
+			closePopup();
+		}else {
+			try {
+				var _uin = spaceURL2uid();
+				if (_uin && !(!isNaN(parseInt(_uin, 10)) && _uin.length < 5)){
+					t.location.href = "http://user.qzone.qq.com/" + _uin;
+				}else{
+					t.location.reload();
+				}
+			}catch(ign){}
+		}
+	}
+}
+
+window.QZONE = window.QZONE || {};
+QZONE.FP = QZONE.FP || {};
+QZONE.AP = QZONE.AP || {};
+
+(function(){
+	var _fp = window, found = 0, appid = '';
+	try {
+		do {
+			_fp = _fp.parent;
+			if (_fp.QZONE && _fp.QZONE.FrontPage && _fp.g_iUin) {
+				found = 5;
+				break;
+			}
+		} while (_fp != top);
+		appid = _fp.QZONE.space.getCurrApp();
+		appid = appid[0] == 'myhome' || appid[0] == 'main' ? appid[0] : (appid[1] || '');
+	} catch (ex) {
+		found = 0;
+	}
+	QZONE.FP._t = _fp;
+	if (found < 5) {
+		return false;
+	}
+	function extend(source, target){
+		for (var k in source) {
+			if (k.charAt(0) != '_' && typeof(source[k]) == 'function') {
+				target[k] = source[k];
+			}
+		}
+	}
+	extend(_fp.QZONE.OFP || {}, QZONE.FP);
+	extend(_fp.QZONE.FrontPage, QZONE.FP);
+	extend({
+		activateOFPIframe: function(){
+			if (frameElement) {
+				if (typeof(frameElement.activate) == "function") {
+					frameElement.activate();
+				}
+			}
+		}
+	}, QZONE.FP);
+	
+	extend(_fp.QZONE.appPlatform || {}, QZONE.AP);
+	
+	setTimeout(function(){
+		if (window.QZFL && QZFL.config && QZFL.config.FSHelperPage) {
+			QZFL.config.FSHelperPage = "http://" + _fp.imgcacheDomain + "/qzone/v5/toolpages/fp_gbk.html";
+		}
+	}, 2000);
+})();
+
+loginInit();
+//]]>
+</script>
+</head>
+<body></body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE HTML>
+<html lang="zh-cn" class="os_win7">
+<head>
+<noscript><meta http-equiv="refresh" content="0; url=http://ctc.qzs.qq.com/qzone/v6/troubleshooter/noscript.html" /></noscript>
+<meta charset="UTF-8" />
+<title>登录成功</title>
+<script type="text/javascript">
+//<![CDATA[
+try{
+	document.domain = "qq.com";
+}catch (err) {
+	throw new Error("For qq.com domain only!");
+}
+function getCookie(name){
+	var r = new RegExp("(\\b)" + name + "=([^;]*)(;|$)"), m = document.cookie.match(r);
+	return (!m ? "" : m[2]);
+}
+function getParameter(name){
+	var r = new RegExp("(\\?|#|&)" + name + "=([^&#]*)(&|#|$)"), m = location.href.match(r);
+	return (!m ? "" : m[2]);
+}
+
+
+function checkurl(s) {
+	var ar = [/^http:\/\/user\.qzone\.qq\.com\/(\d{5,10})/i,
+		/^http:\/\/(\d{5,10})\.qzone\.qq\.com/i,
+		/^http:\/\/([\w\-\d]+)\.qzone\.qq\.com/i,
+		/^http:\/\/(?:[a-z]{1,3}\.)?(?:qzs|imgcache)\.qq\.com\//i,
+		/^http:\/\/qzone\.qq\.com\/blog\/(\d{5,10})-(\d+)/i,
+		/^http:\/\/vip\.qzone\.com/i];
+	for (var i = 0; i < ar.length; i++) {
+		if (ar[i].test(s)) {
+			return true;
+		}
+	}
+	return false;
+}
+
+var ref = getParameter('inject');
+if (ref == 'qzone') {
+	document.write('<script type="text/javascript" src="http://v.qzone.com/fcg-bin/fcg_get_skey?op=&ref=qzone.com"><\/script>');
+}
+
+//]]>
+</script>
+</head>
+<body>
+<script type="text/javascript">
+(function() {
+var jump_url = getParameter('jump_url');
+jump_url = decodeURIComponent(jump_url);
+jump_url = jump_url.replace(/<|>|&gt;l&lt;|%3c|%3e|['"]|&quot;|&apos|&#34;|&#39;|&#60;|&#62;/g, '');
+if (jump_url && checkurl(jump_url)) {
+	location.href = jump_url;
+}
+if (frameElement && typeof frameElement.callback == 'function') {
+	frameElement.callback({uin: +(getCookie('uin').replace(/\D/g, ''))});
+}
+}) ();
+</script>
+</body>
+</html>

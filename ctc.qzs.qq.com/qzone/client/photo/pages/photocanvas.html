@@ -1,0 +1,749 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>-</title>
+		<base href="//qzs.qq.com/">
+	</head>
+	<body>
+	</body>
+<script>
+	var inPengyou = /pengyou\.com$/.test(location.hostname),
+		inQzone = !inPengyou;
+
+	if(window.location.hostname == 'rc.qzone.qq.com') {
+		document.domain = 'qq.com';
+	} else {
+		document.domain = location.hostname;
+	}
+	
+	//mark! step_0 all start
+	var timeseq = [(new Date()).getTime()/1000];
+</script>
+<!--[if lt IE 9]>
+	<script>frameElement.g_jQueryVersion = '1.10.2';</script>
+<![endif]-->
+<!--[if gte IE 9]><!-->
+	<script>frameElement.g_jQueryVersion = '2.0.3';</script>
+<!--<![endif]-->
+<script>
+	frameElement.g_qzflUrl = '/ac/qzone/qzfl/qzfl'+(parent.g_V.qz||"2.0.7.0")+'.js';
+	
+	if(top.siDomain){
+		frameElement.g_qzflUrl = location.protocol + '//' + top.siDomain + frameElement.g_qzflUrl;
+	}
+	
+	(function(){
+		var version = {};
+		
+		version.v7		= "@qzone/photo/v7/js#20151014200000#".split('#')[1];
+		version.zone	= "@qzone/photo/zone/script?deep=1#20151106120000#".split('#')[1];
+		version.zoneNew = "@qzone/photo/zone/new/script?deep=1#20151106120000#".split('#')[1];
+		version.css		= "@qzone_v6?deep=1&type=css#20151014200000#".split('#')[1];
+
+		if(top.g_photoVersionMap){
+			version.v7 		= Math.max(version.v7,		top.g_photoVersionMap.v7);
+			version.zone 	= Math.max(version.zone,	top.g_photoVersionMap.zone);
+			version.zoneNew = Math.max(version.zoneNew,	top.g_photoVersionMap.zoneNew);
+			version.css 	= Math.max(version.css,		top.g_photoVersionMap.css);
+		}
+		
+		top.g_photoVersion		= frameElement.g_photoVersion		= Math.max(version.zone,version.zoneNew);
+		top.g_photoVersionV7	= frameElement.g_photoVersionV7		= version.v7;
+		top.g_photoVersionMap	= frameElement.g_photoVersionMap	= version;
+	})();
+
+	//方便以后统一改
+	frameElement.g_embedUrl = '/qzone/v8/applib/embeded.js';
+	frameElement.g_seajsUrl = '/ac/lib/seajs/sea-2.1.1.js';
+	frameElement.g_seajsCfgUrl = '/qzone/photo/v7/js/lib/seajs.config.js?v='+frameElement.g_photoVersion;
+	frameElement.g_albumgetUrl = '/qzone/photo/zone/script/AlbumGet.js?v='+frameElement.g_photoVersion;
+	
+	var siDomain = parent.siDomain || 'qzonestyle.gtimg.cn';
+	document.write([
+	'\<script src=' + frameElement.g_qzflUrl + '\>\<\/script\>',
+	'\<script src=' + location.protocol + '//' + siDomain + frameElement.g_embedUrl+'\>\<\/script\>',
+	'\<script src=' + location.protocol + '//' + siDomain + frameElement.g_albumgetUrl+'\>\<\/script\>'
+	].join(""));
+</script>
+<script>
+	//mark! step_1 load js for photocanvas
+	timeseq[1] = (new Date()).getTime()/1000;
+</script>
+<script type="text/javascript">
+	if(location.href.indexOf('g_iframeUser=1') > -1) {
+		QZONE.FP = top.QZONE.FP;
+	}
+	QZONE.FP._t.QZONE.dataCenter.save("photoEnvironmeng","normal");
+
+	//这里是一些空间变量
+	var url;
+	var n = 0;
+	var loginQQ = 0;
+	var ownerQQ = 0;
+	if (inPengyou) {
+		//朋友网的QQ号直接从cookie里拿
+		loginQQ = QZFL.cookie.get('uin').replace(/\D/g, '') - 0;
+	} else {
+		loginQQ = QZONE.FP.getQzoneConfig('loginUin');
+		ownerQQ = QZONE.FP.getQzoneConfig('ownerUin');
+	}
+	var isOwnerAlpha = !!QZONE.FP.getBitMapFlag(58);
+	var isLoginAlpha = !!QZONE.FP._t.window.g_isAlpha_iLoginUin;
+	var qzoneVersion = parseInt(QZONE.FP.getQzoneConfig("version")) || 0;
+	if(inPengyou){
+		qzoneVersion = Math.max(qzoneVersion, 6);
+	}else{
+		qzoneVersion = Math.max(qzoneVersion, 8);
+	}
+	var isV8 = qzoneVersion>=8;
+
+	function _getBit(sBitmap, bit) {
+		if (!sBitmap) return 0;
+		return parseInt(sBitmap.charAt(15 - Math.floor((bit - 1) / 4)), 16) >> (bit - 1) % 4 & 1
+	}
+	
+	function isV8Album(){
+		//不是空间v8就一定不是相册v8
+		if(!isV8){
+			return false;
+		}
+		return true;
+	}
+	
+	//这里是各种灰度策略，注意所有frameElement.xxx都不能去掉，除非确认所有代码里都已经没有了
+	//相册列表相关
+	frameElement.g_isAlbumListV8 = !inPengyou && isV8 && isV8Album();	//是否用V8相册列表页
+	frameElement.g_isAlbumNew = true;									//是否用V6相册列表页
+	//照片列表页相关
+	frameElement.g_isPhotoListV8 = frameElement.g_isAlbumListV8;	//是否用V8照片列表页,跟相册列表页
+	frameElement.g_newPhotoListView = !inPengyou;					//是否用V7照片列表页
+	frameElement.g_isPhotoNew = true;								//是否用V6照片列表页
+	frameElement.g_isPhotoBig = true;								//V6照片列表页是否用大图版
+	//详情页相关
+	frameElement.g_isDetailPaged = !inPengyou;	//是否用分页模式
+	frameElement.g_isDetailNew = false;			//是否用缩略图在右边的详情页
+	frameElement.g_isGuestDetailNew = false;	//客人态是否用浮层查看
+	//上传相关
+	frameElement.g_isUploadNew = true;		//是否用新的上传页
+	frameElement.g_isCompleteNew = true;	//是否用新的上传完成页
+	frameElement.g_isUploadInDialog = true;	//相册内点击上传是否用对话框打开
+	//其他
+	frameElement.g_isModifyNew = true;	//是否用新的批量修改页
+	frameElement.g_preurlspec = 'i';	//是否可以多规格图片，不是多规格用'a';
+
+	//提前放 避免undefined
+	frameElement.g_styleId = QZONE.FP.getQzoneConfig().styleId;
+	frameElement.g_styleUrl = window.location.protocol+'//' + parent.siDomain + '/qzone_v6/gb/skin/'+frameElement.g_styleId.replace('v6/','')+'.css'; //色调文件
+	frameElement.g_skinUrl = window.location.protocol+'//' + parent.siDomain + '/qzone_v6/gb/skin/'+frameElement.g_styleId.replace('v6/','')+'.css';
+	if (inPengyou) {
+		frameElement.g_pyStyleUrl = window.location.protocol+'//' + parent.siDomain + '/qzone_v6/gb/skin/50.css'; //朋友皮肤
+	}
+	frameElement.g_photoCssUrl = window.location.protocol+'//' + parent.siDomain + '/qzonestyle/app/photo_v2.css?20120329.css';
+	frameElement.g_photoCssV3Url = window.location.protocol+'//' + parent.siDomain + '/qzone_v6/photo_v3.css?20130118.css';
+	frameElement.g_copylinkUrl = window.location.protocol+'//' + parent.siDomain + '/qzone_v6/photo_pop_copylink.css';
+	frameElement.g_photolinkUrl = window.location.protocol+'//' + parent.siDomain + '/qzone_v6/photo_pop_photolink.css';
+
+	//定义各种url，记得要在设置了灰度策略之后
+	function definePageUrls(f){
+		f = f || frameElement;
+
+		//分版本的相册列表url，理论上其他地方不应该使用
+		f.v6AlbumListUrl = "/qzone/photo/zone/new/albumList.html";
+		f.g_albumListV8Url = '/qzone/photo/v7/page/photo.html?init=photo.v7/module/albumList/index&navBar=1';
+		//直接用albumListUrl以免到处判断各种版本
+		if(f.g_isAlbumListV8){
+			f.albumListUrl = f.g_albumListV8Url;
+		}else{
+			f.albumListUrl = f.v6AlbumListUrl;
+		}
+
+		//分版本的照片列表url，理论上其他地方不应该使用
+		f.photoListUrlV6 = "/qzone/photo/zone/new/photoList.html";
+		f.photoListUrlV7 = "/qzone/photo/v7/page/photo.html?useqzfl=1&init=photo.v7/module/photoList/index";
+		f.photoListUrlV8 = "/qzone/photo/v7/page/photo.html?init=photo.v7/module/photoList2/index&navBar=1";
+		//直接用photoListUrl以免到处判断各种版本
+		if(f.g_isPhotoListV8){
+			f.photoListUrl = f.photoListUrlV8;
+		}else if(f.g_newPhotoListView){
+			f.photoListUrl = f.photoListUrlV7;
+		}else{
+			f.photoListUrl = f.photoListUrlV6;
+		}
+		//主题相册
+		f.photoListCollegeUrl = '/qzone/photo/v7/page/photo.html?init=photo.v7/module/timeline/college/index&navBar=1';
+		f.photoListTravelUrl = '/qzone/photo/v7/page/photo.html?init=photo.v7/module/timeline/travel/index&navBar=1';
+		f.photoListBabyUrl = '/qzone/photo/v7/page/photo.html?init=photo.v7/module/timeline/baby/index2';
+
+		//批次照片
+		f.batchPhotoUrl = "/qzone/photo/v7/js/module/batch/detail/batchDetail.html";
+
+		//照片详情
+		f.photoDetailUrl = "/qzone/photo/zone/new/photoNewView.html";
+		if(f.g_isPhotoListV8){
+			//直进时，在普通模式的照片列表页开浮层
+			f.photoDetailUrl = addUrlParams(f.photoListUrl, 'normal=1');
+		}
+	
+		//首页tab
+		if(f.g_isAlbumListV8){
+			f.newPhotoUrl = "/qzone/photo/v7/page/photo.html?init=photo.v7/module/photoRoute/index&useqzfl=1";
+			f.friendPhotoUrl = "/qzone/photo/v7/page/photo.html?init=photo.v7/module/friendphoto/index&useqzfl=1&useinterface=1&useqphoto=1";
+			f.facemarkUrl = "/qzone/photo/v7/page/photo.html?init=photo.v7/module/facemark/index&useqzfl=1";
+			f.videoListV8Url = "/qzone/photo/v7/page/photo.html?useqzfl=1&init=photo.v7/module/video/index";
+		}else{
+			f.newPhotoUrl = "/qzone/photo/zone/new/albumList.html#mod=new";
+			f.friendPhotoUrl = "/qzone/photo/zone/new/albumList.html#mod=friend";
+			f.facemarkUrl = "/qzone/photo/zone/new/albumList.html#mod=facemark";
+			f.markedPhotoUrl = "/qzone/photo/zone/new/albumList.html#mod=marked";
+			f.aboutmeUrl = "/qzone/photo/zone/new/albumList.html#mod=aboutme";
+		}
+
+		//视频设置
+		f.videoSettingUrl = "/qzone/photo/v7/page/photo.html?init=photo.v7/module/video/setting/index&navBar=-1";
+
+		//照片活动（已下线）
+		f.actListUrl = "/qzone/photo/activity/activity_list.html";
+		f.actDetailUrl = "/qzone/photo/activity/activity_detail.html";
+		f.actPhotoUrl = "/qzone/photo/activity/activity_photo_view.htm";
+
+		//个性相册
+		f.personalAlbumUrl = "/qzone/client/photo/pages/qzone_v4/personal_album.html";
+
+		//动感影集
+		f.flashPhotoUrl = "/qzone/photo/zone/flashList.html";
+		f.flashViewUrl = "/qzone/photo/zone/flashView.html";
+
+		//共享相册
+		f.shareAlbumListUrl = "/qzone/photo/v7/page/photo.html?init=photo.v7/module/shareAlbum/albumList/index&navBarSimple=sharealbum";
+		f.sharePhotoListUrl = "/qzone/photo/v7/page/photo.html?init=photo.v7/module/shareAlbum/photoList/index&navBarSimple=sharealbum";
+
+		//回收站
+		f.recyclebinUrl = "/qzone/newblog/v5/recycle_canvas.html#type=photo";
+		f.recycleUrl = "/qzone/photo/zone/recycleBin.html";
+
+		//评论审核
+		f.adminUrl = "/qzone/photo/zone/photoAdmin.html";
+
+		//批量编辑照片
+		f.modifyUrl = "/qzone/photo/zone/modifyPhoto.html";
+
+		//上传
+		f.uploadUrlNew = "/qzone/photo/zone/new/photoUpload.html";
+		f.uploadCompleteUrl = "/qzone/photo/zone/new/upload_complete.htm";
+	}
+
+	function addUrlParams(url, params){
+		if(params){
+			return url + ((url.indexOf('#')>=0)?'&':'#') + params;
+		}
+		return url;
+	}
+
+	//获取上传url：控件,flash,form上传模式
+	function getUploadUrl(aid, others){
+		if(frameElement.g_isUploadInDialog){
+			//对话框上传，在相册列表页打开上传框
+			return addUrlParams(frameElement.albumListUrl, 'to=upload' + (aid?("&a_id="+aid):"") + (others?("&"+others):""));
+		}
+
+		//直接进到上传页，以免取版本失败，上传页里取失败会重试
+		return addUrlParams(frameElement.uploadUrlNew, "outside=1&from=direct" + (aid?("&a_id="+aid):"") + (others?("&"+others):""));
+	}
+
+	//在空间v8下切回使用v6的框架(不要自适应宽度)
+	function backToV6Iframe(){
+		try{
+			top.document.body.className = top.document.body.className.replace('mode-page-app-widescreen','');
+		}catch(err){}
+	}
+
+	function setV8Iframe(){
+		try{
+			if(top.document.body.className.indexOf('mode-page-app-widescreen') === -1){
+				top.document.body.className += ' mode-page-app-widescreen';
+			}
+		}catch(err){}
+	}
+
+	definePageUrls(frameElement);
+
+	url = location.protocol + "//"+ QZONE.FP._t.imgcacheDomain + frameElement.albumListUrl;
+
+	try{
+		//据说eval有很高的crash的几率
+		QZONE.FP._t.window.eval(
+			[
+			 	'window.TCISD.hotClick._photoForceSend = function(tag, domain, url, opt){',
+					'opt = opt || {};',
+					'var _s = QZONE.FP._t.TCISD.hotClick,',
+					'x 		= opt.x || 9999,',
+					'y 		= opt.y || 9999,',
+					'doc 	= opt.doc || document,',
+					'w 		= doc.parentWindow || doc.defaultView,',
+					'p 		= w._hotClick_params || {};',
+					'url 	= url|| p.url|| w.location.pathname || "-";',
+					'domain 	= domain || p.domain || w.location.hostname || "-";',	
+					'QZFL.pingSender([_s.config.webServerInterfaceURL,"?dm=",domain+".hot","&url=",escape(url),"&tt=-","&hottag=",tag,"&hotx=",x,"&hoty=",y,"&rand=",Math.random()].join(""));',
+				'};'
+			].join(' '));
+	}catch(err){}
+	
+	var loadType = 0,aid;
+	function jump(){
+
+		if(++n > 2){
+			//上传策略限制
+			frameElement.enablePolicy = false;//是否开启高峰开关
+			frameElement.urgentPolicyLevel = "B2";//高峰限制策略等级
+			frameElement.normalPolicyLevel = "C3";//平时限制策略等级
+			frameElement.multiNum = {
+				"A" : 5,
+				"B1" : 5,
+				"B2" : 5,
+				"B3" : 5,
+				"C1" : 5,
+				"C2" : 5,
+				"C3" : 5,
+				"D" : 5
+			};
+			frameElement.stHour = 0;
+			frameElement.stMinute = 0;
+			frameElement.endHour = 9;
+			frameElement.endMinute = 0;
+
+			//mark! step_4 go!
+			timeseq[4] = (new Date()).getTime()/1000;
+
+			//mark? save 
+			QZONE.FP._t.window.__appid4_Stats = {
+				normal : []
+			};
+			for (var i = 0; i < timeseq.length; i++){
+				QZONE.FP._t.window.__appid4_Stats.normal.push(timeseq[i]);
+			}
+			
+			function go(link){
+				var page = "";
+				if(!link.match(/^https?/)){
+					page = location.protocol + "//"+ QZONE.FP._t.imgcacheDomain;
+					if(!link.match(/^\//)){
+						page += "/qzone/photo/zone/";
+					}
+				}
+				page += link;
+				try{
+					page = top.QZONE.AppData.getProxyUrl(page)
+					page = page.indexOf('?') > -1 ? (page + '&g_iframedescend=1') : (page + '?g_iframedescend=1')
+
+					window.location.href = page;
+				}catch(e){
+					frameElement.src = page;
+				}
+			}
+
+			go(url);
+			
+			setTimeout(function(){
+				//有概率被abort，奇葩
+				go(url);
+			},618);
+		}
+	}
+	function main(){
+		QZONE.pageEvents.initHttpParams();	
+		var t =  ENV.get("queryString") || ENV.get("hashString"),
+			pl, tmp,
+			c = QZONE.FP.getQzoneConfig();
+		if (c.version >= 6){ t = ENV.get("queryHash");} 
+		//默认url进相册列表，所以后面很多else不用写了
+		var dl = frameElement.albumListUrl;
+		frameElement.direct = "albumlist";
+		
+		frameElement.id = "tphoto";
+		frameElement.auth = t.auth; //朋友的权限
+
+		var ownerUin = QZONE.FP.getQzoneConfig('ownerUin'),
+			loginUin = QZONE.FP.getQzoneConfig('loginUin');
+		if(loginUin > 1000){
+			loginUin = parseInt(QZFL.cookie.get("zzpaneluin"),10);	
+			if(isNaN(loginUin) || loginUin < 1000){
+				loginUin = parseInt(QZFL.cookie.get("uin").replace(/[^\d]/g,""),10);
+				if(isNaN(loginUin) || loginUin < 1000){
+					loginUin = 0;
+				}
+			}
+		}
+		var isOwner = (loginUin == ownerUin);
+		
+		if(t && t.canvastype && t.canvastype == "home" ){
+			QZONE.FP._t.QZONE.dataCenter.save("photoEnvironmeng","myhome");
+			if(t.params && t.params =="personal"){
+			
+				if(isOwner){
+					dl = frameElement.personalAlbumUrl;
+				}
+			}else if(t.params && t.params =="upload"){
+				dl = getUploadUrl();
+			}else if(t.params && t.params =="recyclebin"){
+				dl = frameElement.recyclebinUrl;
+			}else if(t.params && t.params =="recycle"){
+				dl = frameElement.recycleUrl;
+			}else if(t.params && t.params =="admin"){
+				if(isOwner){
+					dl = frameElement.adminUrl;
+				}
+			}
+		}else if(t && t.keyname && t.keyname!="photo"){//兼容老写法逻辑begin
+			switch(t.keyname.toLowerCase()){
+				case "vphoto" : 
+					dl = frameElement.flashPhotoUrl;
+					break;
+				case "uploadphoto" :
+					dl = getUploadUrl();
+					break;
+				case "myhome" :
+					QZONE.FP._t.QZONE.dataCenter.save("photoEnvironmeng","myhome");
+					if(t.params && t.params =="personal"){
+						if(isOwner){
+							dl = frameElement.personalAlbumUrl;
+						}
+					}else if(t.params && t.params =="upload"){
+						dl = getUploadUrl();
+					}else if(t.params && t.params =="recyclebin"){
+						dl = frameElement.recyclebinUrl;
+					}else if(t.params && t.params =="recycle"){
+						dl = frameElement.recycleUrl;
+					}
+					else{
+						dl = frameElement.friendPhotoUrl;
+					}
+					break;
+				default :
+					loadType = 1;
+					break;
+			}
+		}else if(t && typeof(t.params)!='undefined'){
+			if(t.params){
+				pl = t.params.split(",");
+			}
+			if(pl && pl.length > 0){
+				frameElement.direct = pl[0].toLowerCase();
+				switch(pl[0].toLowerCase()){
+					case "v" :
+					case "vphoto" : 
+						backToV6Iframe();
+						if(pl[1]){
+							dl = addUrlParams(frameElement.flashViewUrl, "fid="+pl[1]);
+						}else{
+							dl = frameElement.flashPhotoUrl;
+						}
+						break;
+					case "upload" :
+						// '/photo/upload/【aid】/【type】/【param】'
+						// '/photo/upload/【type】/【param】'
+						var typeMap={"ax":"Ax","flash":"Flash","h5":"H5","web":"Web"}
+						var upaid,uptype,upparam;
+						if (pl[1] && typeMap[pl[1].toLowerCase()]) {
+							upaid = '';
+							uptype = typeMap[pl[1].toLowerCase()];
+							upparam = pl[2];
+						} else {
+							upaid = pl[1];
+							uptype = pl[2]?typeMap[pl[2].toLowerCase()]:'';
+							upparam = pl[3];
+						}
+						if (uptype) {
+							dl = getUploadUrl(upaid,"type="+uptype+(upparam?("&param="+upparam):""));
+						}else{
+							dl = getUploadUrl(upaid);
+						}
+						break;
+					case "marked" :
+						if(inQzone){
+							dl = frameElement.markedPhotoUrl;
+						}
+						break;
+					case "about" :
+						if(inPengyou){
+							dl = frameElement.aboutmeUrl;
+						}
+						break;
+					case "new" :
+						dl = addUrlParams(frameElement.newPhotoUrl, (pl[1]? 'lloc=' + pl[1] : ''));
+						break;
+					case "albumlist" : 
+						dl = frameElement.albumListUrl;
+						break;
+					
+					case "personal" :
+						if(parseInt(pl[1],10) == 1 && pl[2] && pl[3] && pl[4]){
+							dl = addUrlParams(frameElement.photoListUrl, "tpl_id=" + pl[2] + "&remark=" + pl[3]+"&personaldisplay=1&aid="+pl[4]);
+						}else{
+							backToV6Iframe();
+							dl = addUrlParams(frameElement.personalAlbumUrl, (pl[1]?("a_id=" + pl[1]):""));
+							if(isOwner){
+								if(parseInt(pl[1],10) == 0 && pl[2] && pl[3]){
+									dl = addUrlParams(frameElement.personalAlbumUrl, "tpl_id=" + pl[2] + "&remark=" + pl[3]);
+								}
+							}
+							if (pl[1] && pl[1] == "random"){
+								dl = addUrlParams(frameElement.personalAlbumUrl, "tpl_id=" + pl[2] + "&fullscreen=1");
+							}
+						}
+						break;
+					case "modify" :
+						if(isOwner && pl[1] && pl[2] && pl[3]){
+							dl = addUrlParams(frameElement.modifyUrl, "a_id=" + pl[1] + "&from=" + pl[2] + "&to=" + pl[3]);
+						}
+						break;
+					case "admin" : 
+						if(isOwner){
+							dl = frameElement.adminUrl;
+						}
+						break;
+					case "friend" :
+						if(isOwner){
+							dl = frameElement.friendPhotoUrl;
+						}
+						break;
+					case "recyclebin" :
+						if(isOwner){
+							backToV6Iframe();
+							dl = frameElement.recyclebinUrl;
+						}
+						break;
+					case "recycle" :
+						if(isOwner){
+							backToV6Iframe();
+							dl = frameElement.recycleUrl;
+						}
+						break;
+					case "activity" :
+						if(isOwner){
+							backToV6Iframe();
+							var actid = pl[1];
+							var photoid = pl[2];
+							if(photoid){
+								dl = addUrlParams(frameElement.actPhotoUrl, "actid=" + actid + "&photoid=" + photoid);
+							}else if(actid){
+								dl = addUrlParams(frameElement.actDetailUrl, "actid=" + actid);
+							}else{
+								dl = frameElement.actListUrl;
+							}
+						}
+						break;
+					//规则:
+					//  直进视频列表页:
+					//      QZONE.FP.toApp('/photo/video/');
+					//  直接视频详情页:
+					//      QZONE.FP.toApp('/photo/video/【vid】');
+					//  直接视频设置页:
+					//      QZONE.FP.toApp('/photo/video/setting');
+					case "video" :
+						//转到视频应用
+						if(frameElement.g_isAlbumListV8){
+							if(pl[1] == 'setting'){
+								if(isOwner){
+									backToV6Iframe();
+									dl = frameElement.videoSettingUrl;
+								}else{
+									dl = frameElement.videoListV8Url;
+								}
+							}else{
+								dl = frameElement.videoListV8Url;
+								if(pl[1]){
+									if(pl[1]=='upload'){
+										dl += '&to=upload';
+									}else{
+										dl += '&vid=' + pl[1];
+									}
+								}
+								if(pl[2]){
+									dl += '&param='+pl[2];
+								}
+							}
+						}else{
+							QZONE.FP.toApp("/qzvideo");
+							return;
+						}
+						break;
+					case "pin":
+						dl = "http://home.photo.qq.com/"+QZONE.FP.getQzoneConfig("ownerUin")+"/inqzone/";
+						for(var i=1;i<pl.length;i++){
+							if(pl[i]){
+								dl += pl[i] + "/";
+							}else{
+								break;
+							}
+						}
+						break;
+					case "batch":
+						if(inQzone){
+							if(pl[1] && pl[2]){
+								dl = addUrlParams(frameElement.batchPhotoUrl, "aid="+pl[1]+"&bid="+pl[2]);
+							}
+						}
+						break;
+					case "popup":
+						if(isOwner && inQzone && pl[1]){
+							dl = addUrlParams(frameElement.albumListUrl, "popup="+pl[1]);
+						}
+						break;
+					case "facemark":
+						if(isOwner && inQzone){
+							dl = frameElement.facemarkUrl;
+						}
+						break;
+					case "uploadcomplete":
+						if(isOwner && inQzone){
+							if(pl[1] && pl[2]){
+								dl = addUrlParams(frameElement.uploadCompleteUrl, "a_id=" + pl[1] + "&" + decodeURIComponent(pl[2]));
+							}else{
+								loadType = 1;
+								frameElement.direct = "albumlist";
+								dl = frameElement.albumListUrl;
+							}
+						}else{
+							if(pl[1]){
+								loadType = 2;
+								frameElement.direct = "photolist";
+								dl = addUrlParams(frameElement.photoListUrl, 'aid='+pl[1]);
+							}
+						}
+						break;
+					case "sharealbum":
+						if(isOwner && inQzone){
+							if(pl[1]){
+								dl = addUrlParams(frameElement.sharePhotoListUrl, "aid=" + pl[1]);
+							}else{
+								dl = frameElement.shareAlbumListUrl;
+							}
+						}
+						break;
+					//规则:
+					//  直进相册列表页:
+					//      QZONE.FP.toApp('/photo');
+					//  直接照片列表页:
+					//      QZONE.FP.toApp('/photo/【aid】');
+					//      QZONE.FP.toApp('/photo/【aid】/【viewtype】'); 主题相册
+					//      QZONE.FP.toApp('/photo/【aid】/batchid/【batchid】'); 带batchid参数
+					//  直进照片详情页:
+					//      QZONE.FP.toApp('/photo/【aid】/【lloc】');
+					default:
+						if(pl[0]){
+							aid = pl[0];
+							//如果有指定lloc或者viewtype
+							if(pl[1]){
+                                if( pl[1] == "undefined") {
+                                    pl[1] = 0;
+                                }
+								//判断第二个参数是viewtype还是lloc
+								if(!isNaN(pl[1]) &&  pl[1]< 100){
+
+									loadType = 2;
+									frameElement.direct = "photolist";
+									if(pl[1] == 7){
+										//校友相册
+										dl = addUrlParams(frameElement.photoListCollegeUrl, "aid=" + aid);
+									}else if(pl[1] == 6){
+										//旅游相册
+										dl = addUrlParams(frameElement.photoListTravelUrl, "aid=" + aid);
+									}else if(pl[1] == 5){
+										//亲子相册
+										dl = addUrlParams(frameElement.photoListBabyUrl, "aid=" + aid);
+									}else if(pl[1] == 0){
+										dl = addUrlParams(frameElement.photoListUrl, "aid=" + aid+'&normal=1');
+									}else{
+										dl = addUrlParams(frameElement.photoListUrl, "aid=" + aid);
+									}
+								}else if(pl[1] == 'batchid'){
+									loadType = 2;
+									frameElement.direct = "photolist";
+									dl = addUrlParams(frameElement.photoListUrl, "aid=" + aid + '&batchid=' + pl[2]);
+								}else{
+									loadType = 3;
+									frameElement.direct = "photodetail";
+									dl = addUrlParams(frameElement.photoDetailUrl, "aid="+aid+"&lloc="+pl[1]);
+								}
+
+							}else{
+								loadType = 2;
+								frameElement.direct = "photolist";
+								dl = addUrlParams(frameElement.photoListUrl, 'aid='+aid);
+							}
+						}
+				}
+			}else{
+				loadType = 1;
+			}
+		}else{
+
+		}
+
+		//预防一下，比如在朋友网用了空间的直进url
+		if(!dl){
+			dl = frameElement.albumListUrl;
+			frameElement.direct = "albumlist";
+		}
+
+		if(!dl.match(/^https?/)){
+			url = location.protocol + "//"+ QZONE.FP._t.imgcacheDomain + dl;
+		}else{
+			url = dl;
+		}
+		jump();
+	}
+
+	// function getPolicyFinished(){
+	// 	timeseq[2] = (new Date()).getTime()/1000;
+	// 	jump();//直接跳开策略拉取
+	// }
+
+	// var _tmp_skip_policy = Math.random() < 0.1;
+
+	// QPHOTO.util.getPolicy((!_tmp_skip_policy)?getPolicyFinished:QZFL.emptyFn);
+	// if (_tmp_skip_policy){
+	// 	setTimeout(getPolicyFinished,0);
+	// }
+
+	QPHOTO.util.getDomain(function(){
+		//mark! step_3 getDomain
+		timeseq[3] = (new Date()).getTime()/1000;
+		jump();
+	},function(){
+		alert("对不起，服务器忙，请稍候再试！");
+		//QZONE.FP._t.guidebutton(1);
+	});
+	jump();
+	main();
+
+	//预拉取相册样式和相册列表页
+	if (url && url.indexOf('albumList.html') != -1 && Math.random()<0.01){
+		QZONE.FP._t.window.eval(
+		[
+		 	'window._app_4_sending_img = new Image();',
+			'window._app_4_sending_startDate = new Date();',
+			'window._app_4_sending_img.onerror = function(){',
+				'window._app_4_sending_endDate = new Date();',
+				'if (Math.random()<0.5){',	
+					'QZFL.pingSender("http://isdspeed.qq.com/cgi-bin/r.cgi?flag1=177&flag2=3&flag3=229&1=" + (window._app_4_sending_endDate.getTime()-window._app_4_sending_startDate.getTime()));',
+				'}',
+			'};',
+			'window._app_4_sending_img.src = "'+frameElement.g_photoCssV3Url+'";',
+			
+			'window._app_4_sending_img2 = new Image();',
+			'window._app_4_sending_startDate2 = new Date();',
+			'window._app_4_sending_img2.onerror = function(){',
+				'window._app_4_sending_endDate2 = new Date();',
+				'if (Math.random()<0.5){',	
+					'QZFL.pingSender("http://isdspeed.qq.com/cgi-bin/r.cgi?flag1=177&flag2=3&flag3=229&2=" + (window._app_4_sending_endDate2.getTime()-window._app_4_sending_startDate2.getTime()));',
+				'}',
+			'};',
+			'window._app_4_sending_img2.src = "/qzone/photo/zone/new/script/albumView.js?'+frameElement.g_photoVersion+'.js";'
+		].join(' '));
+		
+	}
+	
+</script>
+</html>

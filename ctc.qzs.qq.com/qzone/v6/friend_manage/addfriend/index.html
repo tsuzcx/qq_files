@@ -1,0 +1,159 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-cn" lang="zh-cn">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Language" content="zh_cn" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="robots" content="all" />
+    <meta name="author" content="Tencent-ISRD" />
+    <meta name="Copyright" content="Tencent" />
+    <meta name="Description" content="Qzone精彩由你而来" />
+    <meta name="Keywords" content="Qzone,QQ空间,Blog,博客,网络日志,播客,腾讯,QQ,Tencent" />
+    <title>Qzone加好友组件</title>
+    <script type="text/javascript" src="//qzonestyle.gtimg.cn/qzone/v6/applib/embeded.js"></script>
+    <script type="text/javascript">
+    document.domain = location.hostname;
+    QZONE.FP = top.QZONE.FP || {};
+    //<![CDATA[
+        var siDomain = 'qzonestyle.gtimg.cn',
+            imgcacheDomain = 'qzs.qq.com',
+            g_iLoginUin = 0,
+            clearSession = function(){
+                QZFL.object.each(['zzpaneluin', 'zzpanelkey', 'uin', 'skey'], function(ck){
+                    QZFL.cookie.del(ck);
+                });
+            },
+            checkLogin = function(){
+                var g = QZFL.cookie.get, u, uin;
+                uin = g_iLoginUin > 10000 ? g_iLoginUin : ((u = g('uin').replace(checkLogin.r, '') - 0) && g('skey') && u > 10000 && u || 0);
+                !uin && clearSession();
+                return uin;
+            }, 
+            TOP = QZONE.FP._t || {};
+        checkLogin.r = /\D/g;
+        (function(){
+            var m = document.cookie.match(/(?:^|;)\s*ptisp=(\w+)/);
+            if(m){
+                siDomain = m[1] + '.' + siDomain;
+                imgcacheDomain = m[1] + '.' + imgcacheDomain;
+            }
+            var loc = location.host.split('.');
+            document.domain = location.hostname;
+        })();
+        if(QZONE.FP.includeQZFL){ //加载QZFL
+            QZONE.FP.includeQZFL();
+        }else{
+            document.write('<script type="text/javascript" src="https://qzonestyle.gtimg.cn/ac/qzone/qzfl/qzfl_v8_2.1.65.js" charset="utf-8"><\/script>');
+        }
+    //]]>
+    </script>
+    <link rel="stylesheet" rev="stylesheet" href="//imgcache.qq.com/qzonestyle/qzone_app/app_friend_v1/app_add_v1.css" type="text/css" media="screen" />
+    <link rel="shortcut icon" href="//qzone.qq.com/favicon.ico" type="image/x-icon" />
+</head>
+<body>
+<div id="loading" style="text-align: center;padding-top:28px;">
+    <img src="//qzonestyle.gtimg.cn/qzone_v6/img/icenter/loading.gif" alt="加载中" class="pic" />
+</div>
+<div id="add-friend-qa" class="main none">
+	<img id="icon-friend-qa" src="//imgcache.qq.com/qzone_v4/client/userinfo_icon/5001.gif" alt="用户头像" class="pic" />
+	<div class="content">
+		您将添加<span id="nick-friend-qa"></span>为好友<br />
+		<strong id="tip-friend-qa">对方需要您回答一个验证问题才能加为好友</strong><br />
+		<div id="friend-qa"></div>
+		<div class="opsion">
+			<div class="shao"><strong>其他选项</strong></div>
+			<div id="group-friend-qa" class="duo"></div>
+		</div>
+	</div>
+	<div class="global_tip_button">
+		<button id="button-friend-qa" type="button" class="bt_tip_hit">发送请求</button>&nbsp;<button type="button" class="bt_tip_normal closeMe">取消</button>
+	</div>
+</div>
+
+<div id="add-friend-direct" class="main none">
+	<img id="icon-friend-direct" src="//imgcache.qq.com/qzone_v4/client/userinfo_icon/5001.gif" alt="用户头像" class="pic" />
+	<div class="content">
+		您将添加 <span id="nick-friend-direct"></span> 为好友<br /><br />
+		<strong>可以直接加为好友</strong><br />
+		<div class="opsion">
+			<div class="shao"><strong>其他选项</strong></div>
+			<div id="group-friend-direct" class="duo"></div>
+		</div>
+	</div>
+	<div class="global_tip_button">
+		<button type="button" id="button-friend-direct" class="bt_tip_hit">添加</button>&nbsp;<button type="button" class="bt_tip_normal closeMe">取消</button>
+	</div>
+</div>
+
+<div id="add-friend-verify" class="main none">
+	<img id="icon-friend-verify" src="http://imgcache.qq.com/qzone_v4/client/userinfo_icon/5001.gif" alt="用户头像" class="pic" />
+	<div class="content">
+		您将添加 <span id="nick-friend-verify"></span> 为好友<br />
+		<strong>需要验证才能加为好友</strong><br />
+		<textarea class="textarea" id="textarea-friend-verify">请输入验证信息</textarea>
+		<span id="textCnt" style="left: 280px;top: 70px;position: absolute;display: none"><i id="enterCnt">0</i><i>/15</i></span>
+		<div class="opsion">
+			<div class="shao"><strong>其他选项</strong></div>
+			<div id="group-friend-verify" class="duo"></div>
+		</div>
+	</div>
+	<div class="global_tip_button">
+		<button type="button" id="button-friend-verify" class="bt_tip_hit">发送请求</button>&nbsp;<button type="button" class="bt_tip_normal closeMe">取消</button>
+	</div>
+</div>
+
+<div id="add-care-forbid" class="main none">
+	<img id="icon-care-forbid" src="//imgcache.qq.com/qzone_v4/client/userinfo_icon/5001.gif" alt="用户头像" class="pic" />
+	<div class="content">
+		抱歉，<span id="nick-care-forbid"></span>设置了权限，<br />您不能添加为好友。<br /><br />
+	</div>
+	<div class="global_tip_button" style="width:360px;">
+		<button type="button" class="bt_tip_normal closeMe">取消</button>
+	</div>
+</div>
+
+<div id="mask" class="mask none">
+	<iframe class="mask_iframe" frameborder="0"></iframe>
+	<div class="bg"></div>
+	<div class="tips">
+		<div class="tipsbor">
+			<img src="//imgcache.qq.com/ac/b.gif" alt="" class="icon_hint_warn" />
+			<div class="txt1">请输入验证码后继续</div>
+			<div class="txt2">验证码：</div>
+			<input id="mask-input" name="" type="text" class="txt3" />
+			<div class="txt4">输入下图中的字符，不区分大小写</div>
+			<img id="verify-img" src="//imgcache.qq.com/ac/b.gif" alt="" class="txt5" />
+			<a href="javascript:;" onclick="getVerifyKey($('verify-img'));return false;" class="txt6">看不清楚？换一张</a>
+			<div class="btttt" >
+				<button type="button" onclick="addFriend();" class="bt_tip_hit">确定</button>&nbsp;<button type="button" onclick="closeMask();" class="bt_tip_normal">取消</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="mask-add" class="mask none">
+	<iframe class="mask_iframe" frameborder="0"></iframe>
+	<div class="bg"></div>
+	<div class="tips">
+		<div class="tipsbor">
+			<img src="//imgcache.qq.com/ac/b.gif" alt="" class="icon_hint_warn" />
+			<div class="txt1">请输入验证码后继续</div>
+			<div class="txt2">验证码：</div>
+			<input id="mask-input-add" name="" type="text" class="txt3" />
+			<div class="txt4">输入下图中的字符，不区分大小写</div>
+			<img id="verify-img-add" onclick="changeVerifyAdd();" src="//imgcache.qq.com/ac/b.gif" alt="" class="txt5" />
+			<a href="javascript:;" onclick="changeVerifyAdd();return false;" class="txt6">看不清楚？换一张</a>
+			<div class="btttt" >
+				<button onclick="addFriend();" type="button" class="bt_tip_hit">确定</button>&nbsp;<button type="button" onclick="closeMask();" class="bt_tip_normal">取消</button>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+    document.write([
+        '<script type="text/javascript" src="//',siDomain,'/qzone/v6/friend_manage/addfriend/scripts/index.js"><\/script>',
+        '<script type="text/javascript" src="//qzonestyle.gtimg.cn/qzone/ping.js"><\/script>'
+    ].join(''));
+</script>
+</body>
+</html>

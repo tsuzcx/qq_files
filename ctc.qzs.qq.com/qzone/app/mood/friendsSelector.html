@@ -1,0 +1,92 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-cn" lang="zh-cn"  style="overflow:hidden;"> 
+<head> 
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
+<meta http-equiv="Content-Language" content="zh-cn" /> 
+<meta name="robots" content="all" /> 
+<meta name="author" content="Tencent-ISRD" /> 
+<meta name="Copyright" content="Tencent" /> 
+<meta name="Description" content="Qzone icon list" /> 
+<meta name="Keywords" content="Qzone icon list" /> 
+<title>好友选择器</title> 
+<link rel="stylesheet" rev="stylesheet" href="/qzone_v6/app_pop.css" type="text/css" media="screen"/>
+</head> 
+<body style="margin:0px;padding:0px;">
+<div id="selector"></div>
+<div id="bottomBar" class="global_tip_button" style="display:none;">
+	<button class="bt_tip_normal" id="okButton">确定</button>&nbsp;<button class="bt_tip_normal" onclick="QZONE.FP.closePopup()">取消</button>
+</div>
+<script type="text/javascript">
+document.domain = location.host.split('.').slice(-2).join('.');
+document.write([
+	'<script src="/ac/qzone/qzfl/qzfl', (parent.g_V && parent.g_V.qz) || '_2.1.34', '.js"><\/script>',
+	'<script src="/qzone/qzfl/appclientlib.js"><\/script>',
+	'<script src="',
+		document.domain == 'pengyou.com' ? '/qzone/friends/selector/friendselector_py.js' : '/qzone/v6/widget/friends/selector.js',
+	'"><\/script>'
+].join(''));
+</script>
+<script type="text/javascript">
+var base = QZONE.FP._t;
+//贴板中评论的@关系链为贴板的成员列表
+var appWin = base.QZONE.FP.getCurrentAppWindow && base.QZONE.FP.getCurrentAppWindow();
+var inBoard = appWin && appWin.pb && appWin.pb.members;
+if(inBoard){
+	var oldSetup = QZONE.friends.Selector.setup;
+	var users = appWin.pb.members.get() || [];
+	var items = [];
+	var user, uin, logo;
+	for(var i = 0, len = users.length; i < len; i++){
+		user = users[i];
+		if(user.isInvited){
+			continue;
+		}
+		uin = user.uin;
+		logo = base.QZONE.FP.getPURL(uin, 30);
+		items.push({
+			'uin' : uin,
+			'groupid' : 0,
+			'name' : QZFL.string.escHTML(user.nick || user.uin),
+			'remark' : '',
+			'img' : logo,
+			'yellow' : -1,
+			'online' : 0,
+			'v6' : 0
+		});
+	}
+	
+	QZONE.friends.Selector.setup = function(params){
+		params.dataSource = {
+			"code" : 0,
+			"subcode" : 0,
+			"message" : "",
+			"default" : 0,
+			"data" : {
+				"items" : items,
+				"gpnames" : [{
+					"gpid" : 0,
+					"gpname" : ""
+				}]
+			}
+		};
+		oldSetup.call(QZONE.friends.Selector, params);
+	};
+	
+	document.write('<style>div.group_list {display:none;}</style>')
+}
+
+if (base.popupCallback) {
+	base.popupCallback(frameElement);
+}
+if (frameElement.multiChoose) {
+	$('bottomBar').style.display = '';
+	$('okButton').onclick = function() {
+		this.disabled = true;
+		frameElement.processSelecteds();
+		return false;
+	};
+}
+frameElement.callback();
+</script>
+</body>
+</html><!--[if !IE]>|xGv00|1279d7e6f1bb814ea383a10785cbd9f2<![endif]-->

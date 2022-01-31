@@ -1,0 +1,143 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-cn" lang="zh-cn">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Language" content="zh-cn" />
+<meta name="robots" content="all" />
+<meta name="author" content="Tencent-ISRD" />
+<meta name="Copyright" content="Tencent" />
+<meta name="Description" content="Qzone精彩由你而来" />
+<meta name="Keywords" content="Qzone,QQ空间,Blog,博客,网络日志,播客,腾讯,QQ,Tencent" />
+<script type="text/javascript">
+	if(location.href.indexOf('g_iframeUser=1') > -1) {
+		document.domain = 'user.qzone.qq.com'
+	} else {
+		if(/pengyou\.com$/.test(location.hostname)){
+			document.domain = 'pengyou.com';
+		}else if(/qzone\.qq\.com$/.test(location.hostname)){
+			document.domain = 'qzone.qq.com';
+		}else if(/qzone\.com$/.test(location.hostname)){
+			document.domain = 'qzone.com';
+		}else{
+			document.domain = 'qq.com';
+		}
+	}
+</script>
+<title>创建相册</title>
+<link rel="Shortcut Icon" href="/favicon.ico" type="image/x-icon" />
+<link rel="stylesheet" rev="stylesheet" href="//qzonestyle.gtimg.cn/qzone_v6/photo_pop.css" type="text/css" media="screen"/>
+<style>
+html,body{
+	overflow:hidden;
+}
+#other_priv a {
+	text-decoration:none !important;
+}
+.pop_create_album p.notice {
+margin: -10px 0 0 0;
+}
+</style>
+</head>
+<body>
+<div class="pop_create_album" style="height:auto;overflow:hidden;">
+	<p><span class="form_name"><label for="album_name">相册名称：</label></span>
+		<input type="text" id="album_name" name="album_name" class="int_txt" onkeyup="QPHOTO.util.onWrite(this.value,30,$('name_word'),$('name_tips'),'<i></i>');" maxlength="30" />
+		<span class="count_txt"><span id="name_word">0</span>/30</span>
+	</p>
+	<p id="name_tips" class="bg c_tx notice" style="display:none"></p>
+	<p><span class="form_name"><label for="album_desc">相册描述：</label></span>
+		<textarea onfocus="pageView.checkDescValue(this,true);" onblur="pageView.checkDescValue(this,false);" id="album_desc" name="album_desc" class="area_txt int_default" style="font-size:12px;" onkeyup="QPHOTO.util.onWrite(this.value,2000,$('desc_word'),$('desc_tips'),'<i></i>');"></textarea>
+		<span class="count_txt"><span id="desc_word">0</span>/2000</span>
+	</p>
+	<p id="desc_tips" class="bg c_tx notice" style="display:none"></p>
+	
+	<p id="js-viewtype" class="line_theme_check">
+		<span class="form_name fn_select" style="top:0;">主题：</span>
+		<span id="js-normal"><input type="radio" id="js-normal-checkbox" name="choose-type" checked="checked" class="v_radiobutton" /> <label class="type-name" for="js-normal-checkbox">普通</label></span>
+		<span id="js-baby"><input type="radio" id="js-baby-checkbox" name="choose-type" class="v_radiobutton" /> <label class="type-name" for="js-baby-checkbox"><i class="icon-child"></i>亲子</label></span>
+		<span id="js-travel"><input type="radio" id="js-travel-checkbox" name="choose-type" class="v_radiobutton"> <label class="type-name" for="js-travel-checkbox"><i class="icon-travel"></i>旅游</label></span>
+		<span id="js-college"><input type="radio" id="js-college-checkbox" name="choose-type" class="v_radiobutton" /> <label class="type-name" for="js-college-checkbox"><i class="icon-school"></i>校友</label></span>
+	</p>
+	<p id="js-baby-birthday" style="height: 22px; margin-bottom: 20px; display:none;">
+		<span class="form_name fn_select"><label for="baby_date">宝宝出生日期：</label></span>
+		<span id="baby_select"></span>
+	</p>
+	<p id="js-college-enroll" style="height: 22px; margin-bottom: 20px; display:none;">
+		<span class="form_name fn_select"><label for="college_date">入学时间：</label></span>
+		<span id="college_select"></span>
+	</p>
+	<p id="js-class" class="_js_inPengyou line_classify">
+		<span class="form_name fn_select"><label for="album_class">分类：</label></span>
+		<span id="cs_sel"><select></select></span>
+	</p>
+	<div class="line_1 limitmod" style="">
+		<span class="form_name fn_select">在QQ空间权限：</span>
+		<!--<span class="limits qz_limit" id="qzlimits"><span id="current_priv_qz">所有人可见</span><span class="arrow">&nbsp;</span></span>-->
+		<select id="qzlimitsOptions" onchange="pageView.selPriv(this.value);">
+			<option class="" value="1"><a href="#" id="All" >所有人可见</a></option>
+			<option class="" value="4"><a href="#" id="Myself" >QQ好友可见</a></option>
+			<option class="" value="5"><a href="#" id="Question" >回答问题可见</a></option>
+			<option class="" value="6" id="opt_friend"><a href="#" id="SomeFriend" >部分好友可见</a></option>
+			<option class="" value="8" id="ant_opt_friend"><a href="#" id="ant_SomeFriend" >部分好友不可见【新】</a></option>             
+			<option class="" value="3"><a href="#" id="Myself" >仅自己可见</a></option>
+		</select>
+        <a id="qzSetQuestion" href="#" onclick="pageView.setQuestion(); return false;" style="display:none">设置问题</a>
+		<span id="qzSetFriend" style="display:none"><a class="more_link chose_friend" href="#" onclick="pageView.setFriend(); return false;">选择好友</a><span class="chose_friend_num" id="chose_friend_num">0</span></span>
+		
+		<p id="qzlimitNotice" class="limit_notice c_tx" style="display:none;">
+		</p>
+        <div class="pop_tips" style="display:none">新增部分好友可见<span class="trip_down"></span></div>
+	</div>
+	<p class="bg c_tx notice" id="qtips"></p>
+
+	<p class="js-more line_4 line_checkbox line_disabled _js_inPengyou">
+		<span class="form_name fn_checkbox">其他权限：</span>
+		<span id="reprint_priv"><input type="checkbox" id="reprint" name="reprint" class="v_checkbox" checked="checked" /><label for="reprint" id="reprint_tips">允许<a style="text-decoration:none;" href="http://user.qzone.qq.com/20050607/blog/1253765397" target="_blank" title="点此了解详情">转载</a></label></span> 
+	</p>
+	<p class="js-more line_4 line_checkbox" id="mark_priv">
+		<input type="checkbox" id="marked" name="marked" class="v_checkbox" checked="checked"  /><label for="marked">允许圈人(只允许好友圈人)</label> 
+	</p>
+	<!--删除允许在朋友展示 <p class="line_4 line_checkbox" style="display:none">-->
+	<p id="bailing_priv" style="display:none">
+		<input type="checkbox" id="bailing" name="bailing" class="v_checkbox" checked="checked"/><label for="bailing" id="bailing_tips">允许在“朋友”展示</label> 
+	</p>
+	<p class="js-more line_4 line_checkbox _js_inPengyou">
+		<input type="checkbox" id="photograph_info" name="photograph_info" class="v_checkbox"/><label for="photograph_info">对访客隐藏拍摄时间、相机信息</label>
+	</p>
+
+	<p id="js-more-open" style="display:none">
+		<a href="###">更多设置</a> 
+	</p>
+	<!--
+	<p id="js-more-close" style="display:none">
+		<a href="###">收起</a> 
+	</p>
+	-->
+</div>
+<div class="global_tip_button" id="submit_cancel">
+	<div class="handle">
+		<button class="bt_tip_hit" onclick="pageView.submit();">确定</button><button class="bt_tip_normal" onclick="pageView.cancel();">取消</button></div>
+</div>
+</body>
+<script type="text/javascript">
+	var g_photoVersion;
+	try{
+		g_photoVersion = top.QZONE.FrontPage.getCurrentAppWindow().frameElement.g_photoVersion;
+	}catch(err){
+		g_photoVersion = parseInt((new Date()).getTime()/(24*3600*1000));
+	}
+	var siDomain = parent.siDomain || 'qzonestyle.gtimg.cn';
+	document.write([
+		'<script type="text/javascript" src="//'+siDomain+'/ac/qzone/qzfl/qzfl',(parent.g_V && parent.g_V.qz) || (parent.PSY && parent.PSY._qzflVersion) || "_2.1.34",'.js"><\/script>',
+		'<script type="text/javascript" src="//'+siDomain+'/qzone/v8/applib/embeded.js"><\/script>',
+		'<script type="text/javascript" src="//'+siDomain+'/ac/lib/seajs/sea-2.1.1.js"><\/script>',
+		'<script type="text/javascript" src="//'+siDomain+'/qzone/photo/v7/js/lib/seajs.config.js?max_age=2592000&v='+g_photoVersion+'"><\/script>',
+		'<script type="text/javascript" src="//'+siDomain+'/qzone/photo/zone/script/AlbumGet.js?max_age=2592000&v='+g_photoVersion+'"><\/script>'
+	].join(""));
+</script>
+<script>
+seajs.use('photo.v7/module/album/dialog/addAlbum/index',function(index){
+	index.get('./init').init();
+});
+</script>
+</html>

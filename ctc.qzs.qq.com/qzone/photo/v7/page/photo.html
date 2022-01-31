@@ -1,0 +1,330 @@
+<!DOCTYPE HTML>
+<html lang="zh-cn" class="os_win7">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<title> </title>
+<script type="text/javascript">
+document.domain = location.hostname;
+
+//interface里面这个变量
+window.g_domain = document.domain;
+window._s_ = new Date();
+
+//判断是否在iframe里面
+if(window.frameElement){
+	window.new_protocol = top.g_cdn_proto;
+}
+
+window.new_protocol = window.new_protocol || location.protocol;
+</script>
+
+<script type="text/javascript">
+(function(){
+	var version = {},
+		f		= frameElement || {};
+	
+	version.v7		= "@qzone/photo/v7/js#20190712#".split('#')[1];
+	version.zone	= "@qzone/photo/zone/script?deep=1#20131114203912#".split('#')[1];
+	version.zoneNew = "@qzone/photo/zone/new/script?deep=1#20131114221918#".split('#')[1];
+	version.css		= "@qzone_v6?deep=1&type=css#20131114113131#".split('#')[1];
+
+	if(top.g_photoVersionMap){
+		version.v7 		= Math.max(version.v7,		top.g_photoVersionMap.v7);
+		version.zone 	= Math.max(version.zone,	top.g_photoVersionMap.zone);
+		version.zoneNew = Math.max(version.zoneNew,	top.g_photoVersionMap.zoneNew);
+		version.css 	= Math.max(version.css,		top.g_photoVersionMap.css);
+	}
+	
+	top.g_photoVersion		= f.g_photoVersion		= Math.max(version.zone,version.zoneNew);
+	top.g_photoVersionV7	= f.g_photoVersionV7	= version.v7;
+	top.g_photoVersionMap	= f.g_photoVersionMap	= version;
+})();
+</script>
+
+<script type="text/javascript">
+var PSY = {
+		loadTimes :{startLoad:+new Date()},
+		_domains:{},
+		_photoVersion: top.g_photoVersion || frameElement.g_photoVersion,
+		_photoVersionV7: top.g_photoVersionV7 || frameElement.g_photoVersionV7,
+		_photoVersionMap: top.g_photoVersionMap || frameElement.g_photoVersionMap
+	};
+if(top.QZONE){
+	PSY._domains.imgcache = top.QZONE.FP._t.siDomain;
+	PSY._domains.main = 'user.qzone.qq.com';
+	PSY._domains.qzfl = top.QZONE.FP._t.imgcacheDomain;
+	PSY._qzflVersion = top.QZONE.FP._t.g_V.qz || '_v8_2.1.45';
+	PSY._interfaceVersion = top.QZONE.FP._t.g_V.ci || '_20131225';
+	PSY._requestVersion = top.QZONE.FP._t.g_V.req || "0.0.9.4";
+	window.imgcacheDomain = PSY._domains.qzfl;
+	window.siDomain = PSY._domains.imgcache;
+	window.qlogoDomain = 'store.qq.com';
+}else{
+	PSY._domains.imgcache = 'qzonestyle.gtimg.cn';
+	PSY._domains.main = 'user.qzone.qq.com';
+	PSY._domains.qzfl = 'qzs.qq.com';
+	PSY._qzflVersion = '_v8_2.1.45';
+	PSY._interfaceVersion = '_20131113';
+	PSY._requestVersion = "0.0.9.4";
+	window.imgcacheDomain = PSY._domains.qzfl;
+	window.siDomain = PSY._domains.imgcache;
+	window.qlogoDomain = 'store.qq.com';
+}
+if(frameElement){
+	frameElement.setAttribute('allowtransparency','yes');
+}
+
+</script>
+<!--[if lt IE 9]>
+	<script>PSY._jQueryVersion = '1.10.2';</script>
+<![endif]-->
+<!--[if gte IE 9]><!-->
+    <script>PSY._jQueryVersion = '2.0.3';</script>
+<!--<![endif]-->
+
+
+<style type="text/css">
+	.j-switch-to-h5-upload .j-album-new-upload-btn {
+		display: block !important;
+	}
+
+	.j-switch-to-h5-upload .j-album-new-upload-btn-inline {
+		display: inline-block !important;
+	}
+
+	.j-switch-to-h5-upload .j-album-old-photo-upload-btn, .j-switch-to-h5-upload .j-album-old-video-upload-btn {
+		display: none !important;
+	}
+</style>
+
+<script type="text/javascript">PSY.loadTimes.bodyStart = +new Date();</script>
+</head>
+<body>
+	<div id="j-body">
+		<style>
+			html,body{overflow: hidden;padding:0;margin:0}
+		</style>
+		<p id="j-body-loading" style="padding-top: 100px;text-align:center;font-size:14px;color:#999; display:none">加载中，请稍候...</p>
+	</div>
+</body>
+<script type="text/javascript">PSY.loadTimes.bodyEnd = +new Date();</script>
+<script type="text/javascript">
+setTimeout(function(){
+	var p = document.getElementById('j-body-loading');
+	if(p){
+		p.style.display = '';
+	}
+},1000);
+</script>
+<script type="text/javascript">
+	if((location.search + location.hash || '').indexOf('useqzfl')!==-1){
+		PSY._useqzfl = 1;
+		document.write('<script type="text/javascript" src="'+ new_protocol + '//'+PSY._domains.imgcache+'/ac/qzone/qzfl/qzfl'+PSY._qzflVersion+'.js"\/><\/script>');
+	}
+	if((location.search + location.hash || '').indexOf('useinterface')!==-1){
+		PSY._useinterface = 1;
+	}
+</script>
+<script  type="text/javascript">
+document.write('<script type="text/javascript" src="' + new_protocol + '//'+ PSY._domains.imgcache +'/ac/lib/seajs/sea-2.1.1.js" \/><\/script>');
+</script>
+<script type="text/javascript">
+	if(PSY._useinterface){
+		document.write('<script type="text/javascript" src="'+ new_protocol + '//'+PSY._domains.imgcache+'/qzone/v8/engine/plugin-combo.js"\/><\/script>');
+		document.write('<script type="text/javascript" src="'+ new_protocol + '//'+PSY._domains.imgcache+'/c/=/qzone/v8/engine/migrate-plugin.js,/qzone/v8/engine/console-plus/console-plus.js,/qzone/v8/engine/request/request_'+PSY._requestVersion+'.js,/qzone/v8/core/interface_mini.js,/qzone/v8/core/app_engine_ex.js"\/><\/script>');
+	}
+
+	if(PSY._useqzfl || PSY._useinterface){
+		document.write('<script type="text/javascript" src="'+ new_protocol + '//'+PSY._domains.imgcache+'/qzone/v8/applib/embeded.js"\/><\/script>');
+		
+		window.g_V = window.g_V || {};
+		window.g_V.qz = PSY._qzflVersion;
+		var g_version  = 6;
+		var g_isDirectApp = 0;
+		var _s_ = new Date();
+		var g_NowTime = _s_.getTime()/1000;
+		var g_V = window.g_V;
+	}
+	
+</script>
+<script type="text/javascript">
+seajs.config({
+	base: 'https://' + PSY._domains.imgcache +'/',
+	charset:'utf-8',
+	timeout:5*60*1000,
+	debug:0,
+	alias:{		
+		'jquery' : new_protocol + '//' + PSY._domains.imgcache +'/qzone/photo/v7/js/lib/jquery.js',
+		'migrate-plugin': new_protocol + '//' + PSY._domains.imgcache + '/qzone/v8/engine/migrate-plugin.js',
+		'interface':'v8/core/interface_mini.js',
+		'console-plus': 'v8/engine/console-plus/console-plus.js',
+		'request': 'v8/engine/request/request_'+PSY._requestVersion+'.js',
+		'jsbridge' : new_protocol + '//qzonestyle.gtimg.cn/qzone/phone/m/v4/widget/mobile/jsbridge.js?_bid=339',
+		'app_engine': 'v8/core/app_engine_ex.js'
+	},
+	paths:{
+		'photo.v7' : new_protocol + '//' + PSY._domains.imgcache +'/qzone/photo/v7/js',
+		'hybridPath' : new_protocol + '//' + PSY._domains.imgcache +'/qzone/hybrid',
+		'cssBase' : new_protocol + '//' + PSY._domains.imgcache,
+		'v8': new_protocol + '//' + PSY._domains.imgcache + '/qzone/v8',
+		'mall.v8':new_protocol + '//' + PSY._domains.imgcache + '/qzone/mall/v8',
+		'app' : new_protocol + '//' + PSY._domains.imgcache +'/qzone/app'
+	},
+	map:[
+		[/^.+\/lib\/qzfl\.js$/i,new_protocol + '//' + PSY._domains.imgcache +'/ac/qzone/qzfl/qzfl'+(PSY._qzflVersion)+'.js'],
+		[/^.+\/jquery\.js$/,new_protocol + '//' + PSY._domains.imgcache + '/ac/lib/jquery/jquery-'+PSY._jQueryVersion+'.js'],
+		//[/^.+\/tcisd.js/$/,'http://' + PSY._domains.imgcache + '/qzone/v8/core/stat.js'],
+		[/^(.+\/qzone\/photo\/v7\/js\/.+\.js)$/i,'$1?ver=' + PSY._photoVersionV7],
+		[/^(.+\/qzone_v6\/[^\/]+\.css)$/i,'$1?max_age=2592000&ver=' + PSY._photoVersionMap.css]
+	],
+	comboSyntax:['c/=',','],
+	comboIncludes:/\/qzone\/v8/,
+	comboExcludes:/jquery|app_engine/,
+	preload:PSY._useinterface?['migrate-plugin','interface', 'console-plus', 'request','app_engine'] : null
+});
+</script>
+<script type="text/javascript">
+	if(PSY._useinterface){
+		seajs.use(['migrate-plugin','interface', 'console-plus', 'request','app_engine']);//强制编译一下里面的内容,达到同步的效果
+	}
+</script>
+<script type="text/javascript">
+	if((location.search + location.hash || '').indexOf('useqphoto')!==-1){
+		PSY._useqphoto = 1;
+		document.write('<script type="text/javascript" src="'+ new_protocol + '//'+PSY._domains.imgcache+'/qzone/photo/zone/script/AlbumGet.js?max_age=2592000&v='+PSY._photoVersion+'"\/><\/script>');
+	}
+</script>
+<script type="text/javascript">
+if(PSY._useinterface === 1){
+	define('tcisd',[],function(require,module,exports){
+		return window.TCISD;
+	});
+}
+</script>
+<script type="text/javascript">
+PSY.loadTimes.moduleStartLoad = +new Date();
+if(!PSY._useqzfl){
+	window.QZONE = window.QZFL||parent.QZONE;
+}
+(function(){
+	if(location.href.indexOf('g_iframeUser=1') > -1) {
+		QZONE.FP = top.QZONE.FP;
+	}
+	if(window.parent==window && /qzs\.qq\.com$/ig.test(location.host)){//如果不是在iframe里边使用，统一都跳到h5.qzone.qq.com上去
+		location.href = '//h5.qzone.qq.com/page/photo' + location.search + location.hash;
+		return;
+	}
+
+	var search = {};
+	(location.search + location.hash || '').replace(/([^?=&#]+)=([^?&#]*)/gi,function($0,k,v){
+		search[k] = decodeURIComponent(v || '');	//统一强制decode
+	});
+
+	if(/^[a-z0-9\.\/\-_]+$/i.test(search.init || '')){
+		search.init = search.init.replace(/\/+/g,'/');		//xss bug
+		search.init = search.init.replace(/\.+/g,'.');		//xss bug
+
+		var requireModule = ['photo.v7/lib/photo',search.init];
+		var needNav;
+		if(parseInt(search.navBar) < 0){
+			//强制不要导航栏
+			needNav = false;
+		}else{
+			needNav = (search.navBar && frameElement && frameElement.g_isAlbumListV8) || (window.top !== window.self && parent.QZONE && frameElement.g_isAlbumListV8) || (search.navBar && !frameElement);
+		}
+		if(needNav){
+			requireModule.push('photo.v7/module/navBar/index');
+		}
+		requireModule.push('v8/ic/speed');
+		seajs.use(requireModule,function(photo,index,navBar,speed){
+			var mod = index;
+			if(mod && !mod.init && mod.get){
+				mod = mod.get('./init');
+			}
+
+			if(search.timeStamp){
+				search.timeStamp = new Date(search.timeStamp);
+			}
+
+			//相册V8导航栏
+			if(needNav){
+				PSY.loadTimes.navBarStartInit = +new Date();
+				navBar && navBar.init && navBar.init({
+					div:document.getElementById('j-body'),
+					params: search
+				}).done(function(div){
+					PSY.loadTimes.moduleStartInit = +new Date();
+					mod && mod.init && mod.init({
+						div: div,
+						params: search
+					});
+				});
+
+				speedReport(speed);
+				return;
+			};
+
+			PSY.loadTimes.moduleStartInit = +new Date();
+			mod && mod.init && mod.init({
+				div: document.getElementById('j-body'),
+				params: search
+			});
+
+			speedReport(speed);
+			function speedReport(speed) {
+				if (speed && speed.report) {
+					speed.report({
+						points: {
+			                siteName: top.location.host,
+			                pageName: "4/detail",
+			                24: (new Date()).getTime() - top.window.g_point0_4
+			            },
+			            appid: "20141",
+			            appkey: "c373ba4a1ce77b27601e887e9f8eb3f4"
+					});
+				}
+			}
+		});
+		
+		if(search.init.indexOf('/viewer2/index') > -1){
+			document.body.style.backgroundColor = "#000";
+			QZFL.css.insertCSSLink('http://' + PSY._domains.imgcache + '/aoi/photo-scan-layer.css');
+			QZFL.css.insertCSSLink('http://' + PSY._domains.imgcache + '/aoi/ui-dialog.css');
+		}
+		
+	};
+
+	//客户端页面环境补全
+	if(top.QZONE && top.QZONE.FP){
+		top.QZONE.FP._t.g_V = top.QZONE.FP._t.g_V || {};
+		top.QZONE.FP._t.g_V.qz = PSY._qzflVersion;
+		if(!window.g_iLoginUin || window.g_iLoginUin <= 0){
+			window.g_iLoginUin = top.QZONE.FP.getQzoneConfig&&top.QZONE.FP.getQzoneConfig("loginUin");
+		}
+		if(!window.g_iUin || window.g_iUin <= 0){
+			window.g_iUin = top.QZONE.FP.getQzoneConfig&&top.QZONE.FP.getQzoneConfig("ownerUin");
+			window.g_iUin = window.g_iUin > 0 ? window.g_iUin : search.ownerUin;
+		}
+	}
+
+	// if(window.g_iLoginUin && [0, 2, 4, 6, 8].indexOf(g_iLoginUin % 10) > -1){
+		var jbody = document.getElementById('j-body');
+
+		//连H5特性都不支持的就不要切H5上传了
+		if(jbody && jbody.classList && jbody.classList.add && window.FileReader){
+			jbody.classList.add('j-switch-to-h5-upload');
+		}
+	// }
+})();
+</script>
+<!--[if IE 6]>
+<script type="text/javascript">
+// <![CDATA[
+try{document.execCommand("BackgroundImageCache",false,true);}catch(e){}
+// ]]>
+</script>
+<![endif]-->
+<script type="text/javascript">PSY.loadTimes.domReady = +new Date();</script>
+</html>

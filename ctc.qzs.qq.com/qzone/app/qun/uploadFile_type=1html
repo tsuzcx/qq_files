@@ -1,0 +1,116 @@
+<!DOCTYPE HTML>
+<html style="overflow:hidden;">
+<head>
+<meta charset="UTF-8"/>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta http-equiv="Content-Language" content="zh-cn"/>
+<meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+<title>Qzone精彩由你而来</title>
+<!--[if IE 6]>
+<script type="text/javascript">
+// <![CDATA[
+try{document.execCommand("BackgroundImageCache", false, true);}catch(e){}
+// ]]>
+</script>
+<![endif]-->
+<style type="text/css">
+    html{overflow: 'hidden';}
+    body{overflow: 'hidden';}
+</style>
+<script type="text/javascript">
+var s=location.host.split(".");document.domain=s.slice(s.length-2).join(".");
+var _imgcacheDomain= parent.imgcacheDomain||'qzs.qq.com', _siDomain=parent.siDomain||'qzonestyle.gtimg.cn', _qzv=(parent.g_V)?parent.g_V.qz:'_2.1.1.0', _linkB='<link rel="stylesheet" rev="stylesheet" href="http://', _jsB='<script type="text/javascript" src="http://'+_siDomain;
+
+var import_b='@import url(http://',
+	import_end='.css);',
+	styleArr,
+	styleid = parent.g_StyleID || 151,
+	siDomain = parent.siDomain;
+	/*styleArr = ['<style type="text/css" id="mainStyle" media="screen">',
+		import_b,siDomain,'/qzone_v6/gb/skin/',styleid,import_end,
+		import_b,siDomain,'/qzone_v6/icenter',import_end,
+		import_b,siDomain,'/qzone_v6/groupzone_v2',import_end,
+		'<\/style>'];*/
+	styleArr = ['<style type="text/css" media="screen">',
+		import_b,siDomain,'/qzone_v6/icenter',import_end,
+		import_b,siDomain,'/qzone_v6/app_group',import_end,
+		'<\/style>'];
+if(parent.constructQZFL){
+	eval("(" + (parent.constructQZFL._string || (parent.constructQZFL._string = parent.constructQZFL.toString())) + ")();");
+}
+document.write([
+styleArr.join(''),
+_jsB,'/qzone/app/qun/script/sea.js" charset="utf-8" ><\/script>',
+parent.constructQZFL?'':'<script type="text/javascript" src="/ac/qzone/qzfl/qzfl'+_qzv+'.js"><\/script>',
+window.QZONE&&window.QZONE.FP?'':'<script type="text/javascript" src="/ac/qzfl/appclientlib.js" charset="utf-8"><\/script>'
+].join(''));
+</script>
+<style type="text/css">
+</style>
+</head>
+<body style="overflow:hidden;">
+<div class="popup_group_upload_files upload_step upload_step_1" id="selectFileContain">
+   
+    <a href="javascript:void(0);" role="button" class="btn_c btn_c_h42 btn_choose_files" id="activeObjectContain">
+        <i class="i_group i_file_h18"></i>
+        <span class="btn_text">选择文件</span>
+    </a>
+    <div class="visual_flash btn_c btn_c_h42 btn_choose_files" id='CommonFileUploaderContain' style="width:157px;height:43px;background-color: white;display:none"></div>
+    <!-- 先不展示 -->
+   
+    <div class="hint hint_install_browser" style="display:none" id="uploadFileTips">
+        <i class="i_group i_error"></i>
+        <a href="http://mail.qq.com/cgi-bin/readtemplate?t=browser_addon&check=false&returnto=http%3A%2F%2Fwww.qq.com" target="_blank" class="c_tx4">安装浏览器上传插件</a>可上传2G内的文件，且支持断点续传，更快更便捷。
+        <a title="关闭" class="hint_close" id="closeHintInstallBrowser"></a>
+    </div>
+</div>
+<div class="popup_group_upload_files upload_step upload_step_2 upload_step_3 upload_step_4" id="fileListContain" style="display:none">
+     
+    <p class="upload_text"><span>已选文件：<span id="selectedFileCounts" class="ui_mr10">0/5</span></span><span>总大小：<span id="selectFileSize"  class="ui_mr10">0</span></span><span id="useableSizeContain">可用容量：<span id="useableSize">0</span></span></p>
+    <div id="listUploadContain">
+	    <!-- <table class="qz_table qz_table_stripe table_upload_files ">
+	        <tbody>
+
+	        </tbody>
+	    </table>  -->
+    </div>
+
+    <a href="javascript:void(0);" class="btn_add_files upload_step upload_step_2" id="uploadDialogAddFile"> + 添加文件</a>
+    <div class="btn_add_files" id='btnSelectFile' style="display:none"><span class="flash_text"> + 添加文件</span><div id="flashUploadBtn"></div></div>
+</div>
+<div class="qz_dialog_layer_ft" id="footContain">
+    
+    <!-- 选择文件 -->
+<!--     <a href="javascript:void(0);" class="btn_c btn_c_h24 upload_step upload_step_1" id="btnSelectFile" style="display:none">
+        <span class="btn_text">上传</span>
+    </a> -->
+    <!-- 上传 -->
+    <a href="javascript:void(0);" class="btn_c btn_c_h24 btn_h24_stop upload_step upload_step_1" style="display:none">
+        <span class="btn_text">上传</span>
+    </a>
+
+    <a href="javascript:void(0);" class="btn_c btn_c_h24 upload_step upload_step_2" id="uploadBegin" style="display:none">
+        <span class="btn_text">上传</span>
+    </a>
+    <!-- 上传中 -->
+    <a href="javascript:void(0);" class="btn_c btn_c_h24 upload_step btn_h24_stop upload_step_3" style="display:none" title="上传中">
+        <span class="btn_text">上传中</span>
+    </a>
+    <!-- 上传后 -->
+    <a href="javascript:void(0);" class="btn_c btn_c_h24_b upload_step upload_step_4" onclick="window.location.reload();return false;" style="display:none">
+      <span class="btn_text">继续上传</span>
+    </a>
+    <a href="javascript:void(0);" class="btn_c btn_c_h24 upload_step upload_step_4" style="display:none" onclick="QZONE.FP.closePopup();return false;">
+      <span class="btn_text">完成</span>
+    </a>
+</div>
+<script type="text/javascript">
+seajs.config({
+  'base': 'http://'+_siDomain+'/qzone/app/qun/script/'
+});
+seajs.use('groupShareUploader.js', function(uploader) {
+	uploader.init();
+});
+</script>
+</body>
+</html><!--[if !IE]>|xGv00|3849f79da2421ad6157ac5bd75c61d84<![endif]-->

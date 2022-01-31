@@ -1,0 +1,42 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-cn" lang="zh-cn">
+<head>
+<!--缓存信息-->
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Language" content="utf-8" />
+<!--编码信息-->
+<meta name="robots" content="all" />
+<!--机器人爬虫-->
+<meta name="author" content="Tencent-Qzoner" />
+<meta name="Copyright" content="Tencent" />
+<meta name="Description" content="App redirect page" />
+<meta name="Keywords" content="Remove referer" />
+<title>应用跳转页</title>
+</head>
+<body>
+<script type="text/javascript">
+	function getHttpParams(name){
+		var r = new RegExp("(\\?|#|&)"+name+"=([^&#]*)(&|#|$)");
+		var m = url.match(r);
+		return decodeURIComponent(!m?"":m[2]).replace(/\+/g," ");
+	}
+	document.domain = "qq.com";
+	var url = parent._qz_curentAppCanvasUrl,
+	    h = getHttpParams("qz_height") || 2500;
+	if(h){ //β 对于需要设置初始高度的app，在这里设置第一次进入时的初始高度
+		document.body.style.height = h + "px"; 
+		frameElement.height = h;
+	}
+	var t;
+	if(url){
+		if((t=parent.QZFL.userAgent) && t.ie && t.ie < 8){
+			if(!window.open(url, '_self')){
+				document.location.replace(url);
+			}
+		}else{
+			document.location.replace(url);
+		}
+	}
+</script>
+</body>
+</html><!--[if !IE]>|xGv00|6706fcb859986ff677f353ef5eb873d1<![endif]-->

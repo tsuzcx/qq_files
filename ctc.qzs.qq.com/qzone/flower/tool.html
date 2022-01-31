@@ -1,0 +1,194 @@
+<!DOCTYPE HTML>
+<html style="overflow-x:hidden;">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<!--编码要尽早 http://ofcss.com/2011/03/14/browser-rendering-optimizer-translation-extra.html -->
+	<title>藏宝阁 - Qzone</title>
+	<base href="//qzs.qq.com/">
+	<script type="text/javascript" src="//qzonestyle.gtimg.cn/qzone/v8/applib/embeded.js"></script>
+	<script type="text/javascript">
+		//进行初始化的配置
+		document.write([
+			'<link rel="stylesheet" href="https://', parent.siDomain, '/qzone_v6/gb/skin/50.css">',
+			'<link rel="stylesheet" href="https://', parent.siDomain, '/qzone_v6/app_flower_popup.css">',
+			'<link rel="stylesheet" href="https://', parent.siDomain, '/qzone_v6/qz_dialog.css">'
+		].join(''));
+	</script>
+</head>
+<body>
+
+<!-- 藏宝阁开始 -->
+<div class="mod_pop_wrap pop_props" style="left: 390px; top: 80px; display: block; ">
+	<div class="mod_pop">
+		<div class="pop_hd">
+			<h3>藏宝阁</h3>
+			<a class="pop_btn_close" href="javascript:void(0);" title="关闭" onclick="window.QZONE && QZONE.FP.closeFullScreenDialog();return false;">╳</a>
+		</div>
+		<!-- 果实道具显示列表开始 -->
+		<div id="divcangbaoge" class="pop_bd">
+				<div class="pop_props_hd">
+					我的果实：<span class="my_props_num"></span>个 
+				</div>
+				<div class="mod_tab">
+					<div class="mode_menu_tag2">
+						<ul>
+							<li class="nowtag"><a id="tab-exchange" href="#">道具兑换</a></li>
+							<li><a id="tab-my-props" href="#">我的道具</a></li>				
+						</ul>
+					</div>
+					<div class="mod_tab_other">
+						<a href="//rc.qzone.qq.com/yellowgrade" target="_blank" class="vip_bag">点击领取当月黄钻礼包</a>
+						<a href="javascript:void(0)" onclick="pickUpFruit()" class="btn_zhaiguo">一键摘果</a>
+					</div>
+				</div>
+				
+				<div class="props_list_wrap" id="props1">
+					<div class="props_list">
+						<ul  id="propsUl">
+						</ul>
+					</div>
+					<div class="mod_page" id="exchange-pages" style="display:none">
+						<a href="javascript:void(0)" id="exchange-page-prev" class="pre" title="上一页">上一页</a>
+						<span class="pages">
+							<span class="current" id="exchange-page-curr">1</span><span id="exchange-page-total">/20</span>
+						</span>
+						<a href="javascript:void(0)" id="exchange-page-next" class="next"  title="下一页">下一页</a>
+					</div>
+			</div>
+			
+			<div class="props_list_wrap" id="props2" style="display:none;">
+				<div class="props_list">
+					<ul id="myPropsListUl">
+					</ul>
+				</div>
+				<div class="props_chage">
+					<div class="list_empty" id="myPropsListEmpty" style="display:none">
+								<h4>您当前没有任何道具。</h4>
+					</div>
+				</div>
+				
+				<div class="mod_page"  id="myprops-pages" style="display:none">
+					<a href="javascript:void(0)" class="pre" id="myprops-page-prev"  title="上一页">上一页</a>
+					<span class="pages">
+						<span class="current" id="myprops-page-curr">1</span><span id="myprops-page-total">/20</span>
+					</span>
+					<a href="javascript:void(0)" class="next" id="myprops-page-next"  title="下一页">下一页</a>
+				</div>
+			</div>
+
+			
+
+				<!--
+				<div class="my_props">
+					<div class="props_list_wrap">
+						<div class="list_empty" id="myPropsListEmpty" style="display:none">
+							<h4>您当前没有任何道具。</h4>
+							<p>如已经收获果实，则可根据果实的级别兑换道具；如还没有收获果实，那就辛勤浇花待果子成熟喽。</p>
+						</div>
+						<div class="nav_left"><a href="javascript:void(0)" id="myPropsPagePre" onclick="return false;">上一页</a></div>
+						<div class="props_list" id="myPropsList">
+							<ul id="myPropsListUl">
+							</ul>
+						</div>
+						<div class="nav_right"><a href="javascript:void(0)" id="myPropsPageNext" onclick="return false;">下一页</a></div>
+					</div>
+				</div>
+				-->
+			</div>
+		</div>
+		<!-- 果实道具显示列表结束 -->
+
+		<!-- 狗仔队显示列表开始 -->
+		<div id="divgouzidui" class="pop_bd" style="display: none">
+			<div class="pop_search_result">
+				<div class="pop_search_result_hd">
+					<div class="pop_item_title">
+						<h4>搜索结果</h4>
+						<a href="javascript:void(0);" class="right"  onclick="window.showBlock && showBlock(1); return false;">返回藏宝阁</a>
+					</div>
+				</div>
+				<div class="pop_search_bd">
+					<div class="search_tips">您查看的号码 <span class="highlight" id="watchNum_gouzidui"> 0 </span> 最近浏览过的空间有：</div>
+					<div class="search_result_table" id="result_gouzidui">
+						<!-- <table>
+							<thead>
+								<tr>
+									<th>空间名称</th>
+									<th>昵称</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr class="odd">
+									<td class="first"></td>
+									<td>stefanie sun</td>
+								</tr>
+							</tbody>
+						</table> -->
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- 狗仔队显示列表结束 -->
+		<!-- 透视镜开始 -->
+		<div id="divtoushijing" class="pop_bd" style="display:none">
+			<div class="pop_search_result">
+				<div class="pop_search_result_hd">
+					<div class="pop_item_title">
+						<h4>搜索结果</h4>
+						<a href="javascript:void(0);" class="right" onclick="window.showBlock && showBlock(1); return false;">返回藏宝阁</a>
+					</div>
+				</div>
+				<div class="pop_search_bd">
+					<div class="search_tips">您查看的号码 <span class="highlight" id="watchNum_toushijing"> 0 </span> 拥有的道具有：</div>
+					<div class="props_list_wrap">
+						<div class="props_list" style="overflow-y:auto;">
+							<ul id="ul_toushijing">
+								<!-- <li>
+									<div class="item_hd">隐身草</div>
+									<div class="item_bd">
+										<img src="http://getimg.in/85x85" alt="">
+									</div>
+									<div class="item_ft">
+										<p>使用次数：<span class="item_num">5</span></p>
+									</div>
+								</li> -->
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- 透视镜结束 -->
+	</div>
+</div>
+<!-- 藏宝阁结束 -->
+<div class="qz_mask" style="background-color: rgb(0, 0, 0);-ms-filter:\'progid:DXImageTransform.Microsoft.Alpha(Opacity=20)\';filter: alpha(opacity=20); opacity: 0.2; position: fixed; _position: absolute; left: 0px; top: 0px; z-index: 6000; width: 100%; height: 100%;"></div>
+
+<script type="text/javascript">
+	
+(function(win){if(!win.console){win.console={log:function(){},warn:function(){},error:function(){}}}})(this);(function(window){var timers=[];var getTCISD=function(callback){if(QZONE.FP){callback(QZONE.FP.getStatPackage());}else if(window.TCISD){callback(window.TCISD);}else{QZFL.imports('http://'+(parent&&parent.siDomain||'qzonestyle.gtimg.cn')+'/ac/qzfl/stat.js',function(){callback(window.TCISD);})}}
+window.Timer={timing:function(){timers.push(new Date());},reportTiming:function(statName,flagArr){getTCISD(function(TCISD){var timeStat=TCISD.createTimeStat(statName,flagArr);timeStat.zero=timers[0]||new Date();timeStat.timeStamps=timers.slice(1,timers.length);timeStat.report();});},reportPerformance:function(flags){QZFL.imports('http://'+(parent.siDomain||'qzonestyle.gtimg.cn')+'/qzone/app/timing/timing.js?max_age=81600',function(){new Timing(flags);})}}})(this);Timer.timing('zero');var getParameter=function(name){var r=new RegExp("(\\?|#|&)"+name+"=([^&#]*)(&|#|$)");var m=location.href.match(r);return(!m?"":m[2]);};var tmpl=(function(){var cache={};return function tmpl(str,data,key){var strIsKey=!/\W/.test(str);key=key||(strIsKey?str:null);var fn=key?cache[key]=cache[key]||tmpl(strIsKey?document.getElementById(str).innerHTML:str):new Function("obj","var p=[],print=function(){p.push.apply(p,arguments);}; with(obj){p.push('"+str.replace(/[\r\t\n]/g," ").split("\\'").join("\\\\'").split("'").join("\\'").split("<%").join("\t").replace(/\t=(.*?)%>/g,"',$1,'").split("\t").join("');").split("%>").join("p.push('")
++"');}return p.join('');");return data?fn(data):fn;};})();var _dw=function(text){document.write(text);};var imgcacheDomain=top.QZONE.FP._t.imgcacheDomain;var siDomain=parent.siDomain||'qzonestyle.gtimg.cn';var StyleID=parent.g_StyleID||1;var g_V=parent.g_V||{qz:'_2.0.9.6'};if(parent.constructQZFL){eval("("+(parent.constructQZFL._string||(parent.constructQZFL._string=parent.constructQZFL.toString()))+")();");}
+	
+(function(w){QZFL.userAgent.ie==6&&($e('.qz_mask').elements[0].style.height=QZFL.dom.getClientHeight()+"px");})(window);
+	var PROPSLI_HTML = '<li><div class="item_hd"><%=escHTML(name)%></div><div class="item_bd" title="<%=escHTML(desc)%>" onclick="exchangeProps(\'<%=escHTML(nameid)%>\',\'<%=escHTML(name)%>\', \'<%=escHTML(need)%>\', \'<%=escHTML(type)%>\');return false;"><i class="<%=escHTML(isNew)%>"></i><i class="<%=escHTML(isVip)%>"></i><img src="/ac/b.gif" onload="this.onload=null;this.src=\'<%=escHTML(imgUrl)%>\';" title="<%=escHTML(desc)%>" alt="<%=escHTML(name)%>" /></div><div class="item_ft"><p>需<%=escHTML(costTypeDesc)%>：<span class="item_num"><%=escHTML(need)%></span></p><div><a href="javascript:void(0)" class="pop_btn" onclick="exchangeProps(\'<%=escHTML(nameid)%>\',\'<%=escHTML(name)%>\', \'<%=escHTML(need)%>\', \'<%=escHTML(type)%>\');return false;">兑换</a></div></div></li>';
+
+	var MYPROPSLI_HTML = '<li><div class="item_hd"><%=escHTML(name)%></div><div class="item_bd" title="<%=escHTML(desc)%>" onclick="useProps(\'<%=escHTML(nameid)%>\', \'<%=escHTML(name)%>\');return false;"><img src="/ac/b.gif" onload="this.onload=null;this.src=\'<%=escHTML(imgUrl)%>\';" title="<%=escHTML(desc)%>" alt="<%=escHTML(name)%>" /><span class="props_level"></span></div><div class="item_ft"><p>道具个数：<span class="item_num"><%=escHTML(use)%></span></p><div><a href="javascript:void(0)" class="pop_btn" onclick="useProps(\'<%=escHTML(nameid)%>\', \'<%=escHTML(name)%>\');return false;">使用</a><a href="javascript:void(0)" class="pop_btn" onclick="giveProps(\'<%=escHTML(nameid)%>\', \'<%=escHTML(name)%>\')">赠送</a></div></div></li>';
+
+	var MYFRUIT_HTML = '<span class="gather_item gather_tit">我的果实</span><span class="<%=escHTML(isGray1)%> gather_item">一级<span class="gather_num"><%=escHTML(num1)%></span></span><span class="<%=escHTML(isGray2)%> gather_item">二级<span class="gather_num"><%=escHTML(num2)%></span></span><span class="<%=escHTML(isGray3)%> gather_item">三级<span class="gather_num"><%=escHTML(num3)%></span></span><span class="<%=escHTML(isGray4)%> gather_item">四级<span class="gather_num"><%=escHTML(num4)%></span></span><span class="<%=escHTML(isGray5)%> gather_item">五级<span class="gather_num"><%=escHTML(num5)%></span></span><a href="javascript:void(0)" class="btn_zhaiguo" onclick="pickUpFruit()" >一键摘果</a>';
+	
+(function(w){var $pop=$e('.mod_pop_wrap').elements[0];var popSize=QZFL.dom.getSize($pop);var winSize=[QZFL.dom.getClientWidth(),QZFL.dom.getClientHeight()];var left=(winSize[0]-popSize[0])/2;var top=(winSize[1]-popSize[1])/2;QZFL.dom.setXY($pop,left<0?0:left,top<0?0:top);})(window);
+document.write([
+	'<script type="text/javascript" src="https://', siDomain ,'/qzone/flower/toolbox/clipboard.js"><\/script>',
+	'<script type="text/javascript" src="https://', siDomain,'/qzone/flower/common/pageTurnCenter.js"><\/script>',
+	'<script type="text/javascript" src="https://', siDomain,'/qzone/flower/common/requestCenter.js?ver=20130827"><\/script>',
+	'<script type="text/javascript" src="https://', siDomain,'/qzone/flower/toolbox/myPropsModule.js?ver=20130827"><\/script>',
+	'<script type="text/javascript" src="https://', siDomain,'/qzone/flower/toolbox/propsModule.js?ver=20130827"><\/script>',
+	'<script type="text/javascript" src="https://', siDomain,'/qzone/flower/toolbox/myfruit.js"><\/script>',
+	'<script type="text/javascript" src="https://', siDomain,'/qzone/flower/toolbox/toolbox.js?ver=20130827"><\/script>'
+].join(''));
+</script>
+</body>
+</html>

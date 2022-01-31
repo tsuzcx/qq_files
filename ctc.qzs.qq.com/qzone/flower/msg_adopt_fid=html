@@ -1,0 +1,156 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-cn" lang="zh-cn">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+<meta http-equiv="Content-Language" content="gb2312" />
+<meta name="robots" content="all" />
+<meta name="author" content="Tencent-ISRD" />
+<meta name="Copyright" content="Tencent" />
+<meta name="Description" content="Qzone精彩由你而来" />
+<meta name="Keywords" content="Qzone,QQ空间,Blog,博客,网络日志,播客,腾讯,QQ,Tencent" />
+<title>Qzone精彩由你而来</title>
+<link rel="stylesheet" rev="stylesheet" href="http://imgcache.qq.com/qzone_v5/css/global.css" type="text/css" media="screen"/>
+<link rel="stylesheet" rev="stylesheet" href="http://imgcache.qq.com/ac/qzone_v5/popup/gb_pop.css?ver=1.css" type="text/css" media="screen"/>
+<link rel="Shortcut Icon" href="/favicon.ico" type="image/x-icon" />
+<style type="text/css">
+<!--
+html, body{ overflow:hidden;}
+body {
+background-color:#FFFFFF;
+}
+.main{padding:25px 38px 0 38px;}
+.main .inp{ border:#7F9DB9 solid 1px; width:88px; padding:2px 0; margin:13px 0 7px 0;}
+.main .inp2{ border:#7F9DB9 solid 1px; width:349px; padding:2px 0; margin:13px 0 7px 0;}
+.main .ps{margin-bottom:22px; color:#AAA;}
+-->
+</style>
+
+<script type="text/javascript" charset="utf-8" src="http://imgcache.qq.com/qzone/qzfl/qzfl.js" charset="utf-8"></script>    
+<script type="text/javascript" charset="utf-8" src="http://imgcache.qq.com/qzone/qzfl/appclientlib.js" charset="utf-8"></script>	
+<script type="text/javascript" src="http://imgcache.qq.com/qzone/flower/util.js"></script>
+<script type="text/javascript">
+	var topWin = QZONE.FP._t;
+
+	QZONE.pageEvents.pageBaseInit();
+
+	var form = {save:1};
+
+	QZONE.pageEvents.onloadRegister(function(){
+		form.fid = QuickFunc.getParamter('fid');
+		form.fname = QuickFunc.getParamter('fname').textHTML().trim();
+		form.opt = QuickFunc.getParamter('opt');
+		$('flowerImg').src = '/qzone/flower/images/shop/'+form.fid+'.gif';
+
+		if(form.opt == 'add'){
+			$('addDiv').style.display='block';
+			$('addMsgDiv').innerHTML = '确定要领养'+iconName[form.fid]+'吗？';
+			var flowerName = $('flowerName');
+
+			flowerName.value = form.fname;
+			flowerName.onkeyup = function(){
+				if(flowerName.value.byteLength()>=12)setTimeout('checkLength(flowerName, 12)', 10);
+			}			
+		}else{
+			$('changeDiv').style.display='block';
+			$('changeMsgDiv').innerHTML = '确定要领养'+iconName[form.fid]+'吗？';
+		}
+	});	
+
+	function checkLength(txt, len){
+		txt.value = txt.value.leftString(len);
+	}
+
+	function but_onOk(){
+		if(top.g_OFPLite){
+			form.posx = 530;
+			form.posy = 530;
+		} else {
+			var _oldflower = exclusiveItems(23);	
+			if(!_oldflower){
+				QZONE.FP.closePopup();
+				QZONE.FP.showMsgbox('正在拉取花藤信息，请稍后再试!', 0, 2000);
+				return;
+			}
+			form.posx = _oldflower.posx;
+			form.posy = _oldflower.posy;
+		}
+
+		if(form.opt == 'add'){
+			var flowerName = $('flowerName');
+			form.fname = flowerName.value;
+			if(form.fname.trim() == ''){
+				QZONE.FP.showMsgbox('花藤名字不能为空！',0,2000);
+				flowerName.focus();
+				return;
+			}				
+			if(form.fname.byteLength() > 12){
+				QZONE.FP.showMsgbox('花藤名字不能大于6个汉字或12个字符！',0,2000);
+				flowerName.focus();
+				return;
+			}
+			if(form.fname.match(/[\/\&\?=#]/gi)){
+				QZONE.FP.showMsgbox('花藤名字中不能包含(/,&,?,=,#)等字符!',0,2000);
+				flowerName.focus();
+				return;
+			}
+			form.type = 0;
+		}else{
+			form.type = 1;
+		}
+		form.fname = (form.fname == 'undefined'||form.fname.trim() == '') ? '我的花藤' : form.fname;
+		QuickFunc.sendForm('http://flower.qzone.qq.com/cgi-bin/cgi_add_flower', form, function(rs){
+			switch(rs.result){
+			case '0':
+				var msg = 'fid=' + form.fid;
+				topWin.window.flower['adopt'] = 1;	
+				setTimeout(function(){
+				//QZONE.FP.closePopup();
+				//QZONE.FP.popupDialog("领养成功", {src: '/qzone/flower/msg_addsucc.html?'+msg}, 432, 300);		
+				location = '/qzone/flower/msg_addsucc.html?'+msg;		
+				},0);
+				break;
+			default:
+				setTimeout(function(){
+				QZONE.FP.showMsgbox(rs.msg, 0, 2000);
+				QZONE.FP.closePopup();
+				},0);
+			}
+		});
+	}
+
+</script>
+</head>
+<body>
+<div class="layer_global_main" style="width:430px; border-width:0;">
+	<div class="layer_global_cont main" style="padding-top:0px;">
+		<div style="border-bottom:#B3E4EB dashed 1px; position:relative;">
+			<img id="flowerImg" src="http://imgcache.qq.com/qzone/flower/images/shop/38542.gif" alt="" style="margin:38px 0; position:relative; left:28px;" />
+
+			<div style="position:absolute; top:39px; left:180px; display:none;" id="addDiv">
+				<div style="height:48px; position:relative;">
+					<img src="http://imgcache.qq.com/ac/b.gif" class="icon_hint_warn" />
+					<p style="position:absolute; top:3px; left:40px; color:#E07819; width:145px;" id="addMsgDiv"></p>
+				</div>
+				<p style="padding:0 0 10px 3px; color:#4d4d4d;">给您的花藤取个名字</p>
+				<p style="padding:0 0 4px 3px;"><input id="flowerName" name="flowerName" type="text" class="inp" /></p>
+				<p style="padding:0 0 0 3px; color:#a9a9a9;">6个汉字或12个英文字母以内</p>
+
+			</div>
+
+			<div style="position:absolute; top:88px; left:180px; display:none;" id="changeDiv">
+				<div style="height:48px; position:relative;">
+					<img src="http://imgcache.qq.com/ac/b.gif" alt="" class="icon_hint_warn" />
+					<p style="position:absolute; top:3px; left:40px; color:#E07819; width:145px;" id="changeMsgDiv"></p>
+				</div>
+			</div>
+		</div>
+		<div style="padding:21px 0; color:#9e9e9e;">温馨提示：每个用户只能领养一盆花藤。更换花藤后，您的四项指数将保持不变。</div>
+	</div>
+	<div class="global_tip_button">
+		<button class="spr bt_tip_hit" onclick="but_onOk();">确认</button>
+		<button class="spr bt_tip_normal" onclick="QZONE.FP.closePopup()">取消</button>
+	</div>
+</div>
+</body>
+</html>
+<!--[if !IE]>|xGv00|06bc54f09d4acf0e84e40c4e8ed65802<![endif]-->

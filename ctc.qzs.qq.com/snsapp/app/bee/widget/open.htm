@@ -1,0 +1,184 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+	<head>
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+		<meta name="robots" content="all" />
+		<meta name="author" content="Tencent-ISRD" />
+		<meta name="Copyright" content="Tencent" />
+		<meta name="Description" content="Qzone精彩由你而来" />
+		<meta name="Keywords" content="Qzone,QQ空间,Blog,博客,网络日志,播客,腾讯,QQ,Tencent"/>
+		<link rel="shortcut icon" href="http://qzonestyle.gtimg.cn/qzonestyle/app/share/favicon.ico" type="image/x-icon" />
+		<title>QQ提醒</title>
+		<script type="text/javascript" src="http://js.aq.qq.com/js/aq_common.js"></script>
+		<script type = "text/javascript">
+			window._timePoints = [new Date()];
+			function getCookie(name) {
+				var r = new RegExp("(?:^|;+|\\s+)" + name + "=([^;]*)"), m = document.cookie.match(r);
+				return escapeHTML(!m ? "" : m[1]);
+			};
+			function escapeHTML(str) {
+				return str.split("&").join("&amp;")
+						.split("<").join("&lt;")
+						.split(">").join("&gt;")
+						.split("'").join("&apos;")
+						.split('"').join("&quot;");
+			}
+			document.domain = "qq.com";
+			//ie背景图缓存
+			try {
+				document.execCommand('BackgroundImageCache', false, true);
+			} catch(e) {
+			}
+			//var _ptisp = getCookie("ptisp");
+			//var baseUrl = ["http:\/\/", _ptisp ? (_ptisp + ".") : "", "qzs.qq.com"].join("");
+			//var resDomain = ["http:\/\/", _ptisp ? (_ptisp + ".") : "", "i.gtimg.cn"].join("");
+			var baseUrl = ["http:\/\/", "", "qzs.qq.com"].join("");
+			var resDomain = ["http:\/\/", "", "i.gtimg.cn"].join("");
+			document.write('<base href="' + baseUrl + '/"></base>');
+			document.write('<link rel="stylesheet" href="' + resDomain + '/appimg/bee/css/global_min.css" type="text/css" media="screen" />');
+			document.write('<link rel="stylesheet" href="' + resDomain + '/appimg/bee/css/share/qzone.css" type="text/css" media="screen" />');
+		</script>
+	</head>
+	<body>
+		<div class="g_wrap">
+			<!-- S 登录框 -->
+			<div class="pop_wrap arr_up"  style="display:none;right:35px;">
+				<div class="mod_verify">
+					<iframe id="loginFrame" src="about:blank" height="180px;" allowTransparency="true" frameborder="0" width="400px;" scrolling="no">
+					</iframe>
+					<span class="close" id="loginCancel" title="关闭">
+						×
+					</span>
+				</div>
+				<span class="arrow">
+				</span>
+			</div>
+			<!-- E 登录框 -->
+			<div class="mod_head">
+				<h2 class="logo"><a href="http://qzone.qq.com" title="QQ空间 QZONE.COM" target="_blank">QQ空间</a></h2>
+				<p class="userinfo" id="userInfo">
+					<script type="text/html" id="userInfoTemp">
+						<% if( isLogin ) { %>
+							<strong><%=nickName%></strong> | <a href="javascript:void(0);" _event="showLogin" >换个帐号</a>
+						<% } else { %>
+							<a href="javascript:void(0);" _event="showLogin" >登录</a> | <a href="http://dynamic.qzone.qq.com/cgi-bin/portal/cgi_select_activity" target="_blank">注册</a>
+						<% } %>
+					</script>
+				</p>
+			</div>
+			<!-- S 添加QQ提醒 -->
+			<div class="mod_cont cont_add" id="main">
+				<div class="bd">
+					<h1><span class="g_icon_bee"> </span><em>添加QQ提醒</em></h1>
+					<ul class="add_form">
+						<li class="add_form_txt">
+							<label for="remindContent">内容：</label>
+							<textarea id="remindContent" name="" rows="" cols="">
+							</textarea>
+							
+							<p class="tip_forbid" id="forbidTip" style="display:none;"><span class="g_icon_forbid"></span><span class="txt">温馨提示：因包含不允许发表的内容，不能添加QQ提醒！</span></p>
+                            <p class="tip_warn" id="warnTip" style="display:none;"><span class="g_icon_warn"></span><span class="txt">温馨提示：该网页包含未知的安全隐患，请谨慎添加提醒！</span></p>
+							
+							<p class="note" id="showLength">
+								还能输入<strong class="warning">11</strong>字
+							</p>
+						</li>
+
+						<!-- <li class="add_form_url">
+							<label for="demoid2">网址：</label><span><a href="http://www.baidu.com" target="_blank">http://www.baidu.com</a></span>
+						</li> -->
+
+						<li>
+							<label for="demoid2">时间：</label>
+							<input type="text" name="" id="beginDate" class="add_date" readOnly="true"/>
+							<input type="text" name="" id="beginTime" class="add_time"/>
+						</li>
+						<li>
+							<label for="demoid3">提醒：</label>
+							<div class="g_md_input">
+								<input type="text" name="" id="remindTime" class="add_pretime" readOnly="readOnly" _val="0"/>
+								<span class="g_icon_river_d"></span>
+							</div>
+						</li>
+					</ul>
+					<p class="add_note">
+						提示：将通过QQ提醒的官方QQ, 发送提醒消息。
+					</p>
+					<p class="add_btn">
+						<a href="javascript:void(0)" title="" class="g_btn_normal" id="submitBtn"><span>添加提醒</span></a>
+					</p>
+					<div class="g_pop_mask" id="g_pop_mask" style="display:none"></div>
+					<div class="g_pop_box" id="g_pop_box" style="left:55px;top:87px;display:none;z-index:101">
+						<div class="pop_hd">
+							<h3>温馨提示</h3>
+						</div>
+						<div class="pop_bd">
+							<div class="pop_bd_con">
+							<p>您添加的提醒内容已过期！添加该提醒收不到提醒消息哦！<strong class="common_c_red"></strong></p>
+							</div>
+						</div>
+						<div class="pop_ft">
+							<a href="javascript:void(0)" title="" class="g_btn_normal"><span action="submit">继续添加</span></a>
+							<a href="javascript:void(0)" title="" class="g_btn_cancel"><span action="close">取消</span></a>
+						</div>
+						<a href="javascript:void(0)" class="pop_close" title="关闭" action="close">×</a>
+        			</div>
+					<div class="add_bg"></div>
+				</div>
+				<span class="co_tr"></span><span class="co_tl"></span>
+				<span class="co_br"></span><span class="co_bl"></span>
+				<div class="bar_t">
+					<span></span>
+				</div>
+				<div class="bar_b">
+					<span></span>
+				</div>
+
+				<!-- 错误提示信息 -->
+				<div id="mode_tips_v2" class="gb_tip_layer" style="z-index: 1000; position: absolute;display:none; left:0px;">
+					<div class="gtl_ico_hits"></div>错误提示信息<div class="gtl_end"></div>
+				</div>
+
+			</div>
+			<!-- E 添加QQ提醒 -->
+
+			<!-- S 成功后提示 -->
+			<div class="main" id="submitOk"  style="display:none;">
+				<div class="mod_cont cont_result">
+					<div class="bd">
+					<div class="result_main">
+					<span class="g_ico_success"></span>
+					<h1>添加成功！</h1>
+					<a href="http://rc.qzone.qq.com/904" target="_blank" id="showNotice">查看提醒</a>
+					</div>
+					<div class="g_md_download">
+					<h3 class="logo">QQ提醒 生活节奏随人心定</h3>
+					<div class=""><img src="/snsapp/app/bee/widget/img/bar_code.png" alt="QQ提醒二维码" width="115px"></div>
+					<p><a href="http://kf.qq.com/info/80463_0.html" target="_blank">如何使用二维码下载</a></p>
+					<p class="link"><a href="http://itunes.apple.com/cn/app/id494833716?mt=8" target="_blank" id="iphoneButton"><span class="g_ico_ios"></span>iPhone版</a>|<a href="http://android.myapp.com/android/appdetail.jsp?appid=575872" target="_blank" id="androidButton"><span class="g_ico_android"></span>Android版</a></p>
+					</div>
+					</div>
+					<span class="co_tr"></span><span class="co_tl"></span>
+					<span class="co_br"></span><span class="co_bl"></span>
+					<div class="bar_t"><span></span></div>
+					<div class="bar_b"><span></span></div>
+				</div>
+			</div>
+		<!-- E 成功后提示 -->
+		</div>
+
+
+		<div class="g_footer">
+			<p>
+				<span id="copyright">Copyright &copy;</span> Tencent All Rights Reserved <a href="http://connect.qq.com/intro/calendar/" target="_blank" class="links">获取提醒按钮</a><a href="http://support.qq.com/discuss/710_1.shtml" target="_blank">反馈建议</a>
+			</p>
+		</div>
+	</body>
+
+<script type="text/javascript">	
+	window._timePoints[1] = new Date(); 
+	document.write('<script src="http://qzonestyle.gtimg.cn/ac/qzfl/release/qzfl_for_qzone.js" ><\/script>');
+	document.write('<script src="http://qzonestyle.gtimg.cn/c/=/snsapp/app/bee/widget/js/open.js,/open/portal/common/copyright.js?v=20121011&max_age=19851030" ><\/script>');
+</script>
+</html><!--[if !IE]>|xGv00|e61d18ec3fcbf3336f558cbfd3edcf60<![endif]-->

@@ -1,0 +1,256 @@
+<!DOCTYPE html> 
+<html lang="zh-cn" dir="ltr"> 
+<head> 
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Language" content="zh-cn" />
+<title>个人档</title>
+<base href="//qzs.qq.com/" />
+<script type="text/javascript">
+	window.new_protocol = 'https:';
+	document.domain = location.host;
+</script>
+<script type="text/javascript" src="//qzonestyle.gtimg.cn/qzone/v8/applib/embeded.js"></script>
+</head>
+<body>
+<script type="text/javascript">
+var QZONE = QZONE || {};
+QZONE.FP = top.QZONE.FP || parent.QZONE.FrontPage;
+var	siDomain = QZONE.FP._t.siDomain,
+	imgcacheDomain = QZONE.FP._t.imgcacheDomain,TOP = QZONE.FP._t,
+	g_StyleID = TOP.g_StyleID || 1,siDomain = "//" + TOP.siDomain + "/";
+document.write('<link rel="stylesheet" rev="stylesheet" href="' + siDomain + 'qzone_v6/gb/skin/' + g_StyleID + '.css" type="text/css" media="screen" />');
+document.write('<link rel="stylesheet" rev="stylesheet" href="' + siDomain + 'qzone_v6/app_userinfo.css" type="text/css" media="screen" />');
+</script>
+<div class="bg_mode">
+	<div class="box_ml bor">
+		<div class="mode_gb">
+			<div class="mode_gb_title style_mode_gb_title">
+				<div class="bg_mode_gb_title"><h3>个人档</h3></div>
+			</div>
+			<div class="mode_gb_cont">
+				<div class="userinfo_mode" id="app_mod">
+					<div class="info_side bg3 bor3">
+						<div class="portrait_container">
+							<p id="icon_container"><a class="bor2"><img id="user_icon" src="/qzone_v4/client/userinfo_icon/5001.gif" alt="我的头像"/></a></p>
+							
+							<p id="edit_icon_info" class="none">
+								<a href="javascript:;" onclick="popupEditor();return false;" class="c_tx">修改头像</a></p>							
+							<div class="counter bbor2 none" id="profile-cnt"><ul class="clearfix"><li class="rbor3"><a id="profile-blog-cnt" href="javascript:;" onclick="QZONE.FP.toApp('/blog');return false;"></a>日志</li><li class="rbor3"><a id="profile-photo-cnt" href="javascript:;" onclick="clickPicNumber();return false;"></a>照片</li><li><a id="profile-mood-cnt" href="javascript:;" onclick="QZONE.FP.toApp('/mood');return false;"></a>说说</li></ul></div>
+							<div id="auth_panel" class="fn_auth bor3 none">
+								<img title="腾讯认证资料" alt="腾讯认证资料" src="//qzonestyle.gtimg.cn/ac/qzone_v5/client/auth_stick.png">
+								<div class="detail tbor3" id="auth_detail"></div>
+							</div>			
+							<div class="simple_preview none" id="simple_preview"></div>
+						</div>
+						<div id="cf_panel" class="user_list tbor3 none">
+							<h4 id="cf_title" class="bbor3">共同好友</h4>
+							<div>
+								<span id="cf_none" class="none">你们俩没有共同好友哦</span>
+								<ul id="cf_list"></ul>
+							</div>
+						</div>
+					</div>
+					<div class="info_frame">
+						<div id="owner_info_cont" class="owner_info">
+							<button id="edit_btn" class="bt_tx6 edit_info_bt none">修改个人资料</button>
+							<div id="nickname_icons" class="owner_name none">
+							    <span id="emoji" class="none"></span>
+								<strong id="nickname_n" class="nickname"></strong>
+								<a target="_blank" href="http://page.qq.com"><span id="icon_auth" class="icon_auth none" title="腾讯认证"></span></a>
+								<strong id="vip_span"></strong>
+								<span id="qzoneLevel_span" class="none"></span>
+							</div>
+							<p class="none">最近心情：<span id="mood_viewer"></span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="time c_tx3" id="mood_date"></span></p>
+							<div class="speed_main none">资料完整度：<div class="speed"><div id="percent_div" class="speed_bar" style="width:0%;"><span id="percent_txt">0%</span></div></div></div>
+						</div>
+						<div class="mod_photo_list none" id="photo_list">
+                        </div>
+						<div class="mod_tab">
+							<div class="mode_menu_tag2">
+								<ul>
+									<li id="feed_tab" class="nowtag"><a href="javascript:;" id="feed_link" title="空间动态">空间动态</a></li>
+									<!-- <li id="like_tab"><a href="javascript:;" id="like_link" title="兴趣爱好">兴趣爱好</a></li> -->
+									<li id="info_tab"><a href="javascript:;" id="info_link" title="个人资料">个人资料</a></li>
+									<!--<li id="city_tab"><a href="javascript:;" id="city_link" title="城市达人">城市达人</a></li> -->
+								</ul>
+							</div>
+						</div>
+						<div id="feed_container" class="feed_container none "></div>
+						<div id="city_container" class="feed_container none"><iframe id="frameCity" width="100%" allowtransparency="true" scrolling="no" frameborder="0"></iframe></div>
+						<div id="nologin" class="info_preview none">
+							<p style="text-align:center;margin:80px 0px;">未登录状态下，无法查看用户资料，<a onclick="QZONE.FP.showLoginBox(null,function(){location.reload()});return false;" href="javascript:;" class="c_tx" title="单击这里登录">请先登录</a></p>
+						</div>
+						<!--feed区_E-->
+						<!--个人资料预览_S-->
+						<div id="info_preview" class="info_preview none">
+							<div class="preview_title bbor2">
+								<h4>基本资料</h4>
+								<a id="edit_base_info" href="javascript:;" class="c_tx none">修改</a>
+							</div>
+							<div class="preview_list">
+								<ul>
+									<li id="sex_li">
+										<label>性别：</label>
+										<div id="sex" class="preview_option"></div>
+									</li>
+									<li id="age_li">
+										<label>年龄：</label>
+										<div id="age" class="preview_option"></div>
+									</li>
+									<li id="birthday_li">
+										<label>生日：</label>
+										<div id="birthday" class="preview_option"></div>
+									</li>
+									<li id="astro_li">
+										<label>星座：</label>
+										<div id="astro" class="preview_option"></div>
+									</li>
+									<li id="live_address_li">
+										<label>现居地：</label>
+										<div id="live_address" class="preview_option"></div>
+									</li>
+									<li id="marriage_li">
+										<label>婚姻状况：</label>
+										<div id="marriage" class="preview_option"></div>
+									</li>
+									<li id="blood_li">
+										<label>血型：</label>
+										<div id="blood" class="preview_option"></div>
+									</li>
+									<li id="hometown_address_li">
+										<label>故乡：</label>
+										<div id="hometown_address" class="preview_option"></div>
+									</li>
+									<li id="career_li">
+										<label>职业：</label>
+										<div id="career" class="preview_option"></div>
+									</li>
+									<li id="company_li">
+										<label>公司名称：</label>
+										<div id="company" class="preview_option"></div>
+									</li>
+									<li id="company_caddress_li">
+										<label>公司所在地：</label>
+										<div id="company_caddress" class="preview_option"></div>
+									</li>
+									<li id="caddress_li">
+										<label>详细地址：</label>
+										<div id="caddress" class="preview_option"></div>
+									</li>
+								</ul>
+							</div>
+							<div id="user_interest_head" class="preview_title bbor2">
+								<h4>兴趣爱好</h4>
+								<a id="edit_favor_info" href="javascript:;" class="c_tx none">修改</a>
+							</div>
+							<div id="user_interest_viewer" class="preview_list interest_info">
+								<h5 id="host_desc">主人还没有填写任何兴趣爱好。</h5>
+							</div>
+						
+						</div>
+						<div class="info_preview" id="info_loading">
+							<div>正在请求数据，请稍等...</div>
+						</div>
+						<!--个人资料预览_E-->
+						<!--兴趣爱好预览_S-->
+						<div class="info_preview none" id="like_container">
+							<div class="preview_list interest_info_v2">
+								<p id="inter_edit" class="interest_info_edit none">
+								    <a class="c_tx" id="edit_favor" title="点击修改兴趣爱好" href="javascript:;">修改</a>
+								</p>
+								<div class="category bor3">
+									<label>喜欢：</label>
+									<ul id="ul_0"></ul>
+									<ul id="ul_01" class="none"></ul>
+									<a id="a_0" href="javascript:;" onclick="fold(0);return false;" class="c_tx open_fold none">更多&darr;</a>
+								</div>
+								<div class="category bor3">
+									<label>明星：</label>
+									<ul id="ul_1"></ul>
+									<ul id="ul_11" class="none"></ul>
+									<a id="a_1" href="javascript:;" onclick="fold(1);return false;" class="c_tx open_fold none">更多&darr;</a>
+								</div>
+
+								<div class="category bor3">
+									<label>音乐：</label>
+									<ul id="ul_2"></ul>
+									<ul id="ul_21" class="none"></ul>
+									<a id="a_2" href="javascript:;" onclick="fold(2);return false;" class="c_tx open_fold none">更多&darr;</a>
+								</div>
+								<div class="category bor3">
+									<label>影视：</label>
+									<ul id="ul_3"></ul>
+									<ul id="ul_31" class="none"></ul>
+									<a id="a_3" href="javascript:;" onclick="fold(3);return false;" class="c_tx open_fold none">更多&darr;</a>
+								</div>
+								<div class="category bor3">
+									<label>运动：</label>
+									<ul id="ul_4"></ul>
+									<ul id="ul_41" class="none"></ul>
+									<a id="a_4" href="javascript:;" onclick="fold(4);return false;" class="c_tx open_fold none">更多&darr;</a>
+								</div>
+								<div class="category bor3">
+									<label>游戏：</label>
+									<ul id="ul_5"></ul>
+									<ul id="ul_51" class="none"></ul>
+									<a id="a_5" href="javascript:;" onclick="fold(5);return false;" class="c_tx open_fold none">更多&darr;</a>
+								</div>
+								<div class="category bor3">
+									<label>数码：</label>
+									<ul id="ul_6"></ul>
+									<ul id="ul_61" class="none"></ul>
+									<a id="a_6" href="javascript:;" onclick="fold(6);return false;" class="c_tx open_fold none">更多&darr;</a>
+								</div>
+								<div class="category bor3">
+									<label>美食：</label>
+									<ul id="ul_7"></ul>
+									<ul id="ul_71" class="none"></ul>
+									<a id="a_7" href="javascript:;" onclick="fold(7);return false;" class="c_tx open_fold none">更多&darr;</a>
+								</div>
+								<div class="category bor3">
+									<label>旅游：</label>
+									<ul id="ul_8"></ul>
+									<ul id="ul_81" class="none"></ul>
+									<a id="a_8" href="javascript:;" onclick="fold(8);return false;" class="c_tx open_fold none">更多&darr;</a>
+								</div>
+								<div class="category bor3">
+									<label>书籍：</label>
+									<ul id="ul_9"></ul>
+									<ul id="ul_91" class="none"></ul>
+									<a id="a_9" href="javascript:;" onclick="fold(9);return false;" class="c_tx open_fold none">更多&darr;</a>
+								</div>
+								<div class="category bor3">
+									<label>其它：</label>
+									<ul id="ul_10"></ul>
+									<ul id="ul_101" class="none"></ul>
+									<a id="a_10" href="javascript:;" onclick="fold(10);return false;" class="c_tx open_fold none">更多&darr;</a>
+								</div>
+							</div>
+						</div>
+						<!--兴趣爱好预览_E-->
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+if(TOP.g_V && typeof(TOP.g_V.qz) == 'string'){
+	imgcacheDomain = TOP.imgcacheDomain;
+	document.write('<script type="text/javascript" src="' + new_protocol + '//' + imgcacheDomain + '/ac/qzone/qzfl/qzfl' + TOP.g_V.qz + '.js" charset="utf-8"><\/script>');
+}else{
+	document.write('<script type="text/javascript" src="' + new_protocol + '//' + imgcacheDomain + '/ac/qzone/qzfl/qzfl_2.0.7.8.js" charset="utf-8"><\/script>');
+}
+if(typeof(TOP.g_StyleID) != "undefined"){
+	g_StyleID = TOP.g_StyleID;
+}
+//]]>
+</script>
+<script type="text/javascript" src="//qzs.qq.com/qzone/profile/index.js"></script>
+<script type="text/javascript">
+	document.write('<script type="text/javascript" src="' + new_protocol + '//' + imgcacheDomain + '/qzone/newprofile/scripts/solarlunar.js" charset="utf-8"><\/script>');
+	document.write('<script type="text/javascript" src="' + new_protocol + '//' + imgcacheDomain + '/qzone/v5/namecard.js" charset="utf-8"><\/script>');
+</script>
+</body>
+</html>

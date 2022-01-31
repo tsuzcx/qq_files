@@ -1,0 +1,736 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-cn" lang="zh-cn">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Language" content="utf-8" />
+<meta name="robots" content="all" />
+<meta name="author" content="Tencent-ISRD" />
+<meta name="Copyright" content="Tencent" />
+<meta name="Description" content="Qzone精彩由你而来" />
+<meta name="Keywords" content="Qzone,QQ空间,Blog,博客,网络日志,播客,腾讯,QQ,Tencent" />
+<title>个人中心查看照片弹出框</title>
+<link rel="stylesheet" rev="stylesheet" href="/qzonestyle/qzone_client_v5/pop_photo/pop_reprint.css" type="text/css" media="screen"/>
+<style>
+html,body{
+	overflow : hidden;
+}
+</style>
+<script type="text/javascript">
+	if(/pengyou\.com$/.test(location.hostname)){
+		document.domain = 'pengyou.com';	
+	}else if(/qzone\.qq\.com$/.test(location.hostname)){
+		document.domain = 'qzone.qq.com';
+	}else if(/qzone\.com$/.test(location.hostname)){
+		document.domain = 'qzone.com';
+	}else{
+		document.domain = 'qq.com';
+	}
+	document.write([
+		'<script type="text/javascript" src="/ac/qzone/qzfl/qzfl',parent.g_V.qz,'.js"><\/script>',
+		'<script type="text/javascript" src="/qzone/v8/applib/embeded.js"><\/script>',
+		'<script type="text/javascript" src="/qzone/client/photo/pages/qzone_v4/script/photo_logic.js"><\/script>',
+		'<script type="text/javascript" src="/qzone/photo/v7/js/lib/seajs.for.iframe.js"><\/script>'
+	].join(""));
+</script>
+</head>
+<body>
+
+<div class="pop_reprint">
+	<p id="p_select">
+		<span class="tit"><label for="albumlist">转载到：</label></span>
+		<select id="albumlist" name="albumlist" style="width:150px;">
+		</select> 或者 <a id="btn_create" href="##" title="创建相册">创建相册</a>
+	</p>
+	<p id="p_create" style="display:none;">
+		<span class="tit"><label for="CREATE">创建相册：</label></span>
+		<input type="text" id="albumname" name="albumname" class="txt_input" maxlength="30" /> <span style="display:none;" class="txt_num"><span style="font-size:8pt" id="namenum" class="num">0</span>/30</span> 或者 <a href="##" id="btn_select" title="转载到已有相册">转载到已有相册</a>
+	</p>
+	<p id="p_notice" style="display:none;">
+		<img src="/ac/b.gif" alt="icon" class="icon_notice" /> 相册权限为公开
+	</p>
+	<p class="s_error" id="p_error" style="display:none;">
+		<img src="/ac/b.gif" alt="icon" class="icon_error" /> 请输入相册名称
+	</p>
+	<p style="display:none;">
+		<span class="tit"><label for="title">照片名：</label></span>
+		<input type="text" id="title" name="title" class="txt_input" maxlength="30" /> <span style="display:none;" class="txt_num"><span style="font-size:8pt" id="titlenum" class="num">0</span>/30</span>
+	</p>
+	<p class="line_textarea">
+		<span class="tit"><label for="desc">描述：</label></span>
+		<textarea id="desc" name="desc" cols="30" rows="5" /></textarea><span style="display:none;" class="txt_num"><span style="font-size:8pt" id="descnum" class="num">0</span>/200</span>
+	</p>
+</div>
+<div class="global_tip_button">
+	<button id="confirm_btn" class="bt_tip_hit">转载</button>　<button id="cancel_btn" class="bt_tip_normal" style="margin-right:10px;">取消</button>
+</div>
+<div id="flash_div" style="display:none;"></div>
+</body>
+<script>
+(function(){
+	//QZONE.FP._t.QZONE.dataCenter.set("photo_conf_alistNeedreFresh",false);
+	
+	function getRealLen(str){
+		return trim(str).length;
+	}
+	function modifyTrim(str){
+		str = str?trim(str):"";
+		if (str.length<=0) {
+			//不能为空
+			str = " ";
+		}
+		return str;
+	}
+	function getReprientData(){
+		//兼容不在iframe里面的情况
+		var win = QZONE.FP.getCurrentAppWindow() || parent;
+		var info = win?win.getReprientData():{};
+		info.title = (info.title || "转载照片").substring(0, 30);
+		return info;
+	}
+	window.reprintdata = null;
+	var type = "select";
+	String.prototype.htmlReplace = function() {
+		return this.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/\'/g,"&#39;").replace(/\"/g,"&quot;");
+	}
+	String.prototype.unHtmlReplace = function () {
+		var s = (this).replace(/&amp;/g,"&").replace(/&lt;/g,"<").replace(/&gt;/g,">").replace(/&nbsp;/g," ").replace(/&quot;/g,"\"");
+		return s.replace(/&#(\d{2});/g,function($0,$1) {return unescape("%"+parseInt($1).toString(16));});
+	}
+	//文本上报
+	function reportText(str, rate, params){
+		params = params || {};
+		params.type = 'reprint_old';
+		window.QPHOTO && QPHOTO.util && QPHOTO.util.reportText && QPHOTO.util.reportText(str, rate, params);
+	}
+	function getAlbumList(){
+		var d = getReprientData();
+
+		if(d.toAlbum && d.toAlbum.id){
+			//指定了要转载到的相册，不用拉相册列表
+			return;
+		}
+
+		var uin = (d.from == "photo"?d.zzuin:d.uin);
+		/*
+		PhotoLogic.getAlbumList({
+			"uin" : uin,//loginUin,
+			"type" : 7,
+			"refresh" : QZONE.FP._t.QZONE.dataCenter.get("photo_conf_alistNeedreFresh")?true:false,
+			"callBack" : function(data){
+				var _albums = data.albums;
+				var _s = $("albumlist");
+				if(_albums.length == 0){
+					var _o = new Option("贴图相册",0);
+					with(_s){
+						options[length] = _o;
+					}
+				}else{
+					for(var i=0,l = _albums.length;i<l;i++){
+						var _o = new Option(_albums[i].name.unHtmlReplace() + "(" + _albums[i].total + ")",_albums[i].id);
+						with(_s){
+							options[length] = _o;
+						}
+					}
+				}
+				try{
+					if(QZONE.FP._t.QZONE.dataCenter.get("photo_conf_reprintid")){
+						_s.value = QZONE.FP._t.QZONE.dataCenter.get("photo_conf_reprintid");
+					}
+				}catch(e){
+					
+				}
+			}
+		})
+		*/
+		seajs.use('photo.v7/common/api/photoApi/photoApi',function(photoApi){
+			photoApi.albumList.getAlbumList_v3({
+				uin : uin,
+				hostUin : uin,
+				mode : 2,
+				sortOrder : 4,
+				pageStart : 0,
+				pageNum : 1000
+			},'reprint').done(function(result){
+				var _albums = result.data.albumList || [];
+				var _s = $("albumlist");
+				if(_albums.length == 0){
+					var _o = new Option("贴图相册",0);
+					with(_s){
+						options[length] = _o;
+					}
+				}else{
+					for(var i=0,l = _albums.length;i<l;i++){
+						var _o = new Option(_albums[i].name.unHtmlReplace() + "(" + _albums[i].total + ")",_albums[i].id);
+						with(_s){
+							options[length] = _o;
+						}
+					}
+				}
+				try{
+					if(QZONE.FP._t.QZONE.dataCenter.get("photo_conf_reprintid")){
+						_s.value = QZONE.FP._t.QZONE.dataCenter.get("photo_conf_reprintid");
+					}
+				}catch(e){
+					
+				}
+			});
+		});
+	}
+	function checkNum(srcid,hintid,length){
+		var len = getRealLen(trim($(srcid).value));
+		$(hintid).innerHTML = len;
+		if(len > length){
+			QZONE.css.addClassName($(hintid),"error");
+		}else{
+			QZONE.css.removeClassName($(hintid),"error");
+		}
+	}
+	function $hide(){
+		for(var i=0,l=arguments.length;i<l;i++){
+			$(arguments[i]).style.display = "none";
+		}
+	}
+	function $show(){
+		for(var i=0,l=arguments.length;i<l;i++){
+			$(arguments[i]).style.display = "";
+		}
+	}
+	function createAlbum(){
+		$hide("p_select");
+		$show("p_create","p_notice");
+		//QZONE.FP.resizePopupDialog(470,ua.ie==6?293:296);
+		type = "create";
+		$("p_notice").style.display = "";
+		$("p_error").style.display = "none";
+	}
+	function selectAlbum(){
+		$hide("p_create","p_notice","p_error");
+		$show("p_select");
+		//QZONE.FP.resizePopupDialog(470,ua.ie==6?268:265);
+		type = "select";
+	}
+	function replaceMentionPattern(value,remarkData){
+		if(value){
+			var mentionPattern = /(?:@\{uin:([\w_]+),nick:([^\}]*)\})|[^@]+/g;
+			value = value.replace(
+				mentionPattern,
+				function($0, uin, nick) {
+					if (uin) {
+						uin = trim(uin);
+						nick = nick.unHtmlReplace();
+						nick = nick.replace(/\%2C|%25|%7D/g, function(str) {
+							switch (str) {
+								case '%2C':
+									return ',';
+								case '%25':
+									return '%';
+								case '%7D':
+									return '}';
+							}
+							return str;
+						});
+						var showNick = (remarkData && remarkData[uin]) ? remarkData[uin] : nick;
+						return ['@',showNick.htmlReplace()].join('');
+					}
+					return $0;
+				}
+			);
+		}
+		return value;
+	}
+	function refresh(remarkData){
+		var info = getReprientData();
+		info.replacedDesc = replaceMentionPattern(info.desc,remarkData);
+		$("title").value = (info.title || "").unHtmlReplace();
+		$("titlenum").innerHTML = getRealLen(trim((info.title || "").unHtmlReplace()));
+		$("desc").value = (info.replacedDesc || "").unHtmlReplace();
+		$("descnum").innerHTML = getRealLen(trim((info.replacedDesc || "").unHtmlReplace()));
+		$("albumname").value = "";
+	}
+	function loadJs(url,sucCb,errCb,charset){
+		var l = new QZFL.JsLoader();
+		if(typeof sucCb == "function"){
+			l.onload = sucCb;
+		}
+		if(typeof errCb == "function"){
+			l.onerror = errCb;
+		}
+		l.load(url, null, (charset || "utf-8"));
+	};
+	function thisMovie(movieName) {
+		var result;
+	    if (navigator.appName.indexOf("Microsoft") != -1) {
+	        result =  window[movieName]
+	    }
+	    else {
+	        result =  document[movieName]
+	    }
+	    result = result || document.getElementById(movieName);
+	    return result;
+	}
+	function initFlash(){
+		var d = getReprientData();
+		if(d.from != "blog"){
+			//只有blog时才需要用flash转载
+			return;
+		}
+		loadJs("/qzone/photo/zone/script/swfobject.js", function(){
+			var attributes = {  
+			  id: "flash_reprint",  
+			  name: "flash_reprint"
+			};  
+			swfobject.embedSWF("/qzone/newblog/v5/flash/quote_extern_image.swf", "flash_div", "1", "1", "9.0.0", "expressInstall.swf",{source:getReprientData().from},false,attributes);
+		});
+	}
+	window.flashInit = function(){
+		var d = getReprientData();
+		if(d.from != "blog"){
+			//只有blog时才需要用flash转载
+			return;
+		}
+		if(d.from == "qun"){
+			//从群相册转载不需要上传，不设uploadUrl了，以免影响上报 upload_noqzone
+		}else if(d.from == "photo"){
+			thisMovie("flash_reprint").setUploadUrl(QPHOTO.url.get({
+				//"uin" : d.spaceuin,
+				"uin" : d.zzuin,
+				"name" : "photo_reprint"
+			}));
+		}else {//if(d.from == "blog"){
+			thisMovie("flash_reprint").setUploadUrl(QPHOTO.url.get({
+				"uin" : d.uin,
+				//"name" : "photo_reprint"
+				"name" : "upload_post"
+			}));
+		}
+		
+	}
+	window.onError = function(){
+		QZFL.FP.showMsgbox("照片转载失败！",5,3000);
+		$("confirm_btn").disabled = false;
+	}
+	window.reprintPhoto = function(data, verifycode){
+		
+		var uin;
+		var d = getReprientData();
+		if(d.from == "photo"){
+			//uin = d.spaceuin;//QZONE.FP.getQzoneConfig().ownerUin;
+			uin = d.zzuin;
+		}else{
+			uin = d.uin;
+		}
+		QPHOTO.domain.get({uin:uin,sucCb:function(){
+			reprintdata = data;
+			var d = getReprientData();
+			var url = d.url;
+			
+			flashInit();
+			if(d.from == "photo"){
+				var inPengyou = QZONE.FP._t.QZONE.FP.isInPengyou && QZONE.FP._t.QZONE.FP.isInPengyou();
+				var photorefer = inPengyou ? "campus" : "qzone";
+				var photoplat = inPengyou ? "pengyou" : "qzone";
+				
+				if (true){
+					//photo全部用cgi转载
+					var posturl = "http://photo."+(inPengyou?"pengyou":"qq")+".com/cgi-bin/common/cgi_zz_photo_v2";
+					var domain = QPHOTO.data.get("user_domain_" + d.zzuin);
+					if (!!domain){
+						var host = domain["domain_" + domain.idcno].nu;
+						posturl = ["http://", host, "/cgi-bin/common/cgi_zz_photo_v2"].join("");
+					}
+					posturl = posturl.replace('photo.qq.com', 'photo.qzone.qq.com');
+					var postdata = {
+				  		"title": modifyTrim(data.title),
+				  		"photoDesc": modifyTrim(data.desc),
+				  		"srcPhotoName": modifyTrim(restHTML(d.title)),
+				  		"dstAlbumId": ((data.aid==0)?"":data.aid),
+				  		"srcAlbumId": d.srcalbumid,
+				  		"codeList": d.lloc,
+				  		"zzuin": d.zzuin,
+				  		"ownerName": decodeURIComponent(d.ownername),
+				  		"owner": d.owner,
+				  		"spaceUin": d.spaceuin,
+				  		"uin" : uin,
+				  		//"refer": photorefer,
+				  		"verify": verifycode || '',
+						"plat" : photoplat,
+				  		"hostUin": d.spaceuin,
+				  		"source": photorefer,
+				  		"inCharset": "gbk",
+				  		"outCharset": "gbk",
+				  		"format" : "fs"
+				  	};
+				  	var post = new QZONE.FP._t.QZFL.FormSender(posturl,"post",postdata,"gb2312");
+					post.onSuccess = function(d){
+						itemComplete.apply(this,[{}, d])
+						/*
+						switch(d.ret){
+							case 0 : 
+								QZFL.FP.showMsgbox(d.msg, 4, 3000);
+								QZFL.FP.closePopup();
+								break;
+							default :
+								QZFL.FP.showMsgbox(d.msg, 5, 3000);	
+								$("confirm_btn").disabled = false;
+						}*/
+					}	
+					post.onError = function(e){
+						QZFL.FP.showMsgbox("照片转载失败！",5,3000);
+						$("confirm_btn").disabled = false;
+					}
+					post.send();
+				}
+				else{
+					thisMovie("flash_reprint").down('[{"phototype":"'+d.phototype+'","refer":"qzone","charset":"utf-8","output_charset":"utf-8","lloc":"'+d.lloc+'","sloc":"'+d.sloc+'","spaceuin":"'+d.spaceuin+'","title":"'+encodeURIComponent(trim(data.title))+'","srcphotoname":"'+encodeURIComponent(trim(d.title))+'","owner":"'+d.owner+'","ownername":"'+d.ownername+'","output_type":"jsonflash","albumid":"'+((data.aid==0)?"":data.aid)+'","srcalbumid":"'+d.srcalbumid+'","url":"'+url+'","zzuin":"'+d.zzuin+'","size":"'+d.photocubage+ '","photocubage":"'+d.photocubage+ '","width":"'+d.width+'","height":"'+d.height+'","photodesc":"'+encodeURIComponent(trim(data.desc))+'"}]');
+				}
+			}else if(d.from == "blog"){
+				var picfull = 0;
+				if(/qq.com/.test(url)){
+					picfull = 1;
+				}
+				var uploadUrl = QPHOTO.url.get({
+					"uin" : d.uin,
+					//"name" : "photo_reprint"
+					"name" : "upload_post"
+				});
+				thisMovie("flash_reprint").setUploadUrl(
+					uploadUrl.replace(/refer=[a-zA-Z]*/ig,"1=1") + 
+					((uploadUrl.indexOf("?")!=-1)?"&":"?") + [
+					"needcompress=1",
+					//"picfull=" + picfull,
+					"refer=blogzhuanzai",
+					"charset=utf-8",
+					"output_charset=utf-8",
+					"owner=" + d.spaceuin,
+					"ownername=" + encodeURIComponent(trim(QZONE.FP.getNickname())),
+					"output_type=jsonflash",
+					"albumid=" + ((data.aid==0)?"":data.aid),
+					"uin=" + d.uin
+				].join("&") );
+				
+				//thisMovie("flash_reprint").down('[{"needcompress":"0","size":"0","picfull":"'+picfull+'","refer":"blogzhuanzai","charset":"utf-8","output_charset":"utf-8","picname":"'+encodeURIComponent(trim(data.title))+'","owner":"'+d.spaceuin+'","output_type":"jsonflash","albumid":"'+((data.aid==0)?"":data.aid)+'","url":"'+url+'","uin":"'+d.uin+'","desc":"'+encodeURIComponent(trim(data.desc))+'"}]');
+				thisMovie("flash_reprint").down('[{"size":"0","picname":"'+encodeURIComponent(trim(data.title)+".jpg")+'","url":"'+encodeURIComponent(url)+'","desc":"'+encodeURIComponent(trim(data.desc))+'"}]');
+			}else if(d.from == "qun"){
+				/*
+				var picfull = 0;
+				if(/qq.com/.test(url)){
+					picfull = 1;
+				}
+				var uploadUrl = QPHOTO.url.get({
+					"uin" : d.uin,
+					//"name" : "photo_reprint"
+					"name" : "upload_post"
+				});
+
+
+				thisMovie("flash_reprint").setUploadUrl(
+					uploadUrl.replace(/refer=[a-zA-Z]*//*ig,"1=1") + 
+				/*	((uploadUrl.indexOf("?")!=-1)?"&":"?") + [
+					"needcompress=1",
+					//"picfull=" + picfull,
+					"refer=qunzhuanzai",
+					"charset=utf-8",
+					"output_charset=utf-8",
+					"owner=" + d.spaceuin,
+					"ownername=" + encodeURIComponent(trim(d.ownername)),
+					"output_type=jsonflash",
+					"albumid=" + ((data.aid==0)?"":data.aid),
+					"uin=" + d.uin
+				].join("&") );
+				thisMovie("flash_reprint").down('[{"size":"0","picname":"'+encodeURIComponent(trim(data.title)+".jpg")+'","url":"'+encodeURIComponent(url)+'","desc":"'+encodeURIComponent(trim(data.desc))+'"}]');
+				*/
+				seajs.use('photo.v7/common/api/photoApi/photoApi',function(photoApi){
+					var codeList = encodeURIComponent(d.url);
+					var album = d.toAlbum;
+					var ajaxDefer = photoApi.photoList.plzzFromOther({
+						hostUin : PSY.user.getLoginUin(),
+						codeList : codeList,
+						dstAlbumId : album.id,
+						batchid : d.batchId,
+						title : d.title
+					}).done(function(d){
+						itemComplete.apply(this,[{}, d]);
+					}).fail(function(d){
+						QZFL.FP.showMsgbox("照片转载失败！",5,3000);
+						$("confirm_btn").disabled = false;
+					})
+				});
+			}
+
+
+		}});
+	}
+	window.queueComplete = QZFL.emptyFn;
+	window.itemComplete = function(src,ret){
+		$("confirm_btn").disabled = false;
+		if(getReprientData().from == "photo"){
+			var code = ret.code;
+			var msg = ret.message ? ret.message.replace(/错误码(.)+$/,"") : "";
+			if(code == 0){
+				QZFL.FP.showMsgbox("照片转载成功！",4,3000);
+				QZONE.FP._t.QZONE.dataCenter.save("photo_conf_alistNeedreFresh",true);
+				QZONE.FP._t.QZONE.dataCenter.del(QZONE.FP.getQzoneConfig().loginUin + "_alist");
+				setTimeout(function(){
+					QZONE.FP.closePopup();
+				},500);
+				return;
+				
+			}else if (code == -3001 || code == -3002){
+				//setTimeout(function() {
+				//	QZONE.FP._t.popupCallback = function(verifycode) {
+				//		if(!!verifycode) {
+				//			window.reprintPhoto(reprintdata, verifycode);
+				//		}
+				//	};
+				//}, 1200);
+				//QZONE.FP.popupDialog('请输入验证码', '<iframe frameborder="no" id="verifycodeFrame" style="width:100%;height:165px" src="/qzone/verifycode.html?imgcode=15000501&type='+(code == -906 ? 1 : 0)+'"></iframe>', 340, 190);
+				QZONE.FP.showVerifyBox((code == -3002 ? 1 : 0), 
+					function(verifycode){
+						if(!!verifycode) {
+							window.reprintPhoto(reprintdata, verifycode);
+						}
+					},false,
+					function(){
+						
+					});
+				return;
+			}else if(code == -3000){
+				window.LoginBack = function(){
+					reprintPhoto(reprintdata);
+				}
+				//QZONE.FP.closePopup();
+				QZONE.FP.showLoginBox("photo",null,null,{"mode" : 1});
+			}else if(code == -10815){
+				var _c=new QZONE.FP._t.QZONE.widget.Confirm("提示","只有该空间主人的QQ好友才可以转载其照片。<br/>请先添加空间主人为好友。",QZONE.widget.Confirm.TYPE.OK_CANCEL); 
+				_c.tips[0]='确定'; 
+				_c.tips[2]='取消';
+				_c.onConfirm = function(){
+					QZONE.FP.addFriend(QZONE.FP.getQzoneConfig().ownerUin);	
+				}
+				_c.show(); 
+				return;
+			}else{
+				QZFL.FP.showMsgbox(msg,5,3000);
+			}
+		}else {//if(getReprientData().from == "blog"){
+			if(ret.errno){
+				if(ret.errno == -900){
+					window.LoginBack = function(){
+						reprintPhoto(reprintdata);
+					}
+					//QZONE.FP.closePopup();
+					QZONE.FP.showLoginBox("photo",null,null,{"mode" : 1});
+				}else{
+					QZFL.FP.showMsgbox(ret.error,5,3000);
+				}
+			}else{
+				QZFL.FP.showMsgbox("照片转载成功！",4,3000);
+				QZONE.FP._t.QZONE.dataCenter.save("photo_conf_alistNeedreFresh",true);
+				QZONE.FP._t.QZONE.dataCenter.del(QZONE.FP.getQzoneConfig().loginUin + "_alist");
+				setTimeout(function(){
+					QZONE.FP.closePopup();
+				},500);
+				return;
+			}
+		}
+		
+	};
+	function init(){
+		getAlbumList();
+		initFlash();
+		try{
+			$('title').focus();
+			$('title').blur();
+		}catch(e){}
+		//QZONE.FP.getRemarkList(function(remarkData){
+		setTimeout(function(){
+			var remarkData = [];
+			refresh(remarkData);
+		},0);
+		//});
+		QZONE.event.addEvent($("title"),"keyup",function(e){
+			checkNum("title","titlenum",30);
+		});
+		QZONE.event.addEvent($("desc"),"keyup",function(e){
+			checkNum("desc","descnum",200);
+		});
+		QZONE.event.addEvent($("albumname"),"keyup",function(e){
+			checkNum("albumname","namenum",30);
+		});
+		QZONE.event.addEvent($("title"),"focus",function(e){
+			$("titlenum").parentNode.style.display = "";
+		});
+		QZONE.event.addEvent($("desc"),"focus",function(e){
+			$("descnum").parentNode.style.display = "";
+		});
+		QZONE.event.addEvent($("albumname"),"focus",function(e){
+			$("namenum").parentNode.style.display = "";
+			$("p_notice").style.display = "";
+			$("p_error").style.display = "none";
+		});
+		QZONE.event.addEvent($("title"),"blur",function(e){
+			if(getRealLen(trim($("title").value)) <=30){
+				$("titlenum").parentNode.style.display = "none";
+			}
+		});
+		QZONE.event.addEvent($("desc"),"blur",function(e){
+			if(getRealLen(trim($("desc").value)) <=200){
+				$("descnum").parentNode.style.display = "none";
+			}
+			
+		});
+		QZONE.event.addEvent($("albumname"),"blur",function(e){
+			if(getRealLen(trim($("albumname").value)) <=30){
+				$("namenum").parentNode.style.display = "none";
+			}
+		});
+		QZONE.event.addEvent($("cancel_btn"),"click",function(){
+			QZONE.FP.closePopup();
+		});
+		QZONE.event.addEvent($("btn_create"),"click",function(){
+			createAlbum();
+			QZONE.event.cancelBubble();
+			QZONE.event.preventDefault();
+		})
+		QZONE.event.addEvent($("btn_select"),"click",function(){
+			selectAlbum();
+			QZONE.event.cancelBubble();
+			QZONE.event.preventDefault();
+		})
+		QZONE.event.addEvent($("confirm_btn"),"click",function(){
+			var _title = trim($("title").value);
+			var _desc = trim($("desc").value);
+			if(getRealLen(_title)==0){
+				QZONE.FP.showMsgbox('照片名不能为空，请先输入名称。',3,3000);
+				return;
+			}
+			if(getRealLen(_title)>30){
+				QZONE.FP.showMsgbox('请输入合适长度的“名称”，最多30个字。',3,3000);
+				return;
+			}
+			if(getRealLen(_desc)>200){
+				QZONE.FP.showMsgbox('请输入合适长度的“描述”，最多200个字。',3,3000);
+				return;
+			}
+			if(type == "select"){
+				var _aid = $("albumlist").value;
+				QZONE.FP._t.QZONE.dataCenter.save("photo_conf_reprintid",_aid);
+				
+				reprintPhoto({
+					"aid" : _aid,
+					"title" : _title,
+					"desc" : _desc
+				});
+				
+				$("confirm_btn").disabled = true;
+			}else{
+				if(getRealLen(trim($("albumname").value))>30){
+					//QZONE.FP.showMsgbox('请输入合适长度的“相册名称”，最多30个字。',null,3000);
+					$("p_notice").style.display = "none";
+					$("p_error").innerHTML = '<img src="/ac/b.gif" alt="icon" class="icon_error" /> 您输入的相册名过长';
+					$("p_error").style.display = "";
+					return;
+				}
+				if(getRealLen(trim($("albumname").value))==0){
+					//QZONE.FP.showMsgbox('相册名不能为空，请先输入名称。',null,3000);
+					$("p_notice").style.display = "none";
+					$("p_error").innerHTML = '<img src="/ac/b.gif" alt="icon" class="icon_error" /> 请输入相册名称';
+					$("p_error").style.display = "";
+					return;
+				}
+				$("confirm_btn").disabled = true;
+				/*
+				PhotoLogic.addAlbum({
+					"uin" : QZONE.FP.getQzoneConfig().loginUin,
+					"name" : trim($("albumname").value),
+					"desc" : "",
+					"refer" : "qzone",
+					"callBack" : function(d){
+						if(d.ret == 0){
+							reprintPhoto({
+								"aid" : d.album.id,
+								"title" : _title,
+								"desc" : _desc
+							});
+							QZONE.FP._t.QZONE.dataCenter.save("photo_conf_alistNeedreFresh",true);
+							QZONE.FP._t.QZONE.dataCenter.del(QZONE.FP.getQzoneConfig().loginUin + "_alist");
+//							//setTimeout(QZONE.FP.closePopup,200);
+						}else{
+							QZONE.FP.showMsgbox(d.msg?d.msg.replace(/错误码(.)+$/,""):"对不起，网络繁忙，请稍后再试！",5,1500);
+							$("confirm_btn").disabled = false;
+							//setTimeout(QZONE.FP.closePopup,200);
+						}
+					},
+					"errBack" : function(d){
+						QZONE.FP.showMsgbox((d && d.msg)?d.msg.replace(/错误码(.)+$/,""):"转载失败，请稍后再试！",5,1500);
+						$("confirm_btn").disabled = false;
+//						/setTimeout(QZONE.FP.closePopup,200);
+					}
+				})
+				*/
+				seajs.use('photo.v7/common/api/photoApi/photoApi',function(photoApi){
+					var loginUin = QZONE.FP.getQzoneConfig().loginUin;
+					photoApi.albumList.addAlbum({
+						uin : loginUin,
+						hostUin : loginUin,
+						albumname : trim($("albumname").value)
+					}).done(function(d){
+						if(d.code == 0){
+							reprintPhoto({
+								"aid" : d.data.album.id,
+								"title" : _title,
+								"desc" : _desc
+							});
+							QZONE.FP._t.QZONE.dataCenter.save("photo_conf_alistNeedreFresh",true);
+							QZONE.FP._t.QZONE.dataCenter.del(loginUin + "_alist");
+						}else{
+							QZONE.FP.showMsgbox(d.message?d.message:"对不起，网络繁忙，请稍后再试！",5,1500);
+							$("confirm_btn").disabled = false;
+						}
+					}).fail(function(d){
+						QZONE.FP.showMsgbox((d && d.message)?d.message:"转载失败，请稍后再试！",5,1500);
+						$("confirm_btn").disabled = false;
+					});
+				});
+			}
+			
+			
+		});
+		
+		//直接Do
+		toAlbumDO();
+		
+	}
+	
+	
+	window.toAlbumDO = function(){
+		var info ;
+		if(QZONE.FP.getCurrentAppWindow() && QZONE.FP.getCurrentAppWindow().getReprientData){
+			info = QZONE.FP.getCurrentAppWindow().getReprientData();
+		}else if(QZONE.FP._t.$getReprientData){
+			info = QZONE.FP._t.$getReprientData();
+		}else{
+			return;
+		}
+		
+		
+		if(info.toAlbum){
+			try{
+				reprintPhoto({
+					"aid" : info.toAlbum.id,
+					"title" : info.title,
+					"desc" : info.desc
+				});
+			}catch(e){
+				setTimeout(function(){
+					toAlbumDO();
+				},500);
+			}
+		}
+	}
+	
+	init();
+	QZONE.FP.resizePopupDialog(470,270);
+})();
+</script>
+</html>

@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-cn" lang="zh-cn">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>日志 - 写日志</title>
+    <base href="//qzs.qq.com/"/>
+	<script>
+		document.domain = location.hostname;
+		var _bJs = function(src, c){return '<script charset="'+(c || 'utf-8')+'" src="//qzonestyle.gtimg.cn'+src+'"><\/script>';};
+		var _bCss = function(href){return '<link rel="stylesheet" rev="stylesheet" href="//qzonestyle.gtimg.cn'+href+'" media="screen"/>';};
+		var _dw = function(h){return document.write(h)};
+		_dw(_bJs('/qzone/v8/applib/embeded.js'));
+	</script>
+	<script>
+		document.domain = location.hostname;
+		if(location.href.indexOf('g_iframeUser=1') > -1) {
+			QZONE.FP = top.QZONE.FP;
+		}
+		if (parent.ua){
+			var htmlClass;
+			if (parent.ua.windows && parent.ua.windows > 6){
+				htmlClass = "os_win7"
+			}else if(parent.ua.windows && parent.ua.windows == 6){
+				htmlClass = "os_vista";
+			}else if(parent.ua.windows){
+				htmlClass = "os_winxp";
+			}else{
+				htmlClass = "os_mac";
+			}
+			document.documentElement.className += htmlClass;
+		}
+		window.blogSpeedBasePoint = (new Date()).getTime();
+		var getParameter = function(name){
+			var r = new RegExp("(\\?|#|&)" + name + "=([^&#]*)(&|#|$)");
+			var m = location.href.match(r);
+			return (!m?"":m[2]);
+		}
+		var isTemplateBlogEditor = parseInt(getParameter("exblogtype")) == 2;
+
+		_dw(
+			_bCss('/qzone_v6/gb/skin/'+parent.QZONE.FrontPage.getQzoneConfig().styleId+'.css')+
+			_bCss('/qzone_v6/blog_edit.css')+
+			(isTemplateBlogEditor ? _bCss('/qzone_v6/blog_module_common.css') : '')
+		);
+
+		function checkPageSchedulerReady() {
+			if(!PageScheduler || !PageScheduler.state) {
+				alert('正在加载页面内容，请稍候...');
+				return false;
+			}
+			return true;
+		}
+		var PageScheduler = {
+			submitBlog : checkPageSchedulerReady,
+			addCategory : checkPageSchedulerReady,
+			editCategory : checkPageSchedulerReady,
+			cancelWriteBlog : checkPageSchedulerReady,
+			openRightSettingDlg : checkPageSchedulerReady,
+			selectRight : checkPageSchedulerReady
+		};
+	</script>
+	<style>
+		#blog-content-text {display:none; font-size:14px; width:100%; _height:350px; min-height:350px; outline:none;}
+		body .blog_editor_main .EDITOR_LOADING {padding:160px;}
+		.editor-loading {display:none; background:url("loading.gif") no-repeat center 0; padding:21px 0 0; width:220px; margin:0 auto; text-align:center; color:gray;}
+		.editor-load-fail {display:none; background:url("warning.png") no-repeat 1px 2px #FFA3A3; color:black; border:1px solid #E48585; line-height:15px; padding:3px 20px; margin-bottom:5px;}
+		.EDITOR_CRASH #blog-content-text,
+		/**.EDITOR_CRASH .editor-load-fail,**/
+		.EDITOR_LOADING .editor-loading {display:block;}
+		.EDITOR_LOADING .veIframeContainer {display:none;}
+		.EDITOR_CRASH .veIframeContainer {display:none;}
+		.pmain .fk{
+			display: none;
+		}
+		/** soso表情去除我的表情 **/
+		ul#soso_exp_myNav {display:none;}
+	</style>
+	<link id="templateStyle" rel="stylesheet" rev="stylesheet" href="" media="screen" />
+</head>
+<body>
+	<div id="cheatHintArea" class="hint" style="display:none;">
+		<strong class="icon_hint"><span>提示</span></strong>
+		<span>尊敬的QQ空间用户：请您确认您需要发表或上传的内容， 是否有存在相关色情、反动等非法信息。若被发现，我们将锁定其IP及个人资料，并申报公安机关备案追查。<a href="http://qzone.qq.com/helpcenter/announcement_info.htm?23" target="_blank" class="c_tx4">关于腾讯公司整治低俗内容的公告</a></span>
+	</div>
+	<div class="blog" id="pageContainer">
+		<div class="bg_mode">
+			<div class="box_ml bor">
+				<div class="mode_gb">
+					<!--==S 模块标题-->
+					<div class="mode_gb_title bg2">
+						<div class="bg_mode_gb_title">
+							<h3><span id="topBar"></span></h3>
+						</div>
+						<div class="mode_gb_other">
+							<span id="draftbox-lnk-container" class="none"><a href="javascript:;" class="c_tx" id="draftbox-lnk">草稿箱</a> | </span>
+							<a href="http://support.qq.com/write.shtml?fid=376" class="c_tx" target="_blank" rel="support-lnk">提建议</a> |
+							<a href="http://user.qzone.qq.com/20050607/blog/1306208388" class="c_tx" target="_blank">新功能说明</a> |
+							<a href="javascript:void(0)" class="c_tx" onclick="return false;" id="returnListArea" target="_blank">返回日志列表</a>
+						</div>
+					</div>
+					<!--==E 模块标题-->
+
+					<div id="pageHintArea" style="margin-top:-1px;"></div>
+
+					<!--==S 模框内容-->
+					<form id="frmContainer" onsubmit="PageScheduler.submitBlog();return false;" method="post">
+						<div class="mode_gb_cont" id="app_mod">
+							<div class="blog_write">
+								<div class="blog_write_hd">
+									<!-- 写模板按钮 -->
+									<div id="write_template_button" class="right none"><a id="switch_to_template" class="btn_usual" href="javascript:void(0)" onclick="return false;"><span class="ico_new_module"></span>写模板日志</a></div>
+									<!-- 信纸工具条容器 -->
+									<div id="letterpaper-toolbar" class="letter_paper"></div>
+									<div id="templateBlogTips" class="right none"><img class="guide_pic" src="/qzone_v6/img/blog/20120109.png?ver=1.0&amp;max_age=31104000" /></div>
+									<script>
+										//判断状态
+										var isPrivateEditor = getParameter('isPrivate');
+										var isDraftEditor = getParameter("draftid");
+										var isNormalEditor = !isPrivateEditor && !isTemplateBlogEditor;
+										//模板按钮
+										if(isNormalEditor) {
+											document.getElementById("write_template_button").className = "right"; //写模板按钮
+										}
+									</script>
+								</div>
+								<div id="letterlayout-container"><!-- 信纸列表容器 --></div>
+								<div id="blog-editor-container" class="mod_editor">
+
+									<!-- 编辑器工具条容器 -->
+									<div id="blog-editor-toolbar" class="blog_editor_toolbar">
+										<div id="blog-editor-toolbar-wrap" class="blog_editor_toolbar_wrap">
+											<!-- <div> 编辑器.工具条 </div> -->
+										</div>
+									</div>
+
+									<!-- <div> 编辑器.状态条 </div> -->
+									<div id="blog-editor-status" class="blog_editor_status">
+										<div id="letterpaper-control-container" class="letterpaper_control" style="display:none"><!-- 信纸控制容器 --></div>
+									</div>
+
+									<div id="blog-editor-warp" class="blog_editor_main">
+										<div class="blog_editor_main_inner">
+										<!-- 信纸顶部图片 -->
+										<img src="/ac/b.gif" alt="" id="letterpaper-top-img" style="display:none"/>
+
+										<!-- 标题 -->
+										<div id="blog-title-warp" class="blog_editor_hd">
+											<div id="blog-title-inline">
+												<input type="text" maxlength="128" id="blog-title-input" placeholder="请在这里输入日志标题"/>
+											</div>
+										</div>
+
+										<!-- 编辑器.内容区域 -->
+										<div id="blog-editor-content" class="blog_editor_bd EDITOR_LOADING">
+											<div class="editor-loading">正在加载编辑器，请稍侯···</div>
+											<div class="editor-load-fail">
+												很抱歉，编辑器加载失败，当前仅支持普通模式写日志。
+												<a href="http://user.qzone.qq.com/troubleshooter" target="_blank" rel="clinic">诊断</a>
+												<a href="http://support.qq.com/write.shtml?fid=376" target="_blank" rel="feedback" >反馈</a>
+											</div>
+											<div id="blog-content-text" contentEditable="true">&nbsp;</div>
+										</div>
+
+										<!-- 信纸底部图片 -->
+										<img src="/ac/b.gif" alt="" id="letterpaper-bottom-img" style="display:none"/>
+									</div>
+									</div>
+								</div>
+								<!-- 新设置区块 -->
+								<div class="mod_blog_set">
+									<div id="blogSetArea" class="func_usual">
+										<div class="main_op">
+											<p>
+												<label>分类：</label>
+												<select id="blogCateSelect">
+													<option value="个人日记">个人日记</option>
+												</select>
+												<a title="添加分类" id="addCategoryBtn" onclick="PageScheduler.addCategory();QZBlog.Util.Statistic.sendPV('addcate_click', 'rizhi.qzone.qq.com');QZONE.event.preventDefault();return false;" href="javascript:void(0);">添加分类</a>
+											</p>
+											<p>
+												<label for="rightTypeSelect">权限：</label>
+												<select id="rightTypeSelect" onchange="PageScheduler.selectRight($('rightTypeSelect').value);">
+													<option value="1">公开</option>
+													<option value="2">QQ好友可见</option>
+													<option value="3">指定好友可见</option>
+													<option value="4">仅自己可见</option>
+												</select>
+												<span id="blogRightText" style="display:none" onmouseover="PageScheduler._onFriendsRightMouse();return false;" onmouseout="PageScheduler._onFriendsRightMouse();return false;">
+													<a id="choose-friends-link" onclick="PageScheduler.openRightSettingDlg();return false;" href="javascript:void(0)">选择好友<span id="friendRightSelectCount" class="selected_count">0</span></a>
+												</span>
+												<span class="mod_arrange" id="friendRightText" style="display:none">
+													<label for="noticeInfoCheckInput">
+														<input id="noticeInfoCheckInput" type="checkbox" checked="true" onclick="QZBlog.Util.Statistic.sendPV('showinformation', 'rizhi.qzone.qq.com');"/><span style="display:none" id="disgustRightTipSpan"></span>更新动态
+													</label>
+												</span>
+											</p>
+											<div id="friendsRightTips" class="mod_box" style="display:none;">
+												<div id="friendsRightTipsTitle" class="hd"></div>
+												<div id="friendsRightTipsContent" class="bd"></div>
+												</div>
+											</div>
+										<div class="extra_op">
+											<p class="seprate_line" style="display: none">
+												<a id="upload-attach-btn" href="javascript:void(0);"><span class="icon_attach"></span>附件<span id="attachUploadedCount" class="icon_uploading" style="display:none;">0</span></a>
+											</p>
+											<p>
+												<a id="more-setting-btn" onclick="PageScheduler.toggleSettingPanel();return false;" href="javascript:void(0);"><span class="icon_set"></span>更多设置</a>
+											</p>
+											<div id="attachTips" class="mod_box" style="display:none;">
+												<div id="attachTipsTitle" class="hd">已上传0个附件</div>
+												<div id="attachTipsContent" class="bd"></div>
+											</div>
+										</div>
+									</div>
+
+									<div id="more-bubble-warp" class="bubble_wrap">
+										<div id="more-bubble" class="mod_bubble">
+											<div class="mod_attach">
+												<div class="mod_attach_hd">
+													<span class="icon_ribbon"></span>
+													<a id="browseBtn" onclick="return false;" href="javascript:void(0)" class="c_tx"><span class="icon_attach"></span>上传附件</a>
+													支持文档、图片、音乐、视频、压缩包等类型文件上传，文件永久保存。<a class="c_tx" href="http://user.qzone.qq.com/88882222/blog/1306929597" target="_blank">详细说明</a>
+													<span class="attach_tips none" id="folder-app">查看更多存储文件，请访问<a href="http://rc.qzone.qq.com/905" target="_blank">文件夹应用</a>！</span>
+												</div>
+												<div id="uploadedAttachListC" class="mod_attach_bd" style="display:none;">
+													<div id="uploadedAttachList" class="attach_list"></div>
+												</div>
+											</div>
+
+											<div class="mod_setting">
+												<!-- 更多设置里的通知好友 -->
+												<div id="inform-friends" class="panel panel_adjust">
+													<span>通知好友：</span>
+													<div class="panel_cont">
+														<div id="inform-friends-bg" class="inform_friends" onclick="PageScheduler.openFriendSelectDlg();QZONE.event.preventDefault();return false;">
+															<ul class="friends_list" id="friendInformList">
+															</ul>
+														</div>
+														<div class="hint" style="display:none" id="friendInformTip">
+															<strong class="icon_hint"><span>提示</span></strong>
+															<span>你选择的好友已经超过限制</span>
+														</div>
+														<p class="none">最多可输入5个，用空格分开</p>
+													</div>
+													<span class="count c_tx3"><span id="friendInformCnt" class="c_tx4">0</span>/<span id="friendMaxCnt"></span></span>
+													<span><a id="selectFriendHref" onclick="PageScheduler.openFriendSelectDlg();QZONE.event.preventDefault();return false;" href="javascript:void(0)" class="">选择好友</a></span>
+												</div>
+
+												<!-- END 更多设置里的通知好友 -->
+												<div id="setTimeArea" class="panel time_send none">
+													<span>定时发表：</span>
+													<div id="timeblogC" class="panel_cont">
+														<label id="sendFutureLabel" style="" for="sendFuture" class="mod_arrange"><input type="checkbox" name="sendtime" id="sendFuture"/>定时发表</label>
+														<div id="timeSelectC" class="exact_date none">
+															<select size="1" name="year"></select> 年
+															<select size="1" name="month"></select> 月
+															<select size="1" name="date"></select> 日
+															<select size="1" name="hour"></select> 时
+															<select size="1" name="minute"></select> 分
+														</div>
+													</div>
+													<div id="timeblogLoading" class="panel_cont" style="display:none">
+														正在加载定时模块，请稍后...
+													</div>
+												</div>
+												<div class="panel" id="otherSettingArea">
+													<span>其他设置：</span>
+													<div class="panel_cont">
+														<label id="synTweetArea" style="display:none" for="synTweetChk" class="mod_arrange">
+															<input type="checkbox" name="synTweetChk" value="1" id="synTweetChk" />同步到微博
+														</label>
+														<label for="highLightCheck" id="highLightCheckCon" class="mod_arrange">
+															<input type="checkbox" name="highLightCheck" id="highLightCheck" />醒目灯
+														</label>
+														<label for="signatureCheck" id="signatureCheckCon" class="mod_arrange">
+															<input type="checkbox" name="signatureCheck" id="signatureCheck" value="1" checked="checked"/>签名档
+														</label>
+														<label for="quoteCheck" id="quoteCheckCon" class="mod_arrange">
+															<input type="checkbox" name="quoteCheck" id="quoteCheck" value="1" />禁止转载
+														</label>
+														<label for="setTopCheck" id="setTopCheckCon" class="mod_arrange">
+															<input type="checkbox" name="setTopCheck" id="setTopCheck" />置顶
+														</label>
+													</div>
+												</div>
+											</div>
+											<div id="triArrow" class="mod_arr"><span></span></div>
+											<p onclick="$('more-bubble-warp').className='bubble_wrap';return false;" class="close" title="收起">×</p>
+										</div>
+										<div id="fileUploadFlashHolder" class="flash_wrap" style="display:none;"></div>
+									</div>
+
+									<!-- 草稿信息 -->
+									<div class="drag_tips c_tx" style="display:none" id="draftSavedTip"><!-- 草稿提示语 --></div>
+									<div class="publish_bar">
+										<div class="main_op">
+											<button id="saveBlogButton" title="发表日志(ctrl+enter)" onclick="PageScheduler.submitBlog();return false;" type="submit" class="btnstyle-strong btn-submit btn-submit-2"><span>发 表</span></button>
+											<button id="cancelButton" onclick="PageScheduler.cancelWriteBlog();return false;" type="button" class="btnstyle-weak btn-edit-weak"><span>取消</span></button>
+										</div>
+										<div class="extra_op">
+											<button id="previewBlogButton" onclick="PageScheduler.previewBlog();return false;" type="button" title="预览日志(ctrl+p)" class="btnstyle-weak btn-edit-weak"><span>预览</span></button>
+											<button type="button" style="display:none" id="btm-save-draft-btn" title="保存草稿(ctrl+s)" class="btnstyle-weak btn-edit-weak"><span>保存草稿</span></button>
+										</div>
+									</div>
+								</div>
+								<!-- END 新设置区块 -->
+							</div>
+						</div>
+					</form>
+					<!--==E 模框内容-->
+				</div>
+			</div>
+		</div>
+	</div>
+	<script>
+		var STATIC_POINT_2 = new Date();
+		_dw(
+			_bJs('/ac/qzone/qzfl/qzfl'+parent.g_V.qz+'.js')+
+			_bJs('/qzone/newblog/v5/script/common.js')+
+			(isTemplateBlogEditor ? _bJs('/qzone/app/blog/v6/script/template_editor.js') : _bJs('/qzone/veditor/release/ve.qzoneblog.js'))+
+			_bJs('/qzone/app/blog/v6/script/editor.core.js'));
+	</script>
+	<script>
+		QZBlog.Util.Statistic.addSpeedPoint(2, STATIC_POINT_2);
+		QZBlog.Util.Statistic.addSpeedPoint(3, new Date());
+		if(QZBlog.Util.isOldXWMode()){
+			QZFL.css.addClassName(document.body, 'old_xiaowo_mode');
+		}
+		_dw(
+			_bJs('/qzone/app/blog/v6/script/editor.draft.js')+
+			_bJs(!isTemplateBlogEditor ? '/qzone/app/blog/v6/script/editor.letterpaper.js' : '')
+		);
+		if(QZONE.FP.appendHash){
+			QZONE.FP.appendHash(2, isTemplateBlogEditor ? 'addtemplateblog' : 'add');
+		}
+	</script>
+	<script src="/ac/qzfl/stat.js"></script>
+	<script src="/qzone/app/mood/chattips/script/monitor.js"></script>
+	<script>
+		QZAPP.Monitor.setReportID(100008);
+		QZAPP.Monitor.setReportRate(100);
+	</script>
+</body>
+</html>

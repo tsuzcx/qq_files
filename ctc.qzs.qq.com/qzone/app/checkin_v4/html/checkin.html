@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+	<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>QQ空间</title>
+		<script type="text/javascript">
+			document.domain = location.hostname;
+
+			var IS_IN_DEBUG = top.location.href.indexOf('debug=1') > 0;
+			if(!window.console){window.console = {log:function(){}, print:function(){}, error:function(){}, warn:function(){}, info:function(){}};}
+			
+
+			var _PAGE_START_TIME = parent.QZONE.FP._t.CHECKIN_OPEN_TIME_CHECKPOINT || new Date();
+			parent.QZONE.FP._t.CHECKIN_OPEN_TIME_CHECKPOINT = null;
+			var QZLOG = parent.QZONE.consoleFM || {log:function(){}, print:function(){}, error:function(){}, warn:function(){}, info:function(){}};
+			QZLOG.info({cm:'CHECKIN.PAGE', cf:'startFirstPage', t:1});
+			if(IS_IN_PENGYOU){
+				document.write('<script src="//qzonestyle.gtimg.cn/ac/qzone/qzfl/qzfl'+parent.g_V.qz+'.js"><\/script>');
+			}
+		</script>
+		<style>
+			.vip_locked_tip {padding-top:30px;} /** patch **/
+			.stamp_info .tit,
+			.stamp_info .count,
+			.stamp_info .with,
+			.stamp_info .locked_tip,
+			.stamp_info .locked_op,
+			.stamp_info .lock_success_desc {display:none;}
+
+			.li_hover .stamp_info_state_normal .count,
+			.li_hover .stamp_info_state_normal .with {display:block;}
+			.li_hover .stamp_info_state_vip_locked .vip_locked_tip {display:block;}
+			.li_hover .stamp_info_state_locked .normal_locked_tip {display:block;}
+			.li_hover .stamp_info_state_user_can_unlock .locked_op {display:block;}
+			.li_hover .stamp_info_state_unlock_succ .lock_success_desc {display:block;}
+
+			.ios .check_poster .qz_inputer textarea.textarea {width:100%; padding:0; display:block !important;}
+			.ios .check_poster .qz_inputer div.textarea {display:none !important;}
+			.ios .qz_poster_attach {display:none !important;}
+
+			.CHECKIN_PENGYOU #idEditorFriendBtn {display:none;}
+			.CHECKIN_PENGYOU .stamp_list li.li_hover .stamp_info .with {display:none;}
+			.CHECKIN_PENGYOU .music-btn {visibility: hidden}
+
+			#xiao-ju-hua {background:url("//qzonestyle.gtimg.cn/qzone/newblog/v5/loading.gif") no-repeat; height:340px; width:580px; position:absolute; left:200px; top:180px; z-index:2}
+			
+		</style>
+	</head>
+	<body>
+		<link rel="stylesheet" href="//qzonestyle.gtimg.cn/qzone_v6/checkin-v5.css?max_age=2592000&amp;v=20170911"/>
+		<div class="pop_checkin">
+			<div id="xiao-ju-hua" style="display:none"></div>
+			<div class="side" id="idSideContainer">
+				<a class="check_close" onclick="CHECKIN.closeCheckin();return false;" href="javascript:;">
+					<i class="icon icon_close"></i><span class="v_hide">关闭</span>
+				</a>
+				<div class="check_count">
+					<strong class="tit">
+						<span class="txt">签到天数</span>
+						<span id="idSideCheckinCountContainer" class="count"><b class="bg_line"></b></span>
+					</strong>
+					<span class="tip">好友中排名 <span></span></span>
+				</div>
+
+				
+				
+			</div>
+
+			<div id="idCheckinContainer" class="main">
+				<div class="check-head-tabs" id="idTabHeadContainer">
+				    <a href="javascript:;"  id="idTabHeadPre" class=" tabs-prev arr_disabled "><b></b></a><a href="javascript:;"   id="idTabHeadNext" class="tabs-next    "><b></b></a>
+				    <div class="check-tabs-wrap"><ul id="idTabHeadListContainer"></ul></div>
+				</div>
+
+				<div class="check_area animated " id="idCheckArea">
+					<div id="idMainStampListContainer" class="check_stamp_holder check_stamp_show">
+						<div class="check_stamp scrollbar"  style="position:relative">
+							<div class="stamps scrollbar" style="position:absolute;" id="idMainStampsScrollContainer">
+								<ul class="stamp_list" id="idMainStampList">
+								</ul>
+							</div>
+							 <div class="stamps scrollbar" style="position:absolute;display:none;" id="idMainStampsScrollContainer_v2">
+								<ul class="stamp_list" id="idMainStampList_v2"></ul>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div id="idMyCalendarContainer" class="check_calend_holder">
+					<div class="bg_tape"></div>
+					<div class="bg_gap"></div>
+					<div class="check_calend" id="idCheckinCalendar">
+						<div class="calend_hd">
+							<h2><span class="v_hide" id="idCalendarHeadTitle">我的月历</span></h2>
+							<div class="calend_sort">
+								<a id="idCalendarSortMonth" href="javascript:;" class="month current"><span class="v_hide">按</span>月<span class="v_hide">排序</span></a>
+								<a id="idCalendarSortDay" href="javascript:;" class="day "><span class="v_hide">按</span>日<span class="v_hide">排序</span></a>
+							</div>
+						</div>
+						<div class="calend_bd">
+							<div class="calend_status_bar">
+								<div class="calend_filter" id="idCalendarFilter">
+									<div class="holder">
+										<span id="idCalendarMonthSpan" >11月</span>
+										<i class="icon icon_drop"></i>
+									</div>
+									<ul id="idCalendarMonthList" class="select none">
+									</ul>
+								</div>
+
+								<div id="idCalendarTableContainer" class="pop_calender" style="display:none; position:absolute; top:27px; left:15px;">
+								</div>
+								<div id="idCalendarCheckinTotal" class="calend_filter_desc"></div>
+							</div>
+
+							<div id="idCalendarEmptyTips" class="check_empty" style="display:none;">
+								<h3 class="empty_tit">
+									<span class="tip_1"><span class="v_hide">空荡荡的</span></span>
+									<span  class="txt"></span>
+									<span class="tip_2"><span class="v_hide">月告诉我</span></span>
+								</h3>
+								<p class="empty_con">
+									<span class="tip_3"><span class="v_hide">今天要去</span></span>
+									<a href="javascript:;" class="tip_check"><span class="v_hide">签个到</span></a>
+								</p>
+							</div>
+
+							<div id="idFeedsContainer" class="calend_feeds scrollbar">
+								<div class="feed_list" id="idFeedsList"></div>
+							</div>
+
+							<div  id="idCalendarDayContainer" style="display:none;" class="books">
+								<div class="book_switch">
+									<a id="idCalendarPreDayInfo" href="javascript:;" class="s_left" title="上一页"><i class="icon icon_p_left"></i><span class="v_hide">上一页</span></a>
+									<a id="idCalendarNextDayInfo" href="javascript:;" class="s_right" title="下一页"><i  class="icon icon_p_right"></i><span class="v_hide">下一页</span></a>
+								</div>
+								<ul id="idCalendarDayInfoListContainer" class="book_list"></ul>
+							</div>
+
+							<div id="idCalendarLoading" class="check_loading">
+								<div class="msg_box" style="padding-top:100px;">
+									<div class="load_img"></div>
+									<h3 class="load_txt"><span class="v_hide">设计师正在刻印章呐，请稍等...</span></h3>
+								</div>
+							</div>
+
+							<div id="idCalendarError" class="check_loading" style="display:none;">
+								<div class="error_box" style="padding-top:20px;">
+									<div class="error_img"></div>
+									<h3 class="error_txt">
+										<span class="tip"><span class="v_hide">不给力呀呀呀呀·~</span></span>
+										<a id="idCalendarReload" href="javascript:;" class="reflash"><span class="v_hide">刷新</span></a>
+									</h3>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="pop_area">
+				<div class="guide_exchange_gold" id="idGuideExchange" style="display:none;">
+				    <div class="pop_tip pop_tip_r">
+				        <div class="arr">
+				            <b class="in"></b>
+				            <b class="out"></b>
+				        </div>
+				        <div class="con">
+				            <p class="guide_step1_p1">每天签到送黄豆</p>
+				            <p class="guide_step1_p2">丰富礼品送不停</p>
+				            <p><a href="javascript:;" id="idGuideHideBtn">我知道了</a></p>
+				        </div>
+				    </div>
+				    <div class="guide_border">
+				        <span class="top_left"></span>
+				        <span class="top_right"></span>
+				        <span class="bottom_left"></span>
+				        <span class="bottom_right"></span>
+				    </div>
+				</div>
+
+				<div id="idEditorContainer" style="display:none;" class="check_poster_holder check_poster_moving check_poster_show   ">
+					<div class="check_poster" id="idEditorPosterContainer" >
+
+						<div class="feed_info" id="idEditorFeedInfo">
+							<div class="stamp">
+								<img src="http://qzonestyle.gtimg.cn/ac/qzone_v5/emot/loading.gif" rel="stampImg">
+							</div>
+							<div class="con">
+								<div class="tit"></div>
+								<div class="add"></div>
+								<div class="desc"></div>
+							</div>
+							<a class="close_poster">
+								<i class="icon icon_close_poster"></i>
+								<span class="v_hide">收起</span>
+							</a>
+							<a href="javascript:;" id="idEditorPosterChangeOne" style="display:none" class="change_one">换一换</a>
+						</div>
+						<div class="feed_info insist-on-checkin" id="idEditorBackhome" style="display:none">
+							<div class="stamp">
+								<img src="http://qzonestyle.gtimg.cn/ac/qzone_v5/emot/loading.gif" rel="stampImg">
+							</div>
+							<div class="insistence">
+								<div class="insist_tit"></div>
+								<div class="insist_desc"></div>
+								<div class="back-home-cont" style="display:none">
+									<div class="insist-wrap act-back-home" id="keep-opt-con" style="">
+	                                				<span class="s_txt_label">我要</span>
+	                                				<select class="js-back-home-date">
+	                                    				<option value="1453590000000">1月24日(腊月十五)</option>
+											<option value="1453676400000">1月25日(腊月十六)</option>
+											<option value="1453762800000">1月26日(腊月十七)</option>
+											<option value="1453849200000">1月27日(腊月十八)</option>
+											<option value="1453935600000">1月28日(腊月十九)</option>
+											<option value="1454022000000">1月29日(腊月二十)</option>
+											<option value="1454108400000">1月30日(腊月二十一)</option>
+											<option value="1454194800000">1月31日(腊月二十二)</option>
+											<option value="1454281200000">2月1日(腊月二十三)</option>
+											<option value="1454367600000">2月2日(腊月二十四)</option>
+											<option value="1454454000000">2月3日(腊月二十五)</option>
+											<option value="1454540400000">2月4日(腊月二十六)</option>
+											<option value="1454626800000">2月5日(腊月二十七)</option>
+											<option value="1454713200000">2月6日(腊月二十八)</option>
+											<option value="1454799600000"  selected="selected">2月7日(除夕)</option>
+	                                				</select>
+	                                				<span class="s_txt_label">回家</span>
+	                            				</div>
+									<div class="insist-wrap act-back-home act-back-tip">
+	                                				<div class="time-adjust">最早抢票：<span>2015-11-28</span></div>
+	                                				<div class="checkin-qqremind">抢票提醒：<span><input type="checkbox" ></span>QQ提醒</div>
+	                            				</div>
+	                            				<div class="insist-wrap act-back-hint" style="display:none;">
+                                					<p class="back-hint">*亲，票已经开卖了，赶紧去抢吧</p>
+                            					</div>
+                            				</div>
+							</div>
+							<a class="close_poster">
+								<i class="icon icon_close_poster"></i>
+								<span class="v_hide">收起</span>
+							</a>
+						</div>
+						<div class="feed_info insist-on-checkin" id="idEditorPersistInfo" style="display:none">
+							<div class="stamp">
+								<img src="//qzonestyle.gtimg.cn/ac/qzone_v5/emot/loading.gif" rel="stampImg">
+							</div>
+							<div class="insistence">
+								<div class="insist_tit"></div>
+								<div class="insist_desc"></div>
+								<div class="s_txt" id="keep-state" style="display:none">
+									<span id="idPersistState"></span>
+									<a href="javascript:;" id="idPersistResetBtn" data-sealid="">重新开始</a>
+								</div>
+								<div class="insist-wrap" id="keep-opt-con" style="display:none">
+									<div class="s_txt s_txt_label">我要坚持到</div>
+									<div class="persist_options" id="keep-opt"></div>
+								</div>
+								<div class="insist_txt">每天坚持签次印章，记录自己坚持的历程</div>
+								<div class="checkin-qqremind" id="checkin-qqremind" style="display:none">
+									帮助签到：
+									<span><input type="checkbox" id="checkin-qqremind-chk"></span>
+									<label for="checkin-qqremind-chk">QQ提醒</label>
+								</div>
+							</div>
+							<a class="close_poster">
+								<i class="icon icon_close_poster"></i>
+								<span class="v_hide">收起</span>
+							</a>
+						</div>
+
+						<div class="feed_info music-checkin" id="idEditorMusicInfo" style="display:none">
+							<div class="stamp">
+								<img src="https://qzonestyle.gtimg.cn/ac/qzone_v5/emot/loading.gif" rel="stampImg">
+							</div>
+							<div class="con music-con">
+								<span class="tit"></span>
+								<span class="ico-music-dynamic" id="music-playstate-icon"></span>
+								<div class="desc"></div>
+								<div class="music-btn">
+									<a href="javascript:;" class="icon-play" id="music-play-btn" data-musicid=""></a>
+								</div>
+								<div class="music-exposure">QQ音乐独家版权</div>
+							</div>
+							<a class="close_poster">
+								<i class="icon icon_close_poster"></i>
+								<span class="v_hide">收起</span>
+							</a>
+						</div>
+
+						<div class="weather-info" id="idEditorWeatherInfo" style="display:none">
+	                        <div class="coin">
+	                        	<img src="https://qzonestyle.gtimg.cn/ac/qzone_v5/emot/loading.gif" rel="stampImg">
+	                        </div>
+	                        <div class="weather-wrap">
+	                            <div class="weather-details">
+	                                <div class="temperature"></div>
+	                                <div class="local"></div>
+	                            </div>
+	                            <div class="weather-date"></div>
+	                        </div>
+	                        <div id="change-city" class="change-city">
+	                            <div id="changeBtn" class="city none"><a href="#">更换城市</a></div>
+	                            <div id="city-list" class="city-list none">
+	                                <ul id="cities"></ul>
+	                                <p class="hotcity"></p>
+	                            </div>
+	                        </div>
+	                        <div class="w_warning"><ul></ul></div>
+	                        <a class="close_poster" href="#">
+	                            <i class="icon icon_close_poster"></i>
+	                            <span class="v_hide">收起</span>
+	                        </a>
+	                    </div>
+
+	                    <div id="ad" style="display:none"></div>
+
+						<div class="qz_poster">
+							<div class="qz_inputer" id="idEditorTextarea">
+								<span id="idEditorWorldCount" class="number_left c_tx3"><span>0</span>/<span>140</span></span>
+							</div>
+							<div class="qz_poster_msg"><div x:id="hint" id="$6_hint"></div><div x:id="syncTip" id="$6_syncTip"></div></div>
+							<div  class="qz_poster_ft">
+								<div class="qz_poster_attach" style="margin-top: 0px;">
+									<div class="qzaddons">
+										<span  id="idEditorEmoticonBtn" style="float:left;" ></span>
+										<a id="idEditorFriendBtn" class="at c_tx3" href="javascript:;" title="插入好友"><i></i>好友</a>
+									</div>
+									<div class="qzappwrap"></div>
+								</div>
+								<div class="qz_poster_pub">
+									<a class="btn btn_cancel" id="idEditorCancel" href="javascript:;">取消</a>
+									<a class="btn btn_post" id="idEditorPublishBtn" href="javascript:;"><i class="icon icon_loading"></i><span class="txt">发表</span></a>
+								</div>
+							</div>
+							<div class="qz-poster-warning none">
+								<span class="icon-poster-warning"></span>
+								<span class="icon-poster-warning-con"></span>
+								<a href="javascript:;" class="icon-poster-close" onclick="this.parentNode.className+=' none';return false;">关闭</a>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="check_success_holder" id="idMainCheckinSuccessHolder" style="display:none;">
+					<div class="check_success_mask"></div>
+					<div class="check_success">
+						<div class="check_success_img"></div>
+						<div class="check_success_desc">
+							<p class="check_success_p">
+								签到成功！
+							</p>
+							<p class="first_check_success">
+								获得黄豆x<span>5</span>
+							</p>
+						</div>
+					</div>
+				</div>
+
+				<div class="editor_holder">
+					<div id="idMainStampTips" class=" item_poster pop_book_item_2" style="display:none;">
+						<div id="idMainStampTipsArrow" class="pop_tip pop_tip_l">
+							<div class="arr"><b class="in"></b><b class="out"></b></div><!-- 箭头 -->
+							<div class="con"></div>
+						</div>
+
+					</div>
+				</div>
+
+				<div class="desc_holder">
+					<div id="idCalendarStampTips" class=" pop_book_item_3 item_poster" style="display:none;">
+						<div id="idCalendarStampArrow" class="pop_tip pop_tip_r">
+							<a href="javascript:;" class="close icon_close_s" title="关闭" style="display: none;"></a><!-- 关闭 -->
+							<div class="arr"><b class="in"></b><b class="out"></b></div><!-- 箭头 -->
+							<div class="con"></div>
+						</div>
+					</div>
+				</div>
+
+				<div  id="idPopNoticeContainer" class="notice_pop notice_pop_success" style="left:120px;display:none;">
+					<div class="pop_tip">
+						<div class="con"></div>
+					</div>
+				</div>
+			</div>
+
+			<div id="idGuideChoose" class="user-guided-v4 none">
+				<div id="guid_step1" class="guided-step1">
+					<a href="#" class="guided-next"></a>
+				</div>
+				<div id="guid_step2" class="guided-step2 none">
+				   <a href="#" class="guided-close"></a>
+				</div>
+			</div>
+
+			<div class="check_loading" id="idCheckinLoadingContainer" style="display:none">
+				<div class="msg_box" id="idMsgBox">
+					<div class="load_img"></div>
+					<h3 class="load_txt"><span class="v_hide">设计师正在刻印章呐，请稍等...</span></h3>
+				</div>
+				<div class="error_box" id="idErrorBox" style="display:none;">
+					<div class="error_img"></div>
+					<h3 class="error_txt">
+						<span class="tip"><span class="v_hide">不给力呀呀呀呀·~</span></span>
+						<a href="javascript:;" onclick="location.reload();return false;" class="reflash"><span class="v_hide">刷新</span></a>
+					</h3>
+				</div>
+			</div>
+		</div>
+		<script type="text/template" id="templateForRecommend">
+				<div class="recommend-area">
+					<ul class="recommend-check-ul recommend" rel="recommend-stamp-list">
+					<%for(var i=0;i<items.length;i++){
+						var id=parseInt(items[i].id);
+						var isBigPic = (id>20001 && id<29999)?false: true;
+						var imgsrc= isBigPic ? items[i].image.url.replace(/_l/,'_pc_p') : items[i].image.url;
+					%>
+					<li class="recommend-check <%if(isBigPic){%>recommend-check-big<%}else{%><%}%>" rel="recommend" data-sealid="<%=items[i].id%>" title="去签到">
+						<div class="recommend-stamp">
+							<img src="<%=imgsrc%>">
+						</div>
+						<%%>
+						<% if(!isBigPic){%>
+							<div class="recommend-con">
+								<h1 class="recommend-tit"><%=items[i].title%></h1>
+								<p class="recommend-desc"><%=items[i].desc%></p>
+							</div>
+						<%}%>
+					</li>
+					<%}%>
+					</ul>
+					<div class="recommend-action">
+                                    <ul>
+                                    	<%for(var i=0;i<items.length;i++){%>
+                                    		<li href="javascript:void(0);" rel="recommend-action" data-index="<%=i%>" class="<%if(!i){%>hover<%}%>">
+                                    	<%}%>
+                                        
+                                    </li></ul>
+                                </div>
+					
+				</div>
+			
+		</script>
+		<script id="templateForFeedItem" type="text/template">
+			<div class="feed_item">
+				<div class="date"><span>{day}</span>日</div>
+				<ul dataid="{day}" class="items">
+				   {liItems}
+				</ul>
+			</div>
+		</script>
+
+		<script id="templateForLiItem" type="text/template">
+			<li>
+				<div class="item_img">
+					<div class="stamp_item">
+						<img src="{imgSrc}">
+					</div>
+				</div>
+				<div class="item_info">
+					<span class="time">{time}</span>
+				</div>
+			</li>
+		</script>
+
+		<script id="templateForSplitMonth" type="text/template">
+			<div class="feed_mouth_split"></div>
+		</script>
+
+		<script id="templateForCalendarDayInfo" type="text/template">
+			<li class="checked">
+				<div class="item_img">
+					<div class="stamp_item">
+						{iconImg}
+					</div>
+				</div>
+				<div class="item_info">
+					<span class="time {timeNoneClass}">{time}<i position="{position}" class="icon icon_s_tip_flag {contentNoneClass}">{content}</i></span>
+				</div>
+			</li>
+		</script>
+
+		<script id="templateForCalendarTable" type="text/template">
+			<table class="pop_calender_table">
+				<colgroup>
+					<col>
+					<col>
+					<col>
+					<col>
+					<col>
+					<col>
+					<col>
+				</colgroup>
+				<thead>
+					<tr class="pop_calender_op">
+						<th> <a id="idCalendarPreMonth" href="javascript:;" class="c_ob c_prev">◄</a> </th>
+						<th colspan="5"  > <h3>{year} - <span>{month}</span></h3></th>
+						<th> <a id="idCalendarNextMonth" href="javascript:;" class="c_ob c_next">►</a> </th>
+					</tr>
+					<tr class="pop_calender_hd">
+						<th> 日 </th>
+						<th> 一 </th>
+						<th> 二 </th>
+						<th> 三 </th>
+						<th> 四 </th>
+						<th> 五 </th>
+						<th> 六 </th>
+					</tr>
+				</thead>
+				<tbody >
+				   {content}
+				</tbody>
+			</table>
+		</script>
+
+		<script id="templateForStampListItem" type="text/template">
+			<%if(list && list.length){%>
+			<%for(var i=0; i<list.length; i++){
+				var item = list[i];
+			%>
+			<li dataid="<%=item.iconId%>" data-vip="<%=item.isVipLimit%>" class="li_mouseout <%=item.stampClass%>" stampcategory="<%=item.stampCategory%>" chinesedate='<%=item.chineseDate%>' suitable='<%=item.suitable%>' avoid='<%=item.avoid%>'>
+				<div class="stamp_img">
+					<div class="lock_bg"></div>
+					<%if(i<ICON_LOAD_PER_PAGE){%>
+						<img src="<%=item.iconSrc%>" alt="checkin"/>
+					<%}else{%>
+						<img data-src="<%=item.iconSrc%>" src="//qzonestyle.gtimg.cn/ac/qzone_v5/emot/loading.gif">
+					<%}%>
+				</div>
+				<div class="ck-corner" style="<%if(!item.keepDays){%>display:none<%}%>"><%=item.keepDays%></div>
+				<div class="tit" >
+					<%=item.titleIcon%>
+					<%=item.iconTitle%>
+				</div>
+				<div class="stamp_info stamp_info_state_<%=item.stateClass%>">
+					<div class="tit"><%=item.iconTitle%></div>
+
+					<div class="count">
+						<span class="rate <%=item.rateClass%> none"><b></b></span><span class="num"><%=item.iconUsedNum%></span>人印
+					</div>
+
+					<div class="with"><%=item.withData%></div>
+
+					<div class="locked_tip vip_locked_tip">
+						<a href="http://pay.qq.com/qzone/index.shtml?aid=talk.registr" target="_blank">
+							<i class="icon icon_vip_locked"></i>开通黄钻立刻使用
+						</a>
+					</div>
+
+					<div class="locked_tip normal_locked_tip">
+						<i class="icon"></i>连续签到3天解锁一个印章
+					</div>
+
+					<div class="locked_op">
+						<a href="javascript:;" class="btn_unlock">解锁此章</a>
+					</div>
+
+					<div class="lock_success_desc">恭喜解锁成功！</div>
+				</div>
+			</li>
+			<%}%>
+			<%} else {%>
+				<div class="stamp-unlock" todo="1">,
+					<div class="unlock-msg">,
+						<div class="unlock-img"><img src="//qzonestyle.gtimg.cn/qzone_v6/img/pop_checkin/v4/note/unlock_img.png" alt="unlock" /></div>
+						<div class="unlock-txt"><img src="//qzonestyle.gtimg.cn/qzone_v6/img/pop_checkin/v4/note/unlock_txt.png" alt="unlock text" /></div>
+					</div>
+				</div>
+			<%}%>
+		</script>
+
+		<script id="templateForalmanac" type="text/template">
+			<div class="tit">{title}</div>
+			<div class="almanac-time">{date}</div>
+			<div class="suitable"><b class="icon"></b><p>{suitable}</p></div>
+			<div class="avoid"><b class="icon"></b><p>{avoid}</p></div>
+			<div class="almanac-exposure">来自：365日历</div>
+		</script>
+
+		<script id="templateForHeadTab" type="text/template">
+			<%for(var i=0; i<groupList.length; i++){
+				var item = groupList[i];%>
+			<li class="<%if(item.newFlag || item.unKeepFlag){%>tabs-new-icon<%}%> tabs-icon-<%=item.group_id%>"
+				data-vip="<%=item.qzone_vip_limit ? 'vip' : ''%>" data-order="<%=i%>" data_group_id="<%=item.group_id%>" data_icon_gray="<%=item.icon_gray%>" data_icon="<%=item.icon%>">
+				<span class="tabs-icon" title="<%=item.group_name%>" >
+					<img src="<%=item.icon_gray%>" alt="">
+				</span>
+			</li>
+			<%}%>
+		</script>
+
+		<script id="templateForSide" type="text/template">
+			<a class="check_close" onclick="CHECKIN.closeCheckin();return false;" href="javascript:;">
+				<i class="icon icon_close"></i><span class="v_hide">关闭</span>
+			</a>
+			<div class="check_count">
+				<strong class="tit">
+					<span class="txt">签到天数</span>
+					<span id="idSideCheckinCountContainer" class="count <%=userInfo.checkinCountClass%>"><%=userInfo.user_total_day%><b class="bg_line"></b></span>
+				</strong>
+				<span class="tip">好友中排名 <span><%=userInfo.rank_sort%></span></span>
+			</div>
+
+			
+		</script>
+
+		<script src="//qzonestyle.gtimg.cn/qzone/app/checkin_v4/script/qboot_20170911.js?max_age=2592000"></script>
+		
+		<script type="text/javascript">
+			QZLOG.info({cm:'CHECKIN.PAGE', cf:'loadJS', t:1});
+			_dw(_bJs([
+				'//qzonestyle.gtimg.cn/ac/qzone/qzfl/qzfl'+parent.g_V.qz+'.js',
+				'//qzonestyle.gtimg.cn/ac/qzfl/appclientlib.js',
+				'//qzonestyle.gtimg.cn/qzone/app/checkin_v4/script/patch.pengyou.js',
+				'//qzonestyle.gtimg.cn/qzone/app/f4a/F4A_1.2.lite.js',
+				'//qzonestyle.gtimg.cn/qzone/app/controls/sensibleEditor/sensibleEditor_2.1.js',
+				'//qzonestyle.gtimg.cn/qzone/app/jSolution/jSolution_1.0_qzone.js?max_age=2592000'],!IS_IN_DEBUG));
+			_dw(_bJs('//qzonestyle.gtimg.cn/qzone/app/checkin_v4/script/checkin_20170911.js?max_age=2592000'));
+		</script>
+
+		<script>
+			QZLOG.info({cm:'CHECKIN.PAGE', cf:'loadJS', t:2});
+			setTimeout(function(){PageState.report();},10E3);
+
+			if(INIT_DATA){
+				QZLOG.info({cm:'CHECKIN.PAGE', wm:'CHECKIN.CORE', cf:'init', t:1});
+				CHECKIN.init();
+				QZLOG.info({cm:'CHECKIN.PAGE', wm:'CHECKIN.CORE', cf:'init', t:2});
+				//渲染成功清除测速、超时上报
+				if(!QZONE.FP._t.CHECKIN_OPENED){
+					QZONE.FP._t.CHECKIN_OPENED = true;
+					QZONE.FP.getStatPackage().valueStat(400713,1, 0);	//这里的成功与5秒超时互斥
+					console.log('CHECKIN SHOWN IN 5S');
+				}
+			}
+
+			if(!window.QZAPP){
+				window.QZAPP = {CHECKIN:CHECKIN};
+			} else {
+				QZAPP.CHECKIN = CHECKIN;
+			}
+
+			if(QZFL.userAgent.iOS){
+				QZFL.css.addClassName(document.body, 'ios');
+			}
+
+			var cls = (function(){
+				var dobj = parent.QZONE.FP.isAlphaUser(true) ? new Date(new Date().getTime() + 86400000) : new Date();
+				return 'pop_y'+(dobj.getFullYear()%100)+'m'+(dobj.getMonth()+1)+'d'+dobj.getDate();
+			})();
+			QZFL.css.addClassName(document.body, cls);
+
+			if(!IS_IN_DEBUG){
+				document.oncontextmenu = document.body.oncontextmenu = function(e){
+					if(e && e.target){
+						var list = QZFL.dom.searchElementByClassName(e.target,'stamp_list');
+						if(list || e.target.tagName.toLowerCase() == 'img'){
+							return false;
+						}
+					}
+				}
+			}
+
+			CHECKIN.sendPV('checinkShow');
+			if(parent['g_version'] == 8){
+				CHECKIN.sendPV('checinkShow_v8');
+			}
+			CHECKIN.batchBindClickStat({
+				'#ad a': 'keep_editor_text_ad_',
+				'#keep_num_lbl_0': 'keep_option_click_0',
+				'#keep_num_lbl_1': 'keep_option_click_1',
+				'#keep_num_lbl_2': 'keep_option_click_2',
+				'#idPersistResetBtn': 'keep_reset_click',
+				'#act-888-link': 'jianchi2013_act_click',
+				'.qz-poster-warning .icon-poster-close': 'keep_tip_close_btn_click'
+			});
+		</script>
+	</body>
+</html>

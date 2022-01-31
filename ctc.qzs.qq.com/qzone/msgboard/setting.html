@@ -1,0 +1,68 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>留言板 V2</title>
+<script>
+var _bJs = function(src, c){return '<script type="text/javascript" charset="'+(c || 'utf-8')+'" src="https://qzonestyle.gtimg.cn'+src+'"><\/script>';};
+var _bCss = function(href){return '<link rel="stylesheet" rev="stylesheet" href="https://qzonestyle.gtimg.cn'+href+'" media="screen"/>';};
+var _dw = function(str){return document.write(str)};
+_dw(_bJs('/qzone/v8/applib/embeded.js'));
+</script>
+<script type="text/javascript">
+try{parent.mgbSpeedPoint[1] = new Date().getTime();}catch(err){}
+document.write(
+	_bCss('/qzonestyle/qzone_client_v5/css/guestbook_d_out.css')+
+	_bJs('/ac/qzone/qzfl/qzfl'+parent.g_V.qz+'.js')+
+	_bJs('/qzone/newblog/v5/script/common.js')+
+	_bJs('/qzone/ping.js')+
+	_bCss('/qzonestyle/qzone_client_v5/css/'+parent.g_StyleID+'/color_out.css'));
+</script>
+</head>
+<body>
+
+<div class="bg_mode">
+	<div class="box_ml bor">
+		<div class="mode_gb">
+			<div class="mode_gb_title style_mode_gb_title">
+				<div class="bg_mode_gb_title">
+					<h3>留言板</h3>
+				</div>
+			</div>
+			<div class="mode_gb_cont">
+				<!-- 内容区 开始 -->
+				<div class="guestbook gb_setting" id="app_mod">
+					<p class="link_back"><a href="javascript:;" onclick="if(getParameter('from')) {QZBlog.Util.toApp(decodeURIComponent(getParameter('from')));} else { QZBlog.Util.toApp('/msgboard')}return false;" title="返回" class="c_tx"><span class="symbol">&lt;&lt;</span> 返回</a></p>
+					<div class="mod_clear bor3 mod_tit2 none">
+						<h4>签名档设置</h4>
+					</div>
+					<div class="gb_setting_cont none">
+						<p><input id="signature" type="checkbox" name="signature" class="v_checkbox" /> <label for="signature">显示留言者留言时附带的签名档</label></p>
+						<p class="c_tx3 tips">勾选时每个用户在您的空间的留言都会在留言下方展示对方的个人签名，可能影响留言板的整体美观，建议不勾选。</p>
+					</div>
+
+					<div class="mod_clear bor3 mod_tit2">
+						<h4>留言审核设置</h4>
+					</div>
+					<div class="gb_setting_cont">
+						<p id="audit_on">留言审核未开启 <a href="javacript:;" title="立即开启" class="c_tx d">立即开启</a></p>
+						<p id="audit_count">当前待审核的留言为 <span id="count">-</span> 条。 <a href="//user.qzone.qq.com/proxy/domain/qzs.qq.com/qzone/msgboard/auditing.html" title="进入留言审核" class="c_tx d">进入留言审核</a></p>
+						<p class="c_tx3">开启留言审核后，非好友发表的留言进入留言审核库中，待您审阅后方可显示，您的QQ好友发布的留言无需审核。</p>
+					</div>
+
+					<div class="mod_clear bor3 mod_tit2">
+						<h4>回复权限设置</h4>
+					</div>
+					<div class="gb_setting_cont">
+						<p>设置留言板是否允许留言，请到 <a href="javascript:void(0);" onclick="QZONE.FP.toApp('/myhome/profile/permit');return false;" title="空间设置" class="c_tx">空间设置</a> 下的 <a href="javascript:void(0);" onclick="QZONE.FP.toApp('/myhome/profile/permit?reply=1');return false;" title="回复权限" class="c_tx">回复权限</a> 进行相关设置。</p>
+					</div>
+
+				</div>
+				<!-- 内容区 结束 -->
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript" src="https://qzonestyle.gtimg.cn/qzone/msgboard/script/setting.js"></script>
+</body>
+</html>

@@ -1,0 +1,98 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta charset="UTF-8">
+        <title>QQ空间好友管理</title>
+        <script type="text/javascript" src="/qzone/v6/applib/embeded.js"></script>
+        <script type="text/javascript">
+            //<![CDATA[
+    		var xExtend = top.xExtend,
+    			imgcacheDomain = top.imgcacheDomain || "qzs.qq.com",
+        		siDomain = top.siDomain || "qzonestyle.gtimg.cn",
+        		g_StyleID = top.g_StyleID,
+        		styleIDNum = parseInt((top.g_StyleID + "").replace("v6/", ""));
+    
+    		//加载文件
+        	(function(){
+        		var _linkBegin = '<link type=\"text/css\" rel=\"stylesheet\" href=\"', _linkEnd = '\"/>';
+        		var css = [
+        			_linkBegin, "//" +  siDomain + "/qzone_v6/gb/skin/" + styleIDNum + ".css",_linkEnd,
+        			_linkBegin, "//" + siDomain + "/qzone_v6/friends_manage.css", _linkEnd
+        		];
+        		document.write(css.join(""));
+        	})();
+        	<!--[if lt IE 9]><!-->
+			document.createElement("header");
+			document.createElement("nav");
+			document.createElement("article");
+			<!--<![endif]-->
+			QZONE.FP.includeQZFL();
+			QZONE.FP.includeNamecard(); //加载名片组件
+            //]]>
+        </script>
+    </head>
+    <body>
+        <div class="bg_mode" unselectable="on">
+            <div class="box_ml bor">
+                <div class="mode_gb">
+                    <div class="mode_gb_title style_mode_gb_title">
+                        <div class="bg_mode_gb_title">
+                            <h3>好友</h3>
+                        </div>
+                    </div>
+                    <div class="mode_gb_cont" style="min-height:800px;">
+                        <div class="app_mode" id="app_mod">
+                            <div class="friend_setup">
+                                <header>
+                                    <nav>
+                                        <div class="mod_tab">
+                                            <div class="mode_menu_tag2">
+                                                <ul id="title_menu"></ul>
+                                            </div>
+                                        </div>
+                                    </nav>
+                                    <div class="fn_tab">
+                                        <div class="fn_sub_tab" id="title_info">
+                                            <strong  id="cur_group_title"></strong>
+                                            <a id="fast_remark_btn" href="javascript:;" onclick="FriendsManager.pv('quick_note_friend');return false;">快速备注</a>
+                                            <a href="javascript:;" id="edit_group_btn">修改组名</a>
+                                            <a href="javascript:;" id="delete_group_btn" class="none">删除组</a>
+                                        </div>
+                                    </div>
+                                </header>
+                                <article onselectstart="return false;" >
+                                    <div class="fn_friend_list clearfix" id="friend-container" draggable='true' ondragstart="return false;">
+                                        <div id="friendcard-container" ></div>
+                                    </div>
+                                    <div class="fn_sep_line" id="sep_line">
+                                        <div class="sep_line bor2"></div>
+                                        <div class="sep_line_txt bg c_tx3">将你的好友拖拽到下方分组</div>
+                                    </div>
+                                    <div class="fn_group clearfix" id="group_list" draggable='true' ondragstart="return false;">
+                                        <div class="fn_group_list" id="group-showing-wrapper">
+                                            <div id="group-pack-container" class="group_list_wrap clearfix transition_l"></div>
+                                        </div>
+                                        <div id="pre-group-btn" class="group_arr group_arr_l bg6 bor2">
+                                            <div class="trig_l">
+                                                <b class="trig trig_d c_tx"></b>
+                                                <b class="trig trig_u bor_bg6"></b>
+                                            </div>
+                                        </div>
+                                        <div id="next-group-btn" class="group_arr group_arr_r bor3 bg2">
+                                            <div class="trig_r">
+                                                <b class="trig trig_d bor2"></b>
+                                                <b class="trig trig_u bor_bg2"></b>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </article>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script type="text/javascript" src="/c/=/qzone/v6/friend_manage/scripts/menu.js,/qzone/v6/friend_manage/v2.js" defer></script>
+    </body>
+</html>

@@ -1,0 +1,510 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-cn" lang="zh-cn" style="overflow:hidden">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Language" content="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+<meta name="robots" content="all" />
+<meta name="author" content="Tencent-ISRD" />
+<meta name="Copyright" content="Tencent" />
+<meta name="Description" content="Qzone精彩由你而来" />
+<meta name="Keywords" content="Qzone,QQ空间,Blog,博客,网络日志,播客,腾讯,QQ,Tencent" />
+<title>Qzone精彩由你而来</title>
+<script src="/qzone/v8/applib/embeded.js"></script>
+<link rel="stylesheet" rev="stylesheet" href="//imgcache.qq.com/qzonestyle/qzone_app/app_vipupic_v1/app_vipupic.css" type="text/css" media="screen" />
+<link rel="shortcut icon" href="//qzone.qq.com/favicon.ico" type="image/x-icon" />
+<style>
+.truncation{
+	zoom:1;overflow:hidden;text-overflow:ellipsis;-o-text-overflow:ellipsis;word-break:keep-all;white-space:nowrap;white-space:nowrap;
+	-icab-text-overflow:ellipsis;-khtml-text-overflow:ellipsis;-moz-text-overflow:ellipsis;-webkit-text-overflow:ellipsis;
+}
+</style>
+
+<script src="https://qzonestyle.gtimg.cn/qzone/v8/ic/opener.js"></script>
+
+<script type="text/javascript">
+var g_siDomain = parent.siDomain || 'qzonestyle.gtimg.cn';
+var g_qzflVer = parent.g_V.qz;
+
+//2018-11-05
+var isAccess_1 = /^[_a-zA-Z0-9.]+$/.test(g_qzflVer);
+
+var isAccess_2 = /\.(gtimg\.cn|qq\.com)$/.test(g_siDomain);
+if( isAccess_1 && isAccess_2 ){
+    document.write([
+        '<script type="text/javascript" src="//' +location.host+'/proxy/domain/'  + g_siDomain + '/ac/qzone/qzfl/qzfl' + g_qzflVer + '.js"><\/script>'
+    ].join(''));
+}
+</script>
+
+<script type="text/javascript" src="//imgcache.qq.com/qzone/client/photo/pages/qzone_v4/script/photo_logic.js" charset="utf-8"></script>
+<script type="text/javascript">
+	var topWin = QZONE.FP._t;   //获取TOP对象
+	var qzoneInfo = QZONE.FP.getQzoneConfig();
+
+	//外部参数name调用应用标识, tab要打开的选项卡
+	var appname = '';
+	QZONE.pageEvents.pageBaseInit();
+	QZONE.pageEvents.onloadRegister(function(){
+		//PhotoLogic.getExternalUploadUrl({'uin' : qzoneInfo.loginUin, 'callBack' : getPhotoUploadUrl, 'errBack' : getPhotoUploadUrl});
+		//PhotoLogic.getUploadUrl({'uin' : qzoneInfo.loginUin, 'callBack' : getPhotoUploadUrl, 'errBack' : getPhotoUploadUrl});
+
+		createAlbumURL = QPHOTO.url.get({"name":"album_add", "uin":qzoneInfo.loginUin, "refer":"skin"});
+
+		appname = getParameter('name');
+		var tab = getParameter('tab');
+		if(tab){tab = parseInt(tab);}
+		initMenu(tab);
+	});
+
+	function initMenu(type){
+		var tabDiv_1 = $('tabDiv_1'); tabDiv_1.className = 'tab_1';
+		var tabDiv_2 = $('tabDiv_2'); tabDiv_2.className = 'tab_2';
+		var tabDiv_3 = $('tabDiv_3'); tabDiv_3.className = 'tab_3';
+		var tabShowDiv_1 = $('tabShowDiv_1'); tabShowDiv_1.style.display = 'none';
+		var tabShowDiv_2 = $('tabShowDiv_2'); tabShowDiv_2.style.display = 'none';
+		var tabShowDiv_3 = $('tabShowDiv_3'); tabShowDiv_3.style.display = 'none';
+
+		switch(type){
+		case 2://上传照片
+			tabDiv_2.className = 'tab_2_now';
+			tabShowDiv_2.style.display = 'block';
+			initLocal();
+			break;
+
+		case 3://网络图片
+			tabDiv_3.className = 'tab_3_now';
+			tabShowDiv_3.style.display = 'block';
+			initNet();
+			break;
+
+		default://相册中选择
+			tabDiv_1.className = 'tab_1_now';
+			tabShowDiv_1.style.display = 'block';
+			initPhoto();
+			break;
+		}		
+	}
+	//图片地址
+	var albumPic = '';
+
+	//初始化相册
+	function initPhoto(){
+		if(!albumLoad) initAlbumList();
+	}
+	var albumLoad = false, photoListExistFlag = false;
+	function initAlbumList(){
+		var select = $("albumDiv");
+		albumChange('-1');
+		select.options[0].selected = true;
+		$('photoListDiv').style.display = 'none';
+		$('photoListNonDiv').style.display = 'none';
+		$('photoListExistDiv').style.display = 'none';
+		if(albumLoad){
+			if(photoListExistFlag){				
+				$('photoListExistDiv').style.display = 'block';
+			} else {			
+				$('photoListNonDiv').style.display = 'block';
+			}
+			return;
+		}
+		PhotoLogic.getAlbumList({uin:qzoneInfo.loginUin, callBack:function(obj){ 
+			if(obj && obj.albums && obj.albums.length > 0){
+				var albums = obj.albums;
+				select.length = 0;
+				select.options[0] = new Option('请选择一个相册目录', '-1');
+				//var uploadAlbum = $('uploadAlbumDiv');
+				//uploadAlbum.length = 0;
+				//uploadAlbum.options[0] = new Option('贴图相册', '-1');
+				for(var i=0, l=obj.albums.length; i<l; i++){
+					var id =  obj.albums[i].id;
+					var name  = ' - ' +  obj.albums[i].name + '(' + obj.albums[i].total + ')';
+					select.options[i+1] = new Option(restHTML(name), id);
+					//uploadAlbum.options[i+1] = new Option(restHTML(name), id);
+				}
+				photoListExistFlag = true;
+				$('photoListExistDiv').style.display = 'block';
+			} else {
+				select.length = 0;
+				select.options[0] = new Option('无相册目录', '-1');
+				photoListExistFlag = false;
+				$('photoListNonDiv').style.display = 'block';
+			}
+			albumLoad = true;
+		}, errBack:function(obj){}, type:15, projectId:111, pageId:1});
+	}
+	function goPhotoUpload(){
+		window.open('//user.qzone.qq.com/'+qzoneInfo.loginUin+'/photo/upload');
+	}	
+	var g_Photo = {};
+	function albumChange(value){
+		$('photoListDiv').style.display = 'none';
+		$('photoListNonDiv').style.display = 'none';
+		$('photoListExistDiv').style.display = 'none';
+		if(value == '-1'){ 
+			if(photoListExistFlag){				
+				$('photoListExistDiv').style.display = 'block';
+			} else {			
+				$('photoListNonDiv').style.display = 'block';
+			}
+			return;
+		}		
+		if(g_Photo[value]){
+			initPhotoList(g_Photo[value], value);
+		} else {			
+			PhotoLogic.getPhotoList({uin:qzoneInfo.loginUin, id:value, callBack:function(obj){				
+				initPhotoList(obj.photos, value);
+				g_Photo[value] = obj.photos;
+			},errBack:function(){}, projectId:111, pageId:1});
+		}
+	}
+	function initPhotoList(photos, photoId){
+		if(!photos || photos.length < 1){
+			$('photoListNonDiv').style.display = 'block';
+			return;
+		}
+		FillDiv_Ex('photoListDiv', {data: photos});
+	}
+	function imgLoad(obj){
+		if(obj.height > obj.width){obj.style.height = '102px';} else {obj.style.width = '102px';}
+	}	
+	function photoClick(div, picUrl){
+		albumPic = picUrl;
+		closeWin();
+	}
+	
+	//初始化本地上传
+	var _up ;
+	function initLocal(){
+		changeUploadAlbum(0);
+		_up = new PhotoLogic.uploadWeb({
+			extData: {
+				upload_hd: 1,
+				hd_width: 2048,
+				hd_height: 10000,
+				hd_quality: 96
+			},
+			container : "FlashDiv",
+			isFamous  : false,
+			projectId : 111,
+			pageId    : 1,
+			inputId   : "uploadfilename",
+			inputStr  : '<input type="hidden" name="json" value="2"/> <input type="file" id="uploadfilename" name="filename" style="width: 300px;" onchange="handleSelected(this)"/> '
+		});
+	}
+
+	var uploadAlbumType = 0;
+	function changeUploadAlbum(type){
+		if(type == 1){
+			$('selectUploadAlbumDiv').style.display = 'none';
+			$('createUploadAlbumDiv').style.display = 'block';
+			uploadAlbumType = 1;
+		} else {
+			$('selectUploadAlbumDiv').style.display = 'block';
+			$('createUploadAlbumDiv').style.display = 'none';
+			uploadAlbumType = 0;
+		}
+	}
+
+	//当浏览文件并且成功选择文件后
+	var selectErr = 0;
+	function handleSelected(fObj){
+		selectErr = 0;
+		var fileDiv = $('fileDiv');
+		var fileErrDiv = $('fileErrDiv');
+		var filestr = fObj.value.replace(new RegExp('\\\\',"gm"),'/');
+		filestr = filestr.substring(filestr.lastIndexOf('/')+1);
+		if((/(.*)\.(\w{1,4})$/).test(filestr)){	
+			var filename = RegExp.$1+'.'+RegExp.$2;
+			fileDiv.title = filename;
+			//fileDiv.innerHTML = subStringByBytes(filename, 20, '...');
+			if(RegExp.$2.toLowerCase() == 'bmp'){
+				//fileDiv.innerHTML = fileDiv.title = '';
+				fileErrDiv.innerHTML = '<img src="//imgcache.qq.com/ac/b.gif" alt="" class="ico_t" /><span class="red" >BMP格式的图片请使用<a href="javascript:goActivex()">极速上传工具</a>上传。</span>';
+				selectErr = 'BMP格式的图片请使用极速上传工具上传。';
+			} else if(!(/.+\.(jpg|jpeg|png|gif)$/).test(filename.toLowerCase())){
+				//fileDiv.innerHTML = fileDiv.title = '';
+				fileErrDiv.innerHTML = '<img src="//imgcache.qq.com/ac/b.gif" alt="" class="ico_t" /><span class="red" >图片格式需为jpg/jpeg/png/gif。</span>';
+				selectErr = '图片格式需为jpg/jpeg/png/gif。';
+			}					
+		} else {
+			fileErrDiv.innerHTML = '<img src="//imgcache.qq.com/ac/b.gif" alt="" class="ico_t" /><span class="red" >图片格式需为jpg/jpeg/png/gif。</span>';
+			selectErr = '图片格式需为jpg/jpeg/png/gif。';
+		}
+	}
+	
+	/**
+	* 获取字符串字节长度
+	* @param {String} str 字符串
+	* @returns {Number} 长度
+	*/
+	function getStrBytesLength(str) {
+		return str.replace(/[^\x00-\xff]/g, 'xx').length;
+	};
+
+	/**
+	 * 字节长度截取字符串，从起始位置开始截取
+	 * @param {String} str 字符串
+	 * @param {Number} len 长度
+	 * @param {String} postFix 截断后补充的后缀
+	 */
+	function subStringByBytes(str, len, postFix) {
+		var l = len;
+		postFix = getStrBytesLength(str) > len ? postFix || '' : '';
+		str = str.slice(0, len);
+		while(getStrBytesLength(str) > len) {
+			str = str.slice(0, --l);
+		}
+		return str + postFix;
+	};
+
+	var createAlbumURL = 'http://photo.qzone.qq.com/cgi-bin/common/cgi_add_album';
+	function createAlbum(){		
+		var name = $('uploadTxtDiv').value.trim();
+		if(name == ''){
+			$('fileErrDiv').innerHTML = '<img src="//imgcache.qq.com/ac/b.gif" alt="" class="ico_t" /><span class="red" >相册名空不能为空。</span>';
+			return ;
+		}
+		var param ={
+			'uin' : qzoneInfo.loginUin,
+			'albumname'  : name,
+			'priv'       : 1,
+			'albumclass' : 101,
+			'albumdesc'  : '',
+			'output_type':'jsonhtml',
+			'refer':'skin'
+		}
+		QuickFunc.sendForm(createAlbumURL, param, function(obj){
+			if(obj && obj.ret == 0){
+				uploadAlbumId = obj.album.id;
+				uploadAlbumType = 0;
+
+				QPHOTO.data.del(qzoneInfo.loginUin+'_alist');
+				PhotoLogic.getAlbumList({uin:qzoneInfo.loginUin, callBack:function(obj){ 
+					if(obj && obj.albums && obj.albums.length > 0){localClick();}
+				}, errBack:function(obj){}, type:15, projectId:111, pageId:1});
+			} else {
+				$('fileErrDiv').innerHTML = '<img src="//imgcache.qq.com/ac/b.gif" alt="" class="ico_t" /><span class="red" >创建相册失败。</span>';
+			}
+		}, 'gb2312');
+	}
+
+	function changeUploadAlbumSelect(obj){
+		uploadAlbumId = obj.value;
+	}
+	
+	var submitFlag = false, uploadAlbumId='';
+	function localClick(){
+		if(submitFlag) return;
+		submitFlag = true;		
+
+		if(uploadAlbumType == 1){
+			submitFlag = false; createAlbum(); return;
+		}
+
+		if(selectErr != 0){
+			QZONE.FP.showMsgbox(selectErr, 0, 2000);	
+			submitFlag = false;
+			return;
+		}
+		var filename = $('uploadfilename').value.trim();
+		if(filename == ''){
+			$('fileErrDiv').innerHTML = '<img src="//imgcache.qq.com/ac/b.gif" alt="" class="ico_t" /><span class="red" >请选择要上传的文件。</span>';
+			submitFlag = false;
+			return;
+		}
+
+		$('fileErrDiv').innerHTML = '图片格式需为jpg/jpeg/png/gif，大于2M的图片请使用<a href="javascript:goActivex()">极速上传工具</a>。';
+		var param = {
+			uin: qzoneInfo.loginUin,
+			aid: (uploadAlbumId==-1 ? '' : uploadAlbumId),
+			isFamous  : false,
+			projectId : 111,
+			pageId    : 1,
+			refer     : 'skin',
+			refresh   : false
+		}
+		param.errBack = param.callBack = function(o){
+			submitFlag = false;
+			$('percentDiv').style.display = 'none';
+			if(o && o.data){
+				if(o.data.error){
+					switch(o.data.error){
+					case -503:
+						QZONE.FP.closePopup();
+						QZONE.FP.showLoginBox();
+						break;
+					case -201:
+						$('fileErrDiv').innerHTML = '<img src="//imgcache.qq.com/ac/b.gif" alt="" class="ico_t" /><span class="red" >图片大小超过2M，请使用<a href="javascript:goActivex()">极速上传工具</a>，或将图片压缩后上传。</span>';
+						break;
+					default:
+						$('fileErrDiv').innerHTML = '<img src="//imgcache.qq.com/ac/b.gif" alt="" class="ico_t" /><span class="red" >'+o.data.msg+'</span>';
+					}
+					return;
+				} else {
+					albumPic = o.data.origin_url || o.data.url;
+					closeWin();
+				}
+			} else {
+				if(o && o.msg){
+					$('fileErrDiv').innerHTML = '<img src="//imgcache.qq.com/ac/b.gif" alt="" class="ico_t" /><span class="red" >'+o.msg+'</span>';
+				} else {
+					$('fileErrDiv').innerHTML = '<img src="//imgcache.qq.com/ac/b.gif" alt="" class="ico_t" /><span class="red" >服务器忙，请稍后重试。</span>';
+				}
+			}			
+		}
+		$('percentDiv').style.display = 'block';
+		_up.send(param);
+	}
+
+	function goActivex(){
+			var _aid = uploadAlbumId;
+			window.open("//user.qzone.qq.com/"+ qzoneInfo.loginUin + "/photo/upload/" + ((_aid==-1||_aid==null)?"":(_aid + "/")) );
+		}
+	
+	//初始化网络图片
+	function initNet(){
+		if($('netTxt').value.trim() == ''){
+			$('netMsgDiv').innerHTML = '请使用qq.com域名下的网络图片！<br />举例：<br />//imgcache.qq.com/qzone/client/photo/images/logo.png<br />'
+			+ '<a href="#" onclick="netClick();return false;" class="bt">添加</a>';
+			$('tabShowDiv_3').style.color = '';
+		}
+	}
+	function netClick(){
+		var url = $('netTxt').value.trim();
+		if((/^http:\/\/[^/]+\.qq\.com\/.*$/).test(url)){
+			$('netMsgDiv').innerHTML = '请使用qq.com域名下的网络图片！<br />举例：<br />//imgcache.qq.com/qzone/client/photo/images/logo.png<br />'
+			+ '<a href="#" onclick="netClick();return false;" class="bt">添加</a>';
+			$('tabShowDiv_3').style.color = '';
+			albumPic = url;
+			closeWin();
+
+		} else {
+			$('tabShowDiv_3').style.color = 'red';
+			$('netMsgDiv').innerHTML = '<img src="//imgcache.qq.com/ac/b.gif" class="ico_t" /> 请输入有效的网络地址（URL）<br /><br />'
+			+ '<a href="#" onclick="netClick();return false;" class="bt">添加</a>';
+			albumPic = '';			
+		}
+	}
+
+	//关闭窗口
+	function closeWin(){
+		//alert(albumPic);
+		if(albumPic == ''){
+			topWin.g_XDoc["selectPhotos"] = null;
+		} else {
+			topWin.g_XDoc["selectPhotos"] = [albumPic];
+		}
+		QZONE.FP.closePopup();
+	}
+	function $(id){return document.getElementById(id);}
+	String.prototype.trim = function(){return this.replace(/(^\s*)|(\s*$)/g, "");}
+	function getParameter(name){
+		var r = new RegExp("(\\?|#|&)"+name+"=([^&]*)(&|$)")
+		var m = location.href.match(r)
+		if(!m || m=="") m = top.location.href.match(r)
+		return (!m?"":m[2]);
+	}
+
+	if(typeof(QuickFunc) == "undefined" || !QuickFunc) {var QuickFunc = {};}	
+	QuickFunc.sendForm = function(url, param, successFun, charset){
+		var fs = new QZONE.FormSender(url, 'post', param, charset?charset:'gb2312');
+		fs.onSuccess = successFun;
+		fs.send();
+	}
+</script>
+</head>
+<body>
+<div class="main">
+	<div class="tab_1" id="tabDiv_1">
+		<a href="#" onclick="initMenu(1);return false;">相册中选择</a>
+	</div>
+	<div class="tab_2" id="tabDiv_2">
+		<a href="#" onclick="initMenu(2);return false;">上传图片</a>
+	</div>
+	<div class="tab_3" id="tabDiv_3">
+		<a href="#" onclick="initMenu(3);return false;">网络图片</a>
+	</div>
+
+	<!-- 相册中选择 -->
+	<div class="pics" style="display:none;" id="tabShowDiv_1">
+		<div class="spic">
+			<select id="albumDiv" onchange="albumChange(this.value)">
+				<option>请选择相册</option>
+			</select>
+			<!--<img src="//imgcache.qq.com/ac/b.gif" alt="" class="ico_lock" />-->
+		</div>
+		<div class="list" id="photoListDiv" style="display:none;">
+		<textarea class="template">
+		[%repeat_0 match="data"%]
+			<div class="item" style="cursor:pointer" ondblclick="photoClick(this, '[%=@url%]'); " onclick="photoClick(this, '[%=@url%]')" onmouseover="this.className='item_now'" onmouseout="this.className='item'"><img src="[%=@pre%]" title="[%=@name%]" onload="imgLoad(this)" class="pic"/></div>
+		[%_repeat_0%]
+		</textarea>
+		</div>
+		<div class="listno" id="photoListNonDiv" style="display:none;">
+			<p class="ps">您的相册还没有图片，建议先到“<a href="#" onclick="goPhotoUpload();return false;">相册</a>”栏目下，上传图片后再使用本功能</p>
+		</div>
+		<div class="listps" id="photoListExistDiv" style="display:;">
+			<p class="ps">
+				请从上面的下拉菜单里选择已有的相册<br />
+				<!--<span>提示：单击照片选中，可选择不同相册、多张照片。并可在右侧对“准备插入的照片”进行移动、删除（删除的照片仍然保留在相册中）。</span>-->
+			</p>
+			<div class="ps2">
+				<strong>其他插入方式</strong>
+				<ul>
+					<li><a href="#" onclick="initMenu(2);return false;">从电脑中上传图片</a></li>
+					<li><a href="#" onclick="initMenu(3);return false;">插入网络图片</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+
+	<!-- 上传照片 -->
+	<div class="uppic" style="display:none;" id="tabShowDiv_2">
+
+		<div id="selectUploadAlbumDiv" style="display:none">
+		  <p class="tit1">上传相册：</p>
+		  <div class="sselect" style="margin-top:6px;">贴图相册<!--
+			<select id="uploadAlbumDiv" onclick="changeUploadAlbumSelect(this)">
+				<option value='-1'>贴图相册</option>
+			</select> 或者 <a href="javascript:changeUploadAlbum(1)">创建相册</a>-->
+		  </div>
+		</div>
+
+		<div id="createUploadAlbumDiv" style="display:none">
+		  <p class="tit1">创建相册：</p>
+		  <div class="sselect" style="margin-top:6px;">
+			<input type="text" id="uploadTxtDiv" style="width:120px; border:1px solid a7a6aa;"/> <span style="vertical-align:5px;"><img class="ico_t" src="//imgcache.qq.com/ac/b.gif" />相册权限为公开 或者 <a href="javascript:changeUploadAlbum(0)">选择相册</a></span>
+		  </div>
+		</div>
+
+		<p class="tit2">添加图片：</p>
+		<div class="file">
+			<span id="FlashDiv"><input type="file" name="filename" style="width: 300px;" onchange="handleSelected(this)"></span>&nbsp;<span class="red truncation" id="fileDiv" style="width:280px;vertical-align:3px;"></span>
+		</div>
+		<div class="ts" id="fileErrDiv">图片格式需为jpg/jpeg/png/gif，大于2M的图片请使用<a href="javascript:goActivex()">极速上传工具</a>。</div>
+		<p class="bt_up"><a href="#" onclick="localClick();return false;" class="bt">上传</a></p>
+		<div class="up" style="display:none" id="percentDiv">文件上传中......</div>
+		<div class="ts3">注：您所上传的图片将储存在您的贴图相册中，请不要轻易删除。</div>
+	</div>
+
+	<!-- 网络图片 -->
+	<div class="webpic" style="display:none;" id="tabShowDiv_3">
+		<p class="tit">网络图片：</p>
+		<input id="netTxt" type="text" class="sinput" style="width:350px" />
+		<p class="ps" id="netMsgDiv">
+			请使用qq.com域名下的网络图片！<br />
+			举例：<br />
+			//imgcache.qq.com/qzone/client/photo/images/logo.png<br />
+			<a href="#" onclick="netClick();return false;" class="bt">添加</a>
+		</p>
+	</div>
+	<div class="global_tip_button">
+		<button type="button" class="bt_tip_normal" onclick="QZONE.FP.closePopup()">关闭</button>
+	</div>
+</div>
+
+<script type="text/javascript" src="//imgcache.qq.com/qzone/mall/v5/comm/js/FillDiv_Ex.js" charset="gb2312"></script>
+<script type="text/javascript" src="//imgcache.qq.com/qzone/ping.js" charset="utf-8"></script>
+</body>
+</html>

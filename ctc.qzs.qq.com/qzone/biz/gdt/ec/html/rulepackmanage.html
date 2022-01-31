@@ -1,0 +1,100 @@
+<!doctype html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <title>腾讯社交广告平台</title>
+    <meta name="description" content="广告主可以使用腾讯社交广告投放平台(广点通)，通过精准定向，便捷的管理、投放广告，并查看推广效果，控制预算。" />
+    <meta name="keywords" content="腾讯社交广告,广点通,Qzone广告,QQ空间广告,朋友网广告,腾讯开放平台广告,广告,社交广告" />
+    <script type="text/javascript">
+        document.domain='qq.com';
+        var gSiDomain = parent.gSiDomain || 'qzonestyle.gtimg.cn',
+                gBizDomain = parent.gBizDomain || 'qzonestyle.gtimg.cn',
+                gJsver = parent.gJsver || '',
+                gCssver = parent.gCssver || '';
+        (function(){
+            var js=[], b='<link rel="stylesheet" rev="stylesheet" href="', e=gCssver+'" type="text/css" media="screen" />';
+            js=['http://'+ gBizDomain +'/open_proj/gdt_advertise_tool.css',
+                'http://'+ gSiDomain +'/qzonestyle/global/css/qzfl.css'];
+            document.write(b+ js.join(e+b) +e);
+        })();
+    </script>
+</head>
+<body>
+
+<div class="gdt_main">
+    <div class="page_account">
+        <div class="main">
+            <div class="search_form clearfix">
+                <div class="search_form_item">
+                    <a href="order.html#mod=pack&type=add" target="_blank" class="ui_btn" id="_new_pack">创建新定向</a>
+                    <i class="ico ico_help" rel="rulePack.new"></i>
+                </div>
+
+            </div>
+            <!--<div class="mod_input_error none" id="_full_error">
+                <div class="errorbox"><span class="ico_warring">警告：</span>定向包已满，无法新建<span class="ico_arrow">&nbsp;</span></div>
+            </div>-->
+            <div class="mod_table_wrap" id="list">
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+<script type="text/html" id="_tpl_list">
+    <table class="mod_table">
+        <thead class="mod_table_thead">
+        <tr>
+            <th class="th_w200">定向名称</th>
+            <th class="th_w250">定向描述</th>
+            <th>相关广告</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <% var l=list.length; if(l<1){ %>
+            <tr><td class="align_left" colspan="4">暂无定向包</td></tr>
+        <%}else{%>
+            <% for(var i=0;i < l;i++){ var row=list[i];%>
+            <tr>
+                <td class="align_left th_w200">
+                    <%=row.rulename%>
+                </td>
+                <td class="align_left th_w250"><%=row.ruledesc%></td>
+                <td>
+                    <a href="javascript:void(0);" opt="show_link" data-target="<%=row.mid%>">查看关联此定向的广告</a>
+                </td>
+                <td>
+                    <a class="_copy" href="order.html#mod=pack&type=copy&mid=<%=row.mid%>">复制</a>
+                    <span class="sep">|</span>
+                    <a href="order.html#mod=pack&type=edit&mid=<%=row.mid%>">编辑</a>
+                    <span class="sep">|</span>
+                    <a href="javascript:void(0);" opt="remove" data-target="<%=row.mid%>">删除</a>
+                    <span class="sep">|</span>
+                    <a href="javascript:void(0);" opt="apply" data-target="<%=row.mid%>">应用到广告</a>
+                </td>
+            </tr>
+            <%}%>
+        <%}%>
+        </tbody>
+    </table>
+</script>
+<script type="text/javascript">
+    window._PAGE_TIME=[new Date];
+    document.write('<script type="text/javascript" src="http://'+gBizDomain+'/qzone/biz/gdt/ec/js/pageguide.js'+gJsver+'"><\/script>');
+</script>
+<script type="text/javascript">
+    QBL.include('castlib', 'stat', 'comm', 'selector','listselect',  'county', 'rulepackmanage');
+    QBL.onReady(function(){
+        window._PAGE_TIME.push(new Date);
+        QZFL.pageEvents.pageBaseInit();
+        //QZFL.pageEvents.onloadRegister(thisPage.init);
+        GDT.rulePackManagePage.init();
+    });
+</script>
+
+</body>
+</html>
+<!--[if !IE]>|xGv00|b9dbc796851fc71c6d3b904091b227d1<![endif]-->

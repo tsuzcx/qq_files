@@ -1,0 +1,245 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>好友首页 - Qzone</title>
+		<script src="//qzonestyle.gtimg.cn/qzone/v8/applib/embeded.js" ></script>
+		<script>
+			document.domain = 'qq.com';
+			try {
+				var topDomain = top.g_iframeUser;
+			} catch(e) {
+				document.domain = 'user.qzone.qq.com';
+			}
+			document.write('<link rel="stylesheet" href="//' + top.siDomain + '/aoi/skin/' + top.g_StyleID + '.css" />');
+			document.write('<link rel="stylesheet" href="//' + top.siDomain + '/aoi/friends-manage.css" />');
+			//var QZONE = top.QZONE;
+		</script>
+		<style>
+			#rank-list-con .status{
+				visibility: hidden
+			}
+		</style>
+	</head>
+	<body class="os-win7 layout-body-friend">
+
+		<div class="layout-app">
+			<!--寻找好友-->
+			<div class="layout-body-friends">
+				<div class="layout-page-friends clearfix">
+					<!--layout-nav-->
+					<div class="layout-nav-friends">
+						<!--tab切换-->
+						<div class="qz-tab fn-friend-tab">
+							<ul class="tab-list clearfix">
+								<li class="item item-current" >
+									<span class="item-con">好友首页</span>
+								</li>
+								<li class="item">
+									<a class="item-con" href="javascript:" onclick="top.QZONE.FP.toApp('myhome/friends/center');
+											return false;">好友请求</a>
+								</li>
+							</ul>
+						</div>
+						<!--tab切换 结束-->
+					</div>
+					<!--layout-nav 结束-->
+
+
+
+					<div class="layout-wrapper-friends fn-friend-index clearfix">
+						<!-- col-main -->
+						<div class="col-main-friends">
+							<!-- banner图 -->
+							<div class="qz-img-slide">
+								<ul class="img-slide-list">
+									<li><img src="//qzs.qq.com/aoi/img/friends/pic-friend.jpg" alt="谁与你最亲密？赞他、评论他、访问他，都能提高你对他的亲密度哦！" id="default_tip">
+
+										<a href="javascript:" id="clear_tip" style="display:none"><img src="//qzs.qq.com/aoi/img/friends/pic-clear-friend.png" width="660px" height="75" alt="整理好友"><span class="friend-count" id="dirty_rate"></span></a>
+
+									</li>
+
+
+
+
+								</ul>
+								<a class="img-slide-close" title="不再显示" href="javascript:" id="close_button" style="display:none">×</a>
+								<!--								<a class="img-slide-close" title="不再显示" href="javascript:void(0)">×</a>-->
+							</div>
+							<!-- banner图 结束-->
+							<!--tab切换-->
+							<div class="qz-tab-menu qz-tab-menu-m clearfix fn-tab-rank" id="tab_nav">
+								<ul class="tab-menu clearfix">
+									<li class="tab-menu-item tab-menu-item-cur" data-tag="mecarewho">
+										<a class="tab-menu-item-con" href="javascript:;"  title="我对好友的亲密度">我在意谁</a>
+									</li>
+									<li class="tab-menu-item" data-tag="whocareme">
+										<a class="tab-menu-item-con" href="javascript:;" title="好友对我的亲密度">谁在意我</a>
+									</li>
+								</ul>
+								<div class="qz-search" id="qz-search-box"></div>
+							</div>
+							<!--tab切换 结束--> 
+							<!-- 排行 -->
+							<div class="qz-rank-list" id="rank-list-con" style="min-height:557px;">
+								<div class="rank-list-hd">
+									<!-- 排行标题 -->
+									<ul class="rank-tit clearfix">
+										<li class="item-a"><span class="tit">排行</span><a class="qz-button qz-dark-button qz-button-s" href="javascript:;" id="id_sharescore"><span class="txt">晒排行</span></a></li>
+										<li class="item-b"><span class="tit" id="seetip">亲密度<i class="ui-icon icon-tip" title=""></i></span></li>
+										<li class="item-c"><span class="tit">管理</span></li>
+									</ul>
+									<!-- 排行标题 结束-->
+								</div>
+								<ol class="rank-list" id="whocareme_list"></ol>
+								<ol class="rank-list" id="mecarewho_list" style="display:none"></ol>
+
+							</div>
+							<!-- 排行 结束-->
+							<p id="pTop200Tips" class="fn-rank-tip" style="display:none;">当前仅展示排名前200位的好友</p>
+							<!-- 翻页 -->
+							<div class="qz-pager" id="whocareme_pager" style="display: none"></div>
+							<div class="qz-pager" id="mecarewho_pager" style="display: none"></div>
+
+							<!-- 翻页结束 -->
+
+							<div class="fn-friend-tip">
+								<p>小提示：生活中的感情也像空间互动，多联系才能更亲密哦！</p>
+							</div>
+
+						</div>
+						<!-- col-main 结束-->
+						<!-- col-menu -->
+						<div class="col-menu-friends" >
+
+							<!-- 正在疏远的好友 开始 -->
+							<div class="qz-box fn-box-friend-estrange" id="estrange_list_con" style="display:none">
+								<div class="qz-box-hd">
+									<div class="qz-grid">
+										<div class="qz-main">
+											<h4 class="tit">好久没联络的好友</h4>
+										</div>
+									</div>
+								</div>
+								<div class="qz-box-bd">
+									<!-- 好友列表 -->
+									<div class="qz-img-txt qz-img-txt-b">
+										<ul class="img-txt-list clearfix"  id="estrange_list"></ul>
+									</div>
+									<!-- 好友列表 结束-->
+									<div class="qz-pagination clearfix" id="estrange_pager">
+										<a class="btn btn-pre btn-dis" href="javascript:" title="上一页"></a><!--不可点状态添加类名“btn-dis”-->
+										<a class="btn btn-next btn-dis" href="javascript:" title="下一页"></a>
+									</div>
+								</div>
+							</div>
+							<!-- 正在疏远的好友 结束 -->
+
+
+							<div class="qz-box fn-box-friend" id="remark_list_con" style="display:none">
+
+								<div class="qz-box-hd">
+									<div class="qz-grid">
+										<div class="qz-main">
+											<h4 class="tit">好友备注</h4>
+										</div>
+									</div>
+								</div>
+
+								<div class="qz-box-bd">
+									<div class="qz-img-txt qz-img-txt-b">
+										<ul  class="img-txt-list clearfix" id="remark_list"></ul>
+									</div>
+									<div class="qz-pagination clearfix" id="remark_pager">
+										<a class="btn btn-pre btn-dis" href="javascript:" title="上一页"></a><!--不可点状态添加类名“btn-dis”-->
+										<a class="btn btn-next btn-dis" href="javascript:" title="下一页"></a>
+										<a class="btn btn-more" href="javascript:" title="批量备注"></a>
+									</div>
+								</div>
+							</div>
+
+
+
+							<div class="qz-box fn-box-popularize" style="display:none;">
+								<div class="qz-box-bd">          
+									<a href="//z.qzone.com/" target="_blank">
+										<img src="//qzs.qq.com/aoi/img/friends/pic-mobile.jpg" alt="下载QQ空间客户端" width="220" height="250" />
+									</a>
+								</div>
+							</div>
+
+						</div>
+
+
+
+						<!-- col-menu 结束-->
+					</div>
+
+				</div>
+			</div>
+			<!--寻找好友 结束-->
+		</div>
+
+
+
+		<!--模板START-->
+		<div class="fn-dialog-clear-friend "  style="display:none" id="clear_div">
+			<div class="dialog-clear-friend-inner">
+				<!-- 段落 -->
+				<div class="qz-box qz-box-check">
+					<div class="qz-box-hd">
+						<div class="qz-grid">
+							<div class="qz-left">
+								<div class="btn-check-all">
+									<label id="selectAll" style="cursor:pointer">
+										<i class="ui-icon qz-checkbox" id="selectAll_checkbox"></i>全选<!--默认-->
+									</label>
+								</div>
+							</div>
+							<div class="qz-right">
+								<div class="btn-list">
+									<a class="qz-button" href="javascript:" id="clear_forbid"><span class="txt">禁止访问</span></a><a class="qz-button" href="javascript:" id="clear_uncare"><span class="txt">隐藏动态</span></a><a class="qz-button" href="javascript:" id="clear_delete"><span class="txt">删除好友</span></a>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="qz-box-bd">
+						<div class="check-tit clearfix">
+							<p class="tit">以下好友与你的亲密度较低，你可以设置访问权限或删除好友</p>
+						</div>							
+						<!-- 好友列表 -->
+						<div class="qz-img-txt qz-img-txt-check qz-scrollbar">
+							<ul class="img-txt-list clearfix" id="dirty_list"></ul>
+						</div>
+						<!-- 好友列表 结束-->
+					</div>
+				</div>
+				<!-- 段落 结束-->
+			</div>
+		</div>
+		<!--模板END-->
+
+
+
+
+
+
+		<script>
+			top.g_OSClass && (document.body.className += " " + top.g_OSClass);
+			window.isIframe = 1;
+			document.write('<script src="//qzonestyle.gtimg.cn/ac/qzone/qzfl/qzfl' + top.g_V.qz + '.js"><\/script>');
+			document.write('<script src="//qzonestyle.gtimg.cn/ac/lib/seajs/sea-' + top.g_V.sea + '.js"><\/script>');
+		</script>
+		<script src="//qzonestyle.gtimg.cn/qzone/v8/core/seajs_config.js" ></script>
+		<script>seajs.use("v8/pages/friends/js/friend_index.js",function(e){
+				if(e.bootstrap){
+					e.bootstrap();
+				}
+			});
+
+			top.TCISD && top.TCISD.pv("v8friends.qzone.qq.com","friendshome");
+
+		</script>
+	</body>
+</html>
