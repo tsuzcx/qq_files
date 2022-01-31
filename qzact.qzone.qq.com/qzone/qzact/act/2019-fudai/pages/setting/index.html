@@ -1,0 +1,89 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,minimum-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover"/>
+    <link rel="icon" href="data:image/ico;base64,aWNv">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" href="./system.css">
+    <script>
+        if ((location.href || '').indexOf('&vconsole=1') > -1) {
+            document.write('<script src="https://qzact.qzone.qq.com/qzone/qzact/act/external/qzact/vconsole.min.js"><\/script>');
+            document.write('<script>new VConsole()<\/script>');
+        }
+    </script>
+    <script src="https://open.mobile.qq.com/sdk/qqapi.wk.js?_bid=3120&_discheck=1"></script>
+    <script>
+        (function () {
+            var ua = navigator.userAgent || '';
+            var android = ua.match(/Android/),
+                iPad = ua.match(/(iPad).*OS\s([\d_]+)/),
+                iPhone = !iPad && (ua.match(/(iPhone\sOS)\s([\d_]+)/i) || ua.match('iPhone')),
+                iPod = ua.match(/(iPod).*OS\s([\d_]+)/);
+            window.browserInfo = {
+                isQQ: ua.match(/QQ\/([\d\.]+)/),
+                isIos: iPad || iPhone || iPod,
+                isMobile: android || iPhone
+            };
+            if (window.mqq) {
+                window.reportFudai = function (params) {
+                    if (window.mqq) {
+                        console.info('report fudai data:', params);
+                        mqq.invoke('FD', 'ReportData', {data: params});
+                    }
+                };
+                window.reportFudai({act_id: '92'});
+                mqq.ui.setWebViewBehavior({
+                    progressBar: false,
+                    titleText: '',
+                    actionButton: 0
+                });
+                mqq.invoke('ui', 'webviewCanScroll', {"enable": false});
+            }
+        })()
+    </script>
+</head>
+<body>
+
+<section class="mod-home">
+    <div class="home-wrap" id="home_wrap">
+        <!-- 我获得的 S-->
+        <div class="get-wrap" style="display: block">
+            <!-- 获得list S-->
+            <div class="get-red">
+                <div class="wrap-bg">
+                    <p class="red-tit">福袋通知设置</p>
+                    <ul class="red-list">
+                        <li class="list-item" id="j-pendant-wrap" style="display: none;">
+                            <div class="item-info">
+                                <p class="info-name"><span>展示下拉吊坠</span></p>
+                                <p class="info-desc">关闭后将无法通过下拉进入活动</p>
+                            </div>
+                            <div class="ui-loading" id="j-pendant-loading">
+                                <i class="icon-load"></i>
+                            </div>
+                            <input type="checkbox" data-hook="setPendant" style="display: none" class="switch" id="j-pendant-btn">
+                        </li>
+                        <li class="list-item">
+                            <div class="item-info">
+                                <p class="info-name"><span>接收福袋消息</span></p>
+                                <p class="info-desc">关闭后将无法接收所有福袋消息</p>
+                            </div>
+                            <div class="ui-loading" id="j-news-loading">
+                                <i class="icon-load"></i>
+                            </div>
+                            <input type="checkbox" data-hook="setNewsRemind" style="display: none" class="switch" id="j-news-btn">
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <!-- 获得list E-->
+        </div>
+    </div>
+</section>
+<script src="https://qzact.qzone.qq.com/qzone/qzact/act/2019-fudai/pages/config/index.js?_bid=3510&_discheck=1"></script>
+<script src="./index.js"></script>
+</body>
+</html>
