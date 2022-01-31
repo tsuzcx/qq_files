@@ -1,0 +1,85 @@
+{
+    "version": "1.0.0",
+    "sdk_settings":
+    {
+        "ocr_settings":
+        {
+            "resource_online": false,
+            "app_id":"10198923",
+            "ocrtype":"idcard",
+            "cardtype":0,
+            "mode_type":2,
+            "auto_timeout_ms": 10000,
+            "user_id":"360566935",
+            "secret_id":"AKIDfEbnkRTNXkkVt0pjsoXyCE1Yu63lqQQC",
+            "secret_key":"e3HH3Zq01mHcicJkywgATWFjxzqYzIPG",
+            "idcard":
+            {
+                "result_api_url":"https://api.youtu.qq.com/youtu/ocrapi/idcardocr",
+                "request_options":
+                {
+                    "border_check_flag":true,
+                    "enable_reshoot":true,
+                    "enable_detect_copy":true,
+                    "enable_quality_value":true,
+                    "ret_portrait_flag":true,
+                    "enable_detect_ps":true
+                }
+            },
+            "creditcard":
+            {
+                "result_api_url":"https://api.youtu.qq.com/youtu/ocrapi/creditcardocr",
+                "request_options":
+                {
+                    "enable_border_check":true,
+                    "enable_reshoot_check":true,
+                    "enable_copy_check":true,
+                    "enable_quality_value":true
+                }
+            }
+        },
+        "silent_settings":
+        {
+            "resource_online": false,
+            "timeout_countdown_ms": 10000,
+            "resourceDownloadPath": "targetpath",
+            "app_id":"youtu_android_demo",
+            "result_api_url":"https://meetingtest.youtu.qq.com/youtu/liveapi/picturelivedetect"
+        },
+        "action_settings":
+        {
+            "resource_online": false,
+            "timeout_countdown_ms": 10000,
+            "app_id":"youtu_android_demo",
+            "action_security_level":0,
+            "result_api_url":"https://meetingtest.youtu.qq.com/youtu/liveapi/actionlive",
+            "action_default_seq":[1,2,1]
+        },
+        "reflect_settings":
+        {
+            "resource_online": false,
+            "timeout_countdown_ms": 10000,
+            "color_data": "1 120 3 3 4 5 1 1 ",
+            "app_id":"youtu_android_demo",
+            "reflect_security_level":2,
+            "config_api_url":"https://meetingtest.youtu.qq.com/youtu/liveapi/getlivetype",
+            "result_api_url":"https://meetingtest.youtu.qq.com/youtu/liveapi/reflectlive"
+        },
+        "action+reflect_settings":
+        {
+            "timeout_countdown_ms": 10000,
+            "video_path":"/data/user/0/com.tencent.mobileqq/files/YT_identify_new/identification/tmp_video_path/tmp.mp4",
+            "app_id":"youtu_android_demo",
+            "action_security_level":1,
+            "reflect_security_level":2,
+            "action_default_seq":[0],
+            "resource_online":true,
+            "local_config_flag":true,
+            "color_data": "1 120 3 3 4 5 1 1 ",
+            "resource_download_path":"/data/user/0/com.tencent.mobileqq/files/YT_identify_new/identification/ytd",
+            "config_api_url":"https://meetingtest.youtu.qq.com/youtu/liveapi/getlivetype",
+            "result_api_url":"https://meetingtest.youtu.qq.com/youtu/liveapi/actionreflectlive"
+        },
+        "need_network":true
+    }
+}

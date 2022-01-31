@@ -1,0 +1,1 @@
+regnety_200M_246_0805_batch1_2.opt.tnnproto

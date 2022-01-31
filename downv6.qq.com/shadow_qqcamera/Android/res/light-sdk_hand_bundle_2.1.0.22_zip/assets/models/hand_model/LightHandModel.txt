@@ -1,0 +1,5 @@
+"predetect" = "20191231_blazenet_thin_maxpool_preDet_binaryhand_multiscale_softmax_ckpt_99.onnx.opt.onnx"
+"detect" = "20200418_hand_blazenet_no_aug_cleaned8w_onehand_plus1280_plus8700_90.onnx.opt.onnx"
+"track" = "tracking_v1.onnx.opt.onnx"
+"keypoint" = "hand_keypoint_v3.5_single.onnx.opt.onnx"
+"classify" = "test_newbackbone3_cleandata_112.onnx.opt.onnx"

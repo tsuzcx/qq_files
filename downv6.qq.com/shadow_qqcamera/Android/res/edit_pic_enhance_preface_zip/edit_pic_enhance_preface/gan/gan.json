@@ -1,0 +1,22 @@
+{
+    "id": "style_cartoon",
+    "imageSize": [320, 320],
+    "modelName": "tnn_ImageEnhanceFace_画质增强-人脸_v1.0.9_202112031442_tiny8s320_5wGPEN1124_augAll_noise_ftDTe500_lr2e-5_loss10_rand10_e50.opt",
+    "styleChangeType" : 2,
+    "cropBorderColorRGBA":"#00000000",
+    "faceExpandFactor": 1.428,
+    "faceCropType": 1,
+    "hyperPath": "config.ini",
+    "preprocess":{
+        "function":"gy_style_preprocess_1in_scale2"
+    },
+    "postprocess":{
+        "blobNames":["output_array1","output_array2"],
+        "function":"gy_style_postprocess_2out_scale2"
+    },
+    "postRender": {
+        "faceRectFeatherMask": 1,
+        "featherMaskEdgeValue":0.1
+    },
+    "faceFilterType" : 99
+}

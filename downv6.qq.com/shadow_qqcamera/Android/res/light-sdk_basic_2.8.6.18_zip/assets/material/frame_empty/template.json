@@ -1,0 +1,21 @@
+{
+    "id":"pailide",
+    "imageFillMode": 0,
+    "pagFillMode":1,
+
+    "pagItem":[
+        {
+            "pagName": "pailide.pag",
+            "imageLayerName": "mid_photo",
+            "visibleRegion": {
+                "x": 0,
+                "y": 0,
+                "width": 1,
+                "height": 1,
+                "rotation": 0
+            },
+            "frameColorLayerName": "framecolor",
+            "frameColor": "0x000000"
+        }
+    ]
+}

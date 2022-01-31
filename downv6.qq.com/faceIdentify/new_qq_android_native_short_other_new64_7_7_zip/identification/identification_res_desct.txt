@@ -1,0 +1,16 @@
+libYTPoseDetect.so|202672
+libopencv_tinyworld.so|982032
+libYTAGReflectLiveCheck.so|202680
+libYTFaceTracker.so|1239152
+config_sparse.ini|295
+1102_mbv2_p1_eye.opt_bin.tnnproto|3272
+1102_mbv2_p1_eye.opt.tnnmodel|413936
+1105_mbv2_eye_ch3.opt_bin.tnnproto|3736
+1105_mbv2_eye_ch3.opt.tnnmodel|153828
+acn_535_net1.opt_bin.tnnproto|1440
+acn_535_net1.opt.tnnmodel|302503
+acn_535_net2.opt_bin.tnnproto|1680
+acn_535_net2.opt.tnnmodel|285688
+config_detector.ini|154
+yt_model_config.ini|147
+

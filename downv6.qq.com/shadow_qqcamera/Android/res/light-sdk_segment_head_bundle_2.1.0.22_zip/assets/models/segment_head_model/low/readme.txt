@@ -1,0 +1,2 @@
+LightSegmentHead.rapidmodel.wmc -> 头部分割_headseg_v1.2_2020.12.04._mbnv2-192x192-small-align-softmax-1203.opt.tnnm.wmc
+LightSegmentHead.rapidproto.wmc -> 头部分割_headseg_v1.2_2020.12.04._mbnv2-192x192-small-align-softmax-1203.opt.tnnp.wmc

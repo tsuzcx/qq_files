@@ -1,0 +1,5 @@
+"detect" = "20200112_human_all_yolact_aug_95.onnx.opt.onnx"
+"backbone" = "v0.4.0_202108091100_MD121_200M_s0"
+"fc" = "v0.4.0_202108091100_MD121_200M_s1"
+"backbone_low" = "v0.4.0_202108101100_MD123_52M_s0"
+"fc_low" = "v0.4.0_202108101100_MD123_52M_s1"

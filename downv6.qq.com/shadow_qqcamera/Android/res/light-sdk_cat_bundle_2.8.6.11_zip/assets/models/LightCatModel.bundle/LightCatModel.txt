@@ -1,0 +1,3 @@
+"detect" = "20200218_cat_cleaned_ly_blazenet208_multiscale_coconobody_plus_bush_real_plus_handseg_all_plus_rear_neg_yolact_no_yolact_aug_90.onnx.opt.onnx"
+"track" = "cat_tracking_v1.6.onnx.opt.onnx"
+"keypoint" = "cat_keypoint_v1.7.onnx.opt.onnx"

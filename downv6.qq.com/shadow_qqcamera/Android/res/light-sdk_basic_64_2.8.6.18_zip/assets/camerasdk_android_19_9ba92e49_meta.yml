@@ -1,0 +1,223 @@
+pipeline_info:
+  id: :p-59a78b924d0c46ce9479b56352407408
+  no: b-e63425125198495e838d13ddf6cb9d33
+  name: Release/2.8.6
+
+source:
+  source_url: http://git.code.oa.com/CameraToolsGroup/Oteam/light-sdk.git
+  branch_name: release/2.8.6
+  commit: 9ba92e49132b66d76603a38d1ef03d07fb05b70e
+
+    parametername:
+    BK_CI_BUILD_MSG: Merge branch bugfix/lightsdk_kurisuli_92831797 into master (merge request !6593)【LightSDK】修复抠头素材在手Q Android获取默认模型路径时不对导致
+    releaseBranch: release/2.8.6
+    DEPLOY_RELEASE: Yes
+    SOURCE_DIR: lightsdk_pre_release
+    StaticConfig: LightDefaultConfig.json
+    DynamicConfig: 
+    enable_arm64: true
+    BK_CI_MAJOR_VERSION: 2
+    BK_CI_MINOR_VERSION: 8
+    BK_CI_FIX_VERSION: 6
+    PATH: /data/bkdevops/apps/gradle/5.5/bin:/data/bkdevops/apps/ndk/android-ndk-r21/.:/data/bkdevops/apps/android-sdk-linux/android-sdk_new/tools:/data/bkdevops/apps/jdk/1.8.0_161/bin:/data/bkdevops/apps/python/2.7.12/bin:/data/bkdevops/apps/7zip/p7zip_9.20.1/bin:/data/bkdevops/apps/golang/1.15.2/bin:/data/bkdevops/apps/cmake/3.10.2/bin:/usr/local/lib/nodejs/node-v14.15.1-linux-x64/bin:/usr/lib64/ccache:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+    hookRevision: f12ae0f5abbbf72fc227dcd827ddc01a6b339874
+    BK_CI_REPO_NAME: CameraToolsGroup/Oteam/light-sdk
+    ANDROID_HOME: /data/bkdevops/apps/android-sdk-linux/android-sdk_new
+    hookRepoType: ID
+    BK_CI_REPO_GIT_WEBHOOK_INCLUDE_BRANCH: ${releaseBranch}
+    BK_CI_HOOK_TARGET_REPO_NAME: CameraToolsGroup/Oteam/light-sdk
+    BK_CI_BUILD_NO: 18
+    hookSourceUrl: http://git.woa.com/CameraToolsGroup/Oteam/light-sdk.git
+    BK_CI_REPO_GIT_WEBHOOK_MR_CREATE_TIMESTAMP: 1634299812000
+    BK_CI_PIPELINE_ID: p-59a78b924d0c46ce9479b56352407408
+    bk_hookMergeRequest_committer: kurisuli
+    devops.slave.environment: DevCloud
+    BK_CI_REPO_GIT_WEBHOOK_INCLUDE_PATHS: 
+    BK_CI_REPO_GIT_WEBHOOK_MR_MILESTONE: 
+    BK_CI_REPO_GIT_WEBHOOK_EVENT_TYPE: MERGE_REQUEST_ACCEPT
+    BK_CI_BUILD_TASK_ID: e-f4424dc1dcc041d8a0b5225e527481b9
+    BK_CI_HOOK_SOURCE_PROJECT_ID: 287035
+    hookType: GIT
+    KUBERNETES_PORT: tcp://9.166.126.1:443
+    BK_CI_REPO_GIT_WEBHOOK_TARGET_BRANCH: release/2.8.6
+    BK_CI_GIT_REPO_HEAD_COMMIT_AUTHOR: kurisuli
+    TERM: xterm-256color
+    KUBE_USER_PORT_443_TCP_ADDR: 9.166.126.230
+    GRADLE_HOME: /data/bkdevops/apps/gradle/5.5/.
+    BuildNo: 18
+    VERSION_NUMBER: 2.8.6.18
+    BK_CI_BUILD_NUM: 19
+    BK_CI_REPO_GIT_WEBHOOK_MR_DESC: Merge branch bugfix/lightsdk_kurisuli_92831797 into master (merge request !6593)【LightSDK】修复手Q Android上抠头Agent返回的默认模型路径为空且上层设置的路径又没有生效导致的问题--bug=92831797 除了分割以外，手Q设置的外部模型路径都没有生效，导致走的默认模型路径，抠头的默认模型路径没有path前缀导致抠头素材失效(cherry picked from commit f35871d8)2b92b3b4 【LightSDK】修复手Q Android上抠头Agent返回的默认模型路径为空且上层设置的路径又没有生效导致的问题--bug=92831797 除了分割以外，手Q设置的外部模型路径都没有生效，导致走的默认模型路径，抠头的默认模型路径没有path前缀导致抠头素材失效
+    WORKSPACE: /data/landun/workspace
+    BK_CI_GIT_REPO_CODE_PATH: lightsdk_pre_release
+    git_mr_number: 6606
+    DEVOPS_GIT_REPO_BRANCH: release/2.8.6
+    BK_CI_GIT_WEBHOOK_FINAL_INCLUDE_PATH: 
+    BK_CI_ATOM_NAME: 制品元信息收集
+    BK_CI_START_WEBHOOK_USER_ID: kurisuli
+    BK_REPO_GIT_WEBHOOK_MR_MERGE_COMMIT_SHA: 9ba92e49132b66d76603a38d1ef03d07fb05b70e
+    MinorVersion: 8
+    KUBERNETES_PORT_443_TCP_PROTO: tcp
+    GOROOT: /data/bkdevops/apps/golang/1.15.2/.
+    BK_REPO_GIT_WEBHOOK_MR_LAST_COMMIT_MSG: Merge branch bugfix/lightsdk_kurisuli_92831797 into master (merge request !6593)【LightSDK】修复抠头素材在手Q Android获取默认模型路径时不对导致的失效问题【LightSDK】修复抠头素材在手Q Android获取默认模型路径时不对导致的失效问题--bug=92831797 修复抠头组件在手Q Android上获取默认模型路径时不对导致的失效问题(cherry picked from commit f35871d8)2b92b3b4 【LightSDK】修复抠头素材在手Q Android上不生效的问题--bug=92831797 修复抠头组件在手Q Android上获取默认模型路径时出错导致的失效问题
+    BK_CI_REPO_GIT_WEBHOOK_MR_NUMBER: 6606
+    BK_CI_GIT_REPO_HEAD_COMMIT_COMMITTER: kurisuli
+    BK_CI_GIT_REPO_HEAD_COMMIT_ID: 9ba92e49132b66d76603a38d1ef03d07fb05b70e
+    DEVOPS_GIT_HEAD_COMMITS: 9ba92e49132b66d76603a38d1ef03d07fb05b70e
+    DEVOPS_GIT_REPO_HEAD_COMMIT_ID: 9ba92e49132b66d76603a38d1ef03d07fb05b70e
+    BK_CI_START_TASK_ID: e-a48a43720cef480abcc564ba9354a880
+    BK_CI_REPO_WEBHOOK_NAME: CameraToolsGroup/Oteam/light-sdk
+    DEVOPS_GIT_REPO_URL: http://git.code.oa.com/CameraToolsGroup/Oteam/light-sdk.git
+    BK_CI_HOOK_MR_COMMITTER: kurisuli
+    BK_CI_REPO_GIT_WEBHOOK_EXCLUDE_USERS: 
+    KUBE_USER_PORT_443_TCP_PROTO: tcp
+    BK_CI_REPO_WEBHOOK_REPO_TYPE: GIT
+    BK_CI_GIT_URLS: http://git.code.oa.com/CameraToolsGroup/Oteam/light-sdk.git
+    BK_CI_REPO_WEB_HOOK_HASHID: y1dE
+    BK_CI_GIT_HEAD_COMMITS: 9ba92e49132b66d76603a38d1ef03d07fb05b70e
+    BK_CI_GIT_REPO_BRANCH: release/2.8.6
+    BK_CI_HOOK_REPO_TYPE: ID
+    BK_CI_PIPELINE_VERSION: 3
+    BK_REPO_GIT_WEBHOOK_MR_TARGET_COMMIT: b44cab8c1644e60ccdeb41c7dcb2d8010d75ff3f
+    BK_CI_REPO_GIT_WEBHOOK_TARGET_URL: http://git.woa.com/CameraToolsGroup/Oteam/light-sdk.git
+    devops_agent_id: kkkdqgqyqqn
+    BK_REPO_GIT_WEBHOOK_MR_SOURCE_COMMIT: f12ae0f5abbbf72fc227dcd827ddc01a6b339874
+    MAVEN_SUFFIX: 
+    FixVersion: 6
+    BK_CI_GIT_REPO_COMMITS: 9ba92e49132b66d76603a38d1ef03d07fb05b70e,f12ae0f5abbbf72fc227dcd827ddc01a6b339874
+    BK_CI_REPO_GIT_WEBHOOK_MR_URL: http://git.woa.com/CameraToolsGroup/Oteam/light-sdk/merge_requests/6606
+    DEVOPS_GIT_REPO_ALIAS_NAME: CameraToolsGroup/Oteam/light-sdk
+    BK_CI_REPO_WEBHOOK_ALIAS_NAME: CameraToolsGroup/Oteam/light-sdk
+    DEVOPS_GIT_REPO_NAME: CameraToolsGroup/Oteam/light-sdk
+    BK_CI_REPO_GIT_WEBHOOK_MR_UPDATE_TIMESTAMP: 1634525742000
+    BK_CI_HOOK_BLOCK: false
+    BK_CI_PIPELINE_CREATE_USER: shaolingli
+    bk_data_output: output.json
+    BK_CI_BUILD_START_TIME: 1634525750312
+    BK_CI_REPO_GIT_WEBHOOK_COMMITID: f12ae0f5abbbf72fc227dcd827ddc01a6b339874
+    BK_CI_REPO_GIT_WEBHOOK_SOURCE_BRANCH: cherry-pick-f35871d8
+    DEVOPS_BUILD_SCRIPT_FILE: /tmp/devops_script5159169285914510768.sh
+    BK_CI_HOOK_MR_ID: 4910302
+    KUBE_USER_SERVICE_HOST: 9.166.126.230
+    BK_CI_REPO_GIT_WEBHOOK_MR_ASSIGNEE: 
+    BK_CI_GIT_BRANCHES: release/2.8.6
+    hookTargetBranch: release/2.8.6
+    bk_data_input: input.json
+    BK_CI_REPO_WEBHOOK_REPO_URL: http://git.code.oa.com/CameraToolsGroup/Oteam/light-sdk.git
+    KUBERNETES_SERVICE_PORT: 443
+    BK_CI_START_TYPE: WEB_HOOK
+    KUBE_USER_SERVICE_PORT_HTTPS: 443
+    HOSTNAME: shaolingli1633664945780-0
+    BK_CI_HOOK_EVENT_TYPE: MERGE_REQUEST
+    BK_CI_PROJECT_NAME: light-sdk
+    BK_CI_REPO_GIT_WEBHOOK_SOURCE_URL: http://git.woa.com/CameraToolsGroup/Oteam/light-sdk.git
+    BK_CI_START_CHANNEL: BS
+    BK_CI_GIT_REPO_ALIAS_NAME: CameraToolsGroup/Oteam/light-sdk
+    BK_CI_REPO_GIT_WEBHOOK_EXCLUDE_BRANCH: 
+    BK_CI_IS_MOBILE: false
+    BK_CI_START_USER_ID: shaolingli
+    devops_gateway: devgw.devops.oa.com
+    BK_CI_GIT_CODE_PATHS: lightsdk_pre_release
+    ci_down_LOCAL_CACHE: 1
+    BK_CI_GIT_REPO_LAST_COMMIT_ID: b44cab8c1644e60ccdeb41c7dcb2d8010d75ff3f
+    PWD: /tmp/PackageInfo_e-f4424dc1dcc041d8a0b5225e527481b9_data2395677284900687677
+    VM_SEQ_ID: 4
+    LANGUAGE: zh_CN:zh
+    CMAKE_HOME: /data/bkdevops/apps/cmake/3.10.2/.
+    BK_CI_HOOK_TARGET_BRANCH: release/2.8.6
+    BK_CI_HOOK_TYPE: GIT
+    LC_ALL: zh_CN.UTF-8
+    DEVOPS_GIT_REPO_COMMITS: 9ba92e49132b66d76603a38d1ef03d07fb05b70e,f12ae0f5abbbf72fc227dcd827ddc01a6b339874
+    bk_java_path: /usr/local/jre/bin/java
+    KUBERNETES_SERVICE_PORT_HTTPS: 443
+    SHLVL: 2
+    BK_CI_HOOK_SOURCE_BRANCH: cherry-pick-f35871d8
+    BK_CI_PIPELINE_NAME: Release/2.8.6
+    JAVA_HOME: /data/bkdevops/apps/jdk/1.8.0_161/.
+    BK_CI_HOOK_TARGET_URL: http://git.woa.com/CameraToolsGroup/Oteam/light-sdk.git
+    GOPROXY: https://goproxy.woa.com,direct
+    BK_REPO_GIT_WEBHOOK_MR_MERGE_TYPE: Merge
+    DEVOPS_GIT_REPO_HEAD_COMMIT_COMMENT: Merge branch cherry-pick-f35871d8 into release/2.8.6 (merge request !6606)
+    BK_CI_HOOK_MESSAGE: Merge branch bugfix/lightsdk_kurisuli_92831797 into master (merge request !6593)【LightSDK】修复抠头素材在手Q Android获取默认模型路径时不对导致
+    JOB_POOL: PUBLIC_DEVCLOUD
+    MajorVersion: 2
+    BK_CI_BUILD_ID: b-e63425125198495e838d13ddf6cb9d33
+    KUBERNETES_PORT_443_TCP_ADDR: 9.166.126.1
+    GOSUMDB: sum.woa.com+643d7a06+Ac5f5VOC4N8NUXdmhbm8pZSXIWfhek5JSmWdWrq7pLX4
+    BK_CI_TASK_NAME: 制品元信息收集
+    BK_CI_PIPELINE_UPDATE_USER: shaolingli
+    repoName: CameraToolsGroup/Oteam/light-sdk
+    devops_agent_secret_key: hXcWJv5phIu41vUMrG0YG75rt5vJnPE
+    BK_CI_HOOK_SOURCE_REPO_NAME: CameraToolsGroup/Oteam/light-sdk
+    BK_CI_REPO_GIT_WEBHOOK_MR_AUTHOR: kurisuli
+    hookSourceBranch: cherry-pick-f35871d8
+    hookEventType: MERGE_REQUEST
+    hookBlock: false
+    bkWorkspace: /data/landun/workspace
+    DEVOPS_GIT_CODE_PATHS: lightsdk_pre_release
+    BK_CI_ATOM_VERSION: 5.0.14
+    BK_CI_REPO_GIT_WEBHOOK_MR_ID: 4910302
+    BK_CI_HOOK_BRANCH: release/2.8.6
+    BK_CI_ATOM_CODE: PackageInfo
+    BK_CI_HOOK_REVISION: f12ae0f5abbbf72fc227dcd827ddc01a6b339874
+    BK_CI_REPO_GIT_WEBHOOK_MR_LABELS: 
+    BK_CI_BUILD_JOB_ID: 4
+    BK_CI_GIT_REPO_TAG: 
+    BK_CI_GIT_REPO_HEAD_COMMIT_COMMENT: Merge branch cherry-pick-f35871d8 into release/2.8.6 (merge request !6606)
+    ANDROID_NDK_HOME: /data/bkdevops/apps/ndk/android-ndk-r21
+    BK_CI_REPO_GIT_WEBHOOK_MR_REVIEWERS: shaolingli,zebiaohuang,luckyzhliu,hamlingong,kenneyqin,kesenhu,dreamqian,walteryu
+    BK_CI_HOOK_QUEUE: false
+    BK_CI_PROJECT_NAME_CN: LightSDK
+    DEVOPS_GIT_URLS: http://git.code.oa.com/CameraToolsGroup/Oteam/light-sdk.git
+    BK_CI_HOOK_SOURCE_URL: http://git.woa.com/CameraToolsGroup/Oteam/light-sdk.git
+    BK_REPO_GIT_WEBHOOK_ENABLE_CHECK: true
+    TST_HACK_BASH_SESSION_ID: 5929493048
+    devops_project_id: light-sdk
+    KUBE_USER_PORT_443_TCP_PORT: 443
+    hookTargetUrl: http://git.woa.com/CameraToolsGroup/Oteam/light-sdk.git
+    BK_CI_GIT_REPO_URL: http://git.code.oa.com/CameraToolsGroup/Oteam/light-sdk.git
+    KUBERNETES_SERVICE_HOST: 9.166.126.1
+    testVersionFlag: N
+    BK_CI_GIT_REPO_NAME: CameraToolsGroup/Oteam/light-sdk
+    BK_CI_REPO_GIT_WEBHOOK_EXCLUDE_PATHS: 
+    BK_CI_REPO_GIT_WEBHOOK_MR_TITLE: 修复手Q Android上抠头Agent返回的默认模型路径为空且上层设置的路径又没有生效导致的问题
+    hookBranch: release/2.8.6
+    BK_CI_START_USER_NAME: kurisuli
+    DEVOPS_GIT_REPO_LAST_COMMIT_ID: b44cab8c1644e60ccdeb41c7dcb2d8010d75ff3f
+    BK_CI_REPO_GIT_MANUAL_UNLOCK: false
+    DEVOPS_GIT_BRANCHES: release/2.8.6
+    BK_CI_REPO_GIT_WEBHOOK_MR_MILESTONE_DUE_DATE: 
+    bk_data_dir: /tmp/PackageInfo_e-f4424dc1dcc041d8a0b5225e527481b9_data2395677284900687677
+    DEVOPS_GIT_REPO_CODE_PATH: lightsdk_pre_release
+    BK_CI_HOOK_TARGET_PROJECT_ID: 287035
+    BK_CI_GIT_WEBHOOK_FINAL_INCLUDE_BRANCH: release/2.8.6
+    BK_CI_GIT_MR_NUMBER: 6606
+    bk_hookMergeRequestId: 4910302
+    BK_REPO_GIT_WEBHOOK_MR_BASE_COMMIT: b44cab8c1644e60ccdeb41c7dcb2d8010d75ff3f
+    KUBERNETES_PORT_443_TCP_PORT: 443
+
+dependencemsg
+  build_env:
+    osname:Linux
+    docker_host_ip:null
+    toolsname:jdk-1.8.0_161
+
+    build_dependent:
+    - [AEKit3DEngine/Resource , 2.8.0.0, 2.8.0.0]
+    - [BuglyOA , 2.5.71, 2.5.71]
+    - [ProtoRPC , 1.33.1, 1.33.1]
+    - [libpag , 3.3.0.163, 3.3.0.163]
+    - [light ,null,null]
+    - [LightCV/Resource , 0.15.0.2, 0.15.0.2]
+    - [tnn/Resource , 0.13.3, 0.13.3]
+    - [TZImagePickerController , 3.4.3, 3.4.3]
+
+autotest:
+  testreport:http://devops.oa.com/console/pipeline/light-sdk/p-59a78b924d0c46ce9479b56352407408/b-e63425125198495e838d13ddf6cb9d33/output
+
+changemsg:
+  bugslist:
+    -[除了分割以外，手Q设置的外部模型路径都没有生效，导致走的默认模型路径，抠头的默认模型路径没有path前缀导致抠头素材失效,http://tapd.oa.com/camerasdk_android/bugtrace/bugs/view?bug_id=92831797]
+    -[除了分割以外，手Q设置的外部模型路径都没有生效，导致走的默认模型路径，抠头的默认模型路径没有path前缀导致抠头素材失效,http://tapd.oa.com/camerasdk_android/bugtrace/bugs/view?bug_id=92831797]
+    -[修复抠头组件在手Q Android上获取默认模型路径时不对导致的失效问题,http://tapd.oa.com/camerasdk_android/bugtrace/bugs/view?bug_id=92831797]
+    -[修复抠头组件在手Q Android上获取默认模型路径时出错导致的失效问题,http://tapd.oa.com/camerasdk_android/bugtrace/bugs/view?bug_id=92831797]
