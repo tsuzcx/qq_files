@@ -1,0 +1,47 @@
+//海豹活动数据转发请求
+package ilive_act_seal_dispatcher;
+
+message KV {
+    optional string key = 1; // key
+    optional string value = 2; // value
+}
+
+//定义转发获取动态数据时的请求体
+message KeyDataReq {
+    repeated string keys = 1; // 需要请求的key值
+}
+
+//定义转发获取动态数据时的返回值
+message KeyDataRsp {
+    repeated KV datas = 1; //
+    optional uint32 result = 2; // 0:成功，1:其他失败
+}
+
+
+//@service=ilive
+//@serviceName=ilive_act_seal_dispatcher
+//@l5=
+//@l5_test=
+//@port=
+service ilive_act_seal_dispatcher {
+
+    // 活动接入方有数据更新需
+    //@cmd=
+    rpc KeyData (KeyDataReq) returns (KeyDataRsp);
+
+};
+
+//动态业务浮层转发数据
+message BusinessProxyReq {
+    repeated KV params = 1;
+}
+
+//动态业务浮层转发数据
+message BusinessProxyRsp {
+    required uint32 result = 1;
+    repeated KV datas = 2;
+}
+
+message DynamicData {
+    repeated KV kvs = 1; //业务自己维护的数据 以keyvalue存储
+}

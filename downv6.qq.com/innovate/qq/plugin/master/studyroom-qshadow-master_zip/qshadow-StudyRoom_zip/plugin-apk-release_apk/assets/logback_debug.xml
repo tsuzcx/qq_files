@@ -1,0 +1,99 @@
+<configuration>
+    <conversionRule conversionWord="pid"
+        converterClass="com.tencent.hydevteam.logback.ProcessIdConverter" />
+
+    <appender name="FILE" class="com.tencent.hydevteam.logback.SDCardRollingFileAppender">
+        <rollingPolicy class="com.tencent.hydevteam.logback.SDCardTimeBasedRollingPolicy">
+            <!-- daily rollover -->
+            <fileNamePattern>studyroomapp/log/logFile%d{yyyy-MM-dd}.log</fileNamePattern>
+
+            <maxHistory>30</maxHistory>
+            <totalSizeCap>100MB</totalSizeCap>
+
+        </rollingPolicy>
+
+        <encoder>
+            <pattern>%date %level [%pid:%thread] %logger{10} [%file:%line] %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="LOGCAT" class="com.tencent.hydevteam.logback.LogcatAppender">
+        <encoder>
+            <pattern>[%file:%line] %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="Bugly" class="com.tencent.hydevteam.logback.BuglyAppender">
+        <encoder>
+            <pattern>[%file:%line] %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="AvHeartBeat_FILE"
+        class="com.tencent.hydevteam.logback.SDCardRollingFileAppender">
+        <rollingPolicy class="com.tencent.hydevteam.logback.SDCardTimeBasedRollingPolicy">
+            <!-- daily rollover -->
+            <fileNamePattern>studyroomapp/log/AvHeartBeatLog_%d{yyyy-MM-dd}.log</fileNamePattern>
+
+            <maxHistory>30</maxHistory>
+            <totalSizeCap>100MB</totalSizeCap>
+
+        </rollingPolicy>
+
+        <encoder>
+            <pattern>%date %level [%pid:%thread] %logger{10} [%file:%line] %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="Stat_FILE" class="com.tencent.hydevteam.logback.SDCardRollingFileAppender">
+        <rollingPolicy class="com.tencent.hydevteam.logback.SDCardTimeBasedRollingPolicy">
+            <!-- daily rollover -->
+            <fileNamePattern>studyroomapp/log/StatLog_%d{yyyy-MM-dd}.log</fileNamePattern>
+
+            <maxHistory>30</maxHistory>
+            <totalSizeCap>100MB</totalSizeCap>
+
+        </rollingPolicy>
+
+        <encoder>
+            <pattern>%date %level [%pid:%thread] %logger{10} [%file:%line] %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="OfficialLog_FILE"
+        class="com.tencent.hydevteam.logback.SDCardRollingFileAppender">
+        <rollingPolicy class="com.tencent.hydevteam.logback.SDCardTimeBasedRollingPolicy">
+            <!-- daily rollover -->
+            <fileNamePattern>studyroomapp/log/OfficialLog_%d{yyyy-MM-dd}.log</fileNamePattern>
+
+            <maxHistory>30</maxHistory>
+            <totalSizeCap>100MB</totalSizeCap>
+
+        </rollingPolicy>
+
+        <encoder>
+            <pattern>%date %level [%pid:%thread] %logger{10} [%file:%line] %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <root level="TRACE">
+        <appender-ref ref="Bugly" />
+        <appender-ref ref="FILE" />
+    </root>
+
+    <logger name="AvHeartBeat" additivity="false" level="DEBUG">
+        <appender-ref ref="LOGCAT" />
+        <appender-ref ref="AvHeartBeat_FILE" />
+    </logger>
+
+    <logger name="Stat" additivity="false" level="DEBUG">
+        <appender-ref ref="LOGCAT" />
+        <appender-ref ref="Stat_FILE" />
+    </logger>
+
+    <logger name="OfficialLog" additivity="false" level="DEBUG">
+        <appender-ref ref="Bugly" />
+        <appender-ref ref="OfficialLog_FILE" />
+        <appender-ref ref="FILE" />
+    </logger>
+</configuration>

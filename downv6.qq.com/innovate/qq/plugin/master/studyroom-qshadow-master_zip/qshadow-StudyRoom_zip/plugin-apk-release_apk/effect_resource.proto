@@ -1,0 +1,61 @@
+package videohub.effect_resource;
+
+enum EFFECT_RESOURCE_ID {
+    RES_ID_NOBILITY_LORD = 7; //勋爵
+    RES_ID_NOBILITY_BARON = 8; //男爵
+    RES_ID_NOBILITY_VISCOUN = 9; //子爵
+    RES_ID_NOBILITY_COUNT = 10; //伯爵
+    RES_ID_NOBILITY_MARQUIS = 11; //侯爵
+    RES_ID_NOBILITY_DUKE = 12; //公爵
+    RES_ID_NOBILITY_KING = 13; //国王
+    RES_ID_NOBILITY_KING_TOP = 14; //KING
+    RES_ID_NOBILITY_EMPEROR_ONE = 15; //帝皇
+    RES_ID_NOBILITY_EMPEROR_TWO = 16; //君皇
+
+
+    RES_ID_NOBILITY_CHANGE_RICHONE = 21; //1富升降级
+    RES_ID_NOBILITY_CHANGE_RICHTWO = 22; //2富升降级
+    RES_ID_NOBILITY_CHANGE_RICHTHREE = 23; //3富升降级
+    RES_ID_NOBILITY_CHANGE_RICHFOUR = 24; //4富升降级
+    RES_ID_NOBILITY_CHANGE_RICHFIVE = 25; //5富升降级
+    RES_ID_NOBILITY_CHANGE_RICHSIX = 26; //6富升降级
+    RES_ID_NOBILITY_CHANGE_LORD = 27; //勋爵升降级
+    RES_ID_NOBILITY_CHANGE_BARON = 28; //男爵升降级
+    RES_ID_NOBILITY_CHANGE_VISCOUN = 29; //子爵升降级
+    RES_ID_NOBILITY_CHANGE_COUNT = 30; //伯爵升降级
+    RES_ID_NOBILITY_CHANGE_MARQUIS = 31; //侯爵升降级
+    RES_ID_NOBILITY_CHANGE_DUKE = 32; //公爵升降级
+    RES_ID_NOBILITY_CHANGE_KING = 33; //国王升降级
+    RES_ID_NOBILITY_CHANGE_KING_TOP = 34; //KING升降级
+    RES_ID_NOBILITY_CHANGE_EMPEROR_ONE = 35; //帝皇升降级
+    RES_ID_NOBILITY_CHANGE_EMPEROR_TWO = 36; //君皇升降级
+
+    RES_ID_NOBILITY_CHANGE_EMPEROR_ONE_FULLSCREEN = 135; //帝皇升降级	全屏
+    RES_ID_NOBILITY_CHANGE_EMPEROR_TWO_FULLSCREEN = 136; //君皇升降级 全屏
+}
+
+//动效资源
+message EeffectResource {
+    optional uint32 resource_id = 1; //EFFECT_RESOURCE_ID
+    optional bytes resource = 2; //json配置
+}
+
+//批量拉取动效资源文件
+message BatchGetEffectResourceReq {
+    repeated uint32 resource_id_list = 1; //
+}
+
+message BatchGetEffectResourceRsp {
+    repeated EeffectResource resource_list = 1;
+}
+
+//拉取全量动效资源文件
+message GetAllEffectResourceReq {
+}
+
+message GetAllEffectResourceRsp {
+    repeated EeffectResource resource_list = 1;
+}
+
+
+

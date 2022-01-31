@@ -1,0 +1,20 @@
+package tencent.im.cs.cmd0x2323;
+// SSO 命令字：videohub_group_notify_read.cmd0x2323
+
+message BodyMsg {
+    optional uint64 group_code = 1; //群号
+    optional uint32 user_num = 2; //当前在房间人数
+    optional uint32 action = 3; //1:feeds 2:取消 3:状态更新
+    repeated uint64 video_user_list = 4; //正在开播的uin列表
+}
+
+message ReqBody {
+    repeated uint64 group_code_list = 1; // 群列表
+};
+
+message RspBody {
+    optional int32 ret = 1; //0 成功  其他：后台error
+    repeated BodyMsg body_msg = 2;
+}
+
+

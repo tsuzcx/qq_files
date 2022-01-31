@@ -1,0 +1,24 @@
+package com.tencent.jungle.huayang.proto;
+
+
+/*
+ * 10.137.6.36:36112
+ * Test L5:482625:41746432
+ * Proc L5:
+ *
+ */
+//12606:统一安全检查
+message CheckSecurityReq {
+    optional uint32 src = 1; //业务来源
+    optional string text = 2; //文字内容
+    optional uint64 uid = 3; //用户uid
+    optional uint64 to_uid = 4; //对方uid
+    optional uint32 group_num = 5; //QQ群号
+    optional uint32 client_ip = 6; //客户端ip
+}
+
+message CheckSecurityRsp {
+    optional uint32 ret_code = 1; //状态码      0:成功     非0:均为错误
+    optional uint32 is_hit = 2; //安全打击  0:不打击  1:打击
+    optional bytes ret_text = 3; //返回描述
+}

@@ -1,0 +1,227 @@
+package public_code;
+
+//5位返回码，前三位表示服务，后两位表示返回码
+enum CODE
+{
+    //通用错误码  10xx
+    ERRORNO_SUCCESS                   = 0;   // 成功
+    ERRORNO_SYSTEM                    = 1000;// 系统错误号 start
+    ERRORNO_UNPACK_SSO                = 1001;// SSO解包失败
+    ERRORNO_UNPACK_COMM_PROTO         = 1002;// 通用包解包失败
+    ERRORNO_UNPACK_REQUEST            = 1003;// 业务请求包解包失败
+    ERRORNO_CMD_UNKNOW                = 1004;// 未知的命令字
+    ERRORNO_PARAM_MISSING             = 1005;// 参数不全
+    ERRORNO_USERSIG_ERROR             = 1006;// UserSig 校验失败
+    ERRORNO_USERSIG_CHANGE            = 1007;// UserSig 发生变化
+    ERRORNO_PARAM_ERROR               = 1008;// 参数错误
+    ERRORNO_APPID_NOT_SUPPORT         = 1009;// appId 不支持; UserSig 校验失败
+    ERRORNO_SEND_REQ_ERROR            = 1011;// 内部请求错误
+    ERRORNO_PROTO_PARSE               = 1012;// 协议解析失败
+    ERRORNO_OVERLOAD                  = 1013;// 过载保护丢包
+    ERRORNO_OPENTOKEN_ERROR           = 1015;// open 登录态错误
+    ERRORNO_OP_FAIL                   = 1016;// 操作失败通用错误码
+    ERRORNO_GET_UID_FAIL              = 1017;// 换取uid失败
+
+    //ssoproxy
+    ERR_SSO_PROXY_TRANS_NO_RESP          = 1100;//sso proxy 转发后端无响应
+    ERR_SSO_PROXY_TRANS_TIMEOUT          = 1101;//sso proxy 转发后端timeout
+    ERR_SSO_PROXY_TRANS_ERROR           = 1102;//sso proxy 转发后端异常
+    ERR_SSO_PROXY_INNER_ERROR          = 1103;//sso proxy 转发异常
+    ERR_SSO_PROXY_ILLEGAL_UID          = 1104;//sso proxy uid uin不对应
+  
+  	//通用服务错误码
+	ERR_TMEM_DEAL_ERROR  			  = 10001;  //tmem操作异常
+	ERR_DB_DEAL_ERROR  				  = 10002;  //DB操作异常
+
+
+    //roomsvr
+    EC_GET_ROOMID_FAILD               = 100200;    //获取roomid失败
+    EC_GET_ROOM_INFO_FAILD            = 100201;    //获取房间信息失败
+    EC_ENTER_IM_ROOM_FAILD            = 100202;    //IM进房失败
+    EC_CREATE_ROOM_FAILD              = 100203;    //创建群房间失败
+    EC_ROOMID_NOT_EXIST_OR_CREATING   = 100204;    //房间不存在或正在创建中
+    EC_SET_USER_STATUS_FAILD          = 100205;    //设置用户状态失败
+    EC_ROOMSVR_INIT_ERROR             = 100206;    //内部初始化失败
+    EC_REQ_BUSSINESS_SVR_ERROR        = 100207;    //查询业务后台鉴权失败
+    EC_BUSSI_SVR_NOT_ALLOW_ENTER      = 100208;    //业务后台鉴权不允许进房
+
+    EC_UNKNOW_GAME_ID                 = 100401;    //未知玩法ID
+    EC_GET_ROOM_CONFIG_FAILD          = 100402;    //获取玩法列表失败
+    EC_GET_GAME_DETAIL_FAILD          = 100403;    //获取玩法详情失败
+    EC_GET_WHITE_FLAG_FAILD           = 100404;    //获取房间背景图失败
+
+    EC_GET_SDK_APPID_ERROR           = 100501;    //appid不匹配
+
+    //stagemgr  101xx
+    ERR_GET_ROOM_STAGE_INFO_FROM_TMEM = 10101;//获取舞台信息失败
+    ERR_SET_ROOM_STAGE_INFO_TO_TMEM   = 10102;//设置舞台信息失败
+    ERR_GET_WAITING_LIST_INFO         = 10103;//获取列表信息失败
+    ERR_SET_WAITING_LIST_INFO         = 10104;//设置列表信息失败
+    ERR_SEAT_NO_NOT_MATCH             = 10105;//座位类型不匹配
+    ERR_USER_ALREADY_IN_SEAT          = 10106;//用户已经在座位上
+    ERR_USER_NOT_IN_SEAT_LIST         = 10107;//用户不在座位上
+    ERR_USER_NOT_IN_WAITING_LIST      = 10108;//用户不在列表中
+    ERR_WAITING_LIST_NOT_FOUND        = 10109;//为找到列表
+    ERR_KICK_SEAT_NEED_SEAT_NO        = 10110;//踢人需要座位号码
+    ERR_USER_ALREADY_IN_WAITING_LIST  = 10111;//用户已经在列表中
+    ERR_SEAT_ALREADY_HAS_HOST         = 10112;//首席舞台已经有人
+    ERR_POSITONG_OUT_OF_WAITINGLIST_SIZE = 10113; //移动位置超过队列长
+    ERR_GET_OPENSDK_SIG               = 10114;//获取openSDK 失败
+    ERR_HOST_IS_IN_STAGE              = 10115;//主持人不在舞台
+    ERR_SERIALIZE_TO_STRING           = 10117;//序列化失败
+    ERR_ADD_WAITING_LIST              = 10118;//添加列表失败
+    ERR_NO_MORE_SEAT                  = 10119;//座位数量不足
+    EC_ADD_FIRST_STAGE_USER_FAILD     = 10120;//添加第一个舞台用户失败
+    EC_DEL_FIRST_STAGE_USER_FAILD     = 10121;
+    ERR_USER_IS_NOT_IN_HEAD_OF_CHIEF_LIST = 10122;//用户不在首位或者首席队列
+    ERR_SET_AV_PRIVILEDGE             = 10123;//设置音视频权限失败
+    ERR_JUST_ROOM_OWER_AND_MANAGER_CAN_EDIT = 10125;//只有管理员和首麦能操作
+    ERR_SEAT_HAS_NO_CHIEF             = 10126;//没有首麦
+    ERR_USER_NOT_IN_ROOM              = 10127;//用户不在房间
+    ERR_NO_AUTH_USER                  = 10128;//用户未手机认证
+    ERR_STAGE_CONTROL_MODE            = 10129;//处于控麦模式
+    ERR_STAGE_NOT_CONTROL_MODE        = 10130;//未处于控麦模式
+    ERR_REPORT_CAREMA_FAIL            = 10131;//上报开播状态失败
+    ERR_HOST_ON                       = 10132; //交友上台失败
+    ERR_HOST_OFF                      = 10133; //交友下台失败
+    ERR_STAGE_MODE_NOT_MATCH          = 10134; //模式不匹配
+    ERR_WAITING_TIME_NOT_MATCH        = 10135; //设置轮麦时长不匹配
+    ERR_STAGE_FORBIDDEN               = 10136; //禁止上台开播
+    ERR_GET_STAGE_STATUS              = 10137; //获取用户状态失败
+    ERR_LINE_QUEUE_CLOSE              = 10138; //连麦列表关闭
+	ERR_USER_NOT_IN_GRAY              = 10139; //不在连灰度范围
+	ERR_LIVE_EXTRA_MODE_IN_MAIXU      = 10140; //当前房间麦序模式,不允许连麦
+	ERR_AREA_FORBIDDEN                = 10141; //当前开播地点是敏感地区
+	ERR_JUST_GROUP_MEMBER_AND_MANAGER_CAN_EDIT = 10142;//只有管理员和群成员能操作
+    ERR_MATCHMAKER_ONLY_HOST_CAN_ON_LIST = 10143; //给不支持红娘玩法的老版本提示
+    ERR_MATCHMAKER_ONLY_MATCHMAKER_CAN_ON_SEAT = 10144; //你未完成红娘认证，申请加群咨询
+    ERR_MATCHMAKER_NOT_AUTH           = 10145; //红娘玩法下未实名认证无法上台
+    ERR_MATCHMAKER_VERSION_NOT_MATCH  = 10146; //你的版本太低，请升级最新版
+    ERR_ADMIN_FORBIDDEN_STAGE         = 10147;//你已被管理员禁止在本群上麦
+	ERR_STAGE_ON_AUTH_FAIL			  = 10148; //上面鉴权失败
+
+
+
+    //预留USER_SVR 102xx
+    ERR_QQ_INFO_NO_DATA                    = 10201; //房间未绑定群，无需返回qq资料
+    ERR_REQ_UIDLIST_SIZE_ERROR          = 10202; //拉取用户资料请求uidlist.size<=0 || > 20
+    ERR_NOT_IN_GROUP_MEMBER              = 10210; //请求uin非群成员
+    ERR_NOT_SECOND_IDENTITY              = 10211; //请求的用户没有第二身份权限
+
+    //预留BADGE_SVR 徽章服务  103xx
+
+    //love_login 登录服务  104xx
+    ERR_LOGIN_FORBIDDEN               = 10401;//禁止登录
+    ERR_LOGIN_DEGRADE                 = 10402;//由于人数太多而降级登录服务
+	ERR_EDU_FLEX_DEGRADE              = 10403;//QQ教育课堂柔性降级错误码
+
+    ERR_GET_AVROOMID_FAIL             = 10901;//获取avroomid失败
+    ERR_IM_CALL_FAIL                  = 10902;//调用imsdk 失败
+
+    //oidbproxy 错误码
+    ERR_OIDB_LOGIC_FAIL               = 10950;//oidb 返回逻辑错误
+    ERR_OIDB_NET_FAIL                   = 10951;//oidb 超时或收包失败
+    ERR_ILLEGAL_GROUPCODE               = 10952;//群号非法
+
+    //预留avmgr opensdk音视频  105xx
+    //预留通用心跳服务 106xx
+    //预留礼物服务(读) 107xx
+    //预留关注  108xx
+    //预留pushsvr 新PUSH服务109xx
+    //预留datasvr  110xx
+    //预留礼物服务(写)  111xx
+    CODE_GIFT_PARAM_ERROR             = 11101;// 参数错误
+    CODE_NO_ANCHOR                    = 11102;// 首麦为空
+    CODE_GIFT_STORE_NOT_ENOUGH        = 11103;// 库存不足
+    CODE_BALANCE_NOT_ENOUGH           = 11104;// 余额不足
+
+    CODE_USER_NOT_IN_ROOM           = 11105;// 用户不在房间
+
+    CODE_WITHDRAW_NOT_VALID           = 11110;// 提现未认证
+    CODE_WITHDRAW_NOT_ENOUGH           = 11111;// 提现余额不够
+    CODE_WITHDRAW_TOO_MUCH           = 11112;// 提现超过限制
+
+    CODE_GIFT_SERVICE_ERROR           = 11109;// 服务异常
+
+    //预留Room Info Agent服务  112xx
+    CODE_NO_RIGHT_EDIT_ROOM_INFO     = 11201;
+    //预留Config服务  113xx
+    //预留秩序管理 punish  114xx
+    //预留auth_mgr  115xx
+
+    //交友插件116
+    ERRORNO_NO_MORE_SEAT                 = 11601; // 场上没有座位
+    ERRORNO_USER_NOT_IN_VIP_LIST         = 11602; // 用户不在场上
+    ERRORNO_USER_ALREADY_IN_WAITING_LIST = 11603; // 用户已经在等候列表了
+    ERRORNO_USER_NOT_IN_WAITING_LIST     = 11604; // 用户不在等候列表里
+    ERRORNO_WAITING_LIST_FULL            = 11605; // 候场列表已满
+    ERRORNO_STAGE_ERROR                  = 11606; // 游戏进程非法; 交友必须按步骤
+    ERRORNO_ALREADY_HAS_HOST             = 11607; // 已经存在主持人了
+    ERRORNO_USER_ALREADY_IN_VIP_LIST     = 11608; // 用户已经在台上了
+    ERRORNO_NOT_IN_SELECT_STAGE          = 11609; // 不在心动选择阶段;只有在心动选择阶段才能选择心动
+    ERRORNO_USER_STATUS_ERROR            = 11610; // 用户状态错误
+    ERRORNO_MUST_HAS_TOW_GENDER          = 11611; // 必须至少一男一女才能开始选择心动
+    ERRORNO_ONLY_USERSELF                = 11612; //下台只能操作自己
+    ERRORNO_ACCESS_DENIED                = 11613; //没有管理权限
+    ERRORNO_USER_UID_EMPTY             = 11614; // uid为空
+    ERRORNO_USER_TO_UID_EMPTY          = 11615; // 被喜欢/心动用户为空
+
+    //预留爵位信息  118xx
+    ERRORNO_NOBILITY_TMEM_ERROR            = 11801;//爵位用户tmem错误
+    ERRORNO_NOBILITY_DB_ERROR            = 11802;//爵位用户DB错误
+    ERRORNO_NOBILITY_CALLBACK_REDUCESCORE = 11803;//爵位升级回调减积分
+
+    //预留user online  119xx
+    //预留anchor_info  120xx
+
+    //房间管理131
+    CODE_NO_RIGHT_SET_ROOM_CONFIG     = 13101; //无权限修改房间配置
+    CODE_ROOM_IS_CREATING             = 13102; //房间创建中
+    CODE_NO_STAGE_MODE_ERR     		 = 13103; //只有 在直播模式下的主持人模式 才能开启交友
+    CODE_NOTICE_ILLEGAL 		     = 13104; //房间公告内容非法
+    CODE_NOTICE_TIME_ERR 		     = 13105; //房间公告频率过快
+    CODE_NO_RIGHT_SET_VISIT_LIMIT 	 = 13106; //无权限修改房间公开设置，只有签约房间才有权限
+
+    //authmgrsvr
+    ERR_GET_ROOM_MGR_INGO_FROM_TMEM = 11501;  //获取房间管理员失败
+    ERR_SET_ROOM_MGR_INFO_TO_TMEM   = 11502;  //设置管理员失败
+    USER_ALREAD_IN_MGR_LIST         = 11503;  //用户已经是管理员
+    USER_ISNOT_MGR                  = 11504;  //用户不是管理员（删除时）
+    EC_HAD_NO_OPERATOR_RIGHT        = 11505;  //权限不足
+    ERR_CHANGE_VP_SHOULD_IN_QQ      = 11506;  //高级管理员设置需要在QQ群设置
+    ERR_GET_GROUP_CODE_FAILD        = 11507;  //获取房间绑定的群失败
+    ERR_BATCH_GET_UID_FAILD         = 11508;  //换取uid失败
+    ERR_GET_GROUP_MANAGER_FAILD     = 11509;  //获取群管理员失败
+    ERR_SET_MANAGER_NUM_OVER        = 11510;  //设置管理员超限
+
+    //play_pk 错误码
+    EC_REPEAT_JOIN                  = 12801;//重复加入游戏
+    EC_NOT_ON_STAGE                 = 12802;//不在舞台
+    EC_CREATE_ROOM_FAIL             = 12803;//创建游戏失败
+    EC_NOT_IN_WAITINGLIST           = 12804;//不在等待列表
+    EC_NO_HOST_ON_STAGE             = 12805;//支持人不在线
+    EC_NO_PRIVILEGE                 = 12806;//没有操作权限
+    EC_PK_GIFT_FULL                 = 12807;//礼物条已满
+    EC_PK_PROP_NOT_ENOUGH           = 12808;//道具不足
+
+    //nobility_msg爵位消息错误码
+    ERR_GET_USER_NOTIFY_MSG_FAILED  = 13201;  //拉取爵位消息失败 (降级，即将降级)
+    ERR_WRITE_USER_NOTIFY_MSG_FAILED = 13202;  //保存爵位消息失败
+    ERR_DEL_USER_NOTIFY_MSG_FAILED   = 13203;  //删除爵位消息失败
+    ERR_GET_NOBILITY_INFO_FAILED     = 13204;   //拉取爵位信息失败
+
+    ERR_INVALID_RESOURCE_ID          = 13301; //无效的资源ID
+    ERR_GET_USER_RESOURCE_FAILED     = 13302; //获取用户资源列表失败
+    ERR_PARSE_RESOURCE_JSON_FAILED   = 13303; //解析资源Json失败
+    ERR_RESOURCE_TYPE_DISMATCH       = 13304; //资源type不匹配
+    ERR_RESOURCE_DURATION_INVALID    = 13305; //失败
+    ERR_SET_USER_RESOURCE_FAILED     = 13306; //设置用户资源失败
+
+    //客户端内部通用错误， 号码段[70000 - 79999]
+    ERRORNO_CLIENT_START                  = 70000;// 客户端错误号开始
+    ERRORNO_CLIENT_UNKNOW                 = 70001;// 发生未知错误
+    ERRORNO_CLIENT_TIMEOUT                = 70002;// 访问后台接口超时
+    ERRORNO_CLIENT_PARSE_PB               = 70003;// 解析pb出错
+
+
+};

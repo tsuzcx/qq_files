@@ -1,0 +1,86 @@
+// 平台研发三组，内部通信协议
+// 纯tcp时: 二进制格式：0x2+htonl(整个包长(4字节))+commRequest/commResponse+0x3
+
+package tencent.im.bj;
+option java_package = "com.tencent.jungle.videohub.proto";
+option java_outer_classname = "CommProtocolProto";
+// 请求包包头
+message commRequest
+{
+    optional uint32 version = 1 [default=1];            //版本号
+    optional string app_name = 2;                       //业务名称
+    optional uint32 cmd = 3;                            //请求命令字
+    optional uint64 seq = 4;                            //请求序列号
+    optional string client_ip = 5;                      //用户客户端ip
+    optional string service_ip = 6;                     //请求服务端ip
+    optional string business = 7;                       //调用方
+    optional bytes  auth_key = 8;                       //鉴权key
+    optional AUTH_TYPE auth_type = 9;                   //鉴权类型
+    optional string auth_ip = 10;                       //调用方ip
+    optional uint64 auth_appid = 11;                    //appid
+    optional uint64 uid = 12;                           //用户唯一标示
+    optional uint64 uin = 13;                           //qq用户uin
+    optional string openid = 14;                        //第三方授权用户openid
+    optional bytes  body = 15;                          //body
+    optional uint64 microtime = 16;                     // 请求时的微秒时刻
+    optional CLIENT_TYPE client_type = 17;              // 客户端类型
+    optional string client_release = 18;                // 客户端release
+    optional string user_sig = 19;                      // 齐齐交友专用，音视频 user_sig
+    optional NETWORK_TYPE network = 20;                 // 网络状况
+    optional string from_id = 21;                       // 插件来源("Group"-群视频 、"APP"-独立app  "QQ Plug"- "Class" --公开课)
+    optional bytes original_id = 22;                    //原始的用户id
+    optional bytes original_key = 23;                   //原始id对应的鉴权key
+    optional uint32 original_key_type = 24;             //原始id鉴权类型
+    optional uint32 original_id_type = 25;              //原始的用户类型 1-qq 2-微信
+    optional uint64 original_auth_appid = 26;           //原始id的鉴权appid
+    optional uint64 tinyid = 27;                        //tinyid
+    optional string client_ipv6 = 28;                   //用户客户端ipv6地址
+    optional uint32 sdkappid = 29;                      //客户端当前初始化的腾讯云sdkappid
+    optional bytes  extra_room_data = 30;               //携带登录时返回的额外房间数据
+
+}
+
+// 回包包头
+message commResponse
+{
+    optional uint64 seq = 1; //请求序列号
+    optional int32 code = 2; //错误码
+    optional string msg = 3;  //错误信息
+    optional bytes body = 4; //body
+}
+
+// 客户端类型定义
+enum CLIENT_TYPE
+{
+    UNKNOWN_TYPE = 0;
+    PC = 1;
+    ANDROID = 2;
+    IOS = 3;
+    QQ_PC = 4;
+    QQ_IOS = 5;
+    QQ_ANDROID = 6;
+}
+
+
+// 账号验证类型
+enum AUTH_TYPE
+{
+    PT = 0;
+    QQCON = 1;
+    WX = 2;
+    QQ = 3; // QQ skey
+    ST = 4;
+    A2 = 8;
+    CONN2WB = 22; //cs协议头登录态
+}
+
+// 网络状况
+enum NETWORK_TYPE
+{
+    UNKNOWN = -1;
+    wire = 0;
+    wifi = 1;
+    G2 = 2;
+    G3 = 3;
+    G4 = 4;
+}

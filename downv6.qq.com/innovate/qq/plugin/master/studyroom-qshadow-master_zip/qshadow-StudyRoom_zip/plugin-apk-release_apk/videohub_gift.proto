@@ -1,0 +1,395 @@
+import "common_user.proto";
+import "common_types.proto";
+package videohub.gift;
+option java_package = "com.tencent.jungle.videohub.proto";
+option java_outer_classname = "VideohubGiftProto";
+
+//礼物库存
+message GiftStore
+{
+    optional uint32 gift_id     = 1; //  礼物ID
+    optional uint32 store     = 2; //  礼物库存
+    optional uint32 online_time     = 3; //  在房间内的累计时间（秒）
+}
+
+message UserGiftStore
+{
+    repeated GiftStore gift_store   = 1; // 用户库存
+}
+
+message ItemList
+{
+    repeated ItemInfo items = 1;
+}
+
+//信用预授权
+enum PRE_AUTH_ORDER_TYPE
+{
+    PRE_AUTH_TRUTH_ACT = 1; // 真心话业务授权
+}
+
+//预授权订单
+message PreAuthOrder
+{
+    required PRE_AUTH_ORDER_TYPE type    = 1;// 预授业务类型 
+    required string order                = 2;// 预授订单号(业务类型下唯一)
+    required uint32 price                = 3;// 预授的花豆数
+    required uint64 expire               = 4;// 过期时间
+    optional string ext                  = 5;// 扩展字段
+}
+
+// 预授权列表存cmem
+message PreAuthOrderInfo
+{
+    repeated PreAuthOrder order_list = 1;// 预授权列表
+    optional int32 cas    = 2; // tmem 的 cas 值
+}
+
+//更新用户预授权
+message UpdatePreAuthOrderReq
+{
+    required uint64 uid = 1;//用户UID
+    repeated PreAuthOrder update_order_list = 2;// 更新预授权,如要删除,expire=0
+}
+
+message UpdatePreAuthOrderRsp
+{
+    
+}
+
+enum UPDATE_TYPE
+{
+    TYPE_ADD_OR_UPDATE = 1; // 榜单新增 或 更新
+    TYPE_REMOVE        = 2; // 榜单减少
+}
+
+// 礼物
+message Gift
+{
+    required uint32 gift_id = 1;
+    required string name    = 2; // 礼物名称
+    required string pic     = 3; // 礼物图片
+    required int32  price   = 4; // 礼物价格（齐齐豆）
+    optional uint32 stock   = 5; // 礼物库存
+    optional uint32 online_time  = 6; // 在房间内的累积时间（秒）
+    optional string preview_pic  = 7; // 大图片
+    optional uint32 permit_buy   = 8; // 是否允许购买 0：可购买 1:不可购买
+    optional string activity_str = 9;//活动礼物文案提示 
+    optional ITEM_TYPE gift_type = 10;//礼物类型
+    optional uint32 show_flag = 11;//是否展示
+}
+
+//  CMD_GET_GIFT_LIST = 10701;//查询礼物列表
+message GetGiftListReq
+{
+    optional uint32 roomid = 1;//新版群视频合并的特定房间礼物筛选字段
+    optional uint32 all_flag = 2[default = 0];//全量拉取所有礼物
+	optional uint32 game_mode = 3[default = 0];//0普通礼物 1游戏礼物
+}
+message GetGiftListRsp
+{
+    repeated Gift gifts = 1; // 礼物列表
+    optional uint32 default_gift_id = 2;  //默认礼物ID
+}
+
+// CMD_GET_BALANCE = 10702;//查询余额
+message GetBalanceReq
+{
+    optional uint32 pay_flag = 1[default = 0];//切换新旧支付的字段 0旧1新
+}
+
+message GetBalanceRsp
+{
+    required uint32 balance     = 1; // 游戏币个数（包含了赠送游戏币）
+    optional uint32 first_save  = 2; //是否首充 是1 否0
+}
+
+// CMD_GET_GIFT_STORE = 10703;//查询库存
+message GetMultiStoreReq
+{
+    required uint64 uid             = 1; // 用户id
+    optional bool get_gift_store    = 2; // 是否获取礼物库存
+    optional bool get_adore_store   = 3; // 是否获取收费爱慕库存
+}
+
+message GetMultiStoreRsp
+{
+    optional uint32 default_gift_id = 1;  //默认礼物ID
+    repeated Gift gifts = 2; // 礼物列表    
+    optional uint32 adore_store = 3;// 收费爱慕库存
+}
+
+//old inner CMD_GET_GIFT_STORE = 3118;//用户礼物库存
+message GetGiftStoreReq
+{
+    required uint64 uid             = 1; // 用户id
+}
+
+message GetGiftStoreRsp
+{
+    optional uint32 oper_code  	  = 1;	//OPER_CODE
+    repeated GiftStore stores   = 2; // 用户库存列表
+}
+
+//CMD_GET_PER_GAME_USER_SCORE_LIST = 10704;//拉取房间单场魅力榜&单场土豪榜列表
+message GetRoomUserScoreListReq
+{
+    required uint32 room_id     = 1; //roomId
+}
+
+message GetRoomUserScoreListRsp
+{
+    repeated UserScoreItem user_wealth_item_list     = 1;    // 房间用户财富值列表
+    repeated UserScoreItem user_glamour_item_list    = 2;    // 房间用户魅力值列表
+	optional uint32 own_richrank_score = 3;               //tuhao own
+}
+
+
+//CMD_GET_WEALTH = 10705;//财富榜
+message GetWealthRankReq
+{
+    required uint32 room_id         = 1; //房间id
+}
+message GetWealthRankRsp
+{
+    repeated UserWealth user_wealths = 1;
+}
+
+
+// CMD_GET_ACT_FREE_gift_time         = 10706;//获取活动免费礼物累积时间
+message GetActFreeGiftTimeReq{
+    required uint64 uid             = 1; // 用户id
+}
+
+message GetActFreeGiftTimeRsp{
+    optional uint64  start_time             = 1; // 开始累积的时间
+    optional uint64  accumulate_time        = 2; // 当前已经累积时间
+    optional uint64  accept_circle_time     = 3; // 领取的周期时间
+}
+
+message PopularityCharmInfo
+{
+    optional uint64 uid = 1;
+    optional uint64 popularity = 2[default = 0];
+    optional uint64 charm = 3[default = 0];
+}
+
+message GetPopularityCharmValueReq
+{
+    repeated uint64 uidlist = 1;//uid列表
+}
+
+message GetPopularityCharmValueRsp
+{
+    optional uint32 result = 1;
+    repeated PopularityCharmInfo infos = 2;
+}
+
+
+//获取礼物配置信息 cmd=10709
+message GetGiftConfigReq
+{
+
+}
+
+message  GetGiftConfigRsp
+{
+    optional GiftConfig config = 1; //配置信息;
+}
+
+message PayHistory
+{
+    optional uint64 anchor_uid = 1;
+    optional uint64 to_uid = 2;
+    optional uint64 union_uid = 3;
+    optional uint32 roomid = 4;
+    optional uint32 gift_id = 5;
+    optional uint32 gift_num = 6;
+    optional uint32 gift_price = 7;
+    optional uint64 paytime = 8;
+    optional uint32 stage_mode = 9;
+    optional string portal_serialno = 10;
+}
+
+message GetUserPayHistoryReq
+{
+    optional uint64 uid = 1;
+    optional uint64 stoptime = 2;
+    optional uint64 start = 3;
+    optional uint64 num = 4;
+}
+
+message GetUserPayHistoryRsp
+{
+    optional uint32 result = 1;
+    repeated PayHistory infos = 2;
+    optional uint32 total_price = 3;
+}
+
+message PushReq {
+    optional uint32 room_id = 1;
+    optional uint64 admin_uid = 2;
+    optional uint64 uid = 3;
+    optional ADMIN_OP_TYPE op_type = 4;
+    optional uint64 to_uid = 5;
+    optional SendGiftReq send_gift_req = 6;
+    //optional UserInfo user_info = 7;
+    //optional string detail = 8;
+    //optional SendEmotionFaceReq  send_emotion_face_req = 9;
+    //optional SendAdoreReq send_adore_req = 10;
+}
+
+message ComboReq
+{
+    optional uint32 combo_seq          = 1; //连击seq 标识一次连击操作
+    optional uint32 combo_gift_id    = 2; //连击每组的礼物数
+    optional uint32 combo_gift_number    = 3; //连击每组的礼物数
+    optional uint32 combo_times       = 4; //本次请求连续点击的次数
+    optional uint32 combo_total_count     = 5; //连击产生总次数
+    optional uint32 combo_over     = 6; //用于标识此次连击是否结束 服务端用
+}
+
+message SendGiftReq // 送礼物
+{
+    required uint32 room_id         = 1; // 房间id
+    required uint64 uid             = 2; // 用户id
+    required uint64 to_uid          = 3; // 收礼物的用户id
+    required string sender          = 4; // 发送者
+    required string receiver        = 5; // 接受者
+    required uint32 gift_id         = 6; // 礼物ID
+    required uint32 number          = 7; // 礼物数量
+    required string openid          = 8; // 送礼物者openid
+    required string openkey         = 9; // 送礼物者access_token
+    required uint32 appid           = 10; // 登录的appid
+
+    optional ComboReq combo_req          = 11; //连击请求信息
+
+    optional string skey          = 12; //登录信息
+    optional uint32 pay_flag        = 13; // 1表示新支付， 其他表示老支付
+    optional uint32 stage_mode        = 14; // 舞台模式
+    optional uint64 host_uid        = 15; // 首麦uid
+    optional uint32 game_mode = 16 [default = 0];//0普通礼物 1游戏礼物
+    optional string game_room_id = 17 ;//游戏房间id
+    optional uint32 scene_from	= 18; //场景, 0 群视频, 1 一起看
+    optional uint64 scene_groupno = 19; //场景群号
+    optional GENDER gender              = 20; // 性别
+    optional string avatar              = 21; // 头像图片id；客户端拼出url
+    optional GENDER to_gender           = 22; // 性别
+    optional string to_avatar           = 23; // 头像图片id；客户端拼出url
+}
+
+message SendGiftRsp
+{
+    optional uint32 balance     = 1; // 送礼者余额
+    optional GiftStore gift_store   = 2; // 送礼者库存
+}
+
+//cmd 11105 拉可体现金额
+message GetWithDrawBalanceReq
+{
+	optional uint64 uid=1;
+}
+
+message GetWithDrawBalanceResp
+{
+	optional uint32 withdraw_balance     = 1; // 可提现金额 单位分
+}
+
+//cmd 11106  提现
+message WithDrawReq
+{
+	optional uint64 uid=1;
+	optional uint32 amount=2;   //金额 分
+}
+
+message WithDrawResp
+{
+	optional uint32 result = 1;
+	optional uint32 withdraw_balance     = 2; // 可提现金额 单位分
+}
+
+//CMD_GET_MAN_SCORE_LIST = 10712;//拉取房间单场男神榜
+message GetManScoreListReq
+{
+    required uint32 room_id     = 1; //roomId
+}
+
+message GetManScoreListRsp
+{
+    repeated UserScoreItem user_man_item_list     = 1;    // 房间单场男神榜
+}
+
+//CMD_GET_FEMALE_SCORE_LIST = 10713;//拉取房间单场女神榜
+message GetFemaleScoreListReq
+{
+    required uint32 room_id     = 1; //roomId
+}
+
+message GetFemaleScoreListRsp
+{
+    repeated UserScoreItem user_female_item_list    = 1;    // 房间单场女神榜
+}
+
+message GetRichScoreListReq
+{
+    required uint32 room_id     = 1; //roomId
+}
+
+message GetRichScoreListRsp
+{
+    repeated UserScoreItem user_rich_item_list    = 1;    // tuhao
+    optional uint32 own_richrank_score = 2;               //tuhao own
+}
+
+//CMD_GET_MATCHMAKER_MATCH_RICH_SCORE_LIST = 10715;//拉取红娘玩法场土豪榜
+message GetMatchmakerMatchRichScoreListReq
+{
+    optional uint32 room_id = 1; //roomId
+    optional uint64 uid = 2; //查询用户uid
+    optional uint32 start = 3;//批量拉取起始位置,默认为0
+    optional uint32 limit = 4;//批量拉取数量,默认为10,最大支持50
+}
+
+//错误码:
+//1071501:入参错误
+//1071502:获取舞台信息错误
+//1071503:请求用户不在舞台上
+//1071504:获取土豪榜单出错
+//1071505:获取土豪信息出错
+message GetMatchmakerMatchRichScoreListRsp
+{
+    repeated MatchMakerUserScoreItem user_rich_item_list    = 1;    // 土豪榜单
+}
+
+//CMD_GET_MATCHMAKER_WEEK_RICH_SCORE_LIST = 10716;//拉取红娘玩法周土豪榜
+message GetMatchmakerWeekRichScoreListReq
+{
+    required uint32 room_id = 1; //roomId
+    optional uint64 uid = 2; //查询用户uid
+    optional uint32 start = 3;//批量拉取起始位置,默认为0
+    optional uint32 limit = 4;//批量拉取数量,默认为10,最大支持50
+}
+
+//错误码:
+//1071601:入参错误
+//1071602:获取舞台信息错误
+//1071603:请求用户不在舞台上
+//1071604:获取土豪榜单出错
+//1071605:获取土豪信息出错
+message GetMatchmakerWeekRichScoreListRsp
+{
+    repeated MatchMakerUserScoreItem user_rich_item_list    = 1;    // 土豪榜单
+}
+
+//CMD_GET_MATCHMAKER_MATCH_NUMBER    = 10718; //拉取某一红娘牵手成功次数
+message GetMatchmakerMatchNumberReq
+{
+    optional uint64 uid = 1; //查询用户uid
+}
+
+//错误码:
+//1071801:入参错误
+message GetMatchmakerMatchNumberRsp
+{
+    optional uint64 match_number = 1; //牵手成功次数
+}

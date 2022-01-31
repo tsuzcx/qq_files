@@ -1,0 +1,116 @@
+//@author=jimmyzhu
+//@service=yaaf
+//@serviceName=yaaf_love_member
+//@test_env=
+//@l5=
+package videohub.memberlist;
+import "auth_mgr.proto";
+import "common_user.proto";
+import "common_types.proto";
+option java_package = "com.tencent.jungle.videohub.proto";
+/* CMD_GET_ROOM_MEMBER_UID_LIST       = 1101; // 获取房间里的用户列表 */
+message GetRoomMemberUidListReq {
+    required uint32 room_id = 1; //roomId
+    required uint32 need_type = 2; //0-拉取所有成员uid , 1只拉取全量有身份的成员uid, 自习室二期新增： 2只拉取自习区不包括麦位的成员uid, 3只拉取自习区的所有成员uid, 4只拉取围观区成员uid
+    required uint32 page = 3; //页码 【从第一页开始，传1 则返回 0-299位用户，每页三百人】
+    optional uint32 stage_mode = 4; // 舞台模式  1--自由模式  2--表演模式
+}
+
+message GetRoomMemberUidListRsp {
+    required uint32 total_count = 1; // 总纪录数 (目前是虚假人数)
+    required uint32 role_count = 2; // 有身份的人数量
+    repeated Identity uids = 3; // UID 列表
+    required uint32 page = 4; // 返回的页码
+    required uint32 count_per_page = 5; // 每页数量
+    required uint32 time_sep = 6; // 允许客户端的拉取间隔 /秒
+    optional uint32 seq = 7; // seq
+    optional uint32 actual_count = 8; //房间真实人数
+}
+
+message Identity {
+    required uint64 uid = 1; // UID
+    required uint64 score = 2; // 身份标识
+    optional MemberInfo memberInfo = 3; //只在自由模式下，且只包含昵称和头像。非自由模式下该字段为空
+    optional uint64 join_study_time = 4;//加入自习时间
+}
+
+/* CMD_GET_ROOM_MEMBER_INFO       = 1102; // 获取房间里的用户身份信息 */
+message GetRoomMemberInfoReq {
+    required uint32 room_id = 1; // 房间id,
+    repeated Identity uids = 2; // 用户id
+    optional uint32 room_mode = 3; // 房间模式  1 自由模式 2 娱乐模式
+}
+
+message GetRoomMemberInfoRsp {
+    repeated MemberInfo member_infos = 1; // 用户资料
+}
+
+
+
+option java_generic_services = true;
+option cc_generic_services = false;
+
+service MemberService {
+    rpc GetRoomMemberUidList (GetRoomMemberUidListReq) returns (GetRoomMemberUidListRsp);
+    rpc GetRoomMemberInfo (GetRoomMemberInfoReq) returns (GetRoomMemberInfoRsp);
+    rpc GetRoomMemberNum (GetRoomMemberNumReq) returns (GetRoomMemberNumRsp);
+
+};
+
+message GetRoomMemberNumReq {
+    repeated uint32 room_id_list = 1; // 房间id
+}
+message GetRoomMemberNumRsp {
+    repeated RoomMemberNum roomMemberNumList = 1; // 房间id
+}
+
+message RoomMemberNum {
+    required uint32 room_id = 1; // 房间id
+    required uint32 onlineNum = 2; // 房间在线人数
+}
+
+
+message GetRoomIdNotEmptyReq {
+    required uint32 start = 1;
+    required uint32 num = 2;
+}
+
+message GetRoomIdNotEmptyRsp {
+    repeated uint32 room_ids = 1;
+    required uint32 total = 2;
+}
+
+message GetUserInRoomReq {
+    optional uint32 room_id = 1;
+    optional uint64 uid = 2;
+}
+message GetUserInRoomResp {
+    optional uint32 is_exist = 1; //1 在 2 不在
+}
+
+// 自习室二期：拉取自习室成员列表
+message NewGetRoomMemberUidListReq {
+    optional uint32 room_id = 1; //roomId
+    optional uint32 type = 2; //列表类型：1：观众自习列表（不含麦上）按"加入时间"倒序  2：自习用户列表 按"自习时间"倒序 3：围观用户列表 按"加入时间"倒序
+    optional string start_cookie = 3; //起始cookie
+    optional uint32 page_size = 4;	//每页大小
+}
+
+message NewGetRoomMemberUidListRsp {
+    optional string next_cookie = 1; //下一页拉取的cookie
+    optional bool is_end = 2; // 结束标志
+    required uint32 total_count = 3; // 指定类型列表总人数
+    repeated Identity uids = 4; // UID 列表
+    //type ==1的情况下，后台返回下面三个个数信息，给主界面用
+    optional uint32 study_count = 5; //自习成员人数
+    optional uint32 guest_count = 6; //围观人数
+    optional uint32 viewer_count = 7; //观众自习人数
+    optional bool is_viewer = 8; //当前用户是否是观众
+    optional uint64 my_join_study_time = 9;//如果is_viewer为true，返回当前用户的开始自习时间
+}
+
+
+
+
+
+

@@ -1,0 +1,27 @@
+package com.tencent.jungle.videohub.proto;
+
+enum IconType
+{
+    ICON_TYPE_BADGE		 	= 1; // 勋章
+    ICON_TYPE_NOBILITY 		= 2; // 爵位
+    ICON_TYPE_MANAGER 		= 3; // 管理员
+    ICON_TYPE_PLAY_ROLE		= 4; // 玩法身份
+	ICON_TYPE_ANCHOR		= 5; // 艺人
+	ICON_TYPE_USER_LEVEL	= 6; // 用户等级
+}
+
+message ChatUserIcon {
+   required IconType icon_type 	= 1;
+   required string icon_id   	= 2; //图标url
+   required uint32 height		= 3;
+   required uint32 width 		= 4;
+   optional string resource_id	= 5; //资源标识符，可能有很多层级，以"_"分割,例如 123456_12345_123
+   optional string tips         = 6; //悬停的tooltip
+   optional uint32 icon_version = 7 [default = 1]; // icon的版本号
+
+}
+
+message ChatUserIconList {
+   repeated ChatUserIcon iconList = 1;
+   repeated ChatUserIcon iconListV2 = 2;
+}

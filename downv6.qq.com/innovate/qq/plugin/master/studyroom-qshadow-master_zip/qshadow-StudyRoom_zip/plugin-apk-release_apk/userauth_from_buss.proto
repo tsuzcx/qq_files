@@ -1,0 +1,14 @@
+package tencent.im.oidb.cmd_userauth_from_buss;
+
+message ReqBody
+{
+	optional uint64 uid			= 1; //openid
+	optional uint64 room_id		= 2; //房间号
+}
+
+message RspBody
+{
+	optional uint64 uid			= 1; //openid
+	optional uint64 room_id		= 2; //房间号
+	optional uint32 auth_res	= 3; //校验结果：0-ok others-fail
+}

@@ -1,0 +1,193 @@
+//花样新人活动
+//@author=codixu
+//@date=2016/03/09
+
+package huayang.user;
+
+//活动服务命令字
+enum BadgeSvrCmd {
+    CMD_USER_SVR = 0x4011;
+};
+
+//活动服务子命令字
+enum ActiveSvrSubCmd {
+    SUBCMD_PULL_BADGE_INFO = 0x04; //拉取勋章信息
+    SUBCMD_PULL_USER_BADGE = 0x05; //拉取用户勋章
+    SUBCMD_BATCH_PULL_USER_BADGE = 0x06; //批量拉取用户勋章信息
+    SUBCMD_PC_GET_CFG = 7; //PC拉取勋章配置
+    SUBCMD_MOBILE_GET_CFG = 8; //手机拉取勋章配置
+};
+
+//微章类型
+enum BADGE_TYPE {
+    UNKNOW_BADGE = -1; //不显示
+    FIRST_CHARGE = 1; //首次充值勋章
+    FIRST_CHAT = 2; //首次发言勋章
+    FIRST_CHARGE_1 = 3; //首次充值勋章(1元)
+    FIRST_CHARGE_10 = 4; //首次充值勋章(10元)
+    FIRST_CHARGE_100 = 5; //首次充值勋章(100元)
+    WEEK_GIFT_STAR = 6; //礼物周星用户勋章（某种礼物贡献最多）
+    GUARDIAN_BADGE = 7; //守护勋章
+    NOBILITY_BADGE = 8; //爵位勋章
+    FANSTEAM_BADGE = 9; //粉丝团徽章
+    ACTIVITY_BADGE = 10; //活动徽章
+};
+
+message FansInfo {
+    optional uint64 anchor_uin = 1;
+    optional bytes name = 2; //团名
+    optional uint32 level = 3; //等级
+    optional uint32 score = 4; //亲密度
+}
+
+//活动勋章
+message ActivityInfo {
+    optional bytes big_badge_icon = 1; //大勋章图标url
+    optional string name = 2;
+    optional string desp = 3;
+    optional string detail = 4;
+    optional bytes icon_3 = 5; //图标url 3
+    optional bytes icon_4 = 6; //图标url 4
+}
+
+message BadgeTime {
+    optional BADGE_TYPE badge_type = 1;
+    optional uint64 end_time = 2; //到期时间戳(默认单位:秒）
+    optional bytes badge_icon = 3; //勋章图标url 安卓显示用...
+    optional uint64 sub_badge_type = 4; //勋章的子类型
+    optional uint32 disabled = 5; //默认是0-显示  1-灰显
+    optional FansInfo fans_info = 6; //粉丝徽章信息
+    optional ActivityInfo activity_info = 7; //活动勋章信息
+    optional uint32 sink = 8; //默认是0-不沉淀资料卡，1-沉淀资料卡
+    optional string time_span = 9; //展示时长
+    optional uint64 get_time = 10; //获得的时间戳
+    optional uint64 tribe_badge_type = 11; //同一次活动 的 多个子勋章（相互替换 replace）
+    optional uint32 show = 12; //表演区展示 0 不展示 1 展示
+}
+
+//用户微章信息
+message BadgeMsg {
+    optional uint64 uin = 1;
+    repeated BadgeTime badge = 2;
+}
+
+//批量获取个人信息
+message PullUserReq {
+    repeated uint64 uin = 1;
+    optional uint64 anchor_uin = 2; //守护勋章必填
+}
+
+message PullUserRsp {
+    optional int32 result = 1;
+    repeated BadgeMsg badge_msg = 2;
+}
+
+//单人分页拉取
+message PullPersonReq {
+    optional uint64 uin = 1;
+    optional uint32 start = 2;
+    optional uint32 num = 3;
+}
+
+message PullPersonRsp {
+    optional int32 result = 1;
+    repeated BadgeTime badge_msg = 2;
+}
+
+//客户端类型
+enum CLIENT_TYPE {
+    CLIENT_PC = 1;
+    CLIENT_ANDROID = 2;
+    CLIENT_IOS = 3;
+    CLIENT_WEB = 4;
+}
+
+//添加勋章...
+message AddBadgeReq {
+    optional BADGE_TYPE badge_type = 1;
+    optional uint64 roomid = 2; //sub roomid
+    optional CLIENT_TYPE client_type = 3;
+    optional uint64 expire_time = 4; //勋章失效时间
+    optional uint64 sub_badge_type = 5; //礼物勋章的子类型（giftid）
+    optional uint64 anchor_uin = 6; //主播uin(守护勋章使用)
+    optional int32 flag = 7; //徽章flag -1--不显示 0--全部显示 1--指定uin 2--随请求anchor_uin切换
+    optional uint64 get_time = 8; //勋章获取时间戳
+    optional ActivityInfo activity_info = 9; //活动徽章:扩展信息
+    optional uint64 tribe_badge_type = 10; //同一次活动 的 多个子勋章（相互替换 replace）
+    optional uint32 app_type = 11; //应用类型 花样0、交友1、整合2
+}
+
+message AddBadgeRsp {
+    optional int32 result = 1; //0成功，其他，error
+}
+
+//添加接口批量
+//添加勋章...
+message AddBadge {
+    repeated AddBadgeReq reqs = 1;
+    optional uint64 uin = 2; //uin
+}
+
+message ResultInfo {
+    optional uint64 uin = 1; //uin
+    optional int32 result = 2;
+}
+
+message AddBadgesReq {
+    repeated AddBadge infos = 1;
+}
+
+message AddBadgesRsp {
+    repeated ResultInfo results = 1; //0成功，其他，error
+}
+
+
+//CMEM存储
+message UserBadge {
+    optional BADGE_TYPE badge_type = 1; //勋章类型
+    optional uint64 get_time = 2; //勋章生效时间
+    optional uint64 expire_time = 3; //勋章失效时间
+    optional uint64 sub_badge_type = 4; //礼物勋章的子类型（giftid）
+    optional uint64 anchor_uin = 5; //主播uin(守护勋章使用)
+    optional uint32 flag = 6; //徽章flag -1--不显示 0--指定uin 1--随请求anchor_uin切换
+    optional ActivityInfo activity_info = 7; //活动徽章:特化的信息
+    optional uint64 tribe_badge_type = 8; //同一次活动 的 多个子勋章（相互替换 replace）
+    optional uint32 app_type = 9 [default = 0]; //应用类型 花样0、交友1
+}
+
+message UserInfo {
+    repeated UserBadge user_badge = 1; //勋章信息
+    optional uint64 uin = 2;
+}
+
+//房间中所在的艺人 key: room_anchor_${sub_room_id}
+message RoomAnchor {
+    optional uint32 room_id = 1;
+    optional uint64 anchor_uin = 2;
+    optional uint32 status = 3; //0:接受开播心跳 1：开播 2：停播 （0，1表示有艺人开播）
+    optional uint32 update_time = 4;
+}
+
+//拉取指定勋章详情
+message PullMedalDetailReq {
+    optional uint64 uin = 1;
+    optional BADGE_TYPE badge_type = 2; //勋章类型
+    optional uint64 sub_badge_type = 3; //礼物勋章的子类型（giftid）
+    optional uint64 tribe_badge_type = 4; //同一次活动 的 多个子勋章（相互替换 replace）
+}
+
+message PullMedalDetailRsp {
+    optional int32 result = 1;
+    optional MedalDetail detail = 2;
+}
+
+message MedalDetail {
+    optional string name = 1;
+    optional string desp = 2;
+    optional string detail = 3;
+    optional uint64 get_time = 4; //勋章生效时间
+    optional uint64 expire_time = 5; //勋章失效时间
+    optional bytes icon_big = 6; //图标url
+    optional bytes icon_normal = 7; //图标url
+    optional bytes icon_small = 8; //图标url
+}

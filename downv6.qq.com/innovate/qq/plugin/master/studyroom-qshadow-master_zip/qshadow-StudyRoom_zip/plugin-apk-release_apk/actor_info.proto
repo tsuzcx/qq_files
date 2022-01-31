@@ -1,0 +1,55 @@
+package videohub.user;
+option java_package = "com.tencent.jungle.videohub.proto";
+option java_outer_classname = "ActorInfoProto";
+
+/**
+ * 群视频艺人资料
+ *
+ * @author yangxli
+ * @date 2017年9月12日 上午11:20:45
+ *
+ *
+ * 测试l5
+ * 		791809:2097152
+ * 线网l5
+ *		900289:131072
+ *
+ */
+
+//CMD_GET_ANCHOR_PERC_INFO		   = 12701;  // 拉取艺人分成比例
+message GetAnchorPercInfoReq {
+    repeated uint64 anchor_uid_list = 1;
+}
+
+message GetAnchorPercInfoRsp {
+    repeated AnchorPerc anchor_perc_list = 1;
+}
+
+message AnchorPerc {
+    optional uint64 anchor_uid = 1;
+    optional uint64 union_uid = 2; // 会长uid【未签约该字段为0】
+    optional uint32 settle_type = 3; // 0 未签约不结算, 1 日结 , 2 月结 。（该版本签约为月结，其他日结。最终版会长及签约主持月结，未签约主持日结，非主持不结）
+    optional uint32 gift_percentage = 4; //礼物分成比例
+    optional uint32 anchor_percent = 5; //主播分成比例
+    optional uint32 union_percent = 6; //公会会长分成比例
+}
+
+//CMD_GET_ANCHOR_INFO		   = 12702;  // 拉取艺人资料
+message GetAnchorInfoReq {
+    repeated uint64 anchor_uid_list = 1;
+}
+
+message GetAnchorInfoRsp {
+    repeated AnchorInfo info_list = 1;
+}
+
+message AnchorInfo {
+    optional uint64 anchor_uid = 1;
+    optional uint32 type = 2; //用户类型 (0：UGC主播 1：主播会长 2：公会主播  999:签约平台无此人信息,未注册)
+    //备注：创建中的公会会长=ugc(0)   公会主播需要判断签约的公会是否成功创建 不成功则还是UGC(0)  成功创建(2)
+    optional string recom_pic = 3; //主播推荐图
+    optional uint64 union_id = 5; //工会id 【没有签约在字段为空】
+    optional string union_name = 6; //工会名称【没有签约在字段为空】
+    optional uint32 contract_state = 7; //合同状态[唯有==8可以提现]
+
+}

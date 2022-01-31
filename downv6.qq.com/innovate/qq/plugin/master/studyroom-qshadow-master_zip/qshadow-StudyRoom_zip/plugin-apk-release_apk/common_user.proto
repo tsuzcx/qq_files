@@ -1,0 +1,499 @@
+package videohub.user;
+option java_package = "com.tencent.jungle.videohub.proto";
+option java_outer_classname = "CommonUserProto";
+
+import "common_types.proto";
+
+enum INFO_TYPE
+{
+	INFO_TYPE_QQ = 1;
+	INFO_TYPE_OD = 2;
+}
+
+enum SUBSCRIBE_TYPE
+{
+	SUBSCRIBE_OTHER = 1;
+	BISUBSCRIBE = 2;
+}
+
+//CMD_GET_USER_LOGIN_SIG               = 10401; // 登录
+message LoginCheckReq
+{
+    optional bool refresh = 1;
+    optional bool is_test = 2;
+    optional uint64 group_code = 3; //群号，用来查询房间玩法信息，返回不同 sso、imsdk配置，先查room_code，如果为0，再查group_code
+    optional uint64 room_code = 4; //房间号，用来查询房间玩法信息，返回不同 sso、imsdk配置，先查room_code，如果为0，再查group_code
+}
+message LoginCheckRsp
+{
+    optional int32 result = 1;
+    optional string user_name = 2;
+    optional int64 uin = 3;
+    optional string user_sig = 4;
+    optional uint64 uid = 5;
+    optional bool enable_report = 6;
+    optional bool is_need_init	= 7; // 是否需要初始化
+	optional uint64	server_time = 8;
+	optional bool is_new_user = 9 [default = false];  //是否新用户 true -新用户
+	optional uint64 imsdk_appid = 10; // 公开课和娱乐分离
+	optional uint64 imsdk_account_type = 11; // 公开课和娱乐分离
+	optional string sso_prefix = 12; // 公开课和娱乐分离
+	optional string sso_report_prefix = 13; // 公开课和娱乐分离
+	optional string sso_heart_prefix = 14; // 公开课和娱乐分离
+	optional string edu_flex_url = 15;     // QQ教育课堂柔性降级跳转H5的URL
+	optional bool   is_playing = 16;       // 是否正在开播中(true - 开播中)
+    optional bytes  extra_room_data = 17;  //额外房间数据，登录返回，后续所有commReq中带回
+}
+
+//CMD_INIT_USERINFO //初始化资料
+message InitUserInfoReq
+{
+    optional uint64 uin = 1; //必填
+    optional uint64 uid = 2; //有则填，没有则去统一帐号换uid
+}
+message InitUserInfoRsp
+{
+	optional uint64 uid = 1;
+}
+
+// CMD_GET_USER_INFO  = 10201; // 批量查询个 人资料
+message GetCommonUserInfoReq {
+	optional IdType id_type = 1;
+    repeated uint64 id_list = 2; // 用户id
+    optional CommonUserInfo info = 3; // 需要的用户资料字段填空/0，不需要的字段不填
+}
+
+message GetCommonUserInfoRsp {
+	optional IdType id_type = 1;
+    repeated CommonUserInfo infos = 2; // 用户资料
+}
+
+// CMD_SET_USER_INFO = 10202; // 修改个人资料
+message EditBasicUserInfoReq {
+	optional uint32 user_log_time_stamp = 1; // 用户自定义头像时间戳
+    optional BasicUserInfo info 	= 2;
+    optional uint32 hn_base_info  = 3; //修改红娘基本资料（性别,现在只有性别）
+    optional uint32 hn_EX_info  = 4; //修改红娘扩展资料（身高，婚姻状况，月收入，生日，名字）
+}
+
+message EditBasicUserInfoRsp {
+	optional uint32 recode = 1; // 1 修改昵称大于三次  2 昵称重复 0 成功 3.由于相关政策，系统暂时不能修改资料
+}
+
+// CMD_GET_USER_INFO_INNER = 10210; // 内部拉取用户资料
+message GetCommonUserInfoInnerReq {
+	optional IdType id_type = 1;
+    repeated uint64 id_list = 2; // 用户id
+    optional CommonUserInfoInner info = 3; // 需要的用户资料字段填空/0，不需要的字段不填
+}
+
+message GetCommonUserInfoInnerRsp {
+	optional IdType id_type = 1;
+    repeated CommonUserInfoInner infos = 2; // 用户资料
+}
+
+
+// CMD_SET_USER_INFO = 10202; // 修改个人资料
+//message EditCommonUserInfoReq {
+//	optional IdType id_type 	= 1;
+//    optional CommonUserInfo info 	= 2;
+//}
+//
+//message EditCommonUserInfoRsp {
+//	optional uint32 recode = 1; // 1 修改昵称大于三次
+//}
+
+//CMD_GET_MINI_USER_INFO             = 10203; // 拉取mini用户资料卡
+message GetMiniUserInfoReq {
+    optional uint64 uid                          = 1; //被查看人uid
+    optional uint32 room_id                      = 2; //房间id
+    optional uint64 group_code                   = 3; //群号
+}
+
+message GetMiniUserInfoRsp {
+    optional BasicUserInfo basic_userinfo 		= 1; //基本资料
+    optional string group_card 					= 2;       // 群名片
+    optional uint32 subscribe_state 			= 3; // 关注状态 0 未关注  1 已关注  2 双向关注
+    //optional NobilitySimpleInfo user_privilege = 4; // 用户爵位信息 【8兼容老版本空出】
+    optional UserExpLev user_expLev 			= 5; // 用户等级
+    optional NobilityAllInfo user_nobility  	= 6; // 用户爵位信息
+}
+
+// CMD_GET_PHOTO_LIST = 10205; // 拉取用户照片列表
+message GetPhotoListReq {
+	optional IdType id_type	 	= 1;
+	repeated uint64 id  		= 2; // 用户uid或者QQ号
+}
+
+message GetPhotoListRsp {
+	repeated Album albums 		= 1; // 相册列表
+}
+
+//CMD_DEL_PHOTO_LIST = 10206; // 删除用户照片
+message DelPhotoReq {
+	optional IdType id_type 	= 1;
+	optional uint64 id  = 2; // 用户uid或者QQ号
+	repeated string photo_url 	= 3;
+}
+
+message DelPhotoRsp {
+	repeated string photo_url = 3;
+}
+
+//CMD_ADD_PIC_TO_ALBUM = 10207; // 增加用户照片
+message SavePicsReq {
+    optional uint32 pic_type    = 1; // 图片类型  1:头像 2相册 3模糊背图
+    optional string pic_url     = 2; // 图片url
+}
+
+message SavePicsRsp {
+
+}
+
+//CMD_SET_PIC_TO_ALBUM               = 10208; // 设置用户照片
+message SetPhotoReq {
+	optional IdType id_type 	= 1;
+	optional uint64 id  = 2; // 用户uid或者QQ号
+	repeated string photo_url 	= 3;
+}
+
+message SetPhotoRsp {
+	repeated string photo_url = 3;
+}
+
+// 换取 uin+skey 请求  CMD_GET_UIN_SKEY_BY_OPEN_INNER     = 10216; // 通过openkey换取uin skey inner
+message GetUinSkeyReq {
+    optional uint32 auth_app_id = 1;
+    optional string auth_id = 2;
+    optional string auth_key = 3;
+}
+
+// 取 uin+skey 回复
+message GetUinSkeyResp {
+    optional uint64 uin = 1;
+    optional string skey = 2;
+}
+
+//CMD_GET_USER_VOICE_COVER	 	   = 10217; // 批量拉取用户语音封面（内部接口）
+message GetUserVoiceCoverReq {
+    repeated uint64 uidList = 1; 	// 请求uidList
+}
+
+message GetUserVoiceCoverRsp {
+    repeated UserVoiceCover userVoiceCover = 1;
+}
+
+//CMD_SET_USER_VOICE_COVER	 	   = 10218; // 设置用户语音封面
+message SetUserVoiceCoverReq {
+    optional UserVoiceCover userVoiceCover = 1; 	// 请求uid
+
+}
+
+message SetUserVoiceCoverRsp {
+
+}
+
+//CMD_INIT_USER_INFO_JY              = 10219; // 初始化用户资料(JY资料)
+message InitUserInfoJYReq {
+    optional uint64 uid = 1; 	// 请求uid
+    optional uint64 uin = 2; 	//
+}
+
+/** user模块inner服务接口pb*/
+//CMD_GET_UID_UIN_INFO_INNER         = 10211; // 内部获取UIN/UID资料  （10212也是这个接口）
+message RelaUinUidList {
+    repeated RelaUinUid list 		= 1;
+    optional IdType id_type  		= 2;
+}
+
+message RelaUinUid {
+    optional uint64 uin 			= 1; // uin
+    optional uint64 uid 			= 2; // uid
+}
+
+//CMD_GET_HY_QQ_USER_INFO            = 10213; // 拉取用户hy+qq资料
+message GetHYQQUserInfoReq {
+	optional uint64 uin 			= 1; // uin
+    optional uint64 uid 			= 2; // uid
+}
+
+message GetHYQQUserInfoRsp {
+	optional uint64 uid					= 1;
+	optional string qq_name             = 2; // 名称
+    optional string qq_avatar           = 3; // 头像图片id；客户端拼出url
+    optional string hy_name             = 4; // 名称
+    optional string hy_avatar           = 5; // 头像图片id；客户端拼出url
+    optional uint32 info_type 			= 6; // 1 是qq资料   2 是hy资料
+    optional uint32 has_second_identity = 7; // 是否具有第二身份 1 没有   2 有第二身份
+}
+
+//CMD_SET_USER_INFO_TYPE             = 10214; // 修改用户资料类型
+message SetUserInfoTypeReq {
+	optional uint32 info_type 			= 1; // 1 是qq资料   2 是hy资料
+}
+
+message SetUserInfoTypeRsp {
+	optional uint32 result 				= 1; // 1:当前无第二身份权限 0 成功
+}
+
+// 拉取主播工会信息  ：CMD_BATCH_GET_ANCHOR_INFO
+message AnchorUnionInfo
+{
+    optional uint64 user_id          = 1;     //艺人UId
+	optional uint32 union_id         = 2;     //艺人所在工会id
+	optional bytes  union_name       = 3;     //工会名称
+	optional uint32 president_uin    = 4;     //会长uin
+}
+
+//批量获取主播信息
+message BatchGetAnchorUnionInfoReq
+{
+	repeated uint64 user_id_list   = 2;   //用户id
+}
+
+message BatchGetAnchorUnionInfoRsp
+{
+	repeated AnchorUnionInfo anchor_union_info = 1;  //主播信息
+}
+
+//同一账号查询uid/uin服务
+message UidInfo{
+    optional uint64 uid             = 1; //uid
+    optional bytes id               = 2; //origin id
+    optional uint32 type            = 3; //account type QQ登录 0，QQ open登录 1，微信 2
+}
+//cmd=1336
+message QueryOriginIdByUidReq{
+    optional uint32 buzId           = 1;
+    repeated uint64 uids            = 2;
+}
+message QueryOriginIdByUidRsp{
+    optional uint32 result          = 1; //0 success, 1 tmem error , 2 find no mapping
+    optional string msg             = 2;
+    repeated UidInfo ids            = 3;
+}
+//cmd=1337
+message QueryUidByQQReq{
+    optional uint32 buzId           = 1;
+    repeated uint64 qq              = 2;
+    optional uint32 type            = 3; //QQ登录 0，QQ open登录 1
+}
+message QueryUidByQQRsp{
+    optional uint32 result          = 1;//0 success, 1 tmem error , 2 find no mapping
+    optional string msg             = 2;
+    repeated UidInfo ids            = 3;
+}
+
+//CMD_GET_PERSON_CARD             = 50001; //获取个人资料卡
+// oidb拉取qq资料
+message UinData {
+    optional uint64 uin             = 1;
+    optional bytes  nick            = 2; // 昵称
+    optional uint32 gender          = 3; // 性别  1-男 2-女
+    optional bytes user_logo_url    = 4; // 用户头像url
+    optional bytes country          = 5; // 国家
+    optional bytes province         = 6; // 省 名称
+    optional bytes city             = 7; // 市 名称
+    optional uint32 birthday_year   = 8; // 出生日期：年
+    optional uint32 birthday_month  = 9; // 出生日期：月
+    optional uint32 birthday_day    = 10; // 出生日期：日
+}
+
+message PersonCardReq {
+    repeated uint64 uins            = 1; // UIN列表，最大不能超过50个
+}
+
+message PersonCardRsp {
+    repeated UinData  msg_uin_data   = 1; // uin data list
+}
+
+/////////////////////////////////////////////////////////////////////////////
+//CMD_BASIC_USER_INFO                = 10220; // 批量拉取用户基础资料
+message GetBasicUserInfoReq {
+    repeated uint64 uid_list                     = 1; //请求uid list
+    optional uint32 is_matchmaker                = 2; // 1 是红娘模式 其他不是，用于拉取红娘资料的同时修改资料类型为农娘，只影响第一个uid
+}
+
+message GetBasicUserInfoRsp {
+    repeated BasicUserInfo basic_userinfo        = 1;
+}
+
+
+message ExtendUserInfoFilter
+{
+    optional uint32 uint32_charm             	= 1;
+    optional uint32 uint32_popularity        	= 2;
+    optional uint32 uint32_nobility			    = 3;
+    optional uint32 uint32_userVoiceCover       = 4;
+    optional uint32 uint32_fans_count   		= 5;
+    optional uint32 uint32_subscribe_count      = 6;
+    optional uint32 uint32_subscribe_state   	= 7;
+    optional uint32 uint32_user_exp_lev 	  	= 8;
+};
+
+//CMD_EXTEND_USER_INFO               = 10222; // 批量拉取用户扩展资料
+message GetExtendUserInfoReq {
+    repeated uint64 uid_list                     = 1;
+    optional ExtendUserInfoFilter filter         = 2;
+}
+
+message GetExtendUserInfoRsp {
+    repeated ExtendUserInfo extend_info          = 2;
+}
+
+//CMD_WHETHER_GROUP_MEMBER           = 10204; // 是否群成员判断
+message GroupMemberReq {
+    optional uint32 room_id               = 1;  //房间号
+    optional uint64 group_code            = 2;  //群号
+    repeated uint64 rpt_uid_list          = 3;  //uid  //在字段暂时无意义，目前只能查自己，去commreq里的requid查询
+}
+
+message GroupMemberRsp {
+    message MemberInfo {
+        optional uint64 uid				                 = 1;
+        optional uint32 uint32_is_member                 = 2; //0--false 1--true
+    }
+    optional uint64 result                               = 1; //0--成功 1--无权限查看  无权限说明请求用户不是群成员
+    repeated MemberInfo body_memberinfo                  = 2; //body uid成员信息
+}
+
+//CMD_SECOND_IDENTITY_ALERT          = 10222; // 获取用户第二身份弹窗状态
+message GetSecondIdentityAlertReq {
+	optional uint64 uid                 		= 1; // tinyid
+}
+
+message GetSecondIdentityAlertRsp {
+	optional uint64 uid                 		= 1; // tinyid
+	optional uint32 has_alert                 	= 2; // 是否已弹窗  0 未弹窗  1 已弹窗
+}
+//CMD_CONFIRM_SECOND_IDENTITY_ALERT  = 10223; // 确认用户第二身份已弹窗
+message ConfirmSecondIdentityAlertReq {
+	optional uint64 uid                 		= 1; // tinyid
+}
+
+message ConfirmSecondIdentityAlertRsp {
+	optional uint64 uid                 		= 1; // tinyid
+	optional uint64 has_alert                 	= 2; // 是否已弹窗  0 未弹窗  1 已弹窗
+}
+
+//CMD_GET_USER_HALL_STATE            = 10226; // 拉取用户大厅打开状态
+message GetUserHallStateReq {
+	optional uint64 uid							= 1;
+}
+
+message GetUserHallStateRsp {
+	optional uint32 hall_state					= 1; // 当前用户大厅打开状态，1 打开  ， 2 不打开
+}
+
+//CMD_SET_USER_HALL_STATE            = 10227; // 修改用户大厅打开状态
+message SetUserHallStateReq {
+	optional uint64 uid							= 1;
+	optional uint32 hall_state					= 2; // 当前用户大厅打开状态，1 打开  ， 2 不打开
+}
+
+message SetUserHallStateRsp {
+	optional uint32 recode						= 1; // 处理结果   ，0  成功
+}
+
+//CMD_GET_USER_HALL_BLACK            = 10228; // 判断用户是否是大厅黑名单用户
+message GetUserHallBlackReq {
+	optional uint64 uid							= 1;
+}
+
+message GetUserHallBlackRsp {
+	optional uint32 is_black					= 1; // 是否是黑名单用户， 1 是  ，2 否
+	optional bool is_child						= 2; // 是否是<18岁用户， 1 是  ，2 否
+	optional bool is_zk							= 3; // 是否是zk配置黑名单用户， 1 是  ，2 否
+	optional uint64 uid							= 4;
+}
+
+//******************PC过度办命令字**********************//
+//合并需求--编辑用户信息请求
+message EditHYUserInfoReq
+{
+	required IdType id_type = 1;
+    required HYUserInfo info = 2;
+}
+//合并需求--编辑用户信息回复
+message EditHYUserInfoRsp
+{
+
+}
+
+//合并需求--用户信息
+message HYUserInfo{
+    required uint64 id            = 1; // 请求时给的id，可能是UID 或者QQ
+
+    optional string name           = 3; // 名称
+    optional GENDER gender         = 4; // 性别
+	optional string hy_logo_url	 	= 10; //花样头像加密串
+	optional bytes user_logo_url 	= 11; //用户头像url，只有查询时特别指定才返回
+    optional string avatar         = 12; // 头像图片id；客户端拼出url
+    optional string user_tag       = 13; // 他是 xxx
+    optional string trend          = 14; // 交友取向, 喜欢 xxx
+    optional string dosomething    = 15; // 一起 xxx
+    optional uint32 birthday_year  = 16; // 出生日期：年
+    optional uint32 birthday_month = 17; // 出生日期：月
+    optional uint32 birthday_day   = 18; // 出生日期：日
+    optional string country        = 19; // 国家
+    optional string province       = 20; // 省 名称
+    optional string city           = 21; // 市 名称
+	optional uint32 city_zone	   = 22; //城市里的某个区
+    optional uint32 height         = 23; // 身高
+    optional uint32 weight         = 24; // 体重
+    optional int64 qiqi_uid        = 28; // qiqi_uid
+    optional uint32 blood_type     = 31; // 血型
+    optional string birth_country  = 32; // 故乡国家
+    optional string birth_province = 33; // 故乡省份
+    optional string birth_city     = 34; // 故乡城市
+    optional uint64 short_id	   = 39; // 用户短ID
+    optional uint32 flag 		   = 40; //用户标识  1 花样用户  2 交友用户 3 花样交友用户
+	optional uint32 user_log_time_stamp = 41; //用户自定义头像时间戳
+	optional uint32 nobility	   = 42; //爵位值
+	optional uint32 special_type   = 43; //用户特殊身份类型 0：无特殊身份（爵位等不属于特殊身份）  1：第一土豪 类
+
+	//花样相关
+    optional uint32 uin            = 101; // 用户uin
+	optional uint32 show_qq = 102;       //是否显示用户QQ  0:显示 1：不显示
+	optional string signature = 103;  	//花样签名
+    optional uint32 fans_count = 104; 	// 粉丝数
+	optional uint32 logo_timestamp = 105; //花样头像时间戳
+	optional CarInfo car_info = 106; //用户座驾信息
+
+	//行为相关
+    optional bool   is_liked         = 201; // 是否喜欢过   行为信息  OK
+    optional uint32 charm          = 202; // 魅力值    行为信息  be_loved_count
+    optional uint32 popularity     = 203; // 人气值  行为信息  be_liked_count
+    optional uint32 be_loved_count = 204; // 用户被心动次数  行为信息   在USERINFO
+    optional uint32 be_liked_count = 205; // 用户被喜欢次数 行为信息    trmem  count类型
+    optional uint32 gift_amount    = 206; // 礼物数 行为信息      trmem  count类型
+
+    optional uint32 be_attention_count = 207; // 用户被关注次数 行为信息  trmem  count类型
+    optional uint32 adore_count 	= 208; // 用户爱慕的人数  行为信息  OK
+    optional uint32 be_adored_count = 209; // 爱慕用户的人数  行为信息  OK
+    optional uint32 adore_total_score = 210; // 爱慕值 行为信息  trmem  count类型
+
+	optional UserInfoExtra userInfoExtra = 301;//用户的附属信息  行为信息
+    optional BehaviourToUserInfo behaviourToUserInfo = 401;//我对目标用户的行为信息 行为信息
+
+    optional User_Privilege_Data user_privilege = 500; // 用户爵位信息
+}
+
+
+//    CMD_GET_APPID_BY_UID               = 10403; // (内部)通过uid获取imsdk appid
+message GetAppidByUidReq {
+	optional uint64 uid							= 1;
+}
+
+message GetAppidByUidRsp {
+	optional uint64 imsdk_appid				    = 1;
+}
+
+//    CMD_GET_APPID_BY_ROOMID            = 10404; // (内部)通过roomid获取imsdk appid
+message GetAppidByRoomIdReq {
+	optional uint64 room_id							= 1;
+}
+
+message GetAppidByRoomIdRsp {
+	optional uint64 imsdk_appid					= 1;
+}

@@ -1,0 +1,39 @@
+enum GENDER
+{
+    GENDER_NONE   = 0;
+    GENDER_MALE   = 1;
+    GENDER_FEMALE = 2;
+}
+
+// 红娘玩法用户榜单
+message MatchMakerUserScoreItem
+{
+   optional uint64 uid = 1;   // 用户uid
+   optional string name = 2;    // 用户名称
+   optional string avatar = 3;    // 头像图片id；客户端拼出url
+   optional GENDER gender = 4;    // 用户性别
+   optional uint32 wealth = 5;    // 该周期内用户送出的礼物价值数
+   optional uint32 age    = 6 [default = 999] ; // 年龄
+   optional string country = 7;    // 国家
+   optional string province = 8;    // 省份
+   optional string city = 9;    // 城市
+   optional uint32 is_love_guard = 10;   // 守护榜单第一名标记，是否为挚爱守护, 0:不是挚爱守护, 1:是挚爱守护 14    required uint64 rank		            = 11;   //排名
+}
+
+//CMD_GET_MATCHMAKER_WEEK_GUARD_SCORE_LIST = 10719; //拉取红娘周红娘守护榜
+message GetMatchmakerWeekGuardScoreListReq
+{
+    optional uint64 uid = 1; //查询用户uid
+    optional uint32 start = 2;//批量拉取起始位置,默认为0
+    optional uint32 limit = 3;//批量拉取数量,默认为10,最大支持50
+}
+
+//错误码:
+//1071901:入参错误
+//1071902:获取土豪榜单出错
+//1071903:获取土豪信息出错
+message GetMatchmakerWeekGuardScoreListRsp
+{
+    repeated MatchMakerUserScoreItem user_rich_item_list = 1;    // 土豪榜单
+    optional MatchMakerUserScoreItem self_rick_item = 2; //请求者自己的排行
+}

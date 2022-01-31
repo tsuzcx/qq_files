@@ -1,0 +1,64 @@
+
+package CommonConfigDataProto;
+
+option java_package = "com.tencent.jungle.config.proto";
+//option java_package = "com.tencent.huayang.operation.proto";
+option java_outer_classname = "CommonConfigDataProto";
+
+// config cmd: 0x5104, subcmd: 0x2
+message RuleKeyMeta
+{
+    optional bytes key          = 1; //动态规则的key，匹配后台的具体动态规则。上行的value类型，业务根据自己的情况，选择上行,需要与后台配置的value类型一致
+    optional bytes stringValue  = 2; //字符串值
+    optional uint32 intValue    = 3; //整型值
+    optional float floatValue   = 4; //浮点值
+}
+
+
+//######## read ########
+//######### 新协议 ##########
+message ResultInfo
+{
+    optional uint32 code 		= 1; //返回码， 0 success，1 key映射不存在 2 tmem返回失败 3 内部错误 4 参数错误 5 超过批量限制
+    optional string msg 		= 2; //错误信息
+}
+message FlagBuffer
+{
+    optional uint32 indexId     = 1;//开关id，需要向管理员申请分配
+    optional uint32 flag        = 2;//开关值，0/1， 0=不灰度，1=灰度
+    optional bytes buffer       = 3;//配置buffer，业务自定义
+    optional uint32 bufferType  = 4;//buffer type, 0 字符串 1 json
+    optional uint64 timeStamp   = 5;//时间戳，毫秒
+}
+
+message GeoData
+{
+    optional double longitude   = 1;//经度
+    optional double latitude    = 2;//维度
+    optional uint32 coordinate  = 3;//坐标，保留字段
+}
+message MatchDimension
+{
+    optional uint32 version     = 1; //客户端版本， 整型版本号
+    optional string deviceType  = 2; //设备型号， iPhone 4\iPhone 5s 等
+    optional uint32 clientType  = 3; //终端类型，  1 为iOS， 2为Android ，业务可自定义
+    optional string strVersion  = 4; //版本，字符串值，如1.0.1 6.6.0等
+    repeated RuleKeyMeta keyMetas  = 5; //规则key 列表，动态规则与key一一对应
+    optional GeoData geoData    = 6; //地理信息
+}
+
+message CommFlagBufferReq
+{
+	optional uint64 uid 		= 1; //用户uid
+	optional string refer       = 2; //业务来源，方便跟踪调用方，请填写英文服务包名
+	repeated FlagBuffer keys 	= 3; //请求的数据key
+	optional MatchDimension dimensions = 4; //
+}
+message CommFlagBufferRsp
+{
+    optional ResultInfo result  = 1; //
+	optional uint64 uid 		= 2; //uid
+	repeated FlagBuffer datas 	= 3; //用户配置数据， 上行的批量key 暂时控制30个上限
+}
+
+

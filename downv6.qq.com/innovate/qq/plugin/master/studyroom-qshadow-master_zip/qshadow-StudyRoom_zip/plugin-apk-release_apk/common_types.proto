@@ -1,0 +1,969 @@
+syntax = "proto2";
+package videohub;
+option java_package = "com.tencent.jungle.videohub.proto";
+import "public_types.proto";
+
+enum GENDER
+{
+    GENDER_NONE   = 0;
+    GENDER_MALE   = 1;
+    GENDER_FEMALE = 2;
+}
+
+enum DATING_STAGE
+{
+    STAGE_UNSTARTED = 0; // 未开始
+    STAGE_INTRO     = 1; // 介绍
+    STAGE_SELECT    = 2; // 选择心动
+    STAGE_RESULT    = 3; // 公布结果
+}
+
+//房间游戏模式 交友玩法插件使用
+enum DATING_GAME_MODEL
+{
+    MODEL_DEFAULT  = 0; // 默认,相亲模式
+    MODEL_TRUTH    = 1; // 真心话模式
+}
+
+
+// 管理员管理操作类型
+enum ADMIN_OP_TYPE
+{
+    OP_TYPE_NONE                  = 0; // 未定义
+    OP_TYPE_VIP_IN                = 1; // 抱人上台
+    OP_TYPE_VIP_OUT               = 2; // 踢人下台
+    OP_TYPE_KICK_OUT_ROOM         = 3; // 踢出房间 30min
+    OP_TYPE_FORBIDEN_SPEACK       = 4; // 禁言 30min
+    OP_TYPE_ADD_TO_ROOM_BLACKLIST = 5; // 加入房间黑名单
+    OP_TYPE_USER_OFFLINE          = 6; // 用户掉线，被后台踢出房间
+    OP_TYPE_CLEAN_STAGE           = 7; // 长时间没有主持人，清场
+    OP_TYPE_HOST_OUT              = 8; // 主持人下台
+}
+
+
+//有身份列表变更类型
+enum PUSH_MEMBER_INFO_TYPE
+{
+    MEMBER_INFO_ADD     = 0; // 新增用户
+    MEMBER_INFO_DEL     = 1; // 删除用户
+    MEMBER_INFO_CHANGE  = 2; // 变更用户
+}
+
+//有身份列表变更类型, 明细, 升级类型
+enum MEMBER_INFO_UPDATE
+{
+    MEMBER_WEALTH_UPDATE        = 0; // 没有升级
+    MEMBER_NOBILITY_UPDATE        = 1; // 爵位升级
+}
+
+// push 类型
+enum COMM_PUSH_TYPE
+{
+    COMM_PUSH_TYPE_TO_ROOM     = 1;
+    COMM_PUSH_TYPE_ONE_TO_ONE  = 2;
+    COMM_PUSH_TYPE_ONE_TO_MANY = 3;
+}
+
+// 房间掩码开关标志位
+enum ROOM_CONFIG_FLAG
+{
+    ROOM_CONFIG_FLAG_ONLY_REQUEST_STAGE_USER_AUDIO = 0; // 只请求台上用户声音
+}
+
+//SEAT_TYPE 交友玩法插件使用
+enum SEAT_TYPE
+{
+    SEAT_TYPE_NONE           = 0; // 未定义不在房间内
+    SEAT_TYPE_MALE_VIP       = 1; // 场上男嘉宾
+    SEAT_TYPE_FEMALE_VIP     = 2; // 场上女嘉宾
+    SEAT_TYPE_HOST           = 3; // 主持人
+    SEAT_TYPE_MALE_WAITING   = 4; // 候场男嘉宾
+    SEAT_TYPE_FEMALE_WAITING = 5; // 候场女嘉宾
+    SEAT_TYPE_USER           = 6; // 房间中的普通用户
+}
+
+//SWF_ID 交友玩法插件使用
+enum SWF_ID
+{
+    SWF_ID_A        = 1; //SWF_ID_A
+    SWF_ID_B       = 2; // /SWF_ID_B
+}
+message VipUser // 场上嘉宾或主持  交友插件使用
+{
+    optional SEAT_TYPE seat_type = 1; // 座位类型, 主持人/男嘉宾/女嘉宾
+    optional int32 seat_no       = 2; // 座位号
+    optional uint64 uid          = 3; // 用户ID
+    optional bool mic_status     = 4; // MIC权限
+    optional bool video_status   = 5; // 视频权限
+    optional uint64 love_uid     = 6; // 心动用户 ID
+    optional uint32 dating_level = 7; // 收到礼物价值等级 0 为没有等级 1.1 级下发数据 101； 101/100 大等级，101%100 小等级。
+    optional SWF_ID swf_id = 8; //牵手动画ID
+    optional uint32 dating_level_new = 9; // 收到礼物价值等级 0 为没有等级 11.1 级下发数据 1101,新版使用
+    optional string av_auth_key = 10; //av 授权票据 方案废弃，此处无效 但是已存TMEM 占位使用
+}
+
+enum USER_TYPE
+{
+    USER_TYPE_USER        = 1; // 普通用户
+    USER_TYPE_ADMIN       = 2; // 房间主持人
+    USER_TYPE_OWNER       = 3; // 房主
+    USER_TYPE_SUPER_ADMIN = 4; // 全局管理员
+    USER_TYPE_ROOM_MANAGER = 5; //房间管理员
+    USER_TYPE_ROOM_CONTROLLER = 6; //场控员
+}
+
+enum ROOM_TYPE
+{
+    ROOM_JY_OLD = 0; //交友老房间（未灰度房间，androd灰度临时使用）
+    ROOM_JY     = 1; //交友新房间（灰度房间）
+    ROOM_GROUP  = 2; //群房间 , 直播房间复用
+}
+
+enum ROOM_STATUS
+{
+    ROOM_OPEN = 0;
+    ROOM_CLOSE = 1;
+}
+
+//徽章类型ID
+enum BADGE_ID
+{
+    BADGE_ID_NONE           = 0; // 未定义
+    BADGE_ID_PEACH_MALE_DAY      = 1; //桃花男神日徽章ID
+    BADGE_ID_PEACH_FEMALE_DAY      = 2; //桃花女神日徽章ID
+    BADGE_ID_PEACH_HOST_DAY      = 3; //桃花主持人日徽章ID
+    BADGE_ID_PEACH_FAEIRE_DAY      = 4; //桃花仙子日徽章ID
+    BADGE_ID_PEACH_MALE_TOTAL      = 5; //桃花男神总徽章ID
+    BADGE_ID_PEACH_FEMALE_TOTAL      = 6; //桃花女神总徽章ID
+    BADGE_ID_PEACH_HOST_TOTAL      = 7; //桃花主持人总徽章ID
+    BADGE_ID_PEACH_FAEIRE_TOTAL      = 8; //桃花仙子总徽章ID
+    BADGE_ID_PEACH_LUCKY      = 9; //幸运桃花徽章ID
+    BADGE_ID_FRESH_MAN      = 10; //新人徽章ID
+    
+    BADGE_ID_LOVE_SEASON_MALE_DAY      = 11; //恋爱季男神日徽章ID
+    BADGE_ID_LOVE_SEASON_FEMALE_DAY      = 12; //恋爱季女神日徽章ID
+    BADGE_ID_LOVE_SEASON_HOST_DAY      = 13; //恋爱季主持人日徽章ID
+    BADGE_ID_LOVE_SEASON_TYRANT_DAY      = 14; //恋爱季土豪日徽章ID
+    BADGE_ID_LOVE_SEASON_MALE_TOTAL      = 15; //恋爱季男神总徽章ID
+    BADGE_ID_LOVE_SEASON_FEMALE_TOTAL      = 16; //恋爱季女神总徽章ID
+    BADGE_ID_LOVE_SEASON_HOST_TOTAL      = 17; //恋爱季主持人总徽章ID
+    BADGE_ID_LOVE_SEASON_TYRANT_TOTAL      = 18; //恋爱季土豪总徽章ID
+    BADGE_ID_LOVE_SEASON_UPGRADE      = 19; //恋爱季升级徽章ID
+    
+    BADGE_ID_QI_XI_MALE_DAY      = 20; //七夕男神日徽章ID
+    BADGE_ID_QI_XI_FEMALE_DAY      = 21; //七夕女神日徽章ID
+    BADGE_ID_QI_XI_HOST_DAY      = 22; //七夕主持人日徽章ID
+    BADGE_ID_QI_XI_TYRANT_DAY      = 23; //七夕土豪日徽章ID
+    BADGE_ID_QI_XI_MALE_TOTAL      = 24; //七夕男神总徽章ID
+    BADGE_ID_QI_XI_FEMALE_TOTAL      = 25; //七夕女神总徽章ID
+    BADGE_ID_QI_XI_HOST_TOTAL      = 26; //七夕主持人总徽章ID
+    BADGE_ID_QI_XI_TYRANT_TOTAL      = 27; //七夕土豪总徽章ID
+    BADGE_ID_QI_XI_UPGRADE      = 28; //七夕升级徽章ID    
+    
+    BADGE_ID_ANNUAL_FESTIVAL_MALE_DAY      = 29; //年度盛典男神日徽章ID
+    BADGE_ID_ANNUAL_FESTIVAL_FEMALE_DAY      = 30; //年度盛典女神日徽章ID
+    BADGE_ID_ANNUAL_FESTIVAL_HOST_DAY      = 31; //年度盛典主持人日徽章ID
+    BADGE_ID_ANNUAL_FESTIVAL_TYRANT_DAY      = 32; //年度盛典土豪日徽章ID
+    BADGE_ID_ANNUAL_FESTIVAL_MALE_TOTAL      = 33; //年度盛典男神总徽章ID
+    BADGE_ID_ANNUAL_FESTIVAL_FEMALE_TOTAL      = 34; //年度盛典女神总徽章ID
+    BADGE_ID_ANNUAL_FESTIVAL_HOST_TOTAL      = 35; //年度盛典主持人总徽章ID
+    BADGE_ID_ANNUAL_FESTIVAL_TYRANT_TOTAL      = 36; //年度盛典土豪总徽章ID
+    BADGE_ID_ANNUAL_FESTIVAL_HOST_UPGRADE      = 37; //年度盛典主持升级徽章ID
+    BADGE_ID_ANNUAL_FESTIVAL_USER_UPGRADE      = 38; //年度盛典用户升级徽章ID        
+    
+    BADGE_ID_LOVE_TRAVEL_MALE_DAY      = 39; //真爱之旅男神日徽章ID
+    BADGE_ID_LOVE_TRAVEL_FEMALE_DAY      = 40; //真爱之旅女神日徽章ID
+    BADGE_ID_LOVE_TRAVEL_HOST_DAY      = 41; //真爱之旅主持人日徽章ID
+    BADGE_ID_LOVE_TRAVEL_TYRANT_DAY      = 42; //真爱之旅土豪日徽章ID
+    BADGE_ID_LOVE_TRAVEL_MALE_TOTAL      = 43; //真爱之旅男神总徽章ID
+    BADGE_ID_LOVE_TRAVEL_FEMALE_TOTAL      = 44; //真爱之旅女神总徽章ID
+    BADGE_ID_LOVE_TRAVEL_HOST_TOTAL      = 45; //真爱之旅主持人总徽章ID
+    BADGE_ID_LOVE_TRAVEL_TYRANT_TOTAL      = 46; //真爱之旅土豪总徽章ID
+    BADGE_ID_LOVE_TRAVEL_HOST_UPGRADE      = 47; //真爱之旅主持人任务升级标识
+    BADGE_ID_LOVE_TRAVEL_USER_UPGRADE      = 48; //真爱之旅用户升级徽章ID      
+    
+    
+    
+    
+    BADGE_ID_AFAT_HOST_DAY      = 49; //年度盛典房间赛主持人日徽章ID
+    BADGE_ID_AFAT_TYRANT_DAY      = 50; //年度盛典房间赛土豪日徽章ID
+    BADGE_ID_AFAT_HOST_TOTAL      = 51; //年度盛典房间赛主持人总徽章ID
+    BADGE_ID_AFAT_TYRANT_TOTAL      = 52; //年度盛典房间赛土豪总徽章ID
+    BADGE_ID_AFAT_HOST_UPGRADE      = 53; //年度盛典主持人任务升级标识
+    BADGE_ID_AFAT_USER_UPGRADE      = 54; //年度盛典房间赛用户升级徽章ID
+    
+    BADGE_ID_AFHR_HOST_NEW      = 55;  //2016花样交友年度最佳新人    新人赛结束发放    2017年12月31日
+    BADGE_ID_AFHR_HOST_TOTAL   = 56; //2016花样年度盛典十佳主持徽章ID
+    BADGE_ID_AFHR_HOST_UPGRADE      = 57; //年度盛典主持人赛主持人任务升级标识  不是徽章
+    BADGE_ID_AFHR_USER_UPGRADE      = 58; //花样交友年度盛典风云1级    
+    
+    BADGE_ID_AFHR_HOST_GOLD      = 59;  //2016花样交友年度主持金奖    活动结束后发放    2017年12月31日
+    BADGE_ID_AFHR_HOST_SILVER      = 60;  //2016花样交友年度主持银奖    活动结束后发放    2017年12月31日
+    BADGE_ID_AFHR_HOST_COPPER      = 61;  //2016花样交友年度主持铜奖    活动结束后发放    2017年12月31日
+    BADGE_ID_AFHR_TYRANT_GOLD       = 62;  //2016花样交友年度风云人物金奖    活动结束后发放    2017年12月31日
+    BADGE_ID_AFHR_TYRANT_SILVER      = 63;  //2016花样交友年度风云人物银奖    活动结束后发放    2017年12月31日
+    BADGE_ID_AFHR_TYRANT_COPPER      = 64;  //2016花样交友年度风云人物铜奖    活动结束后发放    2017年12月31日
+    
+    
+    BADGE_ID_SPRING_HOST_TOTAL      = 65; //春节活动主持人总徽章ID
+    BADGE_ID_SPRING_TYRANT_TOTAL      = 66; //春节活动土豪总徽章ID
+    BADGE_ID_SPRING_HOST_UPGRADE      = 67; //春节活动主持人任务升级徽章ID
+    BADGE_ID_SPRING_HOST_UPGRADE_DAY      = 68; //春节活动主持人每天任务升级标识
+    BADGE_ID_SPRING_USER_UPGRADE      = 69; //春节活动房间赛用户升级徽章ID
+    
+    BADGE_ID_TAOHUA_TUHAO_TOP10    = 70;     //桃花朵朵开活动，护花使者总榜前10  展示到 2017.4.30
+    BADGE_ID_TAOHUA_NANSHEN_TOP10  = 71;   //桃花朵朵开活动，男神总榜前10   展示到 2017.4.30
+    BADGE_ID_TAOHUA_NVSHEN_TOP10   = 72;   //桃花朵朵开活动，女神总榜前10    展示到 2017.4.30
+    BADGE_ID_TAOHUA_XIANZI_TOP10   = 73;   //桃花朵朵开活动，桃花仙子总榜前10   展示到 2017.4.30
+    
+    BADGE_ID_TAOHUA_TUHAO_DAY    = 74;     //桃花朵朵开活动，护花使者日榜前10  
+    BADGE_ID_TAOHUA_NANSHEN_DAY  = 75;   //桃花朵朵开活动，男神日榜前10   
+    BADGE_ID_TAOHUA_NVSHEN_DAY   = 76;   //桃花朵朵开活动，女神日榜前10    
+    BADGE_ID_TAOHUA_XIANZI_DAY   = 77;   //桃花朵朵开活动，桃花仙子日榜前10  
+    BADGE_ID_TAOHUA_TUHAO_UPGRADE   = 78;   //桃花朵朵开活动，桃花运护花使者升级徽章
+}
+
+////爵位类型
+enum NobilityType
+{
+    NONE                = 0;    //无
+    LEVEL_RICH_ONE      = 1;    //一富
+    LEVEL_RICH_TWO      = 2;    //二富
+    LEVEL_RICH_THREE    = 3;    //三富
+    LEVEL_RICH_FOUR     = 4;    //四富
+    LEVEL_RICH_FIVE     = 5;    //五富
+    LEVEL_RICH_SIX      = 6;    //六富
+    LORD                = 7;    //勋爵
+    BARON               = 8;    //男爵
+    VISCOUN             = 9;    //子爵
+    COUNT               = 10;   //伯爵
+    MARQUIS             = 11;   //侯爵
+    DUKE                = 12;   //公爵
+    KING                = 13;   //国王
+    KING_TOP            = 14;   //KING
+    EMPEROR_ONE         = 15;   //帝皇
+    EMPEROR_TWO         = 16;   //君皇
+}
+
+message IconInfo
+{    
+    optional string icon_id = 1;//图片资源url拼接用的id 
+    optional uint32 width = 2;//宽
+    optional uint32 height = 3;//高
+}
+
+message NobilityResources
+{
+    optional IconInfo icon_head = 1; //爵位图标1 名字前用的
+    optional IconInfo icon_background = 2; //爵位图标2 公屏沉淀 
+	optional int32  text_color = 3;// 配色如0xFFFFAAFF
+	optional IconInfo icon_pc = 4; //爵位图标 pc small 
+}
+
+//爵位信息
+message NobilityAllInfo
+{
+    required uint32 level = 1;    //爵位等级
+    required uint64 uid = 2;
+    optional uint64 expire_time = 3;     //过期时间
+    optional uint32 type = 4; //爵位类型 正常或者体验,1正常/2体验
+    optional string name = 5; //爵位名字
+    optional uint32 score = 6; //爵位积分
+    optional NobilityResources resources = 7; //爵位资源url
+    optional uint32 yellow_jacket_count = 8;//黄马褂数量 防降级，升级清空
+    optional uint32 is_effective = 9;//1有效，0失效(不关心过期时间的，只关心是否过期的业务用)
+    repeated uint64 jacket_time = 10;//黄马褂使用时间
+    optional uint64 contribution = 11;//30天累计消费
+	optional uint32 jacket_flag = 12;//本等级是否购买过保级卡0无1用过
+}
+
+//徽章简略信息
+message BadgeSimpleInfo
+{
+    optional uint32 badge_id         = 1; //徽章id
+    optional uint32 badge_level      = 2; //徽章等级
+    optional uint32 badge_score      = 3; //徽章分数
+}
+
+// 用户财富榜
+message UserWealth
+{
+    required uint64 uid    = 1;     // 用户id
+    required uint32 wealth = 2;     // 财富值
+    optional string name   = 3;    // 用户名称
+    optional string avatar = 4;    // 头像图片id；客户端拼出url
+    optional GENDER gender = 5; //性别
+}
+
+//管理员信息
+message ManagerInfo
+{
+    optional uint64 user_id        = 1;     //用户UIN
+    optional uint32 room_id        = 2;     //房间ID
+    optional uint32 manager_type   = 3;     //管理员类型
+    optional uint64 user_prive     = 4;     //权限状态位(成员管理，房间管理等)
+}
+
+message MemberInfo
+{
+    required uint64 uid            = 1; // uid
+    optional string name        = 2; // 名称
+    optional GENDER gender        = 3; // 性别
+    optional string avatar        = 4; // 头像图片id；客户端拼出url
+    optional ManagerInfo managerInfo = 5;//管理员身份
+    optional uint32 anchor_type = 6;//艺人身份 0 普通用户 1 艺人 2 工会艺人(客户端是 0 普通用户  1 本公会艺人  2 其他公会签约艺人)
+    //optional NobilitySimpleInfo nobility = 7;//爵位
+    optional God god             = 8;
+    optional NobilityAllInfo user_nobility = 9;//爵位
+    optional uint32 enter_time = 13;//进房时间
+    optional uint64 score      = 17;
+    optional uint64 uin        = 18;
+    optional uint32 info_type  = 19;
+    optional uint32 is_robot   = 20; // 是否是机器人  1 是， 0 不是
+    optional bytes extra_data = 21;
+}
+
+message God{
+    optional uint32 order = 1;//排名
+    optional uint32 score = 2;//贡献值
+}
+
+// 情绪表情
+message EmotionFace
+{
+    required uint32 id      = 1; //情绪ID
+    required string name    = 2; // 表情名称
+    required string pic     = 3; // 表情图片
+    required string preview_pic     = 4; // 表情预览图片
+}
+
+enum ITEM_TYPE
+{
+    ITEM_TYPE_GIFT = 1; // 礼物
+    ITEM_TYPE_EMOTION_FACE = 2; // 情绪表情
+    ITEM_TYPE_ADORE = 3; // 爱慕
+    ITEM_TYPE_FIRST_CHARGE_GIFT = 4; // 首充礼包
+    ITEM_TYPE_COIN = 5; //花豆
+    ITEM_TYPE_LUXURY_GIFT = 6;//豪华礼物
+	
+	ITEM_TYPE_GAME_GIFT = 10;//游戏礼物
+}
+
+
+message ItemInfo
+{
+    required uint32 item_id         = 1; // 商品id
+    required string name            = 2; // 商品名称
+    required int32  price           = 3; // 商品价格 (游戏币)
+    required string pic             = 4; // 商品图片
+    required ITEM_TYPE type         = 5; // 商品类型
+    required float sharing_ratio    = 6; // 分成比例
+    optional string preview_pic     = 7; // 预览图片
+    optional string pc_version      = 8; // 礼物支持的最低PC客户端版本
+    optional string android_version = 9; // 礼物支持的最低安卓客户端版本
+    optional int32 gift_offline     = 10; // 礼物是否下线 0：在线 1：不在线（已下线）
+    optional int32 gift_permitbuy   = 11; // 礼物是否可购买 0：可购买 1：不可购买
+    optional uint32 gift_offline_time = 12; // 礼物下线时间
+    optional int32  gift_transform_id = 13; // 礼物转换的目的礼物ID
+    optional string activity_str      = 14; // 活动礼物文案
+    optional uint32 gift_online_time = 15; //礼物上线时间
+}
+
+// 公告
+message Notice
+{
+    required uint64 notice_id   = 1; // 公告id
+    optional uint64 uid         = 2; // 发布人uid
+    optional uint32 room_id     = 3; // 公告房间id
+    optional uint32 uptime      = 4; // 更新公告
+    optional string content     = 5; // 公告内容
+}
+
+//活动状态
+enum ACT_STATUS
+{
+    ACT_NONE        = 0; //未定义
+    ACT_PREPARE        = 1; //活动预备中，未开始
+    ACT_RUNNING        = 2; // 活动进行中
+    ACT_STOP            = 3; // 活动已结束
+}
+
+message HyPayModel{
+    //支付的类型
+    required HyPayMode mode = 2;//支付的方式
+    //通过openid openkey换取skey支付
+    optional string openid          = 5; // 送礼物者openid
+    optional string openkey         = 6; // 送礼物者access_token
+    optional uint32 appid           = 7; // 登录的appid
+    
+    optional uint64 uin             = 13; //uin
+    
+    //通过uin,skey
+    optional string skey             = 14; //skey
+    
+    //通过uin,skey
+    optional string vask             = 20; //vask
+}
+
+enum HyPayMode{
+     BY_APPID_OPENID_OPENKEY        = 1;   // 通过appid openid openkey换取skey的方式,此时需要传入openid open key appid,uid
+     BY_SKEY                        = 2;   // 通过uin, skey直接进行支付,此时需要传入uin,skey
+     BY_VASK                        = 3;   // 通过uin, skey直接进行支付,此时需要传入uin,VASK
+     NO_LOGIN                        = 4;   // 无登录态,不用传登录信息.
+}
+
+
+enum RESOURCE_ID
+{
+    RESOURCE_ADORE_STORE                = 1; //收费爱慕
+}
+
+//用户特殊身份，存储在花样服务的tmem格式
+message MsgData 
+{
+    required string msg_name              = 1;
+    optional uint32 fail_time             = 2;
+}
+
+//合并需求--用户扩展信息
+message LiveState {
+  required uint32 state     = 1; // 直播状态: {1 正在直播}， {2 - 未直播}
+  required uint32 live_type  = 2; // 类型：1 - 直播, 2 - 交友
+  required uint64 room_id  = 3; // 直播房间号
+
+}
+message HYUserExtendInfo {
+ required uint64 id = 1; // 请求是给的id
+ optional LiveState live_state    = 2; // 直播状态
+ optional uint32 attention_switch = 3; // 关注开关  1：开   2：关
+}
+
+//用户进房历史记录Item
+message IdScoreItem
+{
+    required uint64 room_id    = 1; // 房间id
+    required uint64 score = 2;     //分值
+    optional uint32 room_no = 3;  //房间NO
+}
+
+//牵手成功记录Item
+message HandInHandItem{  
+    optional uint64 uid1     = 1;        //牵手用户1
+    optional uint64 uid2     = 2;          //牵手用户2
+    optional uint32 room_id      = 3; // 房间ID
+    optional uint32 hand_time      = 4; // 牵手成功时间
+    
+    //用户相关信息
+    optional string user1_name     = 10;        //用户1昵称
+    optional string user2_name     = 11;        //用户2昵称
+    optional string user1_avatar     = 12;        //用户1头像
+    optional string user2_avatar     = 13;        //用户2头像
+    
+    optional GENDER user1_gender     = 14;        //用户1性别
+    optional GENDER user2_gender     = 15;        //用户2性别
+}
+
+message HandInHandInfo{  
+    repeated HandInHandItem items = 1; //牵手成功记录Item
+}
+
+// 用户基本信息
+message RoomHostInfo
+{
+    required uint32 room_id         = 1;    // 房间id
+    optional uint64 host_uid        = 2;    // 主持人UID
+    optional string host_name         = 3;    //主持人昵称
+    optional string host_avatar     = 4;    //主持人头像
+    optional GENDER host_gender     = 5;    //主持人性别
+}
+
+message GiftFlashConfig
+{
+    required uint32 gift_id = 1;
+    required uint32 min_num = 2; //flash需要的礼物数
+    required uint32 max_num = 3; //flash需要的礼物数
+    optional string gift_flash_effect = 4; //flash效果资源的url地址
+    optional string gift_flash_desc = 5; //flash效果资源的布局信息
+}
+
+message GiftWordConfig
+{
+    required uint32 gift_num = 1;     //文字需要的礼物数
+    optional string gift_word = 2;   //礼物描述
+}
+
+message GiftEffectConfig
+{
+    required uint32 gift_max_account = 1;     //特效需要的礼物最高价值数（花豆数）小于等于该值
+    optional uint32 effect_lvl = 2;   //特效等级
+    optional uint32 effect_time = 3;   //特效持续时间 单位毫秒
+}
+
+message GiftMobileConfig
+{
+    required uint32 gift_id = 1;     //礼物ID
+    optional uint32 effect_lvl = 2;   //特效等级
+    optional string effect_url = 3;   //flash url
+}
+
+message GiftConfig
+{
+    repeated GiftWordConfig word_config = 1; //礼物描述配置
+    repeated GiftFlashConfig flash_config = 2;  //礼物flash配置
+    repeated GiftEffectConfig effect_config = 3; //礼物特效配置
+    repeated GiftMobileConfig gift_mobile_config = 4; //礼物特效配置
+}
+
+//徽章详细信息
+message UserBadgeInfo
+{
+    optional uint32 badge_id         = 1; //徽章id
+    optional uint32 badge_level      = 2; //徽章等级
+    optional string badge_txt      = 9; //徽章文字说明
+    optional uint32 score_to_next      = 10; //到下一等级需要的分数
+    optional uint32 survival_time      = 11; //徽章剩余存活时间
+    optional uint32 badge_score      = 12; //徽章分数
+}
+
+message UserBadgeListNew
+{
+    repeated UserBadgeInfo infos   = 1; //徽章信息
+}
+
+message PropertyItem
+{
+    optional string key_name  = 1; //属性key 保证唯一性
+    optional string content  = 2; //属性内容JSON
+}
+
+message PropertyList
+{
+    repeated PropertyItem items   = 1; //属性信息
+}
+
+
+message BadgeItem
+{
+    optional uint32 badge_id         = 1; //徽章id
+    optional uint32 badge_level      = 2; //徽章等级
+    optional string badge_name      = 3; //徽章名称
+    optional string badge_pic          = 4; //徽章图像
+    optional string badge_unit      = 5; //徽章单位
+    optional uint32 badge_type      = 100; //徽章类型 后台使用
+}
+
+message BadgeList
+{
+    repeated BadgeItem items   = 1; //徽章配置信息列表
+}
+
+//房间玩法
+enum ROOM_GAME_PLAY
+{
+    ROOM_GAME_PLAY_NONE  = 0; // 没有特殊玩法
+    ROOM_GAME_PLAY_FRIEND  = 1; // 交友玩法
+    ROOM_GAME_PLAY_PK  = 2; // PK玩法
+    ROOM_GAME_PLAY_MATCHMAKER  = 3; // 红娘玩法
+    ROOM_GAME_PLAY_EDUCATION = 4; //公开课
+}
+
+//房间玩法状态
+enum ROOM_GAME_PLAY_STATE
+{
+    ROOM_GAME_PLAY_STATE_NONE  = 0; // 未知，房间不存在该玩法
+    ROOM_GAME_PLAY_STATE_OPEN  = 1; // 打开
+    ROOM_GAME_PLAY_STATE_CLOSE  = 2; // 关闭
+}
+
+message RoomBaseInfo
+{
+    required uint32 room_id            = 1; // 房间id
+    optional string room_name          = 2; // 房间名称
+    optional string chat_room_id       = 3; // IM聊天室id
+    optional string logo               = 4; // logo 文件名
+    optional string pic                = 5; // 房间图片文件名
+    optional uint64 owner_uin          = 6; // 房主UIN
+    optional uint32 room_no            = 7; // 房间号码 (此处有短号则放短号，无短号放原始房间号)
+    optional uint32 room_raw_no        = 8; // 房间原始号码(900xxx)
+    optional uint64 group_code         = 9; // 房间对应的群号
+    optional uint32 room_type          = 10; // 房间类型 enum ROOM_TYPE
+    optional uint32 ctime              = 11; // 创建时间
+    optional uint32 mtime              = 12; // 修改时间
+    optional string av_room_id         = 13; // AV聊天室id
+    optional uint32 room_short_no      = 14; // 房间短号
+    optional uint64 owner_uid          = 15; //房主uid
+    optional string	room_cover_url	   = 16; //主播推荐图 url
+    optional uint32 room_cover_status  = 17; //审核状态
+    optional string room_cover_refuse_reason = 18; //拒绝理由
+    optional string	room_checked_cover_url = 19; //房间上一次通过审核封面图
+    optional string av_room_id_intervideo    = 20; // 娱乐模式AV聊天室id
+    optional uint32 room_status       = 21;  //房间状态 0:打开 1:关闭 见ROOM_STATUS
+}
+
+// 单场魅力榜&单场土豪榜 Item
+message UserScoreItem
+{
+    required uint64 uid                     = 1;    // 用户uid
+    required string name                    = 2;    // 用户名称
+    required string avatar                  = 3;    // 头像图片id；客户端拼出url
+    required GENDER gender                  = 4;    // 用户性别
+    optional uint32 wealth                  = 5;    // 每轮交友环节为一个周期，该周期内用户送出的礼物价值数
+    optional uint32 glamour                 = 6;    // 每轮交友环节为一个周期，该周期内嘉宾收到的礼物价值数
+    optional uint32 dating_level_new        = 7;    // 用户帽子等级
+    optional uint32 before_next_level_score = 8;    // 到下一级需要的分数
+    optional uint32 seat_position = 9;    // 座位位置
+}
+
+// 红娘玩法用户榜单
+message MatchMakerUserScoreItem
+{
+    required uint64 uid                     = 1;    // 用户uid
+    required string name                    = 2;    // 用户名称
+    required string avatar                  = 3;    // 头像图片id；客户端拼出url
+    required GENDER gender                  = 4;    // 用户性别
+    optional uint32 wealth                  = 5;    // 该周期内用户送出的礼物价值数
+}
+
+/****commonuserinfo 相关PB*****////
+//通用用户资料模块 --外部接口
+message CommonUserInfo {
+    optional uint64 id            = 1; // 请求时给的id，可能是UID 或者QQ
+
+    optional string name               = 3; // 名称
+    optional GENDER gender             = 4; // 性别
+    optional string hy_logo_url         = 10; // 花样头像加密串
+    optional bytes user_logo_url     = 11; // 用户头像url，只有查询时特别指定才返回
+    optional string avatar             = 12; // 头像图片id；客户端拼出url
+    optional string user_tag           = 13; // 他是 xxx
+    optional string trend              = 14; // 交友取向, 喜欢 xxx
+    optional string dosomething        = 15; // 一起 xxx
+    optional uint32 birthday_year      = 16; // 出生日期：年
+    optional uint32 birthday_month     = 17; // 出生日期：月
+    optional uint32 birthday_day       = 18; // 出生日期：日
+    optional string country            = 19; // 国家
+    optional string province           = 20; // 省 名称
+    optional string city               = 21; // 市 名称
+    optional uint32 city_zone           = 22; // 城市里的某个区
+    optional uint32 height             = 23; // 身高
+    optional uint32 weight             = 24; // 体重
+    optional int64 qiqi_uid            = 28; // qiqi_uid
+    optional uint32 blood_type         = 31; // 血型
+    optional string birth_country      = 32; // 故乡国家
+    optional string birth_province     = 33; // 故乡省份
+    optional string birth_city         = 34; // 故乡城市
+    optional uint64 short_id           = 39; // 用户短ID
+    optional uint32 flag                = 40; // 用户标识  1 花样用户  2 交友用户 3 花样交友用户
+    optional uint32 user_log_time_stamp = 41; // 用户自定义头像时间戳
+    optional uint32 nobility           = 42; // 爵位值
+    optional string signature         = 43; // 用户签名
+    optional QQInfo qqInfo            = 44; // qq群相关资料
+
+    //群视频交友合并新增
+    optional uint64 uin                = 101; // 用户uin
+    optional uint32 qun_charm          = 102; // 合并版魅力值 与交友不同，记录收到的免费礼物数
+    optional uint32 qun_popularity     = 103; // 合并版人气值 与交友不同，记录收到的收费礼物数
+    optional uint32 has_certification    = 104; // 该用户是否认证过手机 0 未认证  1 已认证
+    optional UserVoiceCover userVoiceCover     = 105; // 用户语音封面
+
+    //行为相关
+    optional bool   is_liked       = 201; // 是否喜欢过   行为信息  OK
+    optional uint32 charm          = 202; // 魅力值    行为信息  be_loved_count(老版魅力值相当于礼物数牵手数喜欢等总数)
+    optional uint32 popularity     = 203; // 人气值  行为信息  be_liked_count(老版人气值，与新版人气值不同（新版为免费礼物数）)
+    optional uint32 be_loved_count = 204; // 用户被心动次数  行为信息   在USERINFO
+    optional uint32 be_liked_count = 205; // 用户被喜欢次数 行为信息    trmem  count类型
+    optional uint32 gift_amount    = 206; // 礼物数 行为信息      trmem  count类型(老版礼物数相当于礼物数+老版魅力值)
+
+    optional uint64 be_attention_count = 207; // 用户被关注次数 行为信息  trmem  count类型
+    optional uint32 adore_count     = 208;     // 用户爱慕的人数  行为信息  OK
+    optional uint32 be_adored_count = 209;     // 爱慕用户的人数  行为信息  OK
+    optional uint32 adore_total_score = 210; // 爱慕值 行为信息  trmem  count类型
+    optional uint64 new_popularity    = 211; // 新版人气值，收到免费礼物数
+    optional uint64 new_charm          = 212; // 新版魅力值，收到收费礼物数（价值）
+
+    optional UserInfoExtra userInfoExtra = 301;//用户的附属信息  行为信息
+    optional BehaviourToUserInfo behaviourToUserInfo = 302;//我对目标用户的行为信息 行为信息
+
+    //增值类信息
+    optional uint32 special_type       = 401; // 用户特殊身份类型 0：无特殊身份（爵位等不属于特殊身份）  1：第一土豪 类
+    optional SpecialConfig special_config   = 402; //用户特殊身份配置资源
+    optional CarInfo car_info         = 403; // 用户座驾信息
+    optional User_Privilege_Data user_privilege = 404; // 用户爵位信息
+}
+
+message QQInfo {
+    optional string qqName            = 1; // qq昵称
+    optional int32 qqGender            = 2; // qq性别 // 性别  1-男 2-女
+    optional string qqProvince        = 3; // qq省份
+    optional string qqCity            = 4; // qq城市
+    optional int32  qqAge            = 5; // qq年龄
+    optional string qqAvatar        = 6; // qq头像
+}
+
+//通用用户资料模块 --内部接口
+message CommonUserInfoInner {
+    optional uint64 id            = 1; // 请求时给的id，可能是UID 或者QQ
+
+    optional string name               = 3; // 名称
+    optional GENDER gender             = 4; // 性别
+    optional string hy_logo_url         = 10; // 花样头像加密串
+    optional bytes user_logo_url     = 11; // 用户头像url，只有查询时特别指定才返回
+    optional string avatar             = 12; // 头像图片id；客户端拼出url
+    optional string user_tag           = 13; // 他是 xxx
+    optional string trend              = 14; // 交友取向, 喜欢 xxx
+    optional string dosomething        = 15; // 一起 xxx
+    optional uint32 birthday_year      = 16; // 出生日期：年
+    optional uint32 birthday_month     = 17; // 出生日期：月
+    optional uint32 birthday_day       = 18; // 出生日期：日
+    optional string country            = 19; // 国家
+    optional string province           = 20; // 省 名称
+    optional string city               = 21; // 市 名称
+    optional uint32 city_zone           = 22; // 城市里的某个区
+    optional uint32 height             = 23; // 身高
+    optional uint32 weight             = 24; // 体重
+    optional int64 qiqi_uid            = 28; // qiqi_uid
+    optional uint32 blood_type         = 31; // 血型
+    optional string birth_country      = 32; // 故乡国家
+    optional string birth_province     = 33; // 故乡省份
+    optional string birth_city         = 34; // 故乡城市
+    optional uint64 short_id           = 39; // 用户短ID
+    optional uint32 flag                = 40; // 用户标识  1 花样用户  2 交友用户 3 花样交友用户
+    optional uint32 user_log_time_stamp = 41; // 用户自定义头像时间戳
+    optional uint32 nobility           = 42; // 爵位值
+    optional string signature         = 43; // 用户签名
+
+    //群视频交友合并新增
+    optional uint64 uin                = 101; // 用户uin
+    optional uint32 qun_charm          = 102; // 合并版魅力值 与交友不同，记录收到的免费礼物数
+    optional uint32 qun_popularity     = 103; // 合并版人气值 与交友不同，记录收到的收费礼物数
+    optional uint32 has_certification    = 104; // 该用户是否认证过手机 0 未认证  1 已认证
+    optional UserVoiceCover userVoiceCover     = 105; // 用户语音封面
+
+    //行为相关
+    optional bool   is_liked       = 201; // 是否喜欢过   行为信息  OK
+    optional uint32 charm          = 202; // 魅力值    行为信息  be_loved_count(老版魅力值相当于礼物数牵手数喜欢等总数)
+    optional uint32 popularity     = 203; // 人气值  行为信息  be_liked_count(老版人气值，与新版人气值不同（新版为免费礼物数）)
+    optional uint32 be_loved_count = 204; // 用户被心动次数  行为信息   在USERINFO
+    optional uint32 be_liked_count = 205; // 用户被喜欢次数 行为信息    trmem  count类型
+    optional uint32 gift_amount    = 206; // 礼物数 行为信息      trmem  count类型(老版礼物数相当于礼物数+老版魅力值)
+
+    optional uint64 be_attention_count = 207; // 用户被关注次数 行为信息  trmem  count类型
+    optional uint32 adore_count     = 208;     // 用户爱慕的人数  行为信息  OK
+    optional uint32 be_adored_count = 209;     // 爱慕用户的人数  行为信息  OK
+    optional uint32 adore_total_score = 210; // 爱慕值 行为信息  trmem  count类型
+    optional uint64 new_popularity    = 211; // 新版人气值，收到免费礼物数
+    optional uint64 new_charm          = 212; // 新版魅力值，收到收费礼物数（价值）
+
+    optional UserInfoExtra userInfoExtra = 301;//用户的附属信息  行为信息  // 这里如果有设置查询关注数 就会直接设置关注数粉丝数 关注关系
+    optional BehaviourToUserInfo behaviourToUserInfo = 302;//我对目标用户的行为信息 行为信息
+
+    //增值类信息
+    optional uint32 special_type       = 401; // 用户特殊身份类型 0：无特殊身份（爵位等不属于特殊身份）  1：第一土豪 类
+    optional SpecialConfig special_config   = 402; //用户特殊身份配置资源
+    optional CarInfo car_info         = 403; // 用户座驾信息
+    optional User_Privilege_Data user_privilege = 404; // 用户爵位信息
+}
+
+message SpecialConfig  {
+    optional string url_precipitate      = 1;        // (沉淀)  特殊土豪聊天区特殊icon
+    optional string url_nameplate          = 2;        // (铭牌)  特殊土豪进房(右下角闪过)，
+}
+
+message User_Privilege_Data {
+    optional uint32 uin = 1;         //用户UIN
+    optional Privilege_Time_Data user_privilege =  2;         //用户的特权信息
+}
+
+message Privilege_Time_Data {
+    optional uint32 privilege_type = 1;         //特性类型,1红名弹幕,2娱乐爵位,4个人直播爵位,5运营爵位
+    optional uint32 privilege_effective = 2;         //特性有无标志，1有，0无
+    optional uint32 privilege_level = 3;   //用户特权等级
+    optional uint32 privilege_time_effective = 4;   //用户特权特权是否在有效期  1 没过期  0 过期
+    optional uint32 fail_time = 5 ; //过期时间
+    optional PrivilegeExtInfo extended_info = 6 ; //附加字段
+    optional string privilege_name = 7 ; //爵位名称
+}
+
+message PrivilegeExtInfo {
+    optional uint32 contribution = 1; // 累计贡献
+    optional uint32 month_con = 2; // 30天累计消费
+}
+
+// 我对目标用户的行为信息
+message BehaviourToUserInfo {
+    optional bool is_subscribe             = 401; // 我是否关注过目标用户
+    optional uint32 adore_score         = 402; // 我对目标用户的爱慕值
+    optional uint32 subscribe_state     = 403; // 0 未关注  1 已关注  2 双向关注
+}
+
+// 交友内部CarInfo与花样不同，增加了交友专属字段
+message CarInfo {
+    optional uint32 car_id                 = 1;         //座驾id
+    optional string car_name              = 2;         //座驾名字
+    optional uint32 platform_type          = 3 [default = 9];         // 客户端类型0PC 1IOS 2安卓
+    optional uint32 xsize                 = 4;         // 安卓段的图片长 可以不传
+    optional uint32 ysize                  = 5;        // 安卓段的图片宽 可以不传
+    optional string flash_url              = 6;        // 交友自定义座驾Flash地址
+    optional string android_url          = 7;        // 交友自定义座驾移动端url地址
+}
+
+// 用户的扩展信息，由于userInfo的信息体量太大，分拆出扩展信息，承接业务变化
+message UserInfoExtra {
+    optional uint32 favor_room_count = 201;//收藏房间的数量
+    optional uint32 subscribe_count = 202;//关注其他人的人数   // 这里如果有设置查询关注数 就会直接设置关注数粉丝数 关注关系
+}
+
+// 帐号类型
+enum IdType {
+    UID = 1;  // 交友UID
+    QQ = 2; // QQ
+}
+
+message ChangeNameTimes {
+    optional uint32 day = 1;
+    optional uint32 times = 2;
+}
+
+message Album {
+    optional uint64 id  = 2;     // 用户uid或者QQ号
+    repeated string photo_url     = 1;
+}
+
+message UserVoiceCover {
+    optional uint64 uid = 1;
+    optional string url = 2;     // 大图url
+    optional float OffsetX = 3; //小图在大图上的Y坐标偏移比例
+    optional float OffsetY = 4; //小图在大图上的Y坐标偏移比例
+    optional string urlSquare = 5;     // 正方形语音封面url
+}
+
+message UserFirstLogin {
+    optional bool is_first_login    = 1; // 是否首次登录
+}
+
+message BaseUserStatus {
+    required uint64 uid             = 1; // 用户ID
+    optional string session_id      = 2; // sessionId=md5(userSig)
+    optional uint32 room_id         = 3; // 当前房间ID
+    optional SEAT_TYPE seat_type    = 4; // 当前角色, 需根据当前所在房间判断
+    optional uint32 login_timestamp = 5; // 登录时间
+    optional uint32 last_timestamp  = 6; // 最后保存时间
+    optional uint64 uin             = 7; // qq号
+    optional int32 cas              = 8;
+    optional string province         = 9; // 省份ID
+    optional string city             = 10;// 城市ID
+    optional string ip                 = 11;// IP
+    optional uint32 on_stage_timestamp = 12; //上台时间
+}
+
+message BasicUserInfo {
+    optional uint64 uid                 = 1; // tinyid
+    optional uint64 uin                 = 2; // QQ
+    optional string name                = 3; // 名称
+    optional GENDER gender              = 4; // 性别
+    optional string avatar              = 5; // 头像图片id；客户端拼出url
+    optional uint32 birthday_year       = 6; // 出生日期：年
+    optional uint32 birthday_month      = 7; // 出生日期：月
+    optional uint32 birthday_day        = 8; // 出生日期：日
+    optional uint32 age                 = 9 [default = 999] ; // 年龄
+    optional string country               = 10; // 国家
+    optional string province              = 11; // 省份
+    optional string city                  = 12; // 城市
+    optional string signature           = 13; // 用户签名
+    optional uint32 info_type             = 14; // 1 是qq资料   2 是hy资料
+    optional uint32 has_second_identity = 15; // 是否具有第二身份 1 没有   2 有第二身份
+    optional bytes extra_data           = 16; // 自习室二期新增：额外的用户数据，对应数据结构ExtraUserData
+}
+
+message ExtendUserInfo {
+    optional uint64 uid                         = 1; // tinyid
+    optional uint64 charm                       = 2; // 合并版魅力值 与交友不同，记录收到的免费礼物数
+    optional uint64 popularity                  = 3; // 合并版人气值 与交友不同，记录收到的收费礼物数
+    optional uint64 fans_count                  = 4; // 被关注人数 （粉丝数）
+    optional uint32 subscribe_count             = 5; // 关注人数  （关注数）
+    optional uint32 subscribe_state             = 6 [default = 999]; // 关注状态 0 未关注  1 已关注  2 双向关注
+    optional UserVoiceCover userVoiceCover      = 7; // 用户语音封面
+    //optional NobilitySimpleInfo user_privilege  = 8; // 用户爵位信息  【8兼容老版本空出】
+    optional UserExpLev userExpLev              = 9; // 用户等级
+    optional NobilityAllInfo user_nobility      = 10; // 用户爵位信息
+}
+
+message ChatModeUserInfo {
+    optional string name             = 1; // 昵称(可能是群名片或qq昵称)
+    optional int32 gender            = 2; // 展示性别 // 性别  1-男 2-女
+    optional string province         = 3; // 展示省份
+    optional string city             = 4; // 展示城市
+    optional int32  age              = 5; // 展示年龄
+    optional string avatar           = 6; // 展示头像
+    optional int64 uid               = 7;
+}
+
+enum ROOM_MODE{
+    CHAT_MODE = 1;    //聊天模式
+    LIVE_MODE = 2;  //直播模式
+}
+
+//用户选择资料类型
+message UserInfoType {
+    optional uint64 uid                 = 1; // tinyid
+    optional uint32 type                = 2; // 1：qq资料  2：hy资料
+    optional uint32 has_alert           = 3; // 是否已弹窗  0 未弹窗  1 已弹窗
+    optional uint32 is_robot           	= 4; // 是否是机器人  0 不是  1 是
+}
+
+message UserExpLev {
+    optional uint64     exp_now = 1; // 当前经验值
+    optional uint64     exp_lev_before = 2;  // 本级所需经验值
+    optional uint64     exp_lev_after = 3;  // 下级所需经验值
+    optional uint32        level = 4;        // 活跃等级
+    optional uint64        uid = 5;
+}
+
+message QQUserInfo {
+    optional string name             = 1; // 昵称
+    optional int32 gender            = 2; // 展示性别 // 性别  1-男 2-女
+    optional string country          = 3; // 国家
+    optional string province         = 4; // 展示省份
+    optional string city             = 5; // 展示城市
+    optional int32  age              = 6; // 展示年龄
+    optional string avatar           = 7; // 展示头像
+    optional int64 uid                 = 8;
+}
+/****用户资料相关PB*****/
+
+//pk玩家信息
+message PlayerInfo {
+    optional uint64  uid = 1;
+    optional string nick = 2;
+    optional string icon = 3;
+    optional int32 score = 4;
+    optional int32 gender = 5;
+}
+
+//pk舞台信息
+message PkStageInfo
+{
+    repeated PlayerInfo players = 1; //玩家列表
+    optional int32  status = 2;//pk 栏状态 0--游戏未开始或已结束 1--游戏中
+    repeated PlayerInfo waiting_players = 3; //候场列表
+    optional string game_roomid = 4; //游戏房间id
+    optional uint32 update_flag = 5;  //分别取&,大于0则更新 0x01--player 0x10--waiting_players
+}
+
+//游戏列表
+message PkGameList
+{
+    message GameInfo {
+        optional int32 partner_id = 1;  // 1--同桌
+        optional string game_id = 2;
+        optional string name = 3;
+        optional string icon = 4;
+    }
+    repeated GameInfo game_list = 1;
+}
+
+//道具进度信息
+message PkPropProgress
+{
+    optional int32 valid_count  = 1; //可使用的道具数目
+    optional int32 percent  = 2; //累计中的道具百分比
+}

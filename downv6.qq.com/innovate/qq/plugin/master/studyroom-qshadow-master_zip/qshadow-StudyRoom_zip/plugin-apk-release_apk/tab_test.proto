@@ -1,0 +1,31 @@
+syntax = "proto2";
+
+package tencent.self_study_room.client;
+
+message paramsInfo {
+    optional string key      = 1;
+    optional string value    = 2;
+}
+
+message GrayPolicyInfo {
+	optional string grayPolicyId                 = 1;           //实验ID
+    repeated paramsInfo paramsInfoList  = 2;           //参数
+	optional string sGroupKey                    = 3;           //实验KEY
+	optional string sStrategyType                = 4;           //实验类别  treatment control hold_out
+	optional string expKey                       = 5;           //实验版本KEY
+}
+
+
+message GetTabTestInfoReq {
+}
+
+
+message GetTabTestInfoRsp {
+  	 repeated GrayPolicyInfo grayPolicyInfoList = 1;
+  	 enum RspCode {
+          Success = 0;
+          Failed = 10001;
+     }
+     optional string msg = 2;
+     optional RspCode code = 3;
+}

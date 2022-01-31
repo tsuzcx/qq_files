@@ -1,0 +1,90 @@
+syntax = "proto2";
+
+package apply_seat;
+
+enum ResponseCode {
+	RET_DEFAULT			 = 0;
+	RET_OK               = 1;
+
+	//通用错误
+	RET_PARAM_ERROR      = 10001; //客户端参数错误
+	RET_SVR_TIMEOUT      = 10002; //服务器超时
+	RET_SVR_ERROR        = 10003; //服务器异常
+	RET_CMD_ERROR        = 10004; //命令字错误
+	RET_AUTH_FAIL_NOCHANCE = 10010; //未通过人脸识别，且今日没有认证次数了
+	RET_AUTH_FAIL_HAS_CHANCE = 10011; //未通过人脸识别，但还有认证次数
+	RET_ROOM_OWNER_is_NOT_STUDYING = 10012; //学委没有自习，无法上麦
+	RET_APPLY_SEAT_COMMON_ERROR = 20000; //排麦接口通用错误（客户端会解析该错误码对应的文案进行展示）
+	RET_NOT_SATISFY_STUDYTIME_REQUIREMENT = 30000; // 排麦用户学习时长未达标（客户端解析后台文案进行展示）
+}
+
+enum ApplyState {
+	Default_STATE = 0;
+	REVIEWING	  = 1;
+	SUCCESS		  = 2;
+	REFUSED		  = 3;
+	CANCEL 		  = 4;
+}
+
+enum GENDER
+{
+    GENDER_NONE   = 0;
+    GENDER_MALE   = 1;
+    GENDER_FEMALE = 2;
+}
+
+message Result {
+	optional uint32 err_code 								= 1; //错误码, 1：成功；>1：失败
+	optional string err_msg 								= 2; //错误信息
+}
+
+message ApplySeatUser {
+    optional uint64 uid                                  	= 1; // 用户id
+    optional string headUrl                             	= 2; // 用户头像
+    optional string nickName                            	= 3; // 用户昵称
+	optional GENDER gender                                  = 4;
+    optional ApplyState applyState							= 5; // 申请状态, 1:待审批；2：申请通过；3：申请不通过
+};
+
+// 申请排麦
+message ApplySeatReq {
+	optional uint32 roomId 									= 1; // 房间id
+}
+
+// 申请排麦回包
+message ApplySeatRsp {
+	optional Result ret 									= 1;
+}
+
+//同意排麦
+message AgreeSeatApplyReq {
+ 	optional uint64 targetUid								= 1; //目标uid
+	optional uint32 roomId 									= 2; //房间id
+}
+
+message AgreeSeatApplyRsp {
+	optional Result ret 									= 1;
+}
+
+//取消排麦
+message CancelSeatApplyReq {
+	optional uint32 roomId 									= 1; // 房间id
+}
+
+message CancelSeatApplyRsp {
+	optional Result ret 									= 1;
+}
+
+//拉取排麦列表
+message GetSeatApplyListReq {
+	optional uint32 page 									= 1; //拉取页码，从1：开始
+	optional uint32 num 									= 2; //拉取数量
+	optional ApplyState applyState							= 3; // 申请状态, 默认为0: 不区分状态，1:待审批；2：申请通过；3：申请不通过
+	optional uint32 roomId 									= 4;
+}
+
+message GetSeatApplyListRsp {
+	repeated ApplySeatUser userList 			= 1; //申请人列表
+	optional bool isEnd 									= 2; //true:拉取结束；false:拉取未结束
+	optional uint32 totalNum								= 3; //总的申请人数
+}

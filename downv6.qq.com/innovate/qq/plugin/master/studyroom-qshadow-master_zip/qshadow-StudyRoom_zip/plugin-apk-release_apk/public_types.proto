@@ -1,0 +1,49 @@
+syntax = "proto3"; 
+package videohub;
+
+//default java package name
+option  java_package = "com.tencent.jungle.videohub.proto";
+option  java_multiple_files = true;
+
+//default go package name
+option  go_package ="git.code.oa.com/trpcprotocol/ssr/common_public_types";
+
+// 建议使用谷歌protobuf规范 防止出现可能的兼容性问题
+// https://developers.google.com/protocol-buffers/docs/style
+
+// 不建议使用 google/protobuf/any.proto
+// any强依赖package type.googleapis.com/_packagename_._messagename_.
+// https://developers.google.com/protocol-buffers/docs/proto3#any
+
+// tRPC-Go数据校验模块（**移除注释使用**）
+// 介绍：http://km.oa.com/articles/view/438840
+// import "trpc/common/validate.proto";
+
+message VirtualImageInfo{
+    enum VirtualType {
+        SystemSetting = 0;     // 系统随机设置
+        UserSetting = 1;       // 用户设置（系统图片）
+        Customize = 2;         // 用户自定义图片
+    }
+    enum PictureType {
+        Static = 0;            // 静态
+        Dynamic = 1;           // 动态
+    }
+    VirtualType virtualType                           = 1; // 虚拟形象类型
+    string virtualImage                               = 2; // 虚拟形象
+    uint32 id                                         = 3; // 图片id(如果是用户自定义图片，则没有id)
+    PictureType picType                               = 4; // 图片类型(静态/动态)
+
+}
+
+message ExtraUserData {
+	string school                      = 1; // 学校
+	string study_grade                 = 2; // 年级
+	string study_manifesto             = 3; // 自习室二期：自习宣言
+	uint64 weekly_total_study_time     = 4; // 自习室二期：本周学习中时长
+    uint32 total_study_day_count       = 5; // 自习室二期：总学习天数
+    bool   bool_agree_add_friend       = 6; // 自习室安全优化：是否开启加好友开关 true：开启
+	uint32 uint32_role_type            = 7; // 身份信息，1：老师
+	VirtualImageInfo virtual_image     = 8; // 虚拟形象
+}
+

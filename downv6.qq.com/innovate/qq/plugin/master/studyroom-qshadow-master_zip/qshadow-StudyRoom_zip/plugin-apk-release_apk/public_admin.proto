@@ -1,0 +1,495 @@
+import "common_types.proto";
+package public_admin.proto;
+
+option java_package = "com.tencent.jungle.videohub.proto";
+option java_outer_classname = "AdminProto";
+
+//公会信息
+message Union_Info_Params {
+    optional uint64 union_id = 1; //公会ID
+    optional uint32 member_type = 2; //个人 0 ,  企业 1
+    optional string union_name = 3; //公会名称
+    optional string license_number = 4; //营业执照号
+    optional string license_pic = 5; //营业执照扫描件( url )
+    optional int32 union_state = 6; //公会审核状态{"待初审":0, "初审拒绝":1,"待复审":2,"复审拒绝":3,"复审通过":10}
+    optional string company_name = 7; //公司名称
+    optional uint32 union_dvided = 8; //公会分成
+    optional uint32 host_dvided = 9; //艺人分成
+    optional string refuse_reason = 10; //拒绝原因
+    optional string company_corporate = 11; //公司法人名称
+    optional string company_addr = 12; //公司地址
+    optional string tax_number = 13; //纳税登记号
+    optional string tax_pic = 14; //纳税登记照扫描件( url )
+    optional string bank_pic = 15; //银行开局的开户许可( url )
+    optional string union_logo = 16; //公会logo
+    optional string union_brief = 17; //公会简介
+    optional uint64 group_code = 18; //公会房间群号
+    optional uint32 union_settle_type = 19; //公会结算方式(0对公/1对私)
+    optional uint64 president_uid = 20; //会长uid
+
+    optional uint32 host_num = 21; //签约艺人数量
+
+    optional string recom_pic = 22; //推荐图
+    optional uint32 recom_pic_state = 23; //推荐图状态（1 通过 2 拒绝）
+    optional string recom_pic_refuse_reason = 24; //推荐图拒绝原因
+    optional string recom_pic_bk = 25; //推荐图备份
+};
+
+//会长、艺人信息
+message Host_Info_Params {
+    optional uint64 host_id = 1; //成员ID
+    optional uint32 type = 2; //0：主播 1：主播会长 2：公会主播
+    optional uint64 uid = 3; //艺人id
+    optional string real_name = 4; //真实姓名（身份证 银行卡姓名）
+    optional uint32 gender = 5; //艺人性别 1:男 2：女
+    optional string user_card = 6; //身份证号码
+    optional string card_photo = 7; //身份证照片( url )
+    optional string phone = 8; //手机号
+
+    optional string account_user_name = 9; //银行卡名字
+    optional string account_bank = 10; //开户银行
+    optional string account_adr_province = 11; //银行卡所在地-省
+    optional string account_adr_city = 12; //银行卡所在地-市
+    optional string account_branch = 13; //开户银行的支行
+    optional string account_num = 14; //银行卡卡号
+
+    optional uint32 contract_state = 15; //创建合同供应商状态("初始状态":0, "供应商待创建":1, "供应商创建中":2
+    //"供应商创建失败":3, "供应商创建成功":4,"合同创建失败":5 , "合同创建成功":6,
+    //"银行卡校验失败":7, "银行卡校验成功":8, "银行卡待变更":9, "合同待重签":10 )
+
+    optional string recom_pic = 16; //主播推荐图
+    optional uint32 recom_pic_state = 17; //推荐图状态（1 通过 2 拒绝）
+    optional string recom_pic_refuse_reason = 18; //推荐图拒绝原因
+    optional string create_time = 19; //创建时间
+    optional string recom_pic_bk = 20; //主播推荐图备份
+    optional string contract_log = 21; //创建合同供应商失败日志
+
+};
+
+
+// 签约信息
+message Host_Sign_Params {
+    optional uint32 sign_state = 1; //签约状态（1：待确认 2：拒绝 3：通过 4：解约）
+    optional uint32 sign_type = 2; //邀请类型（0：艺人人申请公会 1：公会邀请艺人）
+    optional uint64 host_uid = 3; //主播uid
+    optional uint32 union_opr = 4; //公会发起解约状态(0：未发起 1：发起)
+    optional string start_time = 5; //艺人签约日期
+    optional string create_time = 6; //发起日期
+    optional uint64 president_uid = 7; //会长uid
+    optional uint32 sign_id = 8; //签约ID
+    optional string host_desc = 9; //主播自我介绍
+    optional string host_video_url = 10; //主持人视频地址
+};
+
+
+//CMD GetRegisterState: 查询公会、艺人注册结果
+message GetRegisterStateReq {
+    optional uint32 type = 1; //成员类型( 艺人0   , 公会1 )
+};
+
+message GetRegisterStateRsp {
+    optional uint32 state = 1; //审核状态 {"待初审":0, "初审拒绝":1,"待复审":2,"复审拒绝":3,"帐号审核中":4,"帐号审核通过":5,"帐号审核不通过":6,"合同审核中":7,"合同审核通过":8,"合同审核不通过":9,"复审通过":10}
+
+};
+
+/*********************公会相关PB***************************/
+
+//CMD GetManageEarnings  拉取会长管理收入
+message GetManageEarningsReq {
+    optional string search_start_date = 1; // 查询开始日期（2017-11-01）
+    optional string search_end_date = 2; // 查询结束日期（2017-11-31）
+    optional uint32 type = 3; // 0:新收入  1：老收入
+}
+
+message GetManageEarningsRsp {
+    repeated ManageEarnings earnings_list = 1; // 管理收入列表
+    optional uint32 month_profit_sum = 2; // 本月总收入
+}
+
+message ManageEarnings {
+    optional string time_day = 1; // 流水日期（倒序）（2017-11-11）
+    optional uint32 gift_price = 2; // 礼物价值（元）
+    optional uint32 union_profit = 3; // 兑换金额（当前会长收入（元））
+}
+
+//CMD GetManageEarningsDetail  拉取会长管理收入明细
+message GetManageEarningsDetailReq {
+    optional string search_day = 1; // 查询日期（2017-11-11）
+    optional uint32 start_num = 2; // 分页拉取  开始号码
+    optional uint32 limit_num = 3; // 分页拉取条数
+    optional uint32 type = 4; // 0:新收入  1：老收入
+}
+
+message GetManageEarningsDetailRsp {
+    repeated ManageEarningsDetail earnings_detail = 1; // 管理收入明细
+    optional uint32 union_profit_sum = 2; // 收入总计（当天会长收入总和（元））
+    optional uint32 host_total = 3; // 明细总条数
+}
+
+message ManageEarningsDetail {
+    optional uint64 host_uid = 1; // 主播uid
+    optional uint32 host_percentage = 2; // 主播分成比例（会长的为100% - 主播比例）
+    optional uint32 union_profit = 3; // 会长收入（元）
+}
+
+
+//CMD GetUnionInfo： 拉取公会信息 , 头部有会长uid
+message GetUnionInfoReq {
+};
+
+message GetUnionInfoRsp {
+    optional Union_Info_Params union_info = 1; //公会信息
+};
+
+
+// CMD AddUnionInfo： 提交公会注册信息
+message AddUnionInfoReq {
+    optional Union_Info_Params union_info = 1; //公会信息
+    optional uint32 type = 3; //类型( 添加0, 初审被拒后修改1, 修改推荐图2)
+
+};
+
+message AddUnionInfoRsp {
+    optional uint64 union_id = 1; //公会ID
+    optional uint32 state = 2; //返回0: 成功
+};
+
+
+//CMD CreateUnion 创建公会
+message CreateUnionReq {
+}
+
+message CreateUnionRsp {
+    optional uint32 state = 1; //返回0: 成功 ; 1 公会未审核完成 ; 2 未邀签约满10个主播 ; 3 --用户不是主播
+}
+
+
+//CMD AddHostSigned：公会邀请艺人。
+message AddHostSignedReq {
+    optional uint64 union_id = 1; //公会ID
+    optional uint64 host_uid = 2; //主播uid
+};
+
+message AddHostSignedRsp {
+    optional uint32 state = 1; //返回状态 ， 0 --成功 1--不能邀请会长 2--用户已经与别的公会签约 3-该用户还不是主播 4-公会未完成审核 5--主持人已经邀请 6--七天不能同时邀请同一个艺人 7--QQ号非法
+};
+
+
+//CMD  CancelHostSigned 撤销邀约艺人
+message CancelHostSignedReq {
+    optional uint64 union_id = 1; //公会ID
+    optional uint64 host_uid = 2; //主播uid
+    optional uint32 type = 3; //请求类型  1是签约申请，2是解约申请
+}
+
+message CancelHostSignedRsp {
+    optional uint32 state = 1; //返回状态 ， 0， 成功 ， 1，失败 , 2, 对方不是艺人
+};
+
+
+//CMD RemoveHostSigned：公会解约艺人。
+message RemoveHostSignedReq {
+    optional uint64 union_id = 1; //公会ID
+    optional uint64 host_uid = 2; //艺人uid
+    optional uint32 type = 3; //协商解约:0,  同意主播发起的解约:1 ,强制解约:2
+};
+
+message RemoveHostSignedRsp {
+    optional uint32 state = 1; //返回状态 ， 0， 成功 ， 1=失败,  2=没有签约 , 3=31天内无法解约，4=每月 25-28号可解约
+};
+
+
+//CMD GetUnionHasHostList：拉取公会签约艺人
+message GetUnionHasHostListReq {
+    optional uint64 union_id = 1; //公会ID
+    optional uint32 offset_num = 3; //开始数量  ( 分页开始数量,从0开始 )
+    optional uint32 rows_count = 4; //需要的数量( 分页显示数量 )
+};
+
+message GetUnionHasHostListRsp {
+    repeated Host_Sign_Params host_array = 1;
+    optional uint32 total = 2; //所有艺人的总数量
+};
+
+//CMD GetToBeTreatedHostList 拉取待处理艺人
+message GetToBeTreatedHostListReq {
+    optional uint64 union_id = 1; //公会ID
+    optional uint32 type = 2; //类型( 全部 =0, 签约申请=1, 解约申请 = 2  )
+    optional uint32 offset_num = 3; //开始数量  ( 分页开始数量,从0开始 )
+    optional uint32 rows_count = 4; //需要的数量( 分页显示数量 )
+};
+
+message GetToBeTreatedHostListRsp {
+    repeated Host_Sign_Params host_array = 1;
+    optional uint32 total = 2; //所有艺人的总数量
+};
+
+//CMD  ApproveHost: 公会通过/拒绝艺人。
+message ApproveHostReq {
+    optional uint64 union_id = 1; //公会ID
+    optional uint64 host_uid = 2; //艺人uid
+    optional uint32 type = 3; //类型( 通过=0,  拒绝 = 1  )
+};
+
+message ApproveHostRsp {
+    optional uint32 state = 1; //返回状态 0=成功 ; 1--艺人已签约   2--非艺人
+};
+
+// CMD SearchUnionHost 搜索公会主播
+message SearchUnionHostReq {
+    optional uint64 union_id = 1; //公会ID
+    optional uint64 host_uid = 2; //艺人uid
+};
+
+message SearchUnionHostRsp {
+    optional uint32 state = 1; //返回状态 0=成功 ;  1=失败；  2=非艺人
+    optional Host_Sign_Params host_array = 2;
+};
+
+/*********************艺人相关PB***************************/
+
+// CMD AddHostInfo: 提交主持人注册信息
+message AddHostInfoReq {
+    optional Host_Info_Params host_info = 1; //艺人信息
+    optional uint32 type = 2; //类型( 添加=0, 修改银行卡信息=1, 修改推荐图=2  )(修改时后台需交验那些资料可以修改)
+    optional string verify_code = 3; //手机验证码
+    optional uint64 host_uin = 4; //主播QQ
+};
+
+message AddHostInfoRsp {
+    optional uint64 host_id = 1; //艺人ID
+    optional uint32 state = 2; //返回 0=成功;  1= 主持人已经存在 ,  2=手机号已经注册,  3=身份证已经注册, 4=手机验证失败 , 5=该状态下不允许修改银行信息
+};
+
+//CMD GetHostInfo: 拉取会长、艺人的信息, 头部有会长/主持 uid
+message GetHostInfoReq {
+
+};
+
+message GetHostInfoRsp {
+    optional Host_Info_Params host_info = 1; //会长、艺人信息
+};
+
+//CMD GetRecommendUnion: 公会推荐 （按照收入由高到低，展示所有公会）
+message GetRecommendUnionReq {
+    optional string search_date = 1; // 查询开始年月（格式:201711）
+    optional uint32 start_num = 2; // 分页拉取  开始号码
+    optional uint32 limit_num = 3; // 分页拉取条数
+};
+
+message GetRecommendUnionRsp {
+    optional uint32 result_total = 1; // 结果总条数
+    repeated Union_Info_Params union_list = 2; // 公会信息列表
+};
+
+//CMD SearchUnion: 搜索公会 （不含有模糊搜索 结果必为1 或 0）
+message SearchUnionReq {
+    optional string search_key = 1; // 搜索关键词
+    optional uint32 search_type = 2; // key的类型  1.数字  2.字符
+};
+
+message SearchUnionRsp {
+    optional uint32 state = 1; //返回状态 ， 0， 成功 ， 1=失败 , 2=公会不存在
+    optional Union_Info_Params union_info = 2; // 搜索结果公会信息
+};
+
+//CMD GetBeinviteDetails: 拉取主持人被公会邀请列表
+message GetBeinviteDetailsReq {
+};
+
+message GetBeinviteDetailsRsp {
+    repeated Union_Info_Params union_info = 1; // 搜索结果公会信息 (邀请时间超过一月不返回)
+    repeated Host_Sign_Params sign_info = 2; //签约信息
+};
+
+
+//CMD AddApplyUnion: 主持人申请公会( CGI需要判断拉取主持人是否已签约公会 )
+message AddApplyUnionReq {
+    optional uint64 union_id = 1; //公会ID
+    optional string introduction = 2; // 自我介绍
+    optional string video_url = 3; // 才艺视频
+};
+
+message AddApplyUnionRsp {
+    optional uint32 state = 1; //返回状态 ， 0， 成功 ， 1=你申请的公会尚未通过审核 , 2=公会不存在; 3=你还未入驻成为主播 ; 4=你已经签约其他公会 ; 5= 已经邀请艺人;  6=7天内不能重复申请同一个公会; 9=已经申请工会   10=不能申请自己的工会
+};
+
+//CMD RefuseInvite, 主持人通过/拒绝公会邀请
+message RefuseInviteReq {
+    optional uint64 union_id = 1; //公会id
+    optional uint32 type = 2; //类型( 通过:0,  拒绝:1,   )
+};
+
+message RefuseInviteRsp {
+    optional uint32 state = 1; //返回状态 ， 0=成功 ， 1=失败 ,  2=公会不存在;
+};
+
+//CMD GetSignDetails: 拉取主持人与会长的签约关系(已签约,申请过,被该公会邀请过，拒绝过)
+message GetSignDetailsReq {
+    optional uint32 type = 1; //类型( 0:[拉取已签约的信息,不用传president_uid],  1:[通过president_uid拉取签约信息]   )
+    optional uint64 president_uid = 2; //会长uid
+};
+
+message GetSignDetailsRsp {
+    repeated Host_Sign_Params sign_info = 1; //签约信息(回复中不存在对应关系,就是没有任何关系)
+    repeated Union_Info_Params union_info = 2; //公会信息(有签约关系的才返回)
+};
+
+//CMD DelSignDetails: 删除主持人签约邀请
+message DelSignDetailsReq {
+    repeated uint32 sign_id_list = 1; //sign_id 不填表示删除所有，清空列表
+};
+
+message DelSignDetailsRsp {
+
+};
+
+//CMD: RemoveHostSign, 主持人发起解约
+message RemoveHostSignReq {
+    optional uint64 union_id = 1; //公会ID
+    optional uint32 type = 2; //类型( 强制解约:0,  同意公会发起的解约:1 , 协商解约:2)
+};
+
+message RemoveHostSignRsp {
+    optional uint32 state = 1; //返回状态 ， 0=成功 ， 1=失败 ; 3=31天内无法解约，4=每月 25-28号可解约
+};
+
+//CMD: GetCashRecord, 获取提现记录
+//提现信息
+message Cash_Info_Params {
+    optional string time_day = 1; // 提现日期（倒序）（2017-11-11）
+    optional uint64 amount = 2; //提现金额单位分
+    optional uint64 anchor_uid = 3; //提现人uid
+    optional string bill_no = 4; //订单号
+};
+
+message GetCashRecordReq {
+    optional uint32 req_way = 1; // 拉取方式 0:分页 1:按时间拉取
+
+    optional uint32 start_num = 10; // 分页拉取方式  开始号码
+    optional uint32 limit_num = 11; // 分页拉取方式 条数
+
+    optional string start_date = 12; // 按时间拉取  开始时间（2017-11-01）
+    optional string end_date = 13; // 按时间拉取  结束时间（2017-11-02）
+};
+
+
+/*********************房间封面相关PB***************************/
+//CMD_ADD_ROOM_COVER_INFO:提交房间封面信息
+message SetRoomCoverInfoReq
+{
+    required uint64     room_id 			= 1;   //房间room_id
+    optional string		room_cover_url	 	= 2;   //主播推荐图 url
+    optional uint32     room_cover_status   = 3;   //房间封面状态（0:未上传,1:审核中,2通过:3拒绝）
+    optional string     room_cover_refuse_reason = 4; //房间封面拒绝原因
+};
+
+message SetRoomCoverInfoRsp
+{
+    required uint64    room_id				 = 1;   //房间room_id
+    required uint32    status				 = 2;   //返回状态（0:成功,1:失败,2:非房主）
+    optional uint64    owner_uid			 = 3;   //房主uid
+    optional uint32    room_show_number      = 4;   //房间外显ID
+};
+
+//CMD GetRoomCoverInfoReq: 拉取房间封面信息
+message GetRoomCoverInfoReq
+{
+	required uint64     room_id 			= 1;   //房间room_id
+};
+
+message GetRoomCoverInfoRsp
+{
+    required uint64     room_id 			= 1;    //房间room_id
+    required uint32     error_code          = 2;    //错误码：（0:成功,1:失败)
+    optional uint64     owner_uid			= 3;    //房主uid
+    optional uint32     room_show_number	= 4;    //房间外显ID
+    optional string		room_cover_url	 	= 5;	//房间封面图
+    optional string		room_checked_cover_url = 6; //房间上一次通过审核封面图
+    optional uint32		room_cover_status	= 7;	//房间封面状态（0:未上传,1:审核中，2通过；3拒绝）
+    optional string		room_cover_refuse_reason = 8;//房间封面拒绝原因
+};
+
+
+message GetCashRecordRsp {
+    repeated Cash_Info_Params cash_info_list = 1; // 提现收入明细
+
+    optional uint32 cash_sum = 2; // 历史提现总计单位分 从加入平台开始
+    optional uint32 info_total = 3; // 历史提现总条数 从加入平台开始
+};
+
+//CMD: InsertCashRecord, 插入提现记录
+message InsertCashRecordReq {
+    optional Cash_Info_Params cash_info = 1; //提现信息
+};
+
+message InsertCashRecordRsp {
+    optional uint32 state = 1; //插入状态[0:正常]
+};
+
+//CMD GetHostEarnings  拉取主播开播收入
+message GetHostEarningsReq {
+    optional string start_date = 1; // 查询开始日期（2017-11-01）
+    optional string end_date = 2; // 查询结束日期（2017-11-31）
+    optional uint64 host_uid = 3; // 查询的主播uid
+}
+
+message GetHostEarningsRsp {
+    repeated HostEarnings host_earnings_list = 1; // 主播收入列表
+    optional uint32 host_profit_sum = 2; // 本次查询的主播总收入
+    optional uint32 host_dvided = 3; // 本次查询的主播分成比例
+    optional uint32 host_profit_total = 4; // 主播历史总收入 从加入平台开始
+}
+
+message HostEarnings {
+    optional string time_day = 1; // 流水日期（倒序）（2017-11-11）
+    optional uint32 gift_price = 2; // 礼物价值（单位0.1元）
+    optional uint32 host_profit = 3; // 兑换金额（当前主播分成（单位0.001元））
+    optional uint32 host_day_dvided = 4; // 主播当天分成比例
+}
+
+
+//CMD GetMonthProfit  拉取月收入流水
+message GetMonthProfitReq {
+    optional string start_month = 1; // 查询开始月份（2017-11）
+    optional string end_month = 2; // 查询结束月份（2017-11）
+}
+
+message GetMonthProfitRsp {
+    repeated MonthProfit month_profit_list = 1; //月收入流水列表
+}
+
+message MonthProfit {
+    optional string month_time = 1; // 流水月份
+    optional uint64 host_uid = 2; // 查询的主播uid
+    optional uint64 president_uid = 3; // 会长uid
+    optional uint32 gift_price = 4; // 礼物价值（单位0.1元）
+    optional uint32 host_profit = 5; // 分成之后的主播收益（单位0.001元）
+    optional uint32 host_dvided = 6; // 主播分成比例
+    optional uint32 union_profit = 7; // 分成之后的会长收益（单位0.001元）
+}
+
+//CMD GetHostEarningsDetail 拉取主播收入详情
+message GetHostEarningsDetailReq {
+    optional string start_date = 1; // 查询开始日期（2017-11-01）
+    optional string end_date = 2; // 查询结束日期（2017-11-31）
+    optional uint32 host_type = 3; // 主播类型 0：UGC主播 1：主播会长 2：公会主播  999:签约平台无此人信息,未注册
+}
+
+message GetHostEarningsDetailRsp {
+    optional uint32 host_profit_total = 1; //累计收入
+    optional uint32 month_ke_profit_sum = 2; //本月开播收入
+    optional uint32 month_manage_profit_sum = 3; //本月管理收入
+    optional uint32 month_profit_sum = 4; //本月收入
+    optional uint32 is_withdraws = 5; //今日是否提现
+
+}
+
+//CMD: DelAll, 删除所有主持人相关信息 调试用
+message DelAllReq {
+
+};
+
+message DelAllRsp {
+
+};

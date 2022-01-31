@@ -1,0 +1,399 @@
+syntax = "proto2";
+
+import "public_types.proto";
+package tencent.self_study_room.client;
+
+/*
+ * 错误码:
+ * 0-正常
+ * 10001-客户端参数错误
+ * 10002-后台超时
+ * 10003-后台错误
+ * 10004-命令字错误
+ */
+
+enum SubCmd {
+    SC_USELESS           = 0;        // 无用字段(pb2升级pb3时添加)
+    SC_GET_GLOBAL_CONFIG = 16601;
+
+    CMD_GET_ROOM_CONFIG = 16602;    // 拉取房间配置(同进房时返回的configInfo一致，现在只有时间字段)
+
+    CMD_VIEWER_JOIN_STUDY = 16801; // 观众区加入自习
+    CMD_VIEWER_QUIT_STUDY = 16802; // 观众区退出自习
+
+    CMD_GET_ENCOURAGE_COPYWRITING = 16803; // 拉取鼓励文案
+
+    CMD_GET_STUDY_GIFT_POWER_BALANCE = 16901; // 拉取小红花余额
+    CMD_SEND_STUDY_GIFT_POWER = 16902; // 送小红花
+
+    CMD_SWITCH_ROOM_LIST = 17001;    // 拉去可切换的房间列表
+
+    CMD_GRANT_STUDY_GIFT_POWER_PUSH = 10961; // 系统发放小红花push
+    CMD_SEND_STUDY_GIFT_POWER_PUSH = 10962; // 用户送小红花push
+    CMD_TEAM_MANAGER_FINISH_STUDY_PUSH = 10971; // 学习小组管理员不学习(入座和上麦)时的push
+    CMD_BUSINESS_UPDATE_GROUP_INFO_PUSH = 10972; //小组资料更新push
+    CMD_BUSINESS_UPDATE_GROUP_MEMBER_PUSH = 10973; //小组成员资料更新push
+    CMD_GET_ROOM_ID_WITH_GROUP_ID = 17201;    //  群号换房间号
+    CMD_SEND_ADMIN_ACTION_ON_STAGE = 17301; // 管理员禁麦or解除禁麦
+    CMD_GET_USER_ON_STAGE_STATUS = 17302; // 群自习室拉取禁麦状态
+
+    CMD_SEND_REPORT = 17401; // 举报
+
+    //    17601（ApplySeat）、17602（AgreeSeatApply）、17603（CancelSeatApply）、17604（GetSeatApplyList）
+    CMD_APPLY_SEAT = 17601; // 申请排麦
+    CMD_AGREE_SEAT_APPLY = 17602; // 同意排麦
+    CMD_CANCEL_SEAT_APPLY = 17603; // 取消排麦
+    CMD_GET_SEAT_APPLY_LIST = 17604; // 获取排麦列表
+    CMD_APPLY_SEAT_PUSH = 10963; // 排麦的push （ApplySeatPush）
+
+    CMD_CREATE_ROOM = 17501; // 创建房间（主题自习室、老师自习室）
+    CMD_CLOSE_ROOM = 17701;  // 关闭房间请求
+    CMD_CLOSE_ROOM_PUSH = 17305; // 关闭房间push
+
+    CMD_CREATE_QUESTION = 17801; // 创建提问
+    CMD_UPDATE_QUESTION_STATUS = 17802; // 解答、跳过
+    CMD_GET_QUESTION_LIST = 17803; // 拉取问题列表
+    CMD_INVITE_USER_SEAT = 17804; // 邀请上麦
+    CMD_QUESTION_LIST_CHANGED_PUSH = 10965; // 提问列表数量变化push
+    CMD_INVITE_SEAT_PUSH = 10964; // 邀请上麦push
+    CMD_QUESTION_REVIEW_STATUS_CHANGED = 10966; // 提问的审核状态发生变更
+
+    CMD_CREATE_STUDY_GROUP = 18001; // 创建小组18001，拉取小组信息18002，解散小组18003，加入小组18004，退出小组18005
+    CMD_GET_STUDY_GROUP = 18002;
+
+    CMD_REMOVE_TEAM_MEMBER = 18003; // 移出学习小组
+    CMD_CHECK_TEAM_RELATION = 18004; // 学习小组关系检查
+    CMD_STUDY_TEAM_MANAGER = 18005; // 学习小组管理
+
+    CMD_GET_TAB_TEST_INFO = 20001;
+}
+
+enum AuthType{
+    TYPE_USELESS   = 0; // 无用字段(pb2升级pb3时添加)
+	TYPE_ENTERROOM = 1; //进房鉴权
+	TYPE_MAKECOMMENT = 2; //群内发言认证
+	TYPE_MIKE = 3; //上麦鉴权
+	TYPE_DOWNMIKE = 4; //下麦鉴权
+	TYPE_DOWNMIKE_CALLBACK = 5; // 下麦回调
+}
+
+enum ErrorType {
+
+	//鉴权成功
+	AUTHENTICATION_SUCCESS = 0; //鉴权成功
+
+	//进房错误
+    TIME_UNREACHED = 1; // 未到开放时间
+	PEOPLE_COUNT_FULL  = 2; // 房间人数已满
+	NOT_IN_WHITE_LIST = 3; // 暂无内测资格
+	FORCE_CLOSE_ROOM = 4; // 自习室已关闭，注意休息哦！
+
+
+	//封禁用户
+	BANNED_USER = 100; //因严重违反自习规则，你已被禁止进入自习室，如有疑问请联系客服人员处理
+    ROOM_BANNER_USER = 101; // 30分钟内不可再进入该房间（主题自习室或者老师自习室的封禁用户）
+
+	//上麦错误
+	MIKE_FORBID_ONEDAY = 200; //因违反自习规则，你已管理员禁麦和禁言24h，封禁截止时间到xx（明天的现在）为止，请注意合理自习
+	MIKE_FORBID_FOREVER = 201; //因严重违反自习规则，你已被管理员永久禁麦和禁言，请注意合理自习，如有疑问请联系客服人员处理
+	MIKE_NOT_AUTHENTICATION = 202; //手机号绑定未完成，暂时无法上麦
+	MIKE_FORBID_LEVEL_LOW = 203; //QQ等级小于12级，暂时无法上麦
+	MIKE_OVER_FREQUENCY = 204; //操作过于频繁，请稍后再试|今日操作过于频繁，请明日再试
+
+	//发言错误
+	COMMENT_FORBID_ONEDAY = 300; //因违反自习规则，你已管理员禁麦和禁言24h，封禁截止时间到xx（明天的现在）为止，请注意合理自习
+	COMMENT_FORBID_FOREVER = 301; //因严重违反自习规则，你已被管理员永久禁麦和禁言，请注意合理自习，如有疑问请联系客服人员处理
+	COMMENT_FORBID_LEVEL_LOW = 302; //QQ等级低于12级，暂时无法发表评论
+	COMMENT_SECURE_BEAT	 = 303; //发送失败，评论含有违禁内容[安全打击不告知用户-不push]
+	COMMENT_OVER_FREQUENCY = 304; //操作过于频繁，请稍后再试|今日操作过于频繁，请明日再试
+	
+	// 自习室接入q群错误
+	QGROUP_NOT_MEMBER = 400; // 非该群成员暂无权限进入
+	
+	// 下麦鉴权错误
+	MIKE_DOWN_NOT_PERMIT = 500; // 无权执行下麦操作
+	
+	// 下麦回调错误
+	MIKE_DOWN_CALLBACK_ERR = 600; // 下麦回调错误
+}
+
+// 观众动作类型
+enum AudienceActionType {
+    TYPE_ACTION_USELESS = 0;
+	TYPE_START_VIDEO_STUDY = 1;	// 开始麦上自习
+	TYPE_END_VIDEO_STUDY = 2;	// 结束麦上自习
+    TYPE_START_VIEWER_STUDY = 3;	// 开始麦下自习
+    TYPE_END_VIEWER_STUDY = 4;	// 结束麦下自习
+	TYPE_ENTER_ROOM = 5;	// 进入房间
+	TYPE_EXIT_ROOM = 6;	// 退出房间
+}
+
+enum MEMBER_ROLE {
+    ROLE_USELESS = 0;   //无用字段(pb2升级pb3时添加)
+    ROLE_USER = 1; // 普通成员
+    ROLE_ADMIN = 2; // 管理员
+    ROLE_STUDY_GROUP = 3; // 小组成员身份（小组房间非房主成员返回）
+}
+
+enum ROOM_TYPE {
+	ROOM_TYPE_COMMON = 0;   // 普通自习室
+	ROOM_TYPE_GROUP  = 1; 	// 群自习室
+	ROOM_TYPE_NIGHT  = 2;   // 深夜自习室
+	ROOM_TYPE_THEME  = 3;  // 主题自习室 
+	ROOM_TYPE_TEACHER = 4;  // 老师自习室
+    ROOM_TYPE_MUSIC = 5; // 音乐自习室
+    ROOM_TYPE_STUDYGROUP = 6; // 小组自习室
+}
+
+enum MLC_MANAGER_TYPE {
+    MANAGER_TYPE_USELESS        = 0; // 无用字段(pb2升级pb3时添加)
+	MANAGER_TYPE_OWER           = 1; // 房主
+}
+
+message MLCManagerInfo {
+	optional MLC_MANAGER_TYPE manager_type      = 1; // 身份
+	optional uint64 uid                     = 2; // 自习室uid
+}
+
+message RoomChangeTimeInfo {
+    optional uint64 uint64_close_time       = 1; // 退房时间戳
+    optional uint64 uint64_tips_time	    = 2; // 弹窗时间戳
+    optional uint64 uint64_micro_start_time = 3; // 上麦时间戳
+    optional uint64 uint64_micro_end_time   = 4; // 下麦时间戳
+}
+
+message ConfigInfo {
+    optional uint64 uint64_tips_time	= 1; 	// 客户端弹窗提醒时间戳（依据自习室类型返回不同的时间）
+    optional uint64 uint64_close_time	= 2; 	// 客户端房间关闭时间戳
+    optional ErrorType enum_error_type	= 3; 	// 错误码
+	optional AuthType enum_auth_type	= 4;	// 鉴权类型
+	optional bytes error_msg            = 5;    // 错误提示
+	optional ROOM_TYPE study_room_type  = 6;    // 自习室类型
+    optional MEMBER_ROLE member_role    = 7;    // 成员身份 (群自习室区分管理员和普通用户)
+    optional string group_id            = 8;    // 群号
+	optional uint64 uint64_change_time  = 9;    // 客户端变更文案的时间
+    repeated MLCManagerInfo managers_info  = 10;   // 主题自习室管理员信息
+    optional string room_name           = 11;   // 房间名称
+    optional uint32 max_micro_num = 12;         // 最大麦位数
+    optional uint32 beat_source         = 13;   // 配合鉴权错误码使用，区分封禁来源（官方封禁还是房主封禁, 0是官方封禁，除0以外都是其他封禁）
+    optional uint32 big_screen_status   = 14;   // 大小屏状态（1：开启 0：关闭）
+    optional uint64 uint64_enter_time   = 15;   // 进房时间戳（pc侧使用）
+    optional uint64 uint64_micro_start_time = 16; // 允许上麦开始时间戳
+    optional uint64 study_group_code    = 17; // 学习小组号
+    optional string study_group_to_qq_group = 18; // 小组自习室对应的加群链接
+
+    optional RoomChangeTimeInfo change_time_info = 100; // 通用时间配置信息
+
+    optional uint64 uint64_expire_time  = 200;   // 通用时间配置过期时间戳
+}
+
+enum NotifyPushType{
+    TYPE_NOTIFY_USELESS = 0;
+	TYPE_VIEWER_LIST_CHANGE = 1; //观众用户列表有新增或者删除通知
+}
+
+/*
+ * 通用的通知类型的 push
+ */
+message NotifyPushInfo{
+    optional NotifyPushType type	= 1;
+}
+
+//自习室成员个数变化push
+message StudyMemberCountPush{
+    optional uint32 study_count             = 1; // 自习成员人数
+    optional uint32 guest_count             = 2; // 围观人数
+    repeated ChangedMemberInfo changeInfo = 3; // 人员变动信息
+}
+
+//观众自习列表变化的成员信息
+message ChangedMemberInfo {
+    optional AudienceActionType actionType = 1; // 变化类型
+    optional uint64 uid = 2; 		// 用户uid
+    optional string name = 3;       // 用户昵称
+    optional uint64 join_study_time = 4; //入座自习开始时间
+    optional videohub.VirtualImageInfo virtual_image = 5; //默认的虚拟形象
+}
+
+message ResultInfo {
+    optional uint32 uint32_result = 1;         //结果
+	optional bytes bytes_errmsg = 2;           //错误信息
+}
+
+message ReqRoomChangeTimeConfig {
+    optional uint32 room_id = 1; // 房间号
+}
+
+message RspRoomChangeTimeConfig {
+    optional ResultInfo msg_result = 1; // 结果
+    optional uint32 room_id = 2;
+    optional ConfigInfo room_change_time = 3; // 房间时间变更信息
+}
+
+message ReqGlobalConfig {
+    optional bytes bytes_cookie = 1;           //第一次传空串，后续传后台下发的cookie
+}
+
+message RspGlobalConfig {
+    optional ResultInfo msg_result = 1;         //结果
+    optional bytes bytes_config = 2;            //配置的json_string
+    optional bool bool_update = 3;              //是否要更新本地的配置
+    optional bytes bytes_cookie = 4;            //后台下发的cookie，客户端下次请求带上来
+}
+
+// 自习室二期：加入观众自习
+message ReqJoinViewerSelfStudy {
+    optional uint32 room_id = 1; //roomId
+}
+
+message RspJoinViewerSelfStudy {
+    optional uint64 join_study_time = 1; // ms 开始自习时间戳，客户端定时器校准
+}
+
+// 自习室二期：退出观众自习
+message ReqQuitViewerSelfStudy {
+    optional uint32 room_id = 1; //roomId
+}
+
+message RspQuitViewerSelfStudy {
+    optional uint64 study_time = 1;        // ms 累计自习时间
+    optional string encourage_wording = 2; // 鼓励文案
+    optional uint32 increased_study_gift_power = 3; // 新增小红花数
+    optional string diary_id = 4;//学习记录Id
+}
+
+// 自习室二期：拉取鼓励文案
+message GetEncourageCopywritingReq {
+}
+
+message GetEncourageCopywritingRsp {
+    optional string encourageCopywriting = 1; // 鼓励文案
+}
+
+// 自习室二期： CMD_VIEWER_SELF_STUDY_LIST_CHANGE_PUSH = 10959; 观众自习列表变化push
+message ViewerSelfStudyListChangePush {
+}
+
+// 自习室三期：拉取小红花余额
+message GetStudyGiftPowerBalanceReq {
+}
+
+message GetStudyGiftPowerBalanceRsp {
+    optional uint32 balance = 1; // 小红花余额
+}
+
+// 自习室三期：送小红花
+message SendStudyGiftPowerReq {
+    optional uint32 room_id = 1; //roomId
+    optional uint64 to_uid = 2; // 接受者uid
+    optional uint32 count = 3; // 数量
+}
+
+message SendStudyGiftPowerRsp {
+    optional uint32 result = 1; // 0 送成功 1 余额不足
+    optional uint32 balance = 2; // 小红花余额
+}
+
+// 自习室三期：获得小红花push
+message GrantStudyGiftPowerPush {
+    optional uint32 increased_study_gift_power = 1; // 新增小红花数
+    optional uint32 balance = 2; // 小红花余额
+    optional string msg = 3; // 显示文案
+    optional uint32 type = 4; // 类型 1.登录获得小红花
+}
+
+// 自习室三期：小红花push
+message SendStudyGiftPowerPush {
+    optional uint32 room_id = 1; //roomId
+    optional uint64 send_uid = 2; // 发送者uid
+    optional string send_nick = 3; // 发送者昵称
+    optional string send_avatar = 4; // 发送者头像
+    optional uint64 to_uid = 5; // 接受者uid
+    optional string to_nick = 6; // 接受者昵称
+    optional string to_avatar = 7; // 接受者头像
+    optional uint32 count = 8; // 数量
+}
+
+// 自习室三期：快速切换房间列表
+// CMD_SWITCH_ROOM_LIST
+message ReqSwitchRoomList {
+    optional uint32 room_id = 1; //roomId
+}
+
+message RspSwitchRoomList {
+    optional string room_id_list = 1; //roomId列表，包含当前roomid,逗号隔开
+    optional uint64 expire_time = 2; //过期时间
+}
+
+//自习室三期：运营消息push,展示在运营入口下发 eg:xxx完成了一次辅导
+message YunyingMessagePush{
+    optional string message_info = 1;
+}
+
+// 自习室四期：群自习室群号换roomId
+message GetRoomIdReq {
+    optional string troop_uin = 1; // 群号
+}
+message GetRoomIdRsp {
+    optional uint32 result = 1; // 成功:0
+    optional uint32 room_id = 2;
+}
+
+// 自习室四期：群自习室禁麦接口
+enum StudyRoomAdminAction {
+    ACTION_USELESS = 0;
+    ACTION_DISALLOW_ON_STAGE = 1; // 禁麦
+    ACTION_ALLOW_ON_STAGE = 2; // 解禁
+    ACTION_KICK_OFF_STAGE = 3; // 下麦
+    ACTION_KICK_OUT_ROOM = 4; // 踢出房间
+}
+
+message StudyRoomAdminReq {
+    optional StudyRoomAdminAction action = 1;
+    optional uint32 room_id = 2;
+    optional uint64 to_uid = 3;
+}
+message StudyRoomAdminRsp {
+    optional uint32 result = 1; // 0 成功
+}
+
+// 自习室四期：群自习室拉取禁麦状态
+message GetUserAdminStatusReq {
+    optional uint32 room_id = 1;
+    optional uint64 uid = 2;
+}
+message GetUserAdminStatusRsp {
+    optional uint32 disallow_on_stage = 1; // 没禁麦0, 被禁麦1
+}
+
+message ReportUserReq {
+    optional uint64 uid = 1; // 举报uid
+    optional uint64 reported_uid = 2; // 被举报uid
+    optional uint32 room_id = 3; // 房间号
+}
+
+enum ResultCode {
+    RET_OK = 0;     // 成功
+    RET_PARAM_ERROR = 10001; // 参数错误
+    RET_REPORT_ERROR = 10002; // 举报错误
+}
+
+message ReportUserRsp {
+    optional ResultCode code = 1; // 返回码
+    optional string err_msg = 2; // 错误信息
+}
+
+// 6期主题自习室: 房主请求关闭房间
+message CloseStudyRoomReq {
+    optional uint32 roomID   = 1;
+    optional uint64 UID      = 2;
+
+}
+// 6期主题自习室: 房主请求关闭房间回包
+message CloseStudyRoomRsp {
+}
+
+// 6期主题自习室: 房主关闭房间push
+message CloseRoomPush{
+    optional uint32 room_id = 1;  //房间号
+}

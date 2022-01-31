@@ -1,0 +1,317 @@
+syntax = "proto2";
+
+package tencent.self_study_room.client;
+
+enum GroupStatus {
+  defaultStatus   = 0;
+  normal          = 1;
+  disband         = 2;
+}
+
+message StudyGroupInfo {
+  optional string groupName        = 1;
+  optional uint64 createTime       = 2;
+  optional uint64 creatorUid       = 3;
+  optional GroupStatus status      = 4;
+  optional uint64 updateTime       = 5;
+  optional uint64 groupId          = 6;
+  optional uint32 roomId           = 7;
+}
+
+message MyStudyGroup {
+  repeated StudyGroupInfo groupList = 1;  //小组列表
+  optional uint64 updateTs = 2;    //更新时间戳
+}
+
+message StudyGroupOperRecord {
+  optional uint64 disbandGroup = 1;
+  optional uint64 disbandTime 	= 2;
+  optional uint64 exitGroup 	= 3;
+  optional uint64 exitTime 	= 4;
+}
+
+message LabelInfo {
+  optional uint32 label_id = 1; // 主题id
+  optional string label_msg = 2; // 主题信息
+}
+
+//创建小组
+message CreateStudyGroupReq {
+  enum OperType {
+    DefaultValue    = 0;
+    CreateRoom      = 1;    //创建房间时调用
+    CreateGroup     = 2;    //创建小组调用
+  }
+  optional uint64  uid         = 1;
+  optional string groupName    = 2; //小组名称
+  optional OperType operType   = 3; //
+  optional string headUrl      = 4; //小组头像
+  repeated LabelInfo labels    = 5; //标签
+  optional string desc         = 6; //简介
+}
+
+message CreateStudyGroupRsp {
+  enum ErrCode {
+    DefaultValue        = 0;
+    Success             = 1001;
+    NotExistGroup       = 1002;   //创建房间操作调用时返回，表示用户没有小组且不能自动创建小组
+    ParamError          = 1003;
+    SvrError            = 1004;
+    HasInGroup          = 1005;  //用户主动创建小组时，标示用户已经加入或创建了小组
+  }
+  optional ErrCode errCode         = 1;
+  optional string errMsg           = 2;
+  optional string groupName        = 3;
+  optional uint64 createTime       = 4;
+  optional uint32 memberNum        = 5;
+  optional uint64 totalStudyTime   = 6;
+  optional uint64 groupId          = 7;
+}
+
+//小组管理接口（加入、退出、解散）
+message StudyGroupManageReq {
+  enum OpType {
+    defaultOp 	= 0;
+    JOIN 		= 1;	//加入小组
+    EXIT 		= 2;	//退出小组
+    DISBAND 	= 3;	//解散小组
+  }
+  optional string targetUid 	    = 1;    //小组创建者uid（860及以上版本不使用此字段）
+  optional OpType opType 		    = 2;
+  optional uint64 groupId 	        = 3;    //小组id 2;
+}
+
+message StudyGroupManageRsp {
+  enum ErrCode {
+    Success 		= 0;
+    NotExistGroup   = 10001;
+    ParamError      = 10002;
+    SvrError        = 10003;
+    GroupIsFull     = 10020;    //小组人数已满
+    MyGroupIsFull   = 10021;    //我加入的小组已达到上限
+  }
+
+  optional ErrCode errCode      = 1;
+  optional string errMsg       = 2;
+}
+
+//移出小组请求
+message RemoveGroupMembersReq {
+  optional uint64 groupId     = 1;    //小组id
+  optional uint64 targetUid   = 2;    //被移出小组人员uid
+}
+
+message RemoveGroupMembersRsp {
+  enum ErrCode {
+    Success 		= 10000;
+    NotExistGroup   = 10001;
+    ParamError      = 10002;
+    SvrError        = 10003;
+    NoPermission    = 10004;
+  }
+  optional ErrCode errCode    = 1;
+  optional string errMsg      = 2;
+}
+
+//拉取目标用户的小组（只返回一个）
+message GetStudyGroupReq {
+  enum SourceType {
+    sourceApp = 0;
+    sourceWeb = 1;
+    sourcePC  = 2;
+  }
+  optional uint64 targetUid 	    = 1;  //小组创建者uid（860及以上版本不使用此字段）
+  optional SourceType type 	    = 2;
+  optional uint64 targetGroupId 	= 3;  //小组id
+}
+
+message GetStudyGroupRsp {
+  enum ErrCode {
+    DefaultValue        = 0;
+    Success             = 1001;
+    NotExistGroup       = 1002;
+    ParamError          = 1003;
+    SvrError            = 1004;
+  }
+  optional ErrCode errCode         = 1;
+  optional string errMsg           = 2;
+  optional string groupName        = 3;
+  optional uint64 createTime       = 4;
+  optional uint32 memberNum        = 5;
+  optional uint64 totalStudyTime   = 6;
+  optional uint64 creatorUid       = 7;    //小组创建者uid
+  optional bool HasInGroup         = 8;    //true：已经加入了当前小组，false:未加入或者加入了其他小组
+  optional uint64 groupId 	       = 9;  //小组id
+  optional string headUrl          = 10; //小组头像
+  repeated LabelInfo labels        = 11; //标签
+  optional string desc             = 12; //简介
+}
+
+//更新小组排行榜信息
+message UpdateGroupRankListReq {
+  optional uint64 uid 			= 1;
+  optional uint64 studyTimes   = 2;
+}
+
+message UpdateGroupRankListRsp {
+  enum ErrCode {
+    DefaultValue    = 0;
+    Success         = 1001;
+    NotExistGroup   = 1002;
+    ParamError      = 1003;
+    SvrError        = 1004;
+  }
+  optional ErrCode errCode      = 1;
+  optional string errMsg        = 2;
+}
+
+message RankItem {
+  optional uint64 uid              = 1;
+  optional string nick             = 2;
+  optional string headUrl          = 3;
+  optional uint64 todayStudyTime   = 4;
+  optional uint64 weekStudyTime    = 5;
+}
+
+message LastWeekList {
+  optional uint64 uid              = 1;
+  optional uint64 updateTime       = 2;
+  repeated RankItem list           = 3;
+  optional uint64 groupId          = 4;
+}
+
+enum RankListType {
+  DefaultValue    = 0;
+  LastWeek        = 1;
+  currentWeek     = 2;
+}
+
+//拉取小组排行榜列表
+message GetGroupRankListReq {
+  optional RankListType type  = 1;
+  optional uint64 creatorUid  = 2;  //小组创建者uid（860及以上版本不使用此字段）
+  optional uint64 groupId     = 3;  //小组id
+}
+
+message GetGroupRankListRsp {
+  enum ErrCode {
+    DefaultValue    = 0;
+    Success         = 1001;
+    NotExistGroup   = 1002;
+    ParamError      = 1003;
+    SvrError        = 1004;
+  }
+  optional ErrCode errCode         = 1;
+  optional string errMsg           = 2;
+  optional RankListType type       = 3;
+  repeated RankItem itemList = 4;
+}
+
+//拉取小组成员列表
+message GetGroupMemberListReq {
+  enum RankType {
+    ascType     = 0;
+    descType    = 1;
+  }
+  optional uint64 groupId = 1;  //小组id
+  optional uint64 num     = 2; //数量
+  optional uint64 page    = 3; //页码
+  optional RankType type  = 4;
+}
+
+message GetGroupMemberListRsp {
+  repeated uint64 uids = 1;  //小组成员列表
+}
+
+//拉取我加入的小组列表
+message GetMyStudyGroupListReq {
+  enum SourceType {
+    sourceApp = 0;
+    sourceWeb = 1;
+    sourcePC  = 2;
+  }
+  optional SourceType type 	= 1;
+  optional uint64 uid 	    = 2;
+}
+
+message GetMyStudyGroupListRsp {
+  enum ErrCode {
+    DefaultValue        = 0;
+    Success             = 1001;
+    NotExistGroup       = 1002;
+    ParamError          = 1003;
+    SvrError            = 1004;
+  }
+  optional ErrCode errCode            = 1;
+  optional string errMsg              = 2;
+  repeated StudyGroupInfo groupList   = 3; //小组列表
+}
+
+message CheckTargetGroupRelationReq {
+  enum SourceType {
+    sourceApp = 0;
+    sourceWeb = 1;
+    sourcePC  = 2;
+  }
+  optional SourceType srcType = 1;
+  optional uint64 uid         = 2;    //目标用户uid
+  optional uint64 groupId     = 3;    //目标小组id
+}
+
+message CheckTargetGroupRelationRsp {
+  optional bool HasInGroup        = 1;    //true：已经加入了目标小组，false:未加入目标小组
+  optional uint64 joinGroupNum    = 2;    //目标用户加入的小组数量
+  optional bool GroupIsFull       = 3;    //目标小组人数是否已满
+}
+
+message PushData {
+  optional uint64 room_id = 1;
+}
+// 小组房2.0 小组信息更新push
+message UpdateGroupInfoPush {
+  optional uint64 operUid            = 1;
+  optional StudyGroupInfo groupInfo   = 2;
+  optional uint64 ts                  = 3;
+}
+// 小组房2.0 小组成员信息更新push
+message GroupMemberChangePush {
+  enum OpType {
+    RemoveOper  = 1;
+    AddOper     = 2;
+  }
+  optional uint64 operUid = 1;
+  optional uint64 groupId = 2;
+  optional OpType opType  = 3;
+  optional uint64 ts      = 4;
+}
+// 870 小组房房主设置上麦限制
+message GetGroupSettingsReq {
+  optional uint64 groupId            = 1;
+}
+
+message ApplySeatLimit {
+  optional bool ifLimitApply      = 1;    //是否限制申请上麦，true:有限制；false:不限制
+  optional uint32 duration        = 2;    //限制时长（单位：秒）
+}
+
+message GetGroupSettingsRsp {
+  optional uint64 groupId                 = 1;    //小组id
+  optional ApplySeatLimit applySeatLimit  = 2;    //申请上麦限制
+}
+
+message SetGroupSettingsReq {
+  optional uint64 groupId     = 1;    //小组id
+  optional bool ifLimitApply  = 2;    //是否限制申请上麦，true:有限制；false:不限制
+}
+
+message SetGroupSettingsRsp {
+  enum ErrCode {
+    DefaultValue        = 0;
+    Success             = 1001;
+    NotExistGroup       = 1002;
+    ParamError          = 1003;
+    SvrError            = 1004;
+  }
+  optional ErrCode errCode         = 1;
+  optional string errMsg           = 2;
+}

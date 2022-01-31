@@ -1,0 +1,18 @@
+package videohub.history;
+option java_package = "com.tencent.jungle.videohub.proto";
+
+message GetRoomTraceReq {
+    optional uint64 uid = 1;
+    optional uint32 start = 2;
+    optional uint32 num = 3;
+}
+
+message GetRoomTraceResp {
+    optional uint32 ret_code = 1;
+    repeated RoomTrace trace = 2;
+}
+
+message RoomTrace {
+    optional uint64 roomId = 1;
+    optional uint64 visit_time = 2;
+}

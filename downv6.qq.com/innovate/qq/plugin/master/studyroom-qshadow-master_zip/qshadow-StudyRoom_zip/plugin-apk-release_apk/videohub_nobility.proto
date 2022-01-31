@@ -1,0 +1,91 @@
+package videohub.nobility;
+
+import "common_types.proto";
+option java_package = "com.tencent.jungle.videohub.proto";
+//old
+//enum NobilityType
+//{
+//	DIAOS = 0;    //屌丝
+//	BARON = 1;    //男爵
+//	VISCOUNT = 2; //子爵
+//	COUNT = 3;    //伯爵
+//	MARQUIS = 4;  //侯爵
+//	DUKE = 5;     //公爵
+//	KING = 6;     //国王
+//}
+
+//new
+//enum NewNobilityType
+//{
+//    NONE                = 0;    //无
+//    LEVEL_RICH_ONE      = 1;    //一富
+//    LEVEL_RICH_TWO      = 2;    //二富
+//    LEVEL_RICH_THREE    = 3;    //三富
+//    LEVEL_RICH_FOUR     = 4;    //四富
+//    LEVEL_RICH_FIVE     = 5;    //五富
+//    LEVEL_RICH_SIX      = 6;    //六富
+//    LORD			    = 7;    //勋爵
+//    BARON               = 8;    //男爵
+//    VISCOUN             = 9;    //子爵
+//    COUNT               = 10;   //伯爵
+//    MARQUIS             = 11;   //侯爵
+//    DUKE                = 12;   //公爵
+//    KING                = 13;   //国王
+//    KING_TOP            = 14;   //KING
+//    EMPEROR_ONE         = 15;   //帝皇
+//    EMPEROR_TWO         = 16;   //君皇
+//    EMPEROR_THREE       = 17;   //太皇
+//    EMPEROR_FOUR        = 18;   //尊皇
+//    EMPEROR_FIVE        = 19;   //圣皇
+//    EMPEROR_SIX         = 20;   //始皇
+//    EMPEROR_SEVEN       = 21;   //神皇
+//    GOD                 = 22;   //天神
+//}
+
+//后台存储tmem使用
+message NobilityInfo {
+	required uint32 level = 1; //爵位等级
+	required uint64 start_time = 2; //下发时间
+	optional uint64 expire_time = 3; // 过期时间
+	optional uint64 update_time = 4; // 更新时间
+    optional uint32 type = 5; //爵位类型 正常或者体验,1正常/2体验
+    optional uint32 contriubtion = 6;//30天累计消费
+	optional uint32 yellow_jacket_count = 7;//黄马褂数量 防降级，升级清空
+	repeated uint64 jacket_time = 8;//黄马褂使用时间
+	optional uint32 score = 9;//积分
+	optional uint32 jacket_flag = 10;//本等级是否购买过保级卡0无1用过
+}
+
+//后台存储tmem使用
+// nobility_info_${uid}
+message NobilityData {
+    required uint64 uin = 1;
+    required uint64 uid = 2;
+    repeated NobilityInfo infos = 3; //爵位信息
+}
+
+//cmd11802
+message GetUserListNobilityReq {
+    repeated uint64 uids = 1; //uid list
+}
+
+//cmd11803
+message GetUserListNobilityRsp {
+	required uint32 result = 1; //ret code
+	optional string err_msg = 2; //err_msg
+	repeated NobilityAllInfo infos = 3;
+}
+
+//
+message BuyJacketReq {
+	optional uint64 uid = 1;
+	optional uint32 level = 2;
+}
+
+message BuyJacketRsp {
+	optional uint32 result = 1;
+	optional string msg = 2;
+}
+
+
+

@@ -1,0 +1,80 @@
+package videohub.nobility_msg;
+
+import "common_types.proto";
+
+enum MSGID
+{
+    MSGID_NOBILITY_DEGRADE             = 1;    // 爵位降级
+    MSGID_NOBILITY_DEMOTION            = 2;    // 即将降级
+    MSGID_HY_NOBILITY_FIRST_ENTERROOM  = 3;    // 花样爵位首次进房
+}
+
+message NotifyMsg
+{
+    required uint32  msg_id        = 1;    //消息类型标记 
+    required bytes content         = 2;    //内容
+    optional uint32 expired_time   = 3;    //过期时间
+}
+
+//消息存储 客户端不用关注 
+message NotifyMsgStore
+{
+    repeated NotifyMsg msg_list  = 1; 
+}
+
+//写需要确认的消息 (爵位降级、即将降级消息)
+message WriteNotifyMsgReq
+{
+    optional NotifyMsg  msg = 1; 
+}
+
+message WriteNotifyMsgRsp
+{
+
+}
+
+//删除消息
+message DelNotifyMsgReq
+{
+    optional uint32 msg_id   =  1; //MSGID
+}
+
+message DelNotifyMsgRsp
+{
+
+}
+
+message EnterRoomExtMsg
+{
+    optional uint64 uid                              = 1;
+    optional uint32 room_id                          = 2;
+    optional string nick                             = 3; //昵称
+    optional string avatar                           = 4; //头像
+    optional uint32 gender                           = 6; //性别 GENDER 1男 2女
+    
+    
+    //动效资源id
+    optional uint32 effect_resource_id               = 5; //老爵位进房ID
+    optional uint32 car_id                           = 7; //座驾ID
+    optional uint32 nameplate_id                     = 8; //铭牌ID
+    optional string desc                             = 9; //进房说明文案
+    
+    //沉淀消息样式
+    
+    //爵位消息
+    optional videohub.NobilityAllInfo nobility_info  = 10;     //爵位信息
+}
+
+//拉取进房扩展消息
+message GetEnterRoomExtMsgReq
+{
+    optional uint32 room_id  = 1; //
+}
+
+message GetEnterRoomExtMsgRsp
+{
+    optional EnterRoomExtMsg nobility_msg = 1;
+}
+
+
+

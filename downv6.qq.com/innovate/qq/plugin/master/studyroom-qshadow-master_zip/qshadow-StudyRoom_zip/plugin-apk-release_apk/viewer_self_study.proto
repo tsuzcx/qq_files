@@ -1,0 +1,132 @@
+syntax = "proto3";
+package   trpc.ssr.viewer_self_study;
+
+//default java package name
+option  java_package="com.tencent.trpcprotocol.ssr.viewerSelfStudy.viewerSelfStudy";
+
+//default go package name
+option  go_package ="git.code.oa.com/trpcprotocol/ssr/viewer_self_study";
+
+// tRPC-Go数据校验模块（**移除注释使用**）
+// 介绍：http://km.oa.com/articles/view/438840
+// import "trpc/common/validate.proto";
+
+
+
+service ViewerSelfStudySvr {
+    rpc JoinViewerSelfStudy(ReqJoinViewerSelfStudy) returns (RspJoinViewerSelfStudy) {}
+    rpc QuitViewerSelfStudy(ReqQuitViewerSelfStudy) returns (RspQuitViewerSelfStudy) {}
+    rpc GetViewerSelfStudyList(ReqGetViewerSelfStudyList) returns (RspGetViewerSelfStudyList) {}
+    rpc GetEncourageCopywriting(GetEncourageCopywritingReq) returns (GetEncourageCopywritingRsp) {}
+    rpc GetViewersJoinStudyTime(GetViewersJoinStudyTimeReq) returns (GetViewersJoinStudyTimeRsp) {}
+    rpc DeleteDirtyData (DeleteDirtyDataReq) returns (DeleteDirtyDataRsp){}
+}
+
+message DeleteDirtyDataReq {
+    uint32 type = 1;
+}
+
+message DeleteDirtyDataRsp {
+    bool is_success = 1;
+}
+
+message ReqJoinViewerSelfStudy {
+    uint32 room_id = 1; // 房间id
+}
+
+message RspJoinViewerSelfStudy {
+    uint64 join_study_time =1;
+}
+
+message ReqQuitViewerSelfStudy {
+    uint32 room_id = 1; // 房间id
+
+    enum QuitType {
+        CLIENT_QUIT = 0; //默认客户端退出
+        EXIT_ROOM_EVENT = 1; //退房事件
+        ONSTAGE = 2;  // 上麦
+
+    }
+    QuitType type = 99; // 为兼容客户端加的字段，挑了个后面的序列号
+}
+
+message RspQuitViewerSelfStudy {
+    uint64 study_time = 1;        // ms 累计自习时间
+    string encourage_wording = 2; // 鼓励文案在
+    uint32 increased_flower = 3; // 新增小红花数
+    string diary_id = 4;//学习记录Id
+}
+
+message ReqGetViewerSelfStudyList {
+    uint64 roomId = 1; // 房间id
+    uint32 page_size = 2; //每页数量
+    string cookie = 3;
+}
+
+message RspGetViewerSelfStudyList {
+    enum ResultCode {
+        RET_OK                           = 0;  // 成功
+        RET_PARAM_ERROR                  = 10001; // 参数错误
+        RET_GET_SEATS_INFO_FAILED        = 10002; // 获取座位信息失败
+    }
+    ResultCode code = 1; // 错误码
+    repeated ViewerInfo viewer_info_list = 2; // 观众信息列表
+    string rsp_cookie = 3; //下一页开始标识
+    bool is_end = 4; //是否最终页
+    uint32 total = 5; //总数
+}
+
+message GetEncourageCopywritingReq{}
+message GetEncourageCopywritingRsp
+{
+    string encourageCopywriting = 1; // 鼓励文案
+}
+
+// ckv数据结构
+message ViewerSelfStudyList {
+    map<uint64, ViewerInfo> viewerInfoMap = 1;  // key uid
+    uint64 updateTime                     = 2; //s
+}
+
+message ViewerInfo {
+    uint64 uin               =1; // uin
+    uint64 uid               =2; // uid
+    int64  join_study_time   =3; // 开始学习时间戳
+}
+
+enum NotifyPushType{
+    PLACEHOLDER =0;
+    TYPE_VIEWER_LIST_CHANGE = 1; //观众用户列表有新增或者删除通知
+}
+
+/*
+ * 通用的通知类型的 push
+ */
+message NotifyPushInfo{
+    NotifyPushType type	= 1;
+}
+
+// 自习室成员个数变化push
+message StudyMemberCountPush {
+    uint32 study_count = 1; // 自习成员人数
+    uint32 guest_count = 2; // 围观人数
+
+}
+
+
+message GetViewersJoinStudyTimeReq {
+    uint64 room_id = 1;
+    repeated uint64 uid_list = 2;
+}
+
+
+message GetViewersJoinStudyTimeRsp {
+    enum ResultCode {
+        RET_OK                           = 0;  // 成功
+        RET_PARAM_ERROR                  = 10001; // 参数错误
+        RET_INTERNAL_FAILED              = 10002; // 后台内部错误
+    }
+    ResultCode code = 1;
+    string msg = 2; //错误信息
+    repeated ViewerInfo viewer_list = 3;
+}

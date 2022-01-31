@@ -1,0 +1,255 @@
+
+import "videohub_gift.proto";
+import "common_types.proto";
+import "punish.proto";
+option java_package = "com.tencent.jungle.videohub.proto";
+
+package videohub.push;
+
+/* CMD_PUSH_SEND_GIFT    = 10925; // 送礼物 */
+message SendGiftPush // 送礼物
+{
+    required gift.SendGiftReq send_gift = 1;
+    optional string send_user_name = 2; // 送礼物者的用户名
+};
+
+
+/* CMD_MEMBER_LIST_PUSH     = 10905; // 成员列表用户身份变化PUSH */
+message MemberInfoListPush
+{
+    repeated MemberInfo add_member_info      = 1; // 增加成员信息
+    repeated MemberInfo del_member_info      = 2; // 删除成员信息
+    repeated MemberInfo change_member_info  = 3; // 变更成员信息
+    optional uint32 total_count             = 4; // 房间虚假人数
+    optional uint32 count_per_page          = 5; // memberlist per page
+    optional uint32 room_id                 = 6; // 房间id
+    optional uint32 actual_count  			= 7; // 房间真实人数
+}
+
+// CMD_USER_INFO_CHANGE                 = 10914;//用户资料修改push
+message UserInfoChangePush
+{
+    optional BasicUserInfo basicUserInfo         = 1; // 用户资料修改push
+    optional UserVoiceCover userVoiceCover      = 2; // 用户语音封面
+}
+
+
+/* CMD_SYS_NOTIFY_PUSH               = 10920;//聊天区系统消息提示 */
+message SystemNotifyPush
+{
+    message Item
+    {
+        optional uint64 uid                   = 1; //用户uid
+        optional string nick                  = 2; //用户昵称
+        optional uint32 user_identity         = 3; //用户身份
+        optional string user_identity_icon    = 4; //用户身份图标id
+        optional string text                  = 5; //动作或纯文本的提示; 如果是纯文本提示，其他字段都不填即可
+    }
+    repeated Item item = 1;
+}
+
+// CMD_PUNISH_PUSH                    = 10921;//秩序管理push
+message PunishPush
+{
+    optional uint32  type                                     = 1; //1.禁止, 2.解禁
+    optional videohub.punish.ForbidInfo  forbid_info          = 2; //处罚相关信息
+    optional SystemNotifyPush system_notify                   = 3; //公屏系统消息
+    optional bytes   window_tips                              = 4; //弹框文案
+}
+
+// CMD_EDIT_MANAGER_PUSH              = 10922;//设置管理员push
+message EditManagerPush
+{
+    optional uint32 type                       = 1; //1.设置管理员 2.撤销管理员
+    optional uint64 admin_uid                  = 2; //操作者uid
+    optional uint64 to_uid                     = 3; //被操作者uid
+    optional ManagerInfo managerinfo           = 4; //被操作者目标权限
+    optional SystemNotifyPush system_notify    = 5; //公屏系统消息
+}
+
+// CMD_ANCHOR_STATUS_PUSH          = 10931; //下发主播状态
+message AnchorStatusPush
+{
+    optional uint64 anchor_uid                 = 1;  //主播uid
+    optional uint64 timestamp                  = 2;  //下发时间戳
+    optional uint32 status                     = 3;  //1-开播, 2-关播, 3-暂停, 4-卡顿, 6-卡顿恢复, 7-直播中, 8-暂停恢复
+}
+
+// CMD_PUSH_COMFIRM_SEAT              = 10933;//确认上台push 拒绝上台push
+message ConfirmSeatPush
+{
+    optional uint32 type                  = 1;  // 1--确认上台  2- 拒绝上台   3--结束直播   4--移除列表
+    optional uint64 uid                   = 2;  // 操作者uid
+}
+
+
+//CMD_PUSH_ROOM_USER_SCORE= 10936; 单场魅力&土豪信息PUSH
+message RoomUserScorePush
+{
+    required uint32 room_id                         = 1; //roomId
+    required uint32 update_list_type                = 2; //1- 土豪榜更新; 2 - 魅力榜更新 3 男神榜 4 女神榜
+    repeated UserScoreItem user_score_update_item   = 3; //新增/ 更新的 房间用户信息
+    repeated UserScoreItem user_score_remove_item   = 4; //减少房间用户信息
+}
+
+message RichOwnPush
+{
+    optional uint64 uid                                = 1; //自己的uid
+    optional uint32 own_contribution                = 2; //自己的贡献
+}
+
+//CMD_NOBILITY_CHANGE                   = 10940;爵位升降级push
+message NobilityPush
+{
+    optional uint32 type         = 1;        //0升级 1降级
+    optional string nick          = 2;        //用户昵称
+    optional uint32 roomid         = 3;        //升级用户所在房间 用于区分君皇帝皇特效
+    optional uint32 resource_id = 4;        //动效资源id
+    optional NobilityAllInfo info = 5;        //爵位信息
+    optional uint32 resource_id_full_screen = 6; //动效资源id 全屏动效
+	optional string  avatar         = 7; // 头像图片id；客户端拼出url
+    optional uint32 gender          = 8; //性别 GENDER 1男 2女
+}
+
+//CMD_PK_STAGE_PUSH                  = 10945;//PK舞台push
+message PkStagePush
+{
+    optional PkStageInfo pkstage_info = 1;
+}
+
+//CMD_PK_INVITE_PUSH                 = 10946;//PK邀请push
+message PkInvitePush
+{
+    optional PlayerInfo invite_player = 1;
+    optional int32 partner_id = 2;
+    optional string game_id = 3;
+    optional string random = 4;
+}
+
+//CMD_PK_GAME_START_PUSH             = 10947;//PK接受开始游戏push
+message PkGameStartPush
+{
+    optional string game_roomid = 1;
+    optional string game_url = 2;
+}
+
+
+//CMD_PK_CANCEL_PUSH                 = 10948;//PK取消邀请
+message PkCancelPush
+{
+}
+
+//CMD_PK_PROP_USE_PUSH               = 10949;//PK道具使用push
+message PkPropertyUsePush
+{
+    optional uint64 sender = 1;//发送者uid
+    optional uint32 prop_id = 2; //道具id 炸弹-1
+}
+
+//CMD_PK_PROP_PROGRESS_PUSH           = 10950;//PK道具进度push
+message PkPropProgressPush
+{
+    required string game_roomid = 1; //游戏场次
+    required uint64 receiver = 2; //接收者
+    optional bool can_send = 3;//是否可以继续送
+    optional PkPropProgress bomb = 4;//炸弹进度
+}
+
+enum WebSubCmd
+{
+	SUBCMD_LOTTERY	              = 1 ; //抽奖
+    SUBCMD_RECHARGE_NOTIFY	      = 2 ; //充值通知
+    SUBCMD_AGENT_SYS              = 3 ; //代理商系统
+    SUBCMD_UNION_NOTIFY           = 4 ; //公会通知
+}
+
+//CMD_COMM_PUSH4WEB                  = 10919;
+message CommonPush4Web
+{
+    optional int32 subcmd = 1; //取值enum WebSubcmd
+    optional bytes data = 2; //json结构，后台和web定义通用格式
+}
+
+//底图地址|移动端|pc端
+//全服不跳转：https://pub.idqqimg.com/pc/misc/files/20181120/d4eaa75f3f264d0e80778f0132fec28e.png | https://pub.idqqimg.com/pc/misc/files/20181123/90b27ff0f71c49d4bd9d370c027609c9.png
+//全服带跳转：https://pub.idqqimg.com/pc/misc/files/20181120/6fe16b7eba854710980996da374867f1.png | https://pub.idqqimg.com/pc/misc/files/20181123/ed32e59cee2c497dba8c079706d01769.png
+//房间不跳转：https://pub.idqqimg.com/pc/misc/files/20181120/6cd88e7fc5b74e0692145d5a0f1bf2a4.png | https://pub.idqqimg.com/pc/misc/files/20181123/15fd5e589d9d4ce181630cbd5530c735.png
+//房间带跳转：https://pub.idqqimg.com/pc/misc/files/20181120/c4ab9c8af9e141348ee5e3232f0b4103.png | https://pub.idqqimg.com/pc/misc/files/20181123/a4c514d02cf04a0e9ee3f052816032e9.png
+
+//跑马灯通知消息
+message MarqueeNotification {
+    optional uint32 id = 1;       // 便于客户端定位问题（追溯后台配置）
+    repeated Element elments = 2; // 通知文案展示元素
+    optional string jumpurl = 3;  // 根据跳转类型后台拼接好的tnow串
+    optional uint32 msg_type = 4;  //0--房间广播, 1--全服广播（签约房间）, 2--全服广播（所有房间）
+    optional uint32 show_sec = 5 [default = 3];  //展示时间(秒)
+    optional uint64 trigger_uid = 6; //触发人uid
+    optional uint32 source_type = 7; //来源： 0--送礼，1--开播广播
+    optional bytes data = 8; //广播源所带私有数据
+};
+
+message Element {
+    optional uint32 type = 1;         // 0:文本元素，1:图片元素
+    optional TextElement el_text = 2; // 文本元素
+    optional PicElement el_pic = 3;   // 图片元素
+};
+
+message TextElement {
+    optional string text = 1;    // 文本
+    optional uint32 fgcolor = 2; // 前景色
+    optional uint32 bgcolor = 3; // 背景色
+    optional uint32 color = 4;   // 文本颜色
+};
+
+message PicElement {
+    optional string url = 1;       // 图片url
+    optional string downgrade = 2; // 降级方案(使用安装包图片4 Android)
+    optional string pc_url = 3;    // pc端图片,如果为空，降级取url字段
+};
+
+message GiftBroadcastInfo {
+    required uint64 sender_uid = 1; //送礼者uid
+    required uint64 receiver_uid = 2; //收礼者uid
+}
+
+//榜单变动push
+message RankInfo
+{
+    optional uint64 uid = 1; //变动者uid
+    optional uint32 type = 2; //变动类型, 1:场榜更新, 2:周榜更新, 3:红娘匹配榜更新
+}
+
+//CMD_COURSE_NOTICE_PUSH
+message CourseNoticeInfo
+{
+    optional uint32 quit = 1;	//为1则自动退出，如果有提示信息先弹窗，确认后再退出
+    optional bytes course_stat_text = 2;    //课程统计文本，有则展示，无则不展示
+    optional uint64 uid = 3; //发起者uid, 发起者收到push忽略
+    optional bytes replay_link = 4;			//回放链接,录播下麦时返回
+}
+
+//排麦push
+message ApplySeatPush
+{
+	enum ApplyState {
+		Default_STATE = 0;
+		REVIEWING	  = 1;
+		SUCCESS		  = 2;
+		REFUSED		  = 3;
+		CANCEL 		  = 4;
+	}
+	enum GENDER
+	{
+		GENDER_NONE   = 0;
+		GENDER_MALE   = 1;
+		GENDER_FEMALE = 2;
+	}
+	optional uint64 apply_uid 	= 1; //申请者uid
+	optional uint64 review_uid 	= 2; //审批者uid
+	optional uint32 room_id 	= 3; //房间id
+	optional ApplyState state 	= 4; //申请状态
+	optional string apply_nick  = 5;
+	optional string apply_head_url   = 6;
+	optional GENDER gender 		= 7;
+	optional uint32 total_num   = 8;
+}

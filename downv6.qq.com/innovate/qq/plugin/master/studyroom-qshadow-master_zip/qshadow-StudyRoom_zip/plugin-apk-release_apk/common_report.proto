@@ -1,0 +1,97 @@
+package videohub.report;
+option java_package = "com.tencent.jungle.videohub.proto";
+option java_outer_classname = "CommonReportProto";
+
+//端类型
+enum PlatformType {
+    PLATFORM_TYPE_PC = 1;
+	PLATFORM_TYPE_ANDROID = 2;
+    PLATFORM_TYPE_IOS = 3;
+    PLATFORM_TYPE_WEB = 4;
+}
+//网络类型
+enum NetworkType {
+    NETWORK_TYPE_UNKNOWN = 1; //未知
+    NETWORK_TYPE_WIFI = 2; //WIFI
+    NETWORK_TYPE_2G = 3; //2G
+    NETWORK_TYPE_3G = 4; //3G
+    NETWORK_TYPE_4G = 5; //4G
+    NETWORK_TYPE_WIRED = 6; //有线网络
+
+}
+// 上报值
+message ReportValue {
+    //数值类型
+    enum ValueType {
+        VALUE_TYPE_UINT64 = 1; //uint32
+        VALUE_TYPE_STRING = 2; //string
+        VALUE_TYPE_DOUBLE = 3; //double
+    }
+    optional string fieldName = 1; //字段名称
+    optional ValueType valueType = 2; //字段类型
+    optional uint64 uint_value = 3;
+    optional string string_value = 4;
+    optional double double_value = 5;
+}
+//上报项
+message ReportItem {
+    required string tid = 1; //表名
+    optional string opername = 2; // opername 业务
+    optional string module = 3; // module 模块
+
+    required string action = 4; // action 行为
+    optional uint64 action_time = 5; // 日志记录时间
+    optional uint64 action_order = 6; // cycle内本地自增的用来记录用户操作及功能执行顺序关系
+    optional uint64 cycle = 7; // 本地自增的用来标记区分客户端的每一个启动周期
+    optional uint64 day_cycle = 8; // 以日为单位区分客户端的每一个启动周期
+    optional string roomid = 9; // 房间id
+    repeated ReportValue list_reportValue = 10; // 上报值列表，业务数据
+}
+
+
+/*CMD_COMMON_REPORT       = 12401,// 通用上报 */
+message CommonReportReq {
+    required uint64 odid = 1; // 用户id
+    optional uint64 qq_uin = 2; // 用户的QQ号
+    optional string openid = 3; // 用户的QQ授权id
+    optional string shell_version = 4; // OD壳子版本号
+
+    optional uint32 type = 5 [default = 999]; // (0)独立版客户端、(1)QQ群视频
+    optional uint32 platform = 6; // 端类型：(1)PC客户端、(2)安卓客户端、(3)IOS客户端
+    optional string sdk_version = 7; // 客户端版本号，没有则留空
+    optional string qq_version = 8; // QQ客户端版本号
+    optional uint64 channel_id = 9; // 客户端安装渠道id
+
+    optional string sys_version = 10; // 系统版本
+    optional string mac_version = 11; // 设备型号
+    optional string macpara = 12; // cpu、内存
+    optional string uuid = 13; // 用户设备的唯一标识（MAC、IMEI）
+    optional string screen = 14; // 屏幕分辨率
+    optional uint32 network = 15; //网络情况：(1)未知、(2)wifi、(3)2G、(4)3G、(5)4G、(6)有线
+    optional string from_id = 16; //本次上报项拉起应用的来源id\参数不存在时，记为空
+
+    repeated ReportItem list_reportItem = 17; // 上报项列表，一个包可以上报多个上报项
+
+    optional string str1 = 18; // 预留字段1
+    optional string str2 = 19; // 预留字段2
+}
+
+message CommonReportRsp {
+    optional uint32 ret_code = 1; //返回码
+    optional string ret_msg = 2; //错误返回信息
+}
+
+message MonitorItem {
+    optional uint32 id = 1; //属性id
+    optional uint32 value = 2; //上报值
+    optional uint32 type = 3; //1:累加, 暂时都填写1
+}
+
+//monitor上报
+message MonitorReportReq {
+    repeated MonitorItem item = 1; //
+}
+
+message MonitorReportRsp {
+
+}

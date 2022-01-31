@@ -1,0 +1,44 @@
+package tencent.im.cs.cmd0x3fb;
+// SSO 命令字：qunVideoGray.0x3fb_0
+
+enum Cmd {
+	Invalid = 0;
+
+    get_gray_info = 1; //获取群灰度信息
+
+};
+
+message GrayMsg {
+    optional uint32 uint32_subcmd = 1; //灰度操作命令字， 取Cmd枚举值
+
+    optional ReqBody msg_gray_req = 10;
+	optional RspBody msg_gray_rsp = 11;
+};
+
+message ReqBody {
+    optional uint32 uint32_identity = 1; // 用户在当前群视频对应群内的身份（0-非群成员、1-普通群成员、2-群管理、3-群主、4-其他或未知）
+    optional uint64 uint64_to_guin = 2; // 用户发起群视频的群号
+    optional uint32 uint32_client_id = 3; // 终端类型 （1-PC、2-安卓、3-iOS、4-其他或未知）
+    optional string str_version = 4; // QQ版本号
+};
+
+message RspBody {
+    optional int32 int32_ret = 1; // 0 - 命令处理成功
+    optional int32 int32_gray_flag = 2; //  0-不在灰度范围  1- 在灰度范围
+    optional string str_url = 3; // 预埋跳转url
+    optional int32 int32_color = 4; // 界面背景色(即透明控制)
+    repeated BufferExData rpt_msg_buffer_ex_data = 5; //扩展字段
+    optional int32 int32_enter_glive_strategy = 6; // 新的标志位  0 - 跳老版本群视频; 1 - 跳h5; 2 - 跳新版群视频; 3-升级提示; 4-强制升级
+    optional uint64 uint64_to_guin = 7; // 用户发起群视频的群号
+    optional string str_update_title = 8; // 升级弹窗标题
+    optional string str_update_content = 9; // 升级弹窗文案
+    optional int32 int32_pre_download_toggle = 10; // 预下载开关  1-开启预下载  0-关闭预下载
+};
+
+message BufferExData {
+    optional uint32 uint32_index = 1; // index
+    optional uint32 uint32_value = 2; // 整型扩展数据
+    optional string string_value = 3; // 字符串扩展数据
+    optional bytes bytes_value = 4; // buffer扩展数据
+};
+

@@ -1,0 +1,8 @@
+
+package ilive_act_seal_common;
+
+// pb kv
+message KV {
+    optional string key = 1; // key
+    optional string value = 2; // value
+}

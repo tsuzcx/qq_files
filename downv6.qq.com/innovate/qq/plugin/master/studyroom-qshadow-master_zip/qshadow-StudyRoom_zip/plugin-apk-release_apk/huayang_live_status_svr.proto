@@ -1,0 +1,145 @@
+//@author=stevenfyang
+syntax = "proto2";
+package huayang_live_status_svr;
+
+option java_generic_services = false;
+option cc_generic_services = false;
+
+enum BIG_CMD {
+    CMD_SET_ANCHOR_STATUS = 10526; //内部:设置状态(statemgr set livestatus)
+    CMD_QUERY_ANCHOR_STATUS = 10527; //查询主播状态
+    //   	CMD_QUERY_ANCHOR_LIST			   = 10528;//查询在线主播列表      //废弃, 换尾号拉取
+    //   	CMD_QUERY_ROOM_LIST                = 10529;//查询在线房间列表      //废弃, 换尾号拉取
+    CMD_QUERY_ANCHOR_LIST_BY_TAIL = 10530; //查询在线主播列表，通过块号
+    CMD_QUERY_ROOM_LIST_BY_TAIL = 10531; //查询在线房间列表，通过块号
+    CMD_QUERY_QUNROOM_BY_TAIL = 10532; //查询Qun房间, 通过块号
+    CMD_QUERY_ROOM_ANCHOR_BY_BLOCK = 10533; //查询房间主播信息，通过块号
+}
+
+enum Status {
+    MEDIA_STREAM_START = 1;
+    MEDIA_STREAM_STOP = 2;
+    MEDIA_STREAM_PAUSE = 3; // 暂停，切后台
+    MEDIA_STREAM_STUCK = 4; // 卡顿，网络不稳定
+    MEDIA_STREAM_RESTART = 5;
+    MEDIA_STREAM_RESUME_FROM_STUCK = 6; // 卡顿恢复
+    MEDIA_STREAM_LIVING = 7; // 心跳
+    MEDIA_STREAM_RESUME_FROM_PAUSE = 8; // 暂停恢复
+}
+
+enum ELiveStat {
+    Start = 1;
+    Stop = 2;
+    Pause = 3;
+    Stuck = 4;
+    Restart = 5;
+    Resume = 6;
+};
+
+//msg broadcasted by videomgrsvr
+message VideoChangeBroadcast {
+    optional uint64 room_id = 1;
+    optional uint64 uid = 2;
+    optional uint32 stat = 3;
+    optional uint32 cur_timestamp = 4;
+    optional uint32 client_type = 5;
+    optional uint32 video_begin_timestamp = 6;
+    optional bytes extra = 7; //额外信息
+    optional uint64 qun_id = 8; //群号, 0-不存在
+}
+
+message VideoChangeStatus {
+    optional uint64 room_id = 1;
+    optional uint32 stat = 2;
+    optional uint32 timestamp = 3; //发送该事件时间
+    optional uint32 client_type = 4;
+    optional uint64 uid = 5;
+    optional fixed32 video_begin_timestamp = 6; //主播开播时间
+    optional uint64 qun_id = 7; //群号
+}
+
+enum RspCode {
+    ret_ok = 0;
+    ret_unknow_err = 10000;
+    ret_refer_null = 10001;
+    ret_tail_unsupport = 10002;
+}
+
+message QueryLiveStatusReq {
+    repeated uint32 room_id = 1;
+    optional uint32 query_type = 3; //1-房间号, 2-uid, 不要使用房间号拉取!!!
+    repeated uint64 uid = 4;
+}
+message QueryLiveStatusRsp {
+    repeated VideoChangeStatus video_status = 1;
+}
+
+message QueryLiveUserByTailReq //0x4
+{
+    optional string refer = 1; //来源, 工程名
+    optional uint32 block_id = 2; //0-9
+}
+
+message QueryLiveUserByTailRsp {
+    required int32 result = 1; //0-OK, other-err
+    repeated uint64 uins = 2; //
+}
+
+message QueryLiveRoomByTailReq {
+
+    optional string refer = 1; //来源, 工程名
+    optional uint32 block_id = 2; //0-9
+}
+
+//通过块号查询房间主播信息， CMD_QUERY_ROOM_ANCHOR_BY_BLOCK     = 10533;
+message QueryRoomAnchorByBlockReq {
+    optional int32 block_id = 1;
+    repeated int32 room_id = 2;
+}
+
+message AnchorInfo {
+    optional uint64 anchor = 1;
+    optional int32 seat_type = 2;
+    optional int32 place = 3;
+    optional int32 enable_voice = 4;
+    optional int32 enable_video = 5;
+}
+
+message RoomAnchorInfo {
+    optional int32 room_id = 1;
+    repeated AnchorInfo anchor_info = 2;
+}
+
+message QueryRoomAnchorByBlockRsp {
+    required int32 result = 1; //0-OK, other-err
+    repeated RoomAnchorInfo room_anchor_info = 2;
+}
+
+//=======
+
+message QueryLiveRoomByTailRsp {
+    required uint32 result = 1;
+    repeated uint64 roomid = 2;
+}
+
+message QueryQunRoomByTailReq {
+    optional string refer = 1; //来源, 工程名
+    optional uint32 block_id = 2; //0-9
+}
+
+message QueryQunRoomByTailRsp {
+    required uint32 result = 1;
+    repeated uint64 roomid = 2;
+}
+
+//======================
+//key:live_status_room_report
+//type:zset
+message RoomCntReportData {
+    optional uint64 timestamp = 1;
+    optional uint32 group_id = 2;
+    optional uint32 room_cnt = 3;
+}
+
+
+

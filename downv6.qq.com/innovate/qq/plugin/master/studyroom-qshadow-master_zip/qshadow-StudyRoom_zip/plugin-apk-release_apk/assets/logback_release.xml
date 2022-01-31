@@ -1,0 +1,79 @@
+<configuration>
+    <conversionRule conversionWord="pid"
+        converterClass="com.tencent.hydevteam.logback.ProcessIdConverter" />
+
+    <appender name="LOGCAT" class="com.tencent.hydevteam.logback.LogcatAppender">
+        <encoder>
+            <pattern>[%file:%line] %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="OfficialLog_FILE"
+        class="com.tencent.hydevteam.logback.SDCardRollingFileAppender">
+        <file>studyroomapp/log/OfficialLog.log</file>
+        <rollingPolicy class="com.tencent.hydevteam.logback.SDCardSizeAndTimeBasedRollingPolicy">
+            <!-- daily rollover -->
+            <fileNamePattern>studyroomapp/log/OfficialLog_%d{yyyy-MM-dd}_%i.zip</fileNamePattern>
+
+            <maxFileSize>1MB</maxFileSize>
+            <maxHistory>30</maxHistory>
+            <totalSizeCap>30MB</totalSizeCap>
+        </rollingPolicy>
+
+        <encoder>
+            <pattern>%date %level [%pid:%thread] %logger{10} %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="FILE" class="com.tencent.hydevteam.logback.SDCardRollingFileAppender">
+        <file>studyroomapp/log/logFile.log</file>
+        <rollingPolicy class="com.tencent.hydevteam.logback.SDCardSizeAndTimeBasedRollingPolicy">
+            <!-- daily rollover -->
+            <fileNamePattern>studyroomapp/log/logFile_%d{yyyy-MM-dd}_%i.zip</fileNamePattern>
+
+            <maxFileSize>1MB</maxFileSize>
+            <maxHistory>30</maxHistory>
+            <totalSizeCap>30MB</totalSizeCap>
+        </rollingPolicy>
+
+        <encoder>
+            <pattern>%date %level [%pid:%thread] %logger{10} %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="Bugly" class="com.tencent.hydevteam.logback.BuglyAppender">
+        <encoder>
+            <pattern>%msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!--https://logback.qos.ch/manual/appenders.html#AsyncAppender-->
+    <appender name="ASYNC_Bugly" class="ch.qos.logback.classic.AsyncAppender">
+        <appender-ref ref="Bugly" />
+        <includeCallerData>false</includeCallerData>
+        <neverBlock>true</neverBlock>
+    </appender>
+
+    <appender name="ASYNC_FILE" class="ch.qos.logback.classic.AsyncAppender">
+        <appender-ref ref="FILE" />
+        <includeCallerData>false</includeCallerData>
+        <neverBlock>true</neverBlock>
+    </appender>
+
+    <!--https://logback.qos.ch/manual/appenders.html#AsyncAppender-->
+    <appender name="ASYNC_OfficialLog_FILE" class="ch.qos.logback.classic.AsyncAppender">
+        <appender-ref ref="OfficialLog_FILE" />
+        <includeCallerData>false</includeCallerData>
+        <neverBlock>true</neverBlock>
+    </appender>
+
+    <root level="Debug">
+        <appender-ref ref="ASYNC_Bugly" />
+        <appender-ref ref="ASYNC_FILE" />
+    </root>
+
+    <logger name="OfficialLog" additivity="false" level="INFO">
+        <appender-ref ref="ASYNC_Bugly" />
+        <appender-ref ref="ASYNC_OfficialLog_FILE" />
+    </logger>
+</configuration>

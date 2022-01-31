@@ -1,0 +1,125 @@
+{
+    "minAppVersion": 420,
+    "maxFaceCount": 10,
+    "shaderType": 8,
+    "filterEffect": {
+        "type": 0,
+        "order": 0
+    },
+    "blendMode": 1,
+    "orderMode": 1,
+    "supportLandscape": 1,
+    
+    "renderOrder":["stickerAfter","filament"],
+    
+  "useMesh": 1,
+  "stateList": [
+     {
+       "startState": "idle",
+       "endState": "state1",
+       "action": "action1"
+     },
+     {
+       "startState": "state1",
+       "endState": "state2",
+       "action": "action2"
+     },
+     {
+       "startState": "state2",
+       "endState": "state3",
+       "action": "action2"
+     }
+   ],
+    "actionList": [
+     {
+       "id": "action1",
+       "triggerExpression": 701,
+       "externalTriggerWords":"shoot",
+       "triggerDelay": 0.1
+     },
+     {
+       "id": "action2",
+       "triggerExpression": 701,
+       "externalTriggerWords":"triggerState",
+       "triggerDelay":  0.1
+     }
+   ],
+   
+    "itemList": [
+        {
+          "id": "bg",
+          "type": 1,
+          "personID": -1,
+          "lazyLoadFlag": 0,
+          "frames": 1,
+          "frameDuration": 83,
+          "playCount": 0,
+          "width": 721.5,
+          "height": 962,
+          "alwaysTriggered": 0,
+          "position": [
+            -0.0010416666666666667,
+            -0.0010416666666666075
+          ],
+          "triggerState":"state2"
+        }
+    ],
+    
+    "hideUserHeadModel": 1,
+    "isKapuMaterial": 1,
+    "kapuMaterialType": 1,
+    "use3DMMTransform": 1,
+    "toneMapping": 1,
+    "cameraViewConfig": [
+      {
+        "cameraViewType" : 0,
+        "cameraPosition" : [0, 0, 0],
+        "animationTime" : 1.2,
+        "animationType" : 2
+      },
+      {
+        "cameraViewType" : 1,
+        "cameraPosition" : [0, 24, -45],
+        "animationTime" : 1.2,
+        "animationType" : 2
+      }
+    ],
+    "glbList": [
+      {
+        "path": "dress.bin",
+        "order": 0,
+        "translate": [
+          0,
+          -120,
+          -90
+        ],
+        "scale": [
+            1.0,
+            1.0,
+            1.0
+        ],
+        "rotate": [
+          0,
+          0,
+          0
+        ],
+        "iblPath": "ktx_ibl.ktx",
+        "iblIntensity": 65000,
+        "iblRotation": 0,
+        "light": {
+          "castShadow": false,
+          "direction": [
+            -0.197,
+            -0.679,
+            -0.707
+          ],
+          "intensity": 50000,
+          "color": [
+            0.87,
+            0.79,
+            0.79
+          ]
+        }
+      }
+    ]
+}

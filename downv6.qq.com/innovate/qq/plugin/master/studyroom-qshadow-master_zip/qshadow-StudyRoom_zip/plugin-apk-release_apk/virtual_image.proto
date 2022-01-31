@@ -1,0 +1,73 @@
+syntax = "proto3"; 
+package   trpc.ssr.ssr_virtual_image_svr;
+
+//default java package name
+option  java_package="com.tencent.trpcprotocol.ssr.ssrVirtualImageSvr.virtualImage";
+option  java_multiple_files = true;
+option java_outer_classname = "VirtualImageProto";
+
+//default go package name
+option  go_package ="git.code.oa.com/trpcprotocol/ssr/ssr_virtual_image_svr_virtual_image";
+
+// 不建议使用 google/protobuf/any.proto
+// any强依赖package type.googleapis.com/_packagename_._messagename_.
+// https://developers.google.com/protocol-buffers/docs/proto3#any
+
+// tRPC-Go数据校验模块（**移除注释使用**）
+// 介绍：http://km.oa.com/articles/view/438840
+// import "trpc/common/validate.proto";
+import "public_types.proto";
+
+
+service VirtualImageSvr {
+    rpc GetVirtualImageList (GetVirtualImageListReq) returns (GetVirtualImageListRsp);
+    rpc EditUserVirtualImage (EditUserVirtualImageReq) returns (EditUserVirtualImageRsp);
+}
+
+enum RspCode {
+    Success = 0;
+    ParamError = 10001;
+    ServerError = 10002;
+}
+
+message GetVirtualImageListReq {
+    string cookie = 1; // 后端返回的分页标识，需要拉取下一页时传
+    uint32 page_size = 2; // 分页数量
+}
+
+message GetVirtualImageListRsp {
+    RspCode code = 1;
+    string msg = 2;
+    repeated VirtualImage virutal_image_list = 3; // 虚拟形象列表
+    bool is_end = 4; // 表示是否最终页，为false时，可拉取下一页
+    string rsp_cookie = 5; //下一页cookie，is_end为false有效
+}
+
+message VirtualImage {
+    enum Gender {
+        Unknown = 0; //未知
+        Male = 1; //男
+        Female = 2; //女
+    }
+    Gender gender = 1; // 性别
+    string virtual_image_url = 2; // 图片封面url
+    uint32 id = 3; //虚拟形象图片ID
+    videohub.VirtualImageInfo.PictureType pic_type = 4;  //图片动态静态类型
+}
+
+
+message EditUserVirtualImageReq {
+    uint32 id = 1; //虚拟形象图片ID
+    uint32 room_id = 2;
+}
+
+message EditUserVirtualImageRsp {
+    RspCode code = 1;
+    string msg = 2;
+}
+
+message UserVirtualImageChangeEvent {
+    uint64 uid = 1;
+    videohub.VirtualImageInfo virtual_image = 2;
+    uint32 room_id = 3;
+}

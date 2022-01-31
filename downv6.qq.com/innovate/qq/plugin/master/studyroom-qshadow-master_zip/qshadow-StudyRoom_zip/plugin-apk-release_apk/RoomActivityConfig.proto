@@ -1,0 +1,24 @@
+package videohub.config;
+option java_package = "com.tencent.jungle.videohub.proto";
+
+
+message ActivityConfig
+{
+	optional uint32 activity_id = 1;//活动id
+	optional uint32 type = 2;		//活动类型， type = 1 运营活动  type = 2 抽奖   type =3 分享
+	optional bool depend_host = 3; 	//活动展示是否依赖于主持在台上。true 活动依赖于主持人在台上，只有主持人在台上时且活动正在进行才展示。false活动展示和主持人是否在台上无关，只要活动在进行就展示
+	optional string icon = 4;		//活动图标
+	optional string title = 5;		//活动名称
+	optional string url = 6;		//活动地址url
+	optional uint32 open_type = 7;	//openType=0通过全屏网页打开活动url; openType=1通过半屏窗口打开活动url
+}
+
+message GetActivityConfigReq
+{
+    required uint32 room_mode = 1; //房间模式  自由模式1   和  2  娱乐模式
+}
+message GetActivityConfigResp
+{
+	optional uint32 ret_code = 1;
+	repeated ActivityConfig activityConfig = 2;
+}
