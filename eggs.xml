@@ -322,7 +322,6 @@
 		<Keywords>夺冠</Keywords>
 		<Keywords>中国加油</Keywords>
 		<Keywords>冰雪</Keywords>
-		<Keywords>冬奥</Keywords>
         <FloorLimit>0</FloorLimit>
         <JumpLimit>0</JumpLimit>
 		<JumpImage count="2" type="Gif">xuehua1.gif</JumpImage>
@@ -331,11 +330,11 @@
 		<JumpImage count="2" type="Gif">aoyun.gif</JumpImage>
 		<JumpImage count="2" type="Gif">xuehua2.gif</JumpImage>
 		<JumpImage count="1" type="Gif">xuehua3.gif</JumpImage>
-		<JumpImage count="1" type="Gif">aoyun.gif</JumpImage>
+		<JumpImage count="2" type="Gif">aoyun.gif</JumpImage>
 		<JumpImage count="1" type="Gif">xuehua2.gif</JumpImage>
 		<JumpImage count="1" type="Gif">aoyun.gif</JumpImage>
 		<JumpImage count="1" type="Gif">xuehua1.gif</JumpImage>
-		<JumpImage count="1" type="Gif">aoyun.gif</JumpImage>
+		<JumpImage count="2" type="Gif">aoyun.gif</JumpImage>
 		<JumpImage count="1" type="Gif">xuehua4.gif</JumpImage>
         <IsCrazyMode>true</IsCrazyMode>
         </BusinessItem>
