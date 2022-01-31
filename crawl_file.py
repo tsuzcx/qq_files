@@ -18,7 +18,7 @@ def crawl_one(url:str):
         q = s.query
         try:
             t1,t2 = fn.rsplit('.',1)
-            fn = f'{t1}_{q}{t2}'
+            fn = f'{t1}_{q}.{t2}'
         except ValueError:
             fn = f'{fn}_{q}'
         path = os.path.join(dn,fn)
