@@ -22,6 +22,7 @@ def proc_dir(path:str):
     print(cmd)
     os.system(cmd)
     os.chdir(t)
+    proc_dir(dp)
 
 def main():
     proc_dir('.')
