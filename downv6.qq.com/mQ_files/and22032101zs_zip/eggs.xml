@@ -1,0 +1,250 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Eggs-Config>
+	<Item id = "475">
+		<Keywords>生日快乐</Keywords>
+		<FloorLimit>0</FloorLimit>
+		<JumpLimit>0</JumpLimit>		
+		<JumpImage type="Image" count="1">shengri1.png</JumpImage>
+		<JumpImage type="Image" count="1">shengri2.png</JumpImage>
+		<JumpImage type="Image" count="1">shengri3.png</JumpImage>
+		<JumpImage type="Image" count="1">shengri4.png</JumpImage>
+		<IsCrazyMode>true</IsCrazyMode>
+	</Item>
+	<Item id = "476">
+		<Keywords>欢迎</Keywords>
+		<Keywords>欢迎欢迎</Keywords>
+		<Keywords>热烈欢迎</Keywords>
+		<FloorLimit>0</FloorLimit>
+		<JumpLimit>0</JumpLimit>		
+		<JumpImage type="Image" count="1">huanying1.png</JumpImage>
+		<JumpImage type="Image" count="1">huanying2.png</JumpImage>
+		<JumpImage type="Image" count="1">huanying3.png</JumpImage>
+		<JumpImage type="Image" count="1">huanying4.png</JumpImage>
+		<IsCrazyMode>true</IsCrazyMode>
+	</Item>	
+	<Item id = "477">
+		<Keywords>讨红包</Keywords>	
+		<Keywords>討紅包</Keywords>
+		<Keywords>发个红包</Keywords>	
+		<Keywords>發個紅包</Keywords>
+		<Keywords>派个红包</Keywords>	
+		<Keywords>派個紅包</Keywords>
+		<Keywords>求红包</Keywords>	
+		<Keywords>求紅包</Keywords>		
+		<Keywords>发红包</Keywords>	
+		<Keywords>發紅包</Keywords>
+		<Keywords>派红包</Keywords>	
+		<Keywords>派紅包</Keywords>		
+		<Keywords>红包拿来</Keywords>	
+		<Keywords>紅包拿來</Keywords>				
+		<FloorLimit>0</FloorLimit>
+		<JumpLimit>0</JumpLimit>			      		
+		<JumpImage type="Image" count="1">hongbao1.png</JumpImage>
+		<JumpImage type="Image" count="1">hongbao2.png</JumpImage>
+		<JumpImage type="Image" count="1">hongbao3.png</JumpImage>
+		<JumpImage type="Image" count="1">hongbao4.png</JumpImage>			
+		<IsCrazyMode>true</IsCrazyMode>
+	</Item>	
+	<Item id = "478">
+		<Keywords>我酸了</Keywords>	
+		<Keywords>柠檬精</Keywords>
+		<Keywords>吃柠檬</Keywords>				
+		<Keywords>恰柠檬</Keywords>	
+		<FloorLimit>0</FloorLimit>
+		<JumpLimit>0</JumpLimit>			      		
+		<JumpImage type="Image" count="1">ningmeng1.png</JumpImage>
+		<JumpImage type="Image" count="1">ningmeng2.png</JumpImage>
+		<JumpImage type="Image" count="1">ningmeng3.png</JumpImage>	
+		<JumpImage type="Image" count="1">ningmeng3.png</JumpImage>	
+		<IsCrazyMode>true</IsCrazyMode>
+	</Item>	
+	<Item id = "479">
+		<Keywords>我想你</Keywords>	
+		<Keywords>我想你了</Keywords>
+		<Keywords>我也想你</Keywords>				
+		<FloorLimit>0</FloorLimit>
+		<JumpLimit>0</JumpLimit>			      		
+		<JumpImage type="Image" count="1">xiangni1.png</JumpImage>
+		<JumpImage type="Image" count="1">xiangni2.png</JumpImage>
+		<JumpImage type="Image" count="1">xiangni3.png</JumpImage>	
+		<JumpImage type="Image" count="1">xiangni4.png</JumpImage>	
+		<IsCrazyMode>true</IsCrazyMode>
+	</Item>		
+	<Item id = "481">
+		<Keywords>辛苦啦</Keywords>	
+		<Keywords>辛苦了</Keywords>			
+		<FloorLimit>0</FloorLimit>
+		<JumpLimit>0</JumpLimit>			      		
+		<JumpImage type="Image" count="1">xinku1.png</JumpImage>
+		<JumpImage type="Image" count="1">xinku1.png</JumpImage>
+		<JumpImage type="Image" count="1">xinku2.png</JumpImage>	
+		<JumpImage type="Image" count="1">xinku2.png</JumpImage>	
+		<IsCrazyMode>true</IsCrazyMode>
+	</Item>	
+	
+	<Item id = "482">
+		<Keywords>真迷</Keywords>	
+		<Keywords>？？？</Keywords>	
+		<Keywords>???</Keywords>			
+		<FloorLimit>0</FloorLimit>
+		<JumpLimit>0</JumpLimit>			      		
+		<JumpImage type="Image" count="1">yihuo1.png</JumpImage>
+		<JumpImage type="Image" count="1">yihuo1.png</JumpImage>
+		<JumpImage type="Image" count="1">yihuo1.png</JumpImage>	
+		<JumpImage type="Image" count="1">yihuo1.png</JumpImage>	
+		<IsCrazyMode>true</IsCrazyMode>
+	</Item>		
+	<Item id = "717">
+		<Type>LongWang</Type>
+        <Keywords>牛郎织女</Keywords>
+		<Keywords>七夕快乐</Keywords>
+		<Keywords>七夕情人节</Keywords>
+		<Keywords>乞巧节</Keywords>
+		<Keywords>中国情人节</Keywords>
+ 		<FloorLimit>0</FloorLimit>
+		<JumpLimit>0</JumpLimit>
+		<JumpImage type="Lottie" count="1">qixilongwang</JumpImage>
+		<IsCrazyMode>true</IsCrazyMode>
+	</Item>
+    <Item id = "706">
+		<Type>LongWang</Type>
+        <Keywords>宅家快乐</Keywords>
+ 		<FloorLimit>0</FloorLimit>
+		<JumpLimit>0</JumpLimit>
+		<JumpImage type="Lottie" count="1">zhai</JumpImage>
+		<IsCrazyMode>true</IsCrazyMode>
+	</Item>	
+	<Item id = "686">
+		<Type>LongWang</Type>
+        <Keywords>甜蜜告白</Keywords>
+		<Keywords>我爱你</Keywords>
+ 		<FloorLimit>0</FloorLimit>
+		<JumpLimit>0</JumpLimit>
+		<JumpImage type="Lottie" count="1">tianmigaobai</JumpImage>
+		<IsCrazyMode>true</IsCrazyMode>
+	</Item>	
+	<Item id = "689">
+		<Type>LongWang</Type>
+        <Keywords>放飞童心</Keywords>
+		<Keywords>我要过六一</Keywords>
+		<Keywords>儿童节快乐</Keywords>
+		<Keywords>青春不老</Keywords>
+		<Keywords>童心永驻</Keywords>
+		<Keywords>六一快乐</Keywords>
+ 		<FloorLimit>0</FloorLimit>
+		<JumpLimit>0</JumpLimit>
+		<JumpImage type="Lottie" count="1">liuyilongwang</JumpImage>
+		<IsCrazyMode>true</IsCrazyMode>
+	</Item>		
+	<Item id = "465">
+		<Type>LongWang</Type>
+        <Keywords>呼风唤雨</Keywords>
+ 		<FloorLimit>0</FloorLimit>
+		<JumpLimit>0</JumpLimit>
+		<JumpImage type="Lottie" count="1">hufenghuanyu</JumpImage>
+		<IsCrazyMode>true</IsCrazyMode>
+	</Item>
+	<Item id = "466">
+		<Type>LongWang</Type>
+        <Keywords>84消毒</Keywords>
+ 		<FloorLimit>0</FloorLimit>
+		<JumpLimit>0</JumpLimit>
+		<JumpImage type="Lottie" count="1">84xiaodu</JumpImage>
+		<IsCrazyMode>true</IsCrazyMode>
+	</Item>
+	<Item id = "467">
+		<Type>LongWang</Type>
+        <Keywords>龙王排面</Keywords>
+		<Keywords>排面</Keywords>
+ 		<FloorLimit>0</FloorLimit>
+		<JumpLimit>0</JumpLimit>
+		<JumpImage type="Lottie" count="1">juxingpaimian</JumpImage>
+		<IsCrazyMode>true</IsCrazyMode>
+	</Item>
+	<Item id = "681">
+		<Type>LongWang</Type>
+        <Keywords>乘风破浪</Keywords>
+ 		<FloorLimit>0</FloorLimit>
+		<JumpLimit>0</JumpLimit>
+		<JumpImage type="Lottie" count="1">chengfengpolang</JumpImage>
+		<IsCrazyMode>true</IsCrazyMode>
+	</Item>
+	<Item id = "682">
+		<Type>LongWang</Type>
+        <Keywords>空调降临</Keywords>
+ 		<FloorLimit>0</FloorLimit>
+		<JumpLimit>0</JumpLimit>
+		<JumpImage type="Lottie" count="1">kongtiaojianglin</JumpImage>
+		<IsCrazyMode>true</IsCrazyMode>
+	</Item>
+	<Item id = "691">
+		<Type>LongWang</Type>
+        <Keywords>可甜可盐</Keywords>
+		<Keywords>端午节快乐</Keywords>
+		<Keywords>端午安康</Keywords>
+ 		<FloorLimit>0</FloorLimit>
+		<JumpLimit>0</JumpLimit>
+		<JumpImage type="Lottie" count="1">duanwu</JumpImage>
+		<IsCrazyMode>true</IsCrazyMode>
+	</Item>
+	<Item id = "693">
+		<Type>LongWang</Type>
+        <Keywords>毕业纪念</Keywords>
+		<Keywords>青春纪念</Keywords>
+ 		<FloorLimit>0</FloorLimit>
+		<JumpLimit>0</JumpLimit>
+		<JumpImage type="Lottie" count="1">biyelongwang</JumpImage>
+		<IsCrazyMode>true</IsCrazyMode>
+	</Item>
+	<Item id="675">
+		<Type>DigitEgg</Type>
+		<Keywords type="face">66</Keywords>
+		<IsCrazyMode>true</IsCrazyMode>
+		<StartTime>2021-05-19 18:00:00</StartTime>
+		<EndTime>2022-12-31 00:00:00</EndTime>
+		<JumpImage frequent="1" count="1" type="Lottie" position="300,300;240,608;250,404;300,524;450,448;500,364;540,558" background="false" duration="1">aixin11</JumpImage>
+		<JumpImage frequent="1" count="1" type="Lottie" position="300,300;240,608;250,404;300,524;450,448;500,364;540,558" background="false" duration="1">aixin12</JumpImage>
+		<JumpImage frequent="1" count="1" type="Lottie" position="300,300;240,608;250,404;300,524;450,448;500,364;540,558" background="false" duration="1">aixin13</JumpImage>
+		<JumpImage frequent="2" count="1" type="Lottie" position="300,300;240,608;250,404;300,524;450,448;500,364;540,558" background="false" duration="2">aixin21</JumpImage>
+		<JumpImage frequent="2" count="1" type="Lottie" position="300,300;240,608;250,404;300,524;450,448;500,364;540,558" background="false" duration="2">aixin22</JumpImage>
+		<JumpImage frequent="2" count="1" type="Lottie" position="300,300;240,608;250,404;300,524;450,448;500,364;540,558" background="false" duration="2">aixin23</JumpImage>
+		<FloorLimit>0</FloorLimit>
+		<JumpLimit>0</JumpLimit>
+	</Item>
+	<Item id="754">
+		<Type>DigitEgg</Type>
+		<Keywords type="face">332</Keywords>
+		<IsCrazyMode>true</IsCrazyMode>
+		<StartTime>2021-05-19 18:00:00</StartTime>
+		<EndTime>2022-12-31 00:00:00</EndTime>
+		<JumpImage frequent="1" count="1" type="Lottie" position="600,600;240,608;250,404;300,524;450,448;500,364;540,558" background="false" duration="1">yanhua3</JumpImage>
+		<FloorLimit>0</FloorLimit>
+		<FloorLimit>0</FloorLimit>
+		<JumpLimit>0</JumpLimit>
+	</Item>
+	<Item id="761">
+		<Type>DigitEgg</Type>
+		<Keywords type="face">334</Keywords>
+		<IsCrazyMode>true</IsCrazyMode>
+		<StartTime>2021-05-19 18:00:00</StartTime>
+		<EndTime>2022-12-31 23:59:59</EndTime>
+		<JumpImage frequent="1" count="1" type="Lottie" position="600,600;240,608;250,404;300,524;450,448;500,364;540,558" background="false" duration="1">hlhutou</JumpImage>
+		<FloorLimit>0</FloorLimit>
+		<FloorLimit>0</FloorLimit>
+		<JumpLimit>0</JumpLimit>
+	</Item>
+		<BusinessItem id="768">
+		<Keywords>我爱你</Keywords>
+		<Keywords>我也爱你</Keywords>
+		<Keywords>么么哒</Keywords>
+        <FloorLimit>0</FloorLimit>
+        <JumpLimit>0</JumpLimit>
+		<JumpImage count="1" type="Gif">qrjaixin1.gif</JumpImage>
+		<JumpImage count="1" type="Gif">qrjaixin2.gif</JumpImage>
+		<JumpImage count="1" type="Gif">qrjaixin3.gif</JumpImage>
+		<JumpImage count="1" type="Gif">qrjaixin4.gif</JumpImage>
+		<JumpImage count="1" type="Gif">qrjaixin5.gif</JumpImage>
+		<JumpImage count="1" type="Gif">qrjaixin6.gif</JumpImage>
+        <IsCrazyMode>true</IsCrazyMode>
+        </BusinessItem>
+</Eggs-Config>
