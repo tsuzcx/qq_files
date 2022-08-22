@@ -1,0 +1,35 @@
+{
+    "version":1,
+    "name":"人像场景-女生",
+    "desc":"自动肤色亮度，亮度+10，50%和风滤镜，对比度+10，暗部-30，30%磨皮，30%祛眼袋，20%去皱",
+    "strength":100,
+    "filters":[
+        {
+            "fid":"lookup",
+            "params":{
+                "lut": "hefeng_bf.png",
+                "strength":60
+            }
+        },
+        {
+            "fid":"faceBeauty",
+            "params":{
+                "smooth":0.4
+            }
+        },
+        {
+            "fid":"adjust",
+            "params":{
+                "highlightValue":-10,
+                "brightValue":30,
+                "contrastValue":10,
+                "shadowValue": -10,
+                "saturationValue": 8,
+                "satAdjustRed": 15,
+                "hueAdjustOrange": 15
+                
+            }
+        },
+        
+    ]
+}

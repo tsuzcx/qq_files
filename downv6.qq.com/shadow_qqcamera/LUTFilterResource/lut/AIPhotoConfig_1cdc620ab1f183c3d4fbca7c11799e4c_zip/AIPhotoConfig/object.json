@@ -1,0 +1,28 @@
+{
+    "version":1,
+    "name":"静物",
+    "desc":"50%西餐滤镜，高光-10%，阴影+20%，对比度+30%，褪色+20%，暗角+25%，饱和度+5%，亮度-20%",
+    "strength":100,
+    "filters":[
+        {
+            "fid":"lookup",
+            "params":{
+                "lut": "xican_bf.png",
+                "strength":50
+            }
+        },
+        {
+            "fid":"adjust",
+            "params":{
+                "highlightValue":-10,
+                "shadowValue":20,
+                "contrastValue":40,
+                "fadeValue":20,
+                "darkCornerValue":25,
+                "saturationValue":5,
+                "brightValue":-10,
+                "sharpenValue":30
+            }
+        }
+    ]
+}

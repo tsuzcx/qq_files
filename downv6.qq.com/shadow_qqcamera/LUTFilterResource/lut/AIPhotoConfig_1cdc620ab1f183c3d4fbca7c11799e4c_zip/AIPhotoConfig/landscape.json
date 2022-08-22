@@ -1,0 +1,28 @@
+{
+    "version":1,
+    "name":"山水",
+    "desc":"对比度+20，阴影-20，40%绚烂滤镜，选色，肤色色相-15%，天蓝饱和度+10%。草绿色相+20%",
+    "strength":90,
+    "filters":[
+        {
+            "fid": "xuanlan",
+            "params": {
+                "strength": 40
+            }
+        },
+        {
+            "fid":"adjust",
+            "params":{
+                "contrastValue":25,
+                "shadowValue":-20,
+                "hueAdjustOrange":-10,
+                "hueAdjustBlue":-10,
+                "hueAdjustGreen":20,
+                "satAdjustBlue":15,
+                "satAdjustGreen":-10,
+                "brightValue":10,
+                "sharpenValue":20
+            }
+        }
+    ]
+}

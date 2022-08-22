@@ -1,0 +1,35 @@
+{
+    "version":1,
+    "name":"天空",
+    "desc":"30%绚烂滤镜，高光-100，选色：天蓝饱和度+20，肤色饱和度+25，30%极地滤镜，饱和度-15，亮度+15",
+    "strength":100,
+    "filters":[
+        {
+            "fid": "xuanlan",
+            "params": {
+                "strength": 30
+            }
+        },{
+            "fid":"lookup",
+            "params":{
+                "lut": "jidi_bf.png",
+                "strength":50
+            }
+        },
+        
+        {
+            "fid":"adjust",
+            "params":{
+                "brightValue":15,
+                "highlightValue":-100,
+                "shadowValue":0,
+                "contrastValue":0,
+                "saturationValue":0,
+                "satAdjustBlue":20,
+                "satAdjustOrange":25,
+                "sharpenValue":30
+                
+            }
+        }
+    ]
+}

@@ -1,0 +1,34 @@
+{
+    "version":1,
+    "name":"人像场景-多人",
+    "desc":"66%日光滤镜，锐化+20，对比度+10，暗角+25",
+    "strength":95,
+    "filters":[
+        {
+            "fid":"lookup",
+            "params":{
+                "lut": "riguang_bf.png",
+                "strength":60
+            }
+        },
+        {
+            "fid":"faceBeauty",
+            "params":{
+                "smooth":0.20
+            }
+        },
+        {
+            "fid":"adjust",
+            "params":{
+                "sharpenValue":30,
+                "shadowValue":15,
+                "contrastValue":15,
+                "darkCornerValue": 0,
+                "highlightValue":-15,
+                "lumAdjustOrange":15,
+                "lumAdjustRed":15,
+                "satAdjustOrange":-15
+            }
+        }
+    ]
+}

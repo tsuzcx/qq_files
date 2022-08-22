@@ -1,0 +1,40 @@
+{
+    "version":1,
+    "name":"动物",
+    "desc":"绚烂滤镜+30%，山林滤镜+50%，亮度+20%，锐化+25%，暗角+24%，色温-10%",
+    "strength":100,
+    "filters":[
+        {
+            "fid": "xuanlan",
+            "params": {
+                "strength": 30
+            }
+        },
+        {
+            "fid":"lookup",
+            "params":{
+                "lut": "bohe_bf.png",
+                "strength":50
+            }
+        },
+        {
+            "fid":"adjust",
+            "params":{
+                "brightValue":20,
+                "contrastValue":10,
+                "sharpenValue":30,
+                "darkCornerValue":0,
+                "shadowValue":-15,
+                "scaleCValue":10,
+                "saturationValue":-10,
+                "lumAdjustOrange":10,
+                "satAdjustRed":-30,
+                "satAdjustGreen":-20,
+                "satAdjustBlue":-20,
+                "satAdjustOrange":-20,
+                "hueAdjustOrange":20,
+                "hueAdjustRed":25
+            }
+        }
+    ]
+}

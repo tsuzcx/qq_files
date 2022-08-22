@@ -1,0 +1,30 @@
+{
+    "version":1,
+    "name":"菜肴",
+    "desc":"亮度+15%，对比度+20%，锐化+20%，高光-10%，色温-10%，美味滤镜+40%，肤色色相-20%",
+    "strength":100,
+    "filters":[
+        {
+            "fid":"lookup",
+            "params":{
+                "lut": "xinxian_bf.png",
+                "strength":50
+            }
+        },
+        {
+            "fid":"adjust",
+            "params":{
+               "highlightValue":30,
+                "scaleCValue":10,
+                "shadowValue":10,
+                "saturationValue": 15,
+                "satAdjustOrange":25,
+                "satAdjustRed":15,
+                "brightValue": 10,
+                "lumAdjustOrange":10,
+                "lumAdjustRed":20,
+                "sharpenValue":30
+            }
+        }
+    ]
+}

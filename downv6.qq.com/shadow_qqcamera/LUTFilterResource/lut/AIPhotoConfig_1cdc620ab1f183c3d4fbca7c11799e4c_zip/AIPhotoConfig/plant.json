@@ -1,0 +1,36 @@
+{
+    "version":1,
+    "name":"植物",
+    "desc":"绚烂滤镜+50%，高光-20%，对比度+15%，选色：草绿色相+20%，肤色色相-20%，亮度+30%",
+    "strength":100,
+    "filters":[
+        {
+            "fid": "xuanlan",
+            "params": {
+                "strength": 30
+            }
+        },
+        {
+            "fid":"lookup",
+            "params":{
+                "lut": "bohe_bf.png",
+                "strength":60
+            }
+        },
+        {
+            "fid":"adjust",
+            "params":{
+                "highlightValue":-40,
+                "contrastValue":10,
+                "hueAdjustGreen":10,
+                "hueAdjustOrange":10,
+                "shadowValue":-10,
+                "saturationValue":-10,
+                "satAdjustRed":-15,
+                "satAdjustGreen":15,
+                "satAdjustOrange":15,
+                "sharpenValue":20
+            }
+        }
+    ]
+}

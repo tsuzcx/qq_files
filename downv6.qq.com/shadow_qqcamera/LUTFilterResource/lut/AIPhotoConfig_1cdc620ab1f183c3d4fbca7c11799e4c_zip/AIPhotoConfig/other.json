@@ -1,0 +1,27 @@
+{
+    "version":1,
+    "name":"其他",
+    "desc":"50%西餐滤镜，高光-10%，阴影+20%，对比度+30%，褪色+20%，暗角+25%，饱和度+5%，亮度-20%",
+    "strength":80,
+    "filters":[
+        {
+            "fid": "xuanlan",
+            "params": {
+                "strength": 30
+            }
+        },
+        
+        {
+            "fid":"adjust",
+            "params":{
+                "highlightValue":10,
+                
+                "contrastValue":10,
+                
+                "saturationValue":0
+                
+                
+            }
+        }
+    ]
+}

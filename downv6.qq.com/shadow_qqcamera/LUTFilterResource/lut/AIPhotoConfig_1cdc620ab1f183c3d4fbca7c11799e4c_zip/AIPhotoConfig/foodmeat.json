@@ -1,0 +1,30 @@
+{
+    "version":1,
+    "name":"肉类",
+    "desc":"冷萃滤镜+50%，亮度+25%，高光-35%，锐化+20%，饱和度+20%，色温-10%，阴影-30%，选色：唇红饱和度+10%，肤色饱和度+10%",
+    "strength":90,
+    "filters":[
+        {
+            "fid":"lookup",
+            "params":{
+                "lut": "lengcui_bf.png",
+                "strength":60
+            }
+        },
+        {
+            "fid":"adjust",
+            "params":{
+                "brightValue":25,
+                "highlightValue":-45,
+                "sharpenValue":30,
+                "saturationValue":20,
+                "scaleCValue":-10,
+                "shadowValue":-30,
+                "satAdjustRed":10,
+                "satAdjustOrange":10,
+                "hueAdjustOrange":-15,
+                "lumAdjustOrange":-20
+            }
+        }
+    ]
+}

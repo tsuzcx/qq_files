@@ -1,0 +1,31 @@
+{
+    "version":1,
+    "name":"人像场景-婴儿",
+    "desc":"自动肤色亮度，亮度+20，阴影+20，60%悸动滤镜，40%磨皮，40%祛眼袋，20%去皱，饱和度+5",
+    "strength":95,
+    "filters":[
+        {
+            "fid":"lookup",
+            "params":{
+                "lut": "jidong_bf.png",
+                "strength":70
+            }
+        },
+        {
+            "fid":"faceBeauty",
+            "params":{
+                "smooth":0.4
+            }
+        },
+        {
+            "fid":"adjust",
+            "params":{
+                "highlightValue":-10,
+                "brightValue":10,
+                "saturationValue":5,
+                "shadowValue":10,
+                "contrastValue":10
+            }
+        }
+    ]
+}

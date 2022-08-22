@@ -1,0 +1,34 @@
+{
+    "version":1,
+    "name":"建筑",
+    "desc":"50%风之谷滤镜，高光-50，对比度+20，亮度+15，30%绚烂滤镜，高光+15，饱和度-20",
+    "strength":100,
+    "filters":[
+        {
+            "fid": "xuanlan",
+            "params": {
+                "strength": 30
+            }
+        },{
+            "fid":"lookup",
+            "params":{
+                "lut": "fengzhigu_bf.png",
+                "strength":70
+            }
+        },
+        {
+            "fid":"adjust",
+            "params":{
+                "highlightValue":-30,
+                "shadowValue":-20,
+                "saturationValue":-40,
+                "contrastValue":25,
+                "darkCornerValue": 0,
+                "brightValue":10,
+                "satAdjustRed":-20,
+                "satAdjustOrange":-20,
+                "sharpenValue":20
+            }
+        }
+    ]
+}

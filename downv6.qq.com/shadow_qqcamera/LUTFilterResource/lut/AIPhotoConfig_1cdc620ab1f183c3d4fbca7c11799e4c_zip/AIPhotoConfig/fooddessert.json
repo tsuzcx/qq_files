@@ -1,0 +1,26 @@
+{
+    "version":1,
+    "name":"甜点",
+    "desc":"高光-30%，阴影+60%，饱和度+10%，色温-10%，甜品滤镜+50%",
+    "strength":90,
+    "filters":[
+        {
+            "fid":"lookup",
+            "params":{
+                "lut": "tianpin_bf.png",
+                "strength":60
+            }
+        },
+        {
+            "fid":"adjust",
+            "params":{
+                "highlightValue":-30,
+                "shadowValue":60,
+                "saturationValue":40,
+                "scaleCValue":-20,
+                "sharpenValue":30
+            }
+        }
+        
+    ]
+}

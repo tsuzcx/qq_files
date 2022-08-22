@@ -1,0 +1,29 @@
+{
+    "version":1,
+    "name":"人像加运动",
+    "desc":"绚烂滤镜+40%，饱和度-35%，阴影-50%，锐化+15%，颗粒+20，选色，肤色饱和度+25%，高光-15%",
+    "strength":100,
+    "filters":[
+        {
+            "fid": "xuanlan",
+            "params": {
+                "strength": 40
+            }
+        },
+        {
+            "fid":"adjust",
+            "params":{
+                "saturationValue":-35,
+                "shadowValue":-40,
+                "sharpenValue":15,
+                
+                "darkCornerValue": 0,
+                "hueAdjustOrange":-15,
+                "highlightValue":-10,
+                "contrastValue": 15
+                
+            }
+        }
+        
+    ]
+}

@@ -1,0 +1,35 @@
+{
+    "version":1,
+    "name":"饮品",
+    "desc":"绚烂滤镜+20%，亮度-10%，高光-30%，对比度+20%，色温+25%, 莫吉托滤镜+40%,饱和度-10%，阴影-20%",
+    "strength":100,
+    "filters":[
+        {
+            "fid": "xuanlan",
+            "params": {
+                "strength": 20
+            }
+        },
+        {
+            "fid":"lookup",
+            "params":{
+                "lut": "mojituo_bf.png",
+                "strength":40
+            }
+        },
+        {
+            "fid":"adjust",
+            "params":{
+                
+                "highlightValue":-35,
+                "contrastValue":15,
+                "brightValue":-10,
+                "saturationValue":0,
+                "shadowValue":10,
+                "satAdjustOrange": 15,
+                "sharpenValue":30
+                
+            }
+        }
+    ]
+}

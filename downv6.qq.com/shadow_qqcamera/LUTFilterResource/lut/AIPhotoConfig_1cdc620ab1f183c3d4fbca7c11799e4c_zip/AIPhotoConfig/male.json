@@ -1,0 +1,28 @@
+{
+    "version":1,
+    "name":"人像场景-男生",
+    "desc":"50%树莓滤镜，高光-35，对比度+20，褪色+25，饱和度-15，亮度-20",
+    "strength":100,
+    "filters":[
+        {
+            "fid":"lookup",
+            "params":{
+                "lut": "moka_bf.png",
+                "strength":60
+            }
+        },
+        {
+            "fid":"adjust",
+            "params":{
+                "highlightValue":-15,
+                "contrastValue":50,
+                "fadeValue":25,
+                "saturationValue":-8,
+                "brightValue":10,
+                "sharpenValue":10
+            }
+        }
+        
+        
+    ]
+}

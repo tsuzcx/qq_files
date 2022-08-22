@@ -1,0 +1,27 @@
+{
+    "version":1,
+    "name":"西餐",
+    "desc":"慕斯滤镜+50%，高光-25%，对比度+5%，锐化+30%，色温-10%",
+    "strength":100,
+    "filters":[
+        {
+            "fid":"lookup",
+            "params":{
+                "lut": "xican_bf.png",
+                "strength":60
+            }
+        },
+        {
+            "fid":"adjust",
+            "params":{
+                "highlightValue":-10,
+                "contrastValue":10,
+                "sharpenValue":20,
+                "brightValue": 15,
+                "saturationValue":10,
+                "shadowValue":20
+
+            }
+        }
+    ]
+}

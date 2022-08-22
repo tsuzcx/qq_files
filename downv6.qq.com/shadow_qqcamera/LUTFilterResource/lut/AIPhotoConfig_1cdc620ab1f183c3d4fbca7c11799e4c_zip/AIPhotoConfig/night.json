@@ -1,0 +1,30 @@
+{
+    "version":1,
+    "name":"夜景",
+    "desc":"30%绚烂滤镜，亮度+15，高光-50，阴影-20，25%珊瑚礁滤镜",
+    "strength":100,
+    "filters":[
+        {
+            "fid": "xuanlan",
+            "params": {
+                "strength": 30
+            }
+        },{
+            "fid":"lookup",
+            "params":{
+                "lut": "shanhujiao_bf.png",
+                "strength":25
+            }
+        },
+        
+        {
+            "fid":"adjust",
+            "params":{
+                "brightValue":0,
+                "highlightValue":-50,
+                "shadowValue":-40,
+                "sharpenValue":30         
+            }
+        }
+    ]
+}

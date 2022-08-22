@@ -1,0 +1,29 @@
+{
+    "version":1,
+    "name":"运动",
+    "desc":"50%绚烂滤镜，饱和度-35%，阴影-50%，高光-15%，锐化+15%，色温+25%，暗角+20%，选色，肤色饱和度+25%，褪色+15%",
+    "strength":100,
+    "filters":[
+        {
+            "fid": "xuanlan",
+            "params": {
+                "strength": 40
+            }
+        },
+        {
+            "fid":"adjust",
+            "params":{
+                "saturationValue":-40,
+                "shadowValue":-70,
+                "highlightValue":-15,
+                "contrastValue": 10,
+                "sharpenValue":15,
+                "scaleCValue":25,
+                "darkCornerValue":0,
+                "satAdjustOrange":10,
+                "satAdjustRed":20,
+                "satAdjustBlue":20
+            }
+        }
+    ]
+}

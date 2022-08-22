@@ -1,0 +1,32 @@
+{
+    "version":1,
+    "name":"室内",
+    "desc":"30%绚烂滤镜 高光-30  对比度+20 阴影-20  30%慕斯滤镜 阴影-10 高光-10 饱和度-5",
+    "strength":100,
+    "filters":[
+        {
+            "fid": "xuanlan",
+            "params": {
+                "strength": 30
+            }
+        },{
+            "fid":"lookup",
+            "params":{
+                "lut": "musi_bf.png",
+                "strength":30
+            }
+        },
+        {
+            "fid":"adjust",
+            "params":{
+                "highlightValue":-50,
+                "contrastValue":25,
+                "shadowValue": -25,
+                "saturationValue": 0         
+                
+                
+                
+            }
+        }
+    ]
+}

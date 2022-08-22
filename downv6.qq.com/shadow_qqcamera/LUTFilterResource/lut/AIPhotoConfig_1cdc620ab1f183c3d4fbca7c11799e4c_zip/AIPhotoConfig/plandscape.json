@@ -1,0 +1,30 @@
+{
+    "version":1,
+    "name":"人风景",
+    "desc":"20%微光滤镜 + 室内场景的处理 肤色色相+5",
+    "strength":100,
+    "filters":[
+        {
+            "fid":"lookup",
+            "params":{
+                "lut": "P1_bf.png",
+                "strength":100
+            }
+        },
+       
+        {
+            "fid":"adjust",
+            "params":{
+                "highlightValue":-25,
+                "contrastValue":30,
+                "shadowValue": -15,
+
+                "saturationValue": 8,
+                "hueAdjustGreen": 25,
+                "satAdjustBlue": 50,
+                "sharpenValue":20
+            }
+        }
+
+    ]
+}

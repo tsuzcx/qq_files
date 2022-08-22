@@ -1,0 +1,34 @@
+{
+    "version":1,
+    "name":"人加美食",
+    "desc":"饮品场景",
+    "strength":100,
+    "filters":[
+        {
+            "fid": "xuanlan",
+            "params": {
+                "strength": 20
+            }
+        },
+        {
+            "fid":"lookup",
+            "params":{
+                "lut": "mojituo_bf.png",
+                "strength":40
+            }
+        },
+        {
+            "fid":"adjust",
+            "params":{
+                "brightValue":0,
+                "highlightValue":-30,
+                "contrastValue":0,
+                "scaleCValue":15,
+                
+                "saturationValue":0,
+                "shadowValue":0,
+                "sharpenValue":20
+            }
+        }
+    ]
+}
