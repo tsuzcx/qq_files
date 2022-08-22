@@ -1,0 +1,759 @@
+{
+    "name": "template",
+    "type": "empty_shooting",
+    "author": "happy",
+    "category": 1,
+    "scene": {
+        "id": 16,
+        "name": "拍摄模板",
+        "children": [
+            {
+                "id": 17,
+                "name": "2D画板",
+                "children": [
+                    {
+                        "id": 18,
+                        "name": "脸妆",
+                        "children": [],
+                        "enabled": true,
+                        "version": 0,
+                        "components": [
+                            {
+                                "type": "ScreenTransform",
+                                "position": {
+                                    "x": 0,
+                                    "y": 0,
+                                    "z": 0
+                                },
+                                "rotation": {
+                                    "x": 0,
+                                    "y": 0,
+                                    "z": 0,
+                                    "w": 1
+                                },
+                                "scale": {
+                                    "x": 1,
+                                    "y": 1,
+                                    "z": 1
+                                },
+                                "anchor": {
+                                    "left": 0,
+                                    "right": 0,
+                                    "top": 0,
+                                    "bottom": 0
+                                },
+                                "offset": {
+                                    "left": -360,
+                                    "right": 360,
+                                    "top": 640,
+                                    "bottom": -640
+                                },
+                                "pivot": {
+                                    "x": 0,
+                                    "y": 0
+                                },
+                                "ePinToEdge": 0,
+                                "eFixSize": 3,
+                                "eEditingMode": 0,
+                                "eKeepRatio": true,
+                                "objectEnabled": true,
+                                "enabled": true,
+                                "entityId": 18,
+                                "componentID": 0
+                            },
+                            {
+                                "componentID": 4,
+                                "enabled": true,
+                                "entityId": 18,
+                                "faceImage": "76bf0f65-33da-4a42-b65b-be7306d2b3f5",
+                                "faceMask": "default",
+                                "maskImage": "",
+                                "type": "MakeupFace",
+                                "version": 2
+                            },
+                            {
+                                "alpha": 1,
+                                "mode": "normal",
+                                "type": "BlendMode",
+                                "enabled": true,
+                                "entityId": 18,
+                                "componentID": 5
+                            },
+                            {
+                                "alignPoints": [
+                                    64
+                                ],
+                                "scalePivotPoint1": 0,
+                                "scalePivotPoint2": 18,
+                                "faceIndex": [
+                                    0,
+                                    1,
+                                    2,
+                                    3,
+                                    4
+                                ],
+                                "isRefine": true,
+                                "isWaitFirstFrameDetect": false,
+                                "isAllFrameFaceDetect": false,
+                                "type": "FaceTracking",
+                                "enabled": true,
+                                "entityId": 18,
+                                "componentID": 6,
+                                "xAxisTrack": true,
+                                "yAxisTrack": true,
+                                "xAxisRotateTrack": true,
+                                "yAxisRotateTrack": true,
+                                "zAxisRotateTrack": true,
+                                "xAxisScale": true,
+                                "yAxisScale": true
+                            }
+                        ]
+                    },
+                    {
+                        "id": 19,
+                        "name": "人脸跟随贴纸",
+                        "children": [],
+                        "enabled": true,
+                        "version": 0,
+                        "components": [
+                            {
+                                "type": "ScreenTransform",
+                                "position": {
+                                    "x": 0,
+                                    "y": 0,
+                                    "z": 0
+                                },
+                                "rotation": {
+                                    "x": 0,
+                                    "y": 0,
+                                    "z": 0,
+                                    "w": 1
+                                },
+                                "scale": {
+                                    "x": 1,
+                                    "y": 1,
+                                    "z": 1
+                                },
+                                "anchor": {
+                                    "left": -0.0027776930067275156,
+                                    "right": -0.0027776930067275156,
+                                    "top": 0.002765560150146479,
+                                    "bottom": 0.002765560150146479
+                                },
+                                "offset": {
+                                    "left": -288.1300000000001,
+                                    "right": 277.87000000000006,
+                                    "top": 233.0699999999999,
+                                    "bottom": 21.06999999999998
+                                },
+                                "pivot": {
+                                    "x": 0.01812720848056537,
+                                    "y": -1.1987735849056602
+                                },
+                                "ePinToEdge": 0,
+                                "eFixSize": 3,
+                                "eEditingMode": 0,
+                                "eKeepRatio": true,
+                                "objectEnabled": true,
+                                "entityId": 19,
+                                "version": 246,
+                                "enabled": true,
+                                "componentID": 7
+                            },
+                            {
+                                "componentID": 8,
+                                "enabled": true,
+                                "entityId": 19,
+                                "scaleMode": 1,
+                                "src": "77490694-0277-4fa0-9f68-2fc2b1093734",
+                                "type": "Image",
+                                "version": 2
+                            },
+                            {
+                                "alpha": 1,
+                                "mode": "normal",
+                                "type": "BlendMode",
+                                "enabled": true,
+                                "entityId": 19,
+                                "componentID": 9
+                            },
+                            {
+                                "alignPoints": [
+                                    89
+                                ],
+                                "scalePivotPoint1": 0,
+                                "scalePivotPoint2": 18,
+                                "faceIndex": [
+                                    0,
+                                    1,
+                                    2,
+                                    3,
+                                    4
+                                ],
+                                "isRefine": true,
+                                "isWaitFirstFrameDetect": false,
+                                "isAllFrameFaceDetect": false,
+                                "type": "FaceTracking",
+                                "enabled": true,
+                                "entityId": 19,
+                                "componentID": 10,
+                                "version": 1,
+                                "xAxisTrack": true,
+                                "yAxisTrack": true,
+                                "xAxisRotateTrack": true,
+                                "yAxisRotateTrack": true,
+                                "zAxisRotateTrack": true,
+                                "xAxisScale": true,
+                                "yAxisScale": true
+                            }
+                        ]
+                    },
+                    {
+                        "id": 20,
+                        "name": "人脸跟随贴纸",
+                        "children": [],
+                        "enabled": true,
+                        "version": 0,
+                        "components": [
+                            {
+                                "type": "ScreenTransform",
+                                "position": {
+                                    "x": 0,
+                                    "y": 0,
+                                    "z": 0
+                                },
+                                "rotation": {
+                                    "x": 0,
+                                    "y": 0,
+                                    "z": 0,
+                                    "w": 1
+                                },
+                                "scale": {
+                                    "x": 1,
+                                    "y": 1,
+                                    "z": 1
+                                },
+                                "anchor": {
+                                    "left": 0,
+                                    "right": 0,
+                                    "top": 0,
+                                    "bottom": 0
+                                },
+                                "offset": {
+                                    "left": -222,
+                                    "right": 222,
+                                    "top": 92.86772054147367,
+                                    "bottom": -23.13227945852634
+                                },
+                                "pivot": {
+                                    "x": 0,
+                                    "y": -0.6011675955426493
+                                },
+                                "ePinToEdge": 0,
+                                "eFixSize": 3,
+                                "eEditingMode": 0,
+                                "eKeepRatio": true,
+                                "objectEnabled": true,
+                                "entityId": 20,
+                                "version": 7,
+                                "enabled": true,
+                                "componentID": 11
+                            },
+                            {
+                                "componentID": 12,
+                                "enabled": true,
+                                "entityId": 20,
+                                "scaleMode": 1,
+                                "src": "07bc794f-194a-4799-8939-2f6d08ad0b64",
+                                "type": "Image",
+                                "version": 2
+                            },
+                            {
+                                "alpha": 1,
+                                "mode": "normal",
+                                "type": "BlendMode",
+                                "enabled": true,
+                                "entityId": 20,
+                                "componentID": 13
+                            },
+                            {
+                                "alignPoints": [
+                                    64
+                                ],
+                                "scalePivotPoint1": 0,
+                                "scalePivotPoint2": 18,
+                                "faceIndex": [
+                                    0,
+                                    1,
+                                    2,
+                                    3,
+                                    4
+                                ],
+                                "isRefine": true,
+                                "isWaitFirstFrameDetect": false,
+                                "isAllFrameFaceDetect": false,
+                                "type": "FaceTracking",
+                                "enabled": true,
+                                "entityId": 20,
+                                "componentID": 14,
+                                "xAxisTrack": true,
+                                "yAxisTrack": true,
+                                "xAxisRotateTrack": true,
+                                "yAxisRotateTrack": true,
+                                "zAxisRotateTrack": true,
+                                "xAxisScale": true,
+                                "yAxisScale": true
+                            }
+                        ]
+                    },
+                    {
+                        "id": 21,
+                        "name": "人脸跟随贴纸",
+                        "children": [],
+                        "enabled": true,
+                        "version": 0,
+                        "components": [
+                            {
+                                "type": "ScreenTransform",
+                                "position": {
+                                    "x": 0,
+                                    "y": 0,
+                                    "z": 0
+                                },
+                                "rotation": {
+                                    "x": 0,
+                                    "y": 0,
+                                    "z": 0,
+                                    "w": 1
+                                },
+                                "scale": {
+                                    "x": 1,
+                                    "y": 1,
+                                    "z": 1
+                                },
+                                "anchor": {
+                                    "left": 0.001777818467881942,
+                                    "right": 0.001777818467881942,
+                                    "top": 0.0010780334472656333,
+                                    "bottom": 0.0010780334472656333
+                                },
+                                "offset": {
+                                    "left": -350.19,
+                                    "right": -106.18999999999998,
+                                    "top": 214.45,
+                                    "bottom": -121.55
+                                },
+                                "pivot": {
+                                    "x": 1.8704098360655736,
+                                    "y": -0.27648809523809526
+                                },
+                                "ePinToEdge": 0,
+                                "eFixSize": 3,
+                                "eEditingMode": 0,
+                                "eKeepRatio": true,
+                                "objectEnabled": true,
+                                "entityId": 21,
+                                "version": 248,
+                                "enabled": true,
+                                "componentID": 15
+                            },
+                            {
+                                "componentID": 16,
+                                "enabled": true,
+                                "entityId": 21,
+                                "scaleMode": 1,
+                                "src": "069fe393-33dc-4d01-9c82-f48de0e2ca2c",
+                                "type": "Image",
+                                "version": 2
+                            },
+                            {
+                                "alpha": 1,
+                                "mode": "normal",
+                                "type": "BlendMode",
+                                "enabled": true,
+                                "entityId": 21,
+                                "componentID": 17
+                            },
+                            {
+                                "alignPoints": [
+                                    6
+                                ],
+                                "scalePivotPoint1": 0,
+                                "scalePivotPoint2": 18,
+                                "faceIndex": [
+                                    0,
+                                    1,
+                                    2,
+                                    3,
+                                    4
+                                ],
+                                "isRefine": true,
+                                "isWaitFirstFrameDetect": false,
+                                "isAllFrameFaceDetect": false,
+                                "type": "FaceTracking",
+                                "enabled": true,
+                                "entityId": 21,
+                                "componentID": 18,
+                                "version": 3,
+                                "xAxisTrack": true,
+                                "yAxisTrack": true,
+                                "xAxisRotateTrack": true,
+                                "yAxisRotateTrack": true,
+                                "zAxisRotateTrack": true,
+                                "xAxisScale": true,
+                                "yAxisScale": true
+                            }
+                        ]
+                    },
+                    {
+                        "id": 22,
+                        "name": "人脸跟随贴纸",
+                        "children": [],
+                        "enabled": true,
+                        "version": 0,
+                        "components": [
+                            {
+                                "type": "ScreenTransform",
+                                "position": {
+                                    "x": 0,
+                                    "y": 0,
+                                    "z": 0
+                                },
+                                "rotation": {
+                                    "x": 0,
+                                    "y": 0,
+                                    "z": 0,
+                                    "w": 1
+                                },
+                                "scale": {
+                                    "x": 1,
+                                    "y": 1,
+                                    "z": 1
+                                },
+                                "anchor": {
+                                    "left": 0,
+                                    "right": 0,
+                                    "top": 0,
+                                    "bottom": 0
+                                },
+                                "offset": {
+                                    "left": 80.99999999999997,
+                                    "right": 249.00000000000003,
+                                    "top": 105.29226855637332,
+                                    "bottom": -36.707731443626685
+                                },
+                                "pivot": {
+                                    "x": -1.9642857142857135,
+                                    "y": -0.48298969797708896
+                                },
+                                "ePinToEdge": 0,
+                                "eFixSize": 3,
+                                "eEditingMode": 0,
+                                "eKeepRatio": true,
+                                "objectEnabled": true,
+                                "entityId": 22,
+                                "version": 6,
+                                "enabled": true,
+                                "componentID": 19
+                            },
+                            {
+                                "componentID": 20,
+                                "enabled": true,
+                                "entityId": 22,
+                                "scaleMode": 1,
+                                "src": "75ec0437-d8cc-4025-a7f9-7818d58d0701",
+                                "type": "Image",
+                                "version": 2
+                            },
+                            {
+                                "alpha": 1,
+                                "mode": "normal",
+                                "type": "BlendMode",
+                                "enabled": true,
+                                "entityId": 22,
+                                "componentID": 21
+                            },
+                            {
+                                "alignPoints": [
+                                    54
+                                ],
+                                "componentID": 22,
+                                "enabled": true,
+                                "entityId": 22,
+                                "faceIndex": [
+                                    0,
+                                    1,
+                                    2,
+                                    3,
+                                    4
+                                ],
+                                "isAllFrameFaceDetect": false,
+                                "isRefine": true,
+                                "isWaitFirstFrameDetect": false,
+                                "scalePivotPoint1": 0,
+                                "scalePivotPoint2": 18,
+                                "type": "FaceTracking",
+                                "version": 4,
+                                "xAxisTrack": true,
+                                "yAxisTrack": true,
+                                "xAxisRotateTrack": true,
+                                "yAxisRotateTrack": true,
+                                "zAxisRotateTrack": true,
+                                "xAxisScale": true,
+                                "yAxisScale": true
+                            }
+                        ]
+                    },
+                    {
+                        "id": 23,
+                        "name": "脚本",
+                        "children": [],
+                        "enabled": true,
+                        "version": 0,
+                        "components": [
+                            {
+                                "type": "ScreenTransform",
+                                "position": {
+                                    "x": 0,
+                                    "y": 0,
+                                    "z": 0
+                                },
+                                "rotation": {
+                                    "x": 0,
+                                    "y": 0,
+                                    "z": 0,
+                                    "w": 1
+                                },
+                                "scale": {
+                                    "x": 1,
+                                    "y": 1,
+                                    "z": 1
+                                },
+                                "anchor": {
+                                    "left": 0,
+                                    "right": 0,
+                                    "top": 0,
+                                    "bottom": 0
+                                },
+                                "offset": {
+                                    "left": -360,
+                                    "right": 360,
+                                    "top": 640,
+                                    "bottom": -640
+                                },
+                                "pivot": {
+                                    "x": 0,
+                                    "y": 0
+                                },
+                                "ePinToEdge": 0,
+                                "eFixSize": 3,
+                                "eEditingMode": 0,
+                                "eKeepRatio": true,
+                                "objectEnabled": true,
+                                "enabled": true,
+                                "entityId": 23,
+                                "componentID": 23
+                            },
+                            {
+                                "componentID": 24,
+                                "enabled": true,
+                                "entityId": 23,
+                                "scriptPath": "59aa1e70-fe0e-4332-8016-32c6e2c9bd01",
+                                "type": "Script",
+                                "version": 2
+                            }
+                        ]
+                    }
+                ],
+                "enabled": true,
+                "version": 0,
+                "components": [
+                    {
+                        "anchor": {
+                            "bottom": -1,
+                            "left": -1,
+                            "right": 1,
+                            "top": 1
+                        },
+                        "offset": {
+                            "bottom": 0,
+                            "left": 0,
+                            "right": 0,
+                            "top": 0
+                        },
+                        "pivot": {
+                            "x": 0,
+                            "y": 0
+                        },
+                        "ePinToEdge": 15,
+                        "eFixSize": 0,
+                        "eEditingMode": 1,
+                        "eKeepRatio": false,
+                        "position": {
+                            "x": 0,
+                            "y": 0,
+                            "z": 0
+                        },
+                        "scale": {
+                            "x": 1,
+                            "y": 1,
+                            "z": 1
+                        },
+                        "rotation": {
+                            "w": 0,
+                            "x": 0,
+                            "y": 0,
+                            "z": 0
+                        },
+                        "entityId": 17,
+                        "componentID": 2,
+                        "type": "ScreenTransform",
+                        "enabled": true,
+                        "version": 2,
+                        "objectEnabled": true
+                    },
+                    {
+                        "componentID": 3,
+                        "enabled": true,
+                        "entityId": 17,
+                        "renderTargetKey": "RenderTarget",
+                        "type": "Camera",
+                        "version": 2
+                    }
+                ]
+            }
+        ],
+        "components": [
+            {
+                "anchor": {
+                    "bottom": -1,
+                    "left": -1,
+                    "right": 1,
+                    "top": 1
+                },
+                "offset": {
+                    "bottom": 0,
+                    "left": 0,
+                    "right": 0,
+                    "top": 0
+                },
+                "pivot": {
+                    "x": 0,
+                    "y": 0
+                },
+                "ePinToEdge": 15,
+                "eFixSize": 0,
+                "eEditingMode": 1,
+                "eKeepRatio": false,
+                "position": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                },
+                "scale": {
+                    "x": 1,
+                    "y": 1,
+                    "z": 1
+                },
+                "rotation": {
+                    "w": 0,
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                },
+                "entityId": 16,
+                "componentID": 1,
+                "type": "ScreenTransform",
+                "enabled": true,
+                "version": 2,
+                "objectEnabled": true
+            },
+            {
+                "tips": "眨眨你的眼睛",
+                "image": "",
+                "type": "Tips",
+                "enabled": true,
+                "version": 3,
+                "entityId": 16,
+                "componentID": 50
+            }
+        ],
+        "enabled": true,
+        "version": 0
+    },
+    "path": "/Users/xueyuanxing/Desktop/aekit_material/aekit_materials/repo/qq_aio_p0/video_baisemaoerduo/",
+    "resources": {
+        "items": [
+            {
+                "key": "77490694-0277-4fa0-9f68-2fc2b1093734",
+                "type": "PAGFileData",
+                "path": "baierduo.pag",
+                "label": "baierduo.pag",
+                "timeRange": {
+                    "startTime": 0,
+                    "duration": 0
+                },
+                "loopCount": -1
+            },
+            {
+                "key": "07bc794f-194a-4799-8939-2f6d08ad0b64",
+                "type": "PAGFileData",
+                "path": "baisaihong.pag",
+                "label": "baisaihong.pag",
+                "timeRange": {
+                    "startTime": 0,
+                    "duration": 0
+                },
+                "loopCount": -1
+            },
+            {
+                "key": "069fe393-33dc-4d01-9c82-f48de0e2ca2c",
+                "type": "PAGFileData",
+                "path": "baiweiba.pag",
+                "label": "baiweiba.pag",
+                "timeRange": {
+                    "startTime": 0,
+                    "duration": 0
+                },
+                "loopCount": -1
+            },
+            {
+                "key": "75ec0437-d8cc-4025-a7f9-7818d58d0701",
+                "type": "PAGFileData",
+                "path": "baiyanjiaochufa.pag",
+                "label": "baiyanjiaochufa.pag",
+                "timeRange": {
+                    "startTime": 0,
+                    "duration": 0
+                },
+                "loopCount": -1
+            },
+            {
+                "key": "DeviceCameraTexture",
+                "type": "TextureData",
+                "path": "DeviceCameraTexture.tex",
+                "label": "DeviceCameraTexture.tex"
+            },
+            {
+                "key": "76bf0f65-33da-4a42-b65b-be7306d2b3f5",
+                "type": "ImageData",
+                "path": "qingwa.png",
+                "label": "qingwa.png"
+            },
+            {
+                "key": "RenderTarget",
+                "type": "RenderTarget",
+                "path": "RenderTarget.rdt",
+                "label": "RenderTarget.rdt",
+                "inputKey": "DeviceCameraTexture"
+            },
+            {
+                "key": "59aa1e70-fe0e-4332-8016-32c6e2c9bd01",
+                "type": "js",
+                "path": "script_with_trigger.js",
+                "label": "script_with_trigger.js"
+            }
+        ]
+    },
+    "cloudResourceData": []
+}
